@@ -1,0 +1,561 @@
+@prefix OIO: <http://www.geneontology.org/formats/oboInOwl#> .
+@prefix dcterms: <http://purl.org/dc/terms/> .
+@prefix meta: <https://w3id.org/biolink/biolinkml/meta/> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix pav: <http://purl.org/pav/> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix skos: <http://www.w3.org/2004/02/skos/core#> .
+@prefix xml: <http://www.w3.org/XML/1998/namespace> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+meta:ClassNode a owl:Class,
+        meta:ClassDefinition ;
+    rdfs:label "class node" ;
+    rdfs:subClassOf meta:Node .
+
+meta:ComplexChange a owl:Class,
+        meta:ClassDefinition ;
+    rdfs:label "complex change" ;
+    rdfs:subClassOf [ a owl:Restriction ;
+            owl:allValuesFrom meta:Change ;
+            owl:onProperty meta:change_set ] ;
+    skos:definition "A change that is is a composition of other changes" .
+
+meta:Creation a owl:Class,
+        meta:ClassDefinition ;
+    rdfs:label "creation" ;
+    rdfs:subClassOf meta:ChangeMixin,
+        meta:mixin .
+
+meta:DatatypeChange a owl:Class,
+        meta:ClassDefinition ;
+    rdfs:label "datatype change" ;
+    rdfs:subClassOf meta:Change .
+
+meta:Edge a owl:Class,
+        meta:ClassDefinition ;
+    rdfs:label "edge" ;
+    rdfs:subClassOf [ a owl:Restriction ;
+            owl:maxQualifiedCardinality 1 ;
+            owl:onClass meta:Annotation ;
+            owl:onProperty meta:annotation_set ],
+        [ a owl:Restriction ;
+            owl:maxQualifiedCardinality 1 ;
+            owl:onClass meta:Node ;
+            owl:onProperty meta:edge_label ],
+        [ a owl:Restriction ;
+            owl:maxQualifiedCardinality 1 ;
+            owl:onClass meta:Node ;
+            owl:onProperty meta:subject ],
+        [ a owl:Restriction ;
+            owl:maxQualifiedCardinality 1 ;
+            owl:onClass meta:Node ;
+            owl:onProperty meta:object ],
+        meta:OntologyElement .
+
+meta:InstanceNode a owl:Class,
+        meta:ClassDefinition ;
+    rdfs:label "instance node" ;
+    rdfs:subClassOf meta:Node .
+
+meta:SubsetDefinition a owl:Class ;
+    rdfs:label "subset_definition" ;
+    skos:definition "the name and description of a subset" .
+
+meta:Transaction a owl:Class,
+        meta:ClassDefinition ;
+    rdfs:label "transaction" ;
+    rdfs:subClassOf [ a owl:Restriction ;
+            owl:allValuesFrom meta:Change ;
+            owl:onProperty meta:change_set ] ;
+    skos:definition "A unified set of changes. Could be a single change, or the results of an ontology diff" .
+
+meta:boolean a owl:Class,
+        meta:TypeDefinition ;
+    rdfs:label "boolean" ;
+    rdfs:subClassOf [ a owl:Restriction ;
+            owl:onDataRange xsd:boolean ;
+            owl:onProperty meta:topValue ;
+            owl:qualifiedCardinality 1 ] ;
+    skos:definition "A binary (true or false) value" .
+
+meta:date a owl:Class,
+        meta:TypeDefinition ;
+    rdfs:label "date" ;
+    rdfs:subClassOf [ a owl:Restriction ;
+            owl:onDataRange xsd:date ;
+            owl:onProperty meta:topValue ;
+            owl:qualifiedCardinality 1 ] ;
+    skos:definition "a date (year, month and day) in an idealized calendar" ;
+    skos:editorialNote "URI is dateTime because OWL reasoners don't work with straight date or time" .
+
+meta:datetime a owl:Class,
+        meta:TypeDefinition ;
+    rdfs:label "datetime" ;
+    rdfs:subClassOf [ a owl:Restriction ;
+            owl:onDataRange xsd:dateTime ;
+            owl:onProperty meta:topValue ;
+            owl:qualifiedCardinality 1 ] ;
+    skos:definition "The combination of a date and time" .
+
+meta:double a owl:Class,
+        meta:TypeDefinition ;
+    rdfs:label "double" ;
+    rdfs:subClassOf [ a owl:Restriction ;
+            owl:onDataRange xsd:double ;
+            owl:onProperty meta:topValue ;
+            owl:qualifiedCardinality 1 ] ;
+    skos:definition "A real number that conforms to the xsd:double specification" .
+
+meta:edge_change_about a owl:ObjectProperty,
+        meta:SlotDefinition ;
+    rdfs:label "edge change_about" ;
+    rdfs:domain meta:EdgeChange ;
+    rdfs:range meta:string ;
+    rdfs:subPropertyOf meta:about .
+
+meta:edge_label_change_change_description a owl:ObjectProperty,
+        meta:SlotDefinition ;
+    rdfs:label "edge label change_change description" ;
+    rdfs:domain meta:EdgeLabelChange ;
+    rdfs:range meta:string ;
+    rdfs:subPropertyOf meta:change_description .
+
+meta:float a owl:Class,
+        meta:TypeDefinition ;
+    rdfs:label "float" ;
+    rdfs:subClassOf [ a owl:Restriction ;
+            owl:onDataRange xsd:float ;
+            owl:onProperty meta:topValue ;
+            owl:qualifiedCardinality 1 ] ;
+    skos:definition "A real number that conforms to the xsd:float specification" .
+
+meta:integer a owl:Class,
+        meta:TypeDefinition ;
+    rdfs:label "integer" ;
+    rdfs:subClassOf [ a owl:Restriction ;
+            owl:onDataRange xsd:integer ;
+            owl:onProperty meta:topValue ;
+            owl:qualifiedCardinality 1 ] ;
+    skos:definition "An integer" .
+
+meta:ncname a owl:Class,
+        meta:TypeDefinition ;
+    rdfs:label "ncname" ;
+    rdfs:subClassOf [ a owl:Restriction ;
+            owl:onDataRange xsd:string ;
+            owl:onProperty meta:topValue ;
+            owl:qualifiedCardinality 1 ] ;
+    skos:definition "Prefix part of CURIE" .
+
+meta:node_change_about a owl:ObjectProperty,
+        meta:SlotDefinition ;
+    rdfs:label "node change_about" ;
+    rdfs:domain meta:NodeChange ;
+    rdfs:range meta:string ;
+    rdfs:subPropertyOf meta:about .
+
+meta:node_creation_change_description a owl:ObjectProperty,
+        meta:SlotDefinition ;
+    rdfs:label "node creation_change description" ;
+    rdfs:domain meta:NodeCreation ;
+    rdfs:range meta:string ;
+    rdfs:subPropertyOf meta:change_description .
+
+meta:node_deletion_change_description a owl:ObjectProperty,
+        meta:SlotDefinition ;
+    rdfs:label "node deletion_change description" ;
+    rdfs:domain meta:NodeDeletion ;
+    rdfs:range meta:string ;
+    rdfs:subPropertyOf meta:change_description .
+
+meta:node_move_change_description a owl:ObjectProperty,
+        meta:SlotDefinition ;
+    rdfs:label "node move_change description" ;
+    rdfs:domain meta:NodeMove ;
+    rdfs:range meta:string ;
+    rdfs:subPropertyOf meta:change_description .
+
+meta:node_obsoletion_change_description a owl:ObjectProperty,
+        meta:SlotDefinition ;
+    rdfs:label "node obsoletion_change description" ;
+    rdfs:domain meta:NodeObsoletion ;
+    rdfs:range meta:string ;
+    rdfs:subPropertyOf meta:change_description .
+
+meta:node_obsoletion_with_merge_change_description a owl:ObjectProperty,
+        meta:SlotDefinition ;
+    rdfs:label "node obsoletion with merge_change description" ;
+    rdfs:domain meta:NodeObsoletionWithMerge ;
+    rdfs:range meta:string ;
+    rdfs:subPropertyOf meta:change_description .
+
+meta:node_obsoletion_with_merge_target a owl:ObjectProperty,
+        meta:SlotDefinition ;
+    rdfs:label "node obsoletion with merge_target" ;
+    rdfs:domain meta:NodeObsoletionWithMerge ;
+    rdfs:range meta:string ;
+    rdfs:subPropertyOf meta:target .
+
+meta:node_obsoletion_with_split_change_description a owl:ObjectProperty,
+        meta:SlotDefinition ;
+    rdfs:label "node obsoletion with split_change description" ;
+    rdfs:domain meta:NodeObsoletionWithSplit ;
+    rdfs:range meta:string ;
+    rdfs:subPropertyOf meta:change_description .
+
+meta:node_obsoletion_with_split_target a owl:ObjectProperty,
+        meta:SlotDefinition ;
+    rdfs:label "node obsoletion with split_target" ;
+    rdfs:domain meta:NodeObsoletionWithSplit ;
+    rdfs:range meta:string ;
+    rdfs:subPropertyOf meta:target .
+
+meta:node_rename_change_description a owl:ObjectProperty,
+        meta:SlotDefinition ;
+    rdfs:label "node rename_change description" ;
+    rdfs:domain meta:NodeRename ;
+    rdfs:range meta:string ;
+    rdfs:subPropertyOf meta:change_description .
+
+meta:node_rename_new_value a owl:ObjectProperty,
+        meta:SlotDefinition ;
+    rdfs:label "node rename_new value" ;
+    rdfs:domain meta:NodeRename ;
+    rdfs:range meta:string ;
+    rdfs:subPropertyOf meta:new_value .
+
+meta:node_rename_old_value a owl:ObjectProperty,
+        meta:SlotDefinition ;
+    rdfs:label "node rename_old value" ;
+    rdfs:domain meta:NodeRename ;
+    rdfs:range meta:string ;
+    rdfs:subPropertyOf meta:old_value .
+
+meta:nodeidentifier a owl:Class,
+        meta:TypeDefinition ;
+    rdfs:label "nodeidentifier" ;
+    rdfs:subClassOf [ a owl:Restriction ;
+            owl:onDataRange <http://www.w3.org/ns/shex#nonLiteral> ;
+            owl:onProperty meta:topValue ;
+            owl:qualifiedCardinality 1 ] ;
+    skos:definition "A URI, CURIE or BNODE that represents a node in a model." .
+
+meta:objectidentifier a owl:Class,
+        meta:TypeDefinition ;
+    rdfs:label "objectidentifier" ;
+    rdfs:subClassOf [ a owl:Restriction ;
+            owl:onDataRange <http://www.w3.org/ns/shex#iri> ;
+            owl:onProperty meta:topValue ;
+            owl:qualifiedCardinality 1 ] ;
+    skos:definition "A URI or CURIE that represents an object in the model." ;
+    skos:note "Used for inheritence and type checking" .
+
+meta:time a owl:Class,
+        meta:TypeDefinition ;
+    rdfs:label "time" ;
+    rdfs:subClassOf [ a owl:Restriction ;
+            owl:onDataRange xsd:dateTime ;
+            owl:onProperty meta:topValue ;
+            owl:qualifiedCardinality 1 ] ;
+    skos:definition "A time object represents a (local) time of day, independent of any particular day" ;
+    skos:editorialNote "URI is dateTime because OWL reasoners don't work with straight date or time" .
+
+meta:uri a owl:Class,
+        meta:TypeDefinition ;
+    rdfs:label "uri" ;
+    rdfs:subClassOf [ a owl:Restriction ;
+            owl:onDataRange xsd:anyURI ;
+            owl:onProperty meta:topValue ;
+            owl:qualifiedCardinality 1 ] ;
+    skos:definition "a complete URI" .
+
+meta:uriorcurie a owl:Class,
+        meta:TypeDefinition ;
+    rdfs:label "uriorcurie" ;
+    rdfs:subClassOf [ a owl:Restriction ;
+            owl:onDataRange xsd:anyURI ;
+            owl:onProperty meta:topValue ;
+            owl:qualifiedCardinality 1 ] ;
+    skos:definition "a URI or a CURIE" .
+
+<ocl> a owl:Ontology ;
+    rdfs:label "ocl" ;
+    dcterms:license "https://creativecommons.org/publicdomain/zero/1.0/" ;
+    dcterms:title "ontology change language" ;
+    skos:definition "A data model for describing change operations at a high level on an ontology or ontology-like artefact" ;
+    meta:generation_date "2020-06-29 18:45" ;
+    meta:metamodel_version "1.4.4" ;
+    meta:source_file "ocl.yaml" ;
+    meta:source_file_date "Mon Jun 29 18:44:17 2020" ;
+    meta:source_file_size 4599 .
+
+meta:Deletion a owl:Class,
+        meta:ClassDefinition ;
+    rdfs:label "deletion" ;
+    rdfs:subClassOf meta:ChangeMixin,
+        meta:mixin .
+
+meta:EdgeLabelChange a owl:Class,
+        meta:ClassDefinition ;
+    rdfs:label "edge label change" ;
+    rdfs:subClassOf meta:EdgeChange ;
+    meta:examples "Example(value='changing a is-a b to a part-of b', description=None)" .
+
+meta:NodeCreation a owl:Class,
+        meta:ClassDefinition ;
+    rdfs:label "node creation" ;
+    rdfs:subClassOf [ a owl:Restriction ;
+            owl:maxQualifiedCardinality 1 ;
+            owl:onClass meta:string ;
+            owl:onProperty meta:name ],
+        [ a owl:Restriction ;
+            owl:maxQualifiedCardinality 1 ;
+            owl:onClass meta:Annotation ;
+            owl:onProperty meta:annotation_set ],
+        [ a owl:Restriction ;
+            owl:onClass meta:string ;
+            owl:onProperty meta:id ;
+            owl:qualifiedCardinality 1 ],
+        meta:NodeChange,
+        meta:Obsoletion .
+
+meta:NodeDeletion a owl:Class,
+        meta:ClassDefinition ;
+    rdfs:label "node deletion" ;
+    rdfs:subClassOf meta:Deletion,
+        meta:NodeChange ;
+    skos:definition "Deletion of a node from the graph. Note it is recommended nodes are obsoleted and never merged, but this operation exists to represent deletions in ontologies, accidental or otherwise" .
+
+meta:NodeMove a owl:Class,
+        meta:ClassDefinition ;
+    rdfs:label "node move" ;
+    rdfs:subClassOf meta:EdgeChange ;
+    skos:definition "A node move is a combination of deleting a parent edge and adding a parent edge, where the edge label is preserved and the object/parent node changes" ;
+    meta:examples "Example(value='changing a is-a b to a is-a c', description=None)" .
+
+meta:edge_label a owl:ObjectProperty,
+        meta:SlotDefinition ;
+    rdfs:label "edge label" ;
+    rdfs:range meta:Node .
+
+meta:filler a owl:ObjectProperty,
+        meta:SlotDefinition ;
+    rdfs:label "filler" ;
+    rdfs:range meta:string .
+
+meta:object a owl:ObjectProperty,
+        meta:SlotDefinition ;
+    rdfs:label "object" ;
+    rdfs:range meta:Node .
+
+meta:property a owl:ObjectProperty,
+        meta:SlotDefinition ;
+    rdfs:label "property" ;
+    rdfs:range meta:Node .
+
+meta:subject a owl:ObjectProperty,
+        meta:SlotDefinition ;
+    rdfs:label "subject" ;
+    rdfs:range meta:Node .
+
+meta:NodeObsoletionWithMerge a owl:Class,
+        meta:ClassDefinition ;
+    rdfs:label "node obsoletion with merge" ;
+    rdfs:subClassOf meta:NodeObsoletion ;
+    skos:definition "An obsoletion change in which information from the obsoleted node is moved to a single target" .
+
+meta:NodeObsoletionWithSplit a owl:Class,
+        meta:ClassDefinition ;
+    rdfs:label "node obsoletion with split" ;
+    rdfs:subClassOf meta:NodeObsoletion ;
+    skos:definition "An obsoletion change in which information from the obsoleted node is moved selectively to multiple targets" .
+
+meta:Obsoletion a owl:Class,
+        meta:ClassDefinition ;
+    rdfs:label "obsoletion" ;
+    rdfs:subClassOf meta:ChangeMixin,
+        meta:mixin .
+
+meta:SimpleChange a owl:Class,
+        meta:ClassDefinition ;
+    rdfs:label "simple change" ;
+    rdfs:subClassOf [ a owl:Restriction ;
+            owl:maxQualifiedCardinality 1 ;
+            owl:onClass meta:string ;
+            owl:onProperty meta:old_value ],
+        [ a owl:Restriction ;
+            owl:maxQualifiedCardinality 1 ;
+            owl:onClass meta:string ;
+            owl:onProperty meta:new_value ],
+        [ a owl:Restriction ;
+            owl:maxQualifiedCardinality 1 ;
+            owl:onClass meta:string ;
+            owl:onProperty meta:about ] ;
+    skos:definition "A change that is about a single ontology element" .
+
+meta:change_set a owl:ObjectProperty,
+        meta:SlotDefinition ;
+    rdfs:label "change set" ;
+    rdfs:range meta:Change .
+
+meta:id a owl:ObjectProperty,
+        meta:SlotDefinition ;
+    rdfs:label "id" ;
+    rdfs:range meta:string ;
+    skos:definition "CURIE or URI" .
+
+meta:name a owl:ObjectProperty,
+        meta:SlotDefinition ;
+    rdfs:label "name" ;
+    rdfs:range meta:string .
+
+meta:target a owl:ObjectProperty,
+        meta:SlotDefinition ;
+    rdfs:label "target" ;
+    rdfs:range meta:string ;
+    skos:definition "The secondary entity on which the change operates" .
+
+meta:ChangeMixin a owl:Class,
+        meta:ClassDefinition ;
+    rdfs:label "change mixin" ;
+    rdfs:subClassOf meta:mixin ;
+    skos:definition "root class for all change mixins" .
+
+meta:EdgeChange a owl:Class,
+        meta:ClassDefinition ;
+    rdfs:label "edge change" ;
+    rdfs:subClassOf [ a owl:Restriction ;
+            owl:maxQualifiedCardinality 1 ;
+            owl:onClass meta:string ;
+            owl:onProperty meta:about ],
+        meta:SimpleChange .
+
+meta:NodeObsoletion a owl:Class,
+        meta:ClassDefinition ;
+    rdfs:label "node obsoletion" ;
+    rdfs:subClassOf meta:NodeChange,
+        meta:Obsoletion .
+
+meta:NodeRename a owl:Class,
+        meta:ClassDefinition ;
+    rdfs:label "node rename" ;
+    rdfs:subClassOf [ a owl:Restriction ;
+            owl:maxQualifiedCardinality 1 ;
+            owl:onClass meta:string ;
+            owl:onProperty meta:old_value ],
+        [ a owl:Restriction ;
+            owl:maxQualifiedCardinality 1 ;
+            owl:onClass meta:string ;
+            owl:onProperty meta:new_value ],
+        meta:NodeChange .
+
+meta:OntologyElement a owl:Class,
+        meta:ClassDefinition ;
+    rdfs:label "ontology element" ;
+    skos:definition "Any component of an ontology or knowledge graph" .
+
+meta:new_value a owl:ObjectProperty,
+        meta:SlotDefinition ;
+    rdfs:label "new value" ;
+    rdfs:range meta:string ;
+    skos:definition "The value of a property held in the old instance of the ontology" .
+
+meta:old_value a owl:ObjectProperty,
+        meta:SlotDefinition ;
+    rdfs:label "old value" ;
+    rdfs:range meta:string ;
+    skos:definition "The value of a property held in the old instance of the ontology" .
+
+meta:Change a owl:Class,
+        meta:ClassDefinition ;
+    rdfs:label "change" ;
+    skos:definition "Any change perform on an ontology or knowledge graph" .
+
+meta:annotation_set a owl:ObjectProperty,
+        meta:SlotDefinition ;
+    rdfs:label "annotation set" ;
+    rdfs:range meta:Annotation .
+
+meta:Annotation a owl:Class,
+        meta:ClassDefinition ;
+    rdfs:label "annotation" ;
+    rdfs:subClassOf [ a owl:Restriction ;
+            owl:maxQualifiedCardinality 1 ;
+            owl:onClass meta:Node ;
+            owl:onProperty meta:property ],
+        [ a owl:Restriction ;
+            owl:maxQualifiedCardinality 1 ;
+            owl:onClass meta:Annotation ;
+            owl:onProperty meta:annotation_set ],
+        [ a owl:Restriction ;
+            owl:maxQualifiedCardinality 1 ;
+            owl:onClass meta:string ;
+            owl:onProperty meta:filler ],
+        meta:OntologyElement .
+
+meta:NodeChange a owl:Class,
+        meta:ClassDefinition ;
+    rdfs:label "node change" ;
+    rdfs:subClassOf [ a owl:Restriction ;
+            owl:maxQualifiedCardinality 1 ;
+            owl:onClass meta:string ;
+            owl:onProperty meta:about ],
+        meta:SimpleChange .
+
+meta:about a owl:ObjectProperty,
+        meta:SlotDefinition ;
+    rdfs:label "about" ;
+    rdfs:range meta:string ;
+    skos:definition "The 'focus' entity on which the change operates" .
+
+meta:change_description a owl:ObjectProperty,
+        meta:SlotDefinition ;
+    rdfs:label "change description" ;
+    rdfs:range meta:string ;
+    skos:definition "A string serialization of the change" .
+
+meta:Node a owl:Class,
+        meta:ClassDefinition ;
+    rdfs:label "node" ;
+    rdfs:subClassOf [ a owl:Restriction ;
+            owl:maxQualifiedCardinality 1 ;
+            owl:onClass meta:string ;
+            owl:onProperty meta:name ],
+        [ a owl:Restriction ;
+            owl:maxQualifiedCardinality 1 ;
+            owl:onClass meta:Annotation ;
+            owl:onProperty meta:annotation_set ],
+        [ a owl:Restriction ;
+            owl:onClass meta:string ;
+            owl:onProperty meta:id ;
+            owl:qualifiedCardinality 1 ],
+        meta:OntologyElement .
+
+meta:TypeDefinition a owl:Class ;
+    rdfs:label "type_definition" ;
+    skos:definition "A data type definition." .
+
+meta:topValue a owl:DatatypeProperty ;
+    rdfs:label "value" .
+
+meta:ClassDefinition a owl:Class ;
+    rdfs:label "class_definition" ;
+    skos:definition "the definition of a class or interface" .
+
+meta:SlotDefinition a owl:Class ;
+    rdfs:label "slot_definition" ;
+    skos:definition "the definition of a property or a slot" .
+
+meta:string a owl:Class,
+        meta:TypeDefinition ;
+    rdfs:label "string" ;
+    rdfs:subClassOf [ a owl:Restriction ;
+            owl:onDataRange xsd:string ;
+            owl:onProperty meta:topValue ;
+            owl:qualifiedCardinality 1 ] ;
+    skos:definition "A character string" .
+
+
+

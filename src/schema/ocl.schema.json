@@ -1,0 +1,436 @@
+{
+   "$id": "ocl",
+   "$schema": "http://json-schema.org/draft-07/schema#",
+   "definitions": {
+      "Annotation": {
+         "additionalProperties": false,
+         "description": "",
+         "properties": {
+            "annotation_set": {
+               "$ref": "#/definitions/Annotation"
+            },
+            "filler": {
+               "type": "string"
+            },
+            "property": {
+               "type": "string"
+            }
+         },
+         "required": [],
+         "title": "Annotation",
+         "type": "object"
+      },
+      "Change": {
+         "additionalProperties": false,
+         "description": "Any change perform on an ontology or knowledge graph",
+         "properties": {},
+         "required": [],
+         "title": "Change",
+         "type": "object"
+      },
+      "ChangeMixin": {
+         "additionalProperties": false,
+         "description": "root class for all change mixins",
+         "properties": {},
+         "required": [],
+         "title": "ChangeMixin",
+         "type": "object"
+      },
+      "ClassNode": {
+         "additionalProperties": false,
+         "description": "",
+         "properties": {
+            "annotation_set": {
+               "$ref": "#/definitions/Annotation"
+            },
+            "id": {
+               "description": "CURIE or URI",
+               "type": "string"
+            },
+            "name": {
+               "type": "string"
+            }
+         },
+         "required": [
+            "id"
+         ],
+         "title": "ClassNode",
+         "type": "object"
+      },
+      "ComplexChange": {
+         "additionalProperties": false,
+         "description": "A change that is is a composition of other changes",
+         "properties": {
+            "change_set": {
+               "items": {
+                  "$ref": "#/definitions/Change"
+               },
+               "type": "array"
+            }
+         },
+         "required": [],
+         "title": "ComplexChange",
+         "type": "object"
+      },
+      "Creation": {
+         "additionalProperties": false,
+         "description": "",
+         "properties": {},
+         "required": [],
+         "title": "Creation",
+         "type": "object"
+      },
+      "DatatypeChange": {
+         "additionalProperties": false,
+         "description": "",
+         "properties": {},
+         "required": [],
+         "title": "DatatypeChange",
+         "type": "object"
+      },
+      "Deletion": {
+         "additionalProperties": false,
+         "description": "",
+         "properties": {},
+         "required": [],
+         "title": "Deletion",
+         "type": "object"
+      },
+      "Edge": {
+         "additionalProperties": false,
+         "description": "",
+         "properties": {
+            "annotation_set": {
+               "$ref": "#/definitions/Annotation"
+            },
+            "edge_label": {
+               "type": "string"
+            },
+            "object": {
+               "type": "string"
+            },
+            "subject": {
+               "type": "string"
+            }
+         },
+         "required": [],
+         "title": "Edge",
+         "type": "object"
+      },
+      "EdgeChange": {
+         "additionalProperties": false,
+         "description": "",
+         "properties": {
+            "about": {
+               "type": "string"
+            },
+            "new_value": {
+               "description": "The value of a property held in the old instance of the ontology",
+               "type": "string"
+            },
+            "old_value": {
+               "description": "The value of a property held in the old instance of the ontology",
+               "type": "string"
+            }
+         },
+         "required": [],
+         "title": "EdgeChange",
+         "type": "object"
+      },
+      "EdgeLabelChange": {
+         "additionalProperties": false,
+         "description": "",
+         "properties": {
+            "about": {
+               "type": "string"
+            },
+            "new_value": {
+               "description": "The value of a property held in the old instance of the ontology",
+               "type": "string"
+            },
+            "old_value": {
+               "description": "The value of a property held in the old instance of the ontology",
+               "type": "string"
+            }
+         },
+         "required": [],
+         "title": "EdgeLabelChange",
+         "type": "object"
+      },
+      "InstanceNode": {
+         "additionalProperties": false,
+         "description": "",
+         "properties": {
+            "annotation_set": {
+               "$ref": "#/definitions/Annotation"
+            },
+            "id": {
+               "description": "CURIE or URI",
+               "type": "string"
+            },
+            "name": {
+               "type": "string"
+            }
+         },
+         "required": [
+            "id"
+         ],
+         "title": "InstanceNode",
+         "type": "object"
+      },
+      "Node": {
+         "additionalProperties": false,
+         "description": "",
+         "properties": {
+            "annotation_set": {
+               "$ref": "#/definitions/Annotation"
+            },
+            "id": {
+               "description": "CURIE or URI",
+               "type": "string"
+            },
+            "name": {
+               "type": "string"
+            }
+         },
+         "required": [
+            "id"
+         ],
+         "title": "Node",
+         "type": "object"
+      },
+      "NodeChange": {
+         "additionalProperties": false,
+         "description": "",
+         "properties": {
+            "about": {
+               "type": "string"
+            },
+            "new_value": {
+               "description": "The value of a property held in the old instance of the ontology",
+               "type": "string"
+            },
+            "old_value": {
+               "description": "The value of a property held in the old instance of the ontology",
+               "type": "string"
+            }
+         },
+         "required": [],
+         "title": "NodeChange",
+         "type": "object"
+      },
+      "NodeCreation": {
+         "additionalProperties": false,
+         "description": "",
+         "properties": {
+            "about": {
+               "type": "string"
+            },
+            "annotation_set": {
+               "$ref": "#/definitions/Annotation"
+            },
+            "id": {
+               "description": "CURIE or URI",
+               "type": "string"
+            },
+            "name": {
+               "type": "string"
+            },
+            "new_value": {
+               "description": "The value of a property held in the old instance of the ontology",
+               "type": "string"
+            },
+            "old_value": {
+               "description": "The value of a property held in the old instance of the ontology",
+               "type": "string"
+            }
+         },
+         "required": [
+            "id"
+         ],
+         "title": "NodeCreation",
+         "type": "object"
+      },
+      "NodeDeletion": {
+         "additionalProperties": false,
+         "description": "Deletion of a node from the graph. Note it is recommended nodes are obsoleted and never merged, but this operation exists to represent deletions in ontologies, accidental or otherwise",
+         "properties": {
+            "about": {
+               "type": "string"
+            },
+            "new_value": {
+               "description": "The value of a property held in the old instance of the ontology",
+               "type": "string"
+            },
+            "old_value": {
+               "description": "The value of a property held in the old instance of the ontology",
+               "type": "string"
+            }
+         },
+         "required": [],
+         "title": "NodeDeletion",
+         "type": "object"
+      },
+      "NodeMove": {
+         "additionalProperties": false,
+         "description": "A node move is a combination of deleting a parent edge and adding a parent edge, where the edge label is preserved and the object/parent node changes",
+         "properties": {
+            "about": {
+               "type": "string"
+            },
+            "new_value": {
+               "description": "The value of a property held in the old instance of the ontology",
+               "type": "string"
+            },
+            "old_value": {
+               "description": "The value of a property held in the old instance of the ontology",
+               "type": "string"
+            }
+         },
+         "required": [],
+         "title": "NodeMove",
+         "type": "object"
+      },
+      "NodeObsoletion": {
+         "additionalProperties": false,
+         "description": "",
+         "properties": {
+            "about": {
+               "type": "string"
+            },
+            "new_value": {
+               "description": "The value of a property held in the old instance of the ontology",
+               "type": "string"
+            },
+            "old_value": {
+               "description": "The value of a property held in the old instance of the ontology",
+               "type": "string"
+            }
+         },
+         "required": [],
+         "title": "NodeObsoletion",
+         "type": "object"
+      },
+      "NodeObsoletionWithMerge": {
+         "additionalProperties": false,
+         "description": "An obsoletion change in which information from the obsoleted node is moved to a single target",
+         "properties": {
+            "about": {
+               "type": "string"
+            },
+            "new_value": {
+               "description": "The value of a property held in the old instance of the ontology",
+               "type": "string"
+            },
+            "old_value": {
+               "description": "The value of a property held in the old instance of the ontology",
+               "type": "string"
+            }
+         },
+         "required": [],
+         "title": "NodeObsoletionWithMerge",
+         "type": "object"
+      },
+      "NodeObsoletionWithSplit": {
+         "additionalProperties": false,
+         "description": "An obsoletion change in which information from the obsoleted node is moved selectively to multiple targets",
+         "properties": {
+            "about": {
+               "type": "string"
+            },
+            "new_value": {
+               "description": "The value of a property held in the old instance of the ontology",
+               "type": "string"
+            },
+            "old_value": {
+               "description": "The value of a property held in the old instance of the ontology",
+               "type": "string"
+            }
+         },
+         "required": [],
+         "title": "NodeObsoletionWithSplit",
+         "type": "object"
+      },
+      "NodeRename": {
+         "additionalProperties": false,
+         "description": "",
+         "properties": {
+            "about": {
+               "type": "string"
+            },
+            "new_value": {
+               "type": "string"
+            },
+            "old_value": {
+               "type": "string"
+            }
+         },
+         "required": [],
+         "title": "NodeRename",
+         "type": "object"
+      },
+      "Obsoletion": {
+         "additionalProperties": false,
+         "description": "",
+         "properties": {},
+         "required": [],
+         "title": "Obsoletion",
+         "type": "object"
+      },
+      "OntologyElement": {
+         "additionalProperties": false,
+         "description": "Any component of an ontology or knowledge graph",
+         "properties": {},
+         "required": [],
+         "title": "OntologyElement",
+         "type": "object"
+      },
+      "SimpleChange": {
+         "additionalProperties": false,
+         "description": "A change that is about a single ontology element",
+         "properties": {
+            "about": {
+               "description": "The 'focus' entity on which the change operates",
+               "type": "string"
+            },
+            "new_value": {
+               "description": "The value of a property held in the old instance of the ontology",
+               "type": "string"
+            },
+            "old_value": {
+               "description": "The value of a property held in the old instance of the ontology",
+               "type": "string"
+            }
+         },
+         "required": [],
+         "title": "SimpleChange",
+         "type": "object"
+      },
+      "Transaction": {
+         "additionalProperties": false,
+         "description": "A unified set of changes. Could be a single change, or the results of an ontology diff",
+         "properties": {
+            "change_set": {
+               "items": {
+                  "$ref": "#/definitions/Change"
+               },
+               "type": "array"
+            }
+         },
+         "required": [],
+         "title": "Transaction",
+         "type": "object"
+      }
+   },
+   "properties": {
+      "change_set": {
+         "items": {
+            "$ref": "#/definitions/Change"
+         },
+         "type": "array"
+      }
+   },
+   "title": "ocl",
+   "type": "object"
+}
+

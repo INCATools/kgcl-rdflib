@@ -1,0 +1,155 @@
+type Annotation
+  {
+    property: Node
+    filler: String
+    annotationSet: Annotation
+  }
+
+type Change
+  {
+  }
+
+interface ChangeMixin
+  {
+  }
+
+type ClassNode
+  {
+    id: String!
+    name: String
+    annotationSet: Annotation
+  }
+
+type ComplexChange
+  {
+    changeSet: [Change]
+  }
+
+interface Creation
+  {
+  }
+
+type DatatypeChange
+  {
+  }
+
+interface Deletion
+  {
+  }
+
+type Edge
+  {
+    subject: Node
+    edgeLabel: Node
+    object: Node
+    annotationSet: Annotation
+  }
+
+type EdgeChange
+  {
+    about: String
+    oldValue: String
+    newValue: String
+  }
+
+type EdgeLabelChange
+  {
+    about: String
+    oldValue: String
+    newValue: String
+  }
+
+type InstanceNode
+  {
+    id: String!
+    name: String
+    annotationSet: Annotation
+  }
+
+type Node
+  {
+    id: String!
+    name: String
+    annotationSet: Annotation
+  }
+
+type NodeChange
+  {
+    oldValue: String
+    newValue: String
+    about: String
+  }
+
+type NodeCreation implements Obsoletion
+  {
+    oldValue: String
+    newValue: String
+    about: String
+    id: String!
+    name: String
+    annotationSet: Annotation
+  }
+
+type NodeDeletion implements Deletion
+  {
+    oldValue: String
+    newValue: String
+    about: String
+  }
+
+type NodeMove
+  {
+    about: String
+    oldValue: String
+    newValue: String
+  }
+
+type NodeObsoletion implements Obsoletion
+  {
+    oldValue: String
+    newValue: String
+    about: String
+  }
+
+type NodeObsoletionWithMerge
+  {
+    oldValue: String
+    newValue: String
+    about: String
+  }
+
+type NodeObsoletionWithSplit
+  {
+    oldValue: String
+    newValue: String
+    about: String
+  }
+
+type NodeRename
+  {
+    about: String
+    oldValue: String
+    newValue: String
+  }
+
+interface Obsoletion
+  {
+  }
+
+type OntologyElement
+  {
+  }
+
+type SimpleChange
+  {
+    about: String
+    oldValue: String
+    newValue: String
+  }
+
+type Transaction
+  {
+    changeSet: [Change]
+  }
+
+

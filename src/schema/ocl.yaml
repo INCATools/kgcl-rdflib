@@ -1,0 +1,190 @@
+id: ocl
+title: ontology change language
+description: >-
+  A data model for describing change operations at a high level on an ontology or ontology-like artefact
+
+license: https://creativecommons.org/publicdomain/zero/1.0/
+version: 0.0.1
+
+prefixes:
+  ocl: http://w3id.org/ocl
+  dcterms: http://purl.org/dc/terms/
+  biolinkml: https://w3id.org/biolink/biolinkml/
+  
+default_prefix: ocl
+default_range: string
+
+imports:
+  - biolinkml:types
+  - ontology_model
+
+classes:
+
+  change:
+    description: >-
+      Any change perform on an ontology or knowledge graph
+
+  simple change:
+    description: >-
+      A change that is about a single ontology element
+    slots:
+      - about
+      - old value
+      - new value
+
+  complex change:
+    description: >-
+      A change that is is a composition of other changes
+    slots:
+      - change set
+
+  transaction:
+    description: >-
+      A unified set of changes. Could be a single change, or the results of an ontology diff
+    slots:
+      - change set
+      
+  change mixin:
+    mixin: true
+    description: >-
+      root class for all change mixins
+
+  edge change:
+    is_a: simple change
+    slot_usage:
+      about:
+        domain: edge
+
+  node move:
+    is_a: edge change
+    description: >-
+      A node move is a combination of deleting a parent edge and adding a parent edge, where the edge label is preserved and the object/parent node changes
+    examples:
+      - value: changing a is-a b to a is-a c
+    slot_usage:
+      change description:
+        string_serialization: "move {about} from {old value} to {new value}"
+
+  edge label change:
+    is_a: edge change
+    examples:
+      - value: changing a is-a b to a part-of b
+    slot_usage:
+      change description:
+        string_serialization: "changing relationship between {about.subject} and {about.object} from {old value} to {new value}"
+
+  node change:
+    is_a: simple change
+    slots:
+      - about
+    slot_usage:
+      about:
+        domain: node
+
+  node rename:
+    is_a: node change
+    slots:
+      - old value
+      - new value
+    slot_usage:
+      old value:
+        multivalued: false
+      new value:
+        multivalued: false
+      change description:
+        string_serialization: "renaming {about} from {old value} to {new value}"
+    
+  datatype change:
+    is_a: change        
+
+  obsoletion:
+    is_a: change mixin
+    mixin: true
+
+  deletion:
+    is_a: change mixin
+    mixin: true
+
+  creation:
+    is_a: change mixin
+    mixin: true
+
+  node obsoletion:
+    is_a: node change
+    mixins:
+      - obsoletion
+    slot_usage:
+      change description:
+        string_serialization: "obsoleting {about}"
+
+  node creation:
+    is_a: node change
+    mixins:
+      - obsoletion
+    slots:
+      - id
+      - name
+      - annotation set
+    slot_usage:
+      change description:
+        string_serialization: "creating node {id} {label} with {annotation set}"
+    todos:
+      - allow this for the creation of an instance from a class. This may include metaclasses (templates)
+
+  node deletion:
+    is_a: node change
+    mixins:
+      - deletion
+    description: >-
+      Deletion of a node from the graph. Note it is recommended nodes are obsoleted and never merged,
+      but this operation exists to represent deletions in ontologies, accidental or otherwise
+    slot_usage:
+      change description:
+        string_serialization: "deleting {about}"
+
+  node obsoletion with merge:
+    is_a: node obsoletion
+    description: >-
+      An obsoletion change in which information from the obsoleted node is moved to a single target
+    slot_usage:
+      target:
+        multivalued: false
+      change description:
+        string_serialization: "merging {about} into {target}"
+
+  node obsoletion with split:
+    is_a: node obsoletion
+    description: >-
+      An obsoletion change in which information from the obsoleted node is moved selectively to multiple targets
+    slot_usage:
+      target:
+        multivalued: true
+      change description:
+        string_serialization: "splitting {about} into {target.join(' ')}"
+
+slots:
+
+  about:
+    description: >-
+      The 'focus' entity on which the change operates
+    multivalued: false
+
+  target:
+    description: >-
+      The secondary entity on which the change operates
+
+  old value:
+    description: >-
+      The value of a property held in the old instance of the ontology
+
+  new value:
+    description: >-
+      The value of a property held in the old instance of the ontology
+
+  change description:
+    description: >-
+      A string serialization of the change
+
+  change set:
+    range: change
+    multivalued: true
