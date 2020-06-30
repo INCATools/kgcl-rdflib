@@ -11,7 +11,7 @@ URI: [ocl:NodeCreation](http://w3id.org/oclNodeCreation)
 
 ## Parents
 
- *  is_a: [NodeChange](NodeChange.md)
+ *  is_a: [NodeChange](NodeChange.md) - A simple change where the change is about a node
 
 ## Uses Mixins
 

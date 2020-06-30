@@ -22,4 +22,5 @@ URI: [ocl:edge_change_about](http://w3id.org/ocledge_change_about)
 
  * [EdgeChange](EdgeChange.md)
  * [EdgeLabelChange](EdgeLabelChange.md)
+ * [NodeDeepening](NodeDeepening.md)
  * [NodeMove](NodeMove.md)

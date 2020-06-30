@@ -2,12 +2,12 @@
 # Type: node change
 
 
-
+A simple change where the change is about a node
 
 URI: [ocl:NodeChange](http://w3id.org/oclNodeChange)
 
 
-![img](http://yuml.me/diagram/nofunky;dir:TB/class/[NodeChange&#124;about:string%20%3F;old_value(i):string%20%3F;new_value(i):string%20%3F]^-[NodeRename],%20[NodeChange]^-[NodeObsoletion],%20[NodeChange]^-[NodeDeletion],%20[NodeChange]^-[NodeCreation],%20[SimpleChange]^-[NodeChange])
+![img](http://yuml.me/diagram/nofunky;dir:TB/class/[NodeChange&#124;about:string%20%3F;old_value(i):string%20%3F;new_value(i):string%20%3F]^-[NodeRename],%20[NodeChange]^-[NodeObsoletion],%20[NodeChange]^-[NodeDeletion],%20[NodeChange]^-[NodeCreation],%20[NodeChange]^-[NodeAnnotationChange],%20[SimpleChange]^-[NodeChange])
 
 ## Parents
 
@@ -15,10 +15,11 @@ URI: [ocl:NodeChange](http://w3id.org/oclNodeChange)
 
 ## Children
 
+ * [NodeAnnotationChange](NodeAnnotationChange.md) - A node change where the change alters node properties/annotations. TODO
  * [NodeCreation](NodeCreation.md)
  * [NodeDeletion](NodeDeletion.md) - Deletion of a node from the graph. Note it is recommended nodes are obsoleted and never merged, but this operation exists to represent deletions in ontologies, accidental or otherwise
  * [NodeObsoletion](NodeObsoletion.md)
- * [NodeRename](NodeRename.md)
+ * [NodeRename](NodeRename.md) - A node change where the name (aka rdfs:label) of the node changes
 
 ## Referenced by class
 

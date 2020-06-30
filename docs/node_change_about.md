@@ -20,6 +20,8 @@ URI: [ocl:node_change_about](http://w3id.org/oclnode_change_about)
 
 ## Used by
 
+ * [NodeAnnotationChange](NodeAnnotationChange.md)
+ * [NodeAnnotationReplacement](NodeAnnotationReplacement.md)
  * [NodeChange](NodeChange.md)
  * [NodeCreation](NodeCreation.md)
  * [NodeDeletion](NodeDeletion.md)

@@ -4,7 +4,7 @@
    "definitions": {
       "Annotation": {
          "additionalProperties": false,
-         "description": "",
+         "description": "owl annotations. Not to be confused with annotatuons sensu GO",
          "properties": {
             "annotation_set": {
                "$ref": "#/definitions/Annotation"
@@ -38,7 +38,7 @@
       },
       "ClassNode": {
          "additionalProperties": false,
-         "description": "",
+         "description": "A node that is a class",
          "properties": {
             "annotation_set": {
                "$ref": "#/definitions/Annotation"
@@ -98,7 +98,7 @@
       },
       "Edge": {
          "additionalProperties": false,
-         "description": "",
+         "description": "A relationship between two nodes. We assume owlstar or similar for existential restrictions",
          "properties": {
             "annotation_set": {
                "$ref": "#/definitions/Annotation"
@@ -119,7 +119,7 @@
       },
       "EdgeChange": {
          "additionalProperties": false,
-         "description": "",
+         "description": "A change in which the entity changes is an edge",
          "properties": {
             "about": {
                "type": "string"
@@ -139,7 +139,7 @@
       },
       "EdgeLabelChange": {
          "additionalProperties": false,
-         "description": "",
+         "description": "An edge change where the edge label (relationship type) is modified.",
          "properties": {
             "about": {
                "type": "string"
@@ -159,7 +159,7 @@
       },
       "InstanceNode": {
          "additionalProperties": false,
-         "description": "",
+         "description": "A node that is an individual",
          "properties": {
             "annotation_set": {
                "$ref": "#/definitions/Annotation"
@@ -178,9 +178,17 @@
          "title": "InstanceNode",
          "type": "object"
       },
-      "Node": {
+      "LogicalDefinition": {
          "additionalProperties": false,
          "description": "",
+         "properties": {},
+         "required": [],
+         "title": "LogicalDefinition",
+         "type": "object"
+      },
+      "Node": {
+         "additionalProperties": false,
+         "description": "Any named entity in an ontology. May be a class, individual, property",
          "properties": {
             "annotation_set": {
                "$ref": "#/definitions/Annotation"
@@ -199,9 +207,49 @@
          "title": "Node",
          "type": "object"
       },
+      "NodeAnnotationChange": {
+         "additionalProperties": false,
+         "description": "A node change where the change alters node properties/annotations. TODO",
+         "properties": {
+            "about": {
+               "type": "string"
+            },
+            "new_value": {
+               "description": "The value of a property held in the old instance of the ontology",
+               "type": "string"
+            },
+            "old_value": {
+               "description": "The value of a property held in the old instance of the ontology",
+               "type": "string"
+            }
+         },
+         "required": [],
+         "title": "NodeAnnotationChange",
+         "type": "object"
+      },
+      "NodeAnnotationReplacement": {
+         "additionalProperties": false,
+         "description": "A node annotation change where the change replaces a particular property value. TODO",
+         "properties": {
+            "about": {
+               "type": "string"
+            },
+            "new_value": {
+               "description": "The value of a property held in the old instance of the ontology",
+               "type": "string"
+            },
+            "old_value": {
+               "description": "The value of a property held in the old instance of the ontology",
+               "type": "string"
+            }
+         },
+         "required": [],
+         "title": "NodeAnnotationReplacement",
+         "type": "object"
+      },
       "NodeChange": {
          "additionalProperties": false,
-         "description": "",
+         "description": "A simple change where the change is about a node",
          "properties": {
             "about": {
                "type": "string"
@@ -249,6 +297,26 @@
             "id"
          ],
          "title": "NodeCreation",
+         "type": "object"
+      },
+      "NodeDeepening": {
+         "additionalProperties": false,
+         "description": "A node move in which a node where the destination is a proper descendant of the original location",
+         "properties": {
+            "about": {
+               "type": "string"
+            },
+            "new_value": {
+               "description": "The value of a property held in the old instance of the ontology",
+               "type": "string"
+            },
+            "old_value": {
+               "description": "The value of a property held in the old instance of the ontology",
+               "type": "string"
+            }
+         },
+         "required": [],
+         "title": "NodeDeepening",
          "type": "object"
       },
       "NodeDeletion": {
@@ -353,7 +421,7 @@
       },
       "NodeRename": {
          "additionalProperties": false,
-         "description": "",
+         "description": "A node change where the name (aka rdfs:label) of the node changes",
          "properties": {
             "about": {
                "type": "string"

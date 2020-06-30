@@ -11,7 +11,7 @@ URI: [ocl:NodeObsoletion](http://w3id.org/oclNodeObsoletion)
 
 ## Parents
 
- *  is_a: [NodeChange](NodeChange.md)
+ *  is_a: [NodeChange](NodeChange.md) - A simple change where the change is about a node
 
 ## Uses Mixins
 

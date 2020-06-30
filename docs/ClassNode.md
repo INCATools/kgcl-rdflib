@@ -2,7 +2,7 @@
 # Type: class node
 
 
-
+A node that is a class
 
 URI: [ocl:ClassNode](http://w3id.org/oclClassNode)
 
@@ -11,7 +11,7 @@ URI: [ocl:ClassNode](http://w3id.org/oclClassNode)
 
 ## Parents
 
- *  is_a: [Node](Node.md)
+ *  is_a: [Node](Node.md) - Any named entity in an ontology. May be a class, individual, property
 
 ## Attributes
 
@@ -45,5 +45,6 @@ URI: [ocl:ClassNode](http://w3id.org/oclClassNode)
 
 |  |  |  |
 | --- | --- | --- |
+| **Aliases:** | | concept |
 | **Mappings:** | | owl:Class |
 

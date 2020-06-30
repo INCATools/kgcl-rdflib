@@ -2,7 +2,7 @@
 # Type: edge
 
 
-
+A relationship between two nodes. We assume owlstar or similar for existential restrictions
 
 URI: [ocl:Edge](http://w3id.org/oclEdge)
 
@@ -31,6 +31,8 @@ URI: [ocl:Edge](http://w3id.org/oclEdge)
 
 |  |  |  |
 | --- | --- | --- |
+| **Aliases:** | | triple |
+|  | | axiom |
 | **Mappings:** | | owl:Axiom |
 |  | | rdf:Statement |
 

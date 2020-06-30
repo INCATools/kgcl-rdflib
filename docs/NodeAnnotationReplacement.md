@@ -1,21 +1,17 @@
 
-# Type: simple change
+# Type: node annotation replacement
 
 
-A change that is about a single ontology element
+A node annotation change where the change replaces a particular property value. TODO
 
-URI: [ocl:SimpleChange](http://w3id.org/oclSimpleChange)
+URI: [ocl:NodeAnnotationReplacement](http://w3id.org/oclNodeAnnotationReplacement)
 
 
-![img](http://yuml.me/diagram/nofunky;dir:TB/class/[SimpleChange&#124;about:string%20%3F;old_value:string%20%3F;new_value:string%20%3F]^-[NodeChange],%20[SimpleChange]^-[EdgeChange])
+![img](http://yuml.me/diagram/nofunky;dir:TB/class/[NodeAnnotationChange]^-[NodeAnnotationReplacement&#124;about(i):string%20%3F;old_value(i):string%20%3F;new_value(i):string%20%3F])
 
-## Children
+## Parents
 
- * [EdgeChange](EdgeChange.md) - A change in which the entity changes is an edge
- * [NodeChange](NodeChange.md) - A simple change where the change is about a node
-
-## Referenced by class
-
+ *  is_a: [NodeAnnotationChange](NodeAnnotationChange.md) - A node change where the change alters node properties/annotations. TODO
 
 ## Attributes
 

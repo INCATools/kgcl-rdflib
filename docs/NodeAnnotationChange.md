@@ -1,21 +1,21 @@
 
-# Type: node deletion
+# Type: node annotation change
 
 
-Deletion of a node from the graph. Note it is recommended nodes are obsoleted and never merged, but this operation exists to represent deletions in ontologies, accidental or otherwise
+A node change where the change alters node properties/annotations. TODO
 
-URI: [ocl:NodeDeletion](http://w3id.org/oclNodeDeletion)
+URI: [ocl:NodeAnnotationChange](http://w3id.org/oclNodeAnnotationChange)
 
 
-![img](http://yuml.me/diagram/nofunky;dir:TB/class/[NodeDeletion&#124;about(i):string%20%3F;old_value(i):string%20%3F;new_value(i):string%20%3F]uses%20-.->[Deletion],%20[NodeChange]^-[NodeDeletion])
+![img](http://yuml.me/diagram/nofunky;dir:TB/class/[NodeAnnotationChange&#124;about(i):string%20%3F;old_value(i):string%20%3F;new_value(i):string%20%3F]^-[NodeAnnotationReplacement],%20[NodeChange]^-[NodeAnnotationChange])
 
 ## Parents
 
  *  is_a: [NodeChange](NodeChange.md) - A simple change where the change is about a node
 
-## Uses Mixins
+## Children
 
- *  mixin: [Deletion](Deletion.md)
+ * [NodeAnnotationReplacement](NodeAnnotationReplacement.md) - A node annotation change where the change replaces a particular property value. TODO
 
 ## Referenced by class
 

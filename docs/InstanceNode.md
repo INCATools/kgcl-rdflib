@@ -2,7 +2,7 @@
 # Type: instance node
 
 
-
+A node that is an individual
 
 URI: [ocl:InstanceNode](http://w3id.org/oclInstanceNode)
 
@@ -11,7 +11,7 @@ URI: [ocl:InstanceNode](http://w3id.org/oclInstanceNode)
 
 ## Parents
 
- *  is_a: [Node](Node.md)
+ *  is_a: [Node](Node.md) - Any named entity in an ontology. May be a class, individual, property
 
 ## Attributes
 
@@ -45,5 +45,6 @@ URI: [ocl:InstanceNode](http://w3id.org/oclInstanceNode)
 
 |  |  |  |
 | --- | --- | --- |
+| **Aliases:** | | named individual |
 | **Mappings:** | | owl:NamedIndividual |
 

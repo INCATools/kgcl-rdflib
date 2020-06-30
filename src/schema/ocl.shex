@@ -135,6 +135,14 @@ metatype:Nodeidentifier NONLITERAL
     )
 }
 
+<omLogicalDefinition> CLOSED {
+    (  $<omLogicalDefinition_tes> (  &<omOntologyElement_tes> ;
+          rdf:type [ <omOntologyElement> ] ?
+       ) ;
+       rdf:type [ <omLogicalDefinition> ] ?
+    )
+}
+
 <omNode>  (
     CLOSED {
        (  $<omNode_tes> (  &<omOntologyElement_tes> ;
@@ -147,6 +155,24 @@ metatype:Nodeidentifier NONLITERAL
     } OR @<omClassNode> OR @<omInstanceNode>
 )
 
+<http://w3id.org/oclNodeAnnotationChange>  (
+    CLOSED {
+       (  $<http://w3id.org/oclNodeAnnotationChange_tes> (  &<http://w3id.org/oclNodeChange_tes> ;
+             rdf:type [ <http://w3id.org/oclNodeChange> ] ?
+          ) ;
+          rdf:type [ <http://w3id.org/oclNodeAnnotationChange> ] ?
+       )
+    } OR @<http://w3id.org/oclNodeAnnotationReplacement>
+)
+
+<http://w3id.org/oclNodeAnnotationReplacement> CLOSED {
+    (  $<http://w3id.org/oclNodeAnnotationReplacement_tes> (  &<http://w3id.org/oclNodeAnnotationChange_tes> ;
+          rdf:type [ <http://w3id.org/oclNodeAnnotationChange> ] ?
+       ) ;
+       rdf:type [ <http://w3id.org/oclNodeAnnotationReplacement> ] ?
+    )
+}
+
 <http://w3id.org/oclNodeChange>  (
     CLOSED {
        (  $<http://w3id.org/oclNodeChange_tes> (  &<http://w3id.org/oclSimpleChange_tes> ;
@@ -155,8 +181,8 @@ metatype:Nodeidentifier NONLITERAL
           ) ;
           rdf:type [ <http://w3id.org/oclNodeChange> ] ?
        )
-    } OR @<http://w3id.org/oclNodeCreation> OR @<http://w3id.org/oclNodeDeletion> OR @<http://w3id.org/oclNodeObsoletion> OR
-    @<http://w3id.org/oclNodeRename>
+    } OR @<http://w3id.org/oclNodeAnnotationChange> OR @<http://w3id.org/oclNodeCreation> OR @<http://w3id.org/oclNodeDeletion> OR
+    @<http://w3id.org/oclNodeObsoletion> OR @<http://w3id.org/oclNodeRename>
 )
 
 <http://w3id.org/oclNodeCreation> CLOSED {
@@ -171,6 +197,14 @@ metatype:Nodeidentifier NONLITERAL
     )
 }
 
+<http://w3id.org/oclNodeDeepening> CLOSED {
+    (  $<http://w3id.org/oclNodeDeepening_tes> (  &<http://w3id.org/oclNodeMove_tes> ;
+          rdf:type [ <http://w3id.org/oclNodeMove> ] ?
+       ) ;
+       rdf:type [ <http://w3id.org/oclNodeDeepening> ] ?
+    )
+}
+
 <http://w3id.org/oclNodeDeletion> CLOSED {
     (  $<http://w3id.org/oclNodeDeletion_tes> (  &<http://w3id.org/oclNodeChange_tes> ;
           rdf:type [ <http://w3id.org/oclNodeChange> ] ? ;
@@ -181,13 +215,15 @@ metatype:Nodeidentifier NONLITERAL
     )
 }
 
-<http://w3id.org/oclNodeMove> CLOSED {
-    (  $<http://w3id.org/oclNodeMove_tes> (  &<http://w3id.org/oclEdgeChange_tes> ;
-          rdf:type [ <http://w3id.org/oclEdgeChange> ] ?
-       ) ;
-       rdf:type [ <http://w3id.org/oclNodeMove> ] ?
-    )
-}
+<http://w3id.org/oclNodeMove>  (
+    CLOSED {
+       (  $<http://w3id.org/oclNodeMove_tes> (  &<http://w3id.org/oclEdgeChange_tes> ;
+             rdf:type [ <http://w3id.org/oclEdgeChange> ] ?
+          ) ;
+          rdf:type [ <http://w3id.org/oclNodeMove> ] ?
+       )
+    } OR @<http://w3id.org/oclNodeDeepening>
+)
 
 <http://w3id.org/oclNodeObsoletion>  (
     CLOSED {
@@ -240,7 +276,7 @@ metatype:Nodeidentifier NONLITERAL
        (  $<omOntologyElement_tes> rdf:type . * ;
           rdf:type [ <omOntologyElement> ] ?
        )
-    } OR @<omAnnotation> OR @<omEdge> OR @<omNode>
+    } OR @<omAnnotation> OR @<omEdge> OR @<omLogicalDefinition> OR @<omNode>
 )
 
 <http://w3id.org/oclSimpleChange>  (

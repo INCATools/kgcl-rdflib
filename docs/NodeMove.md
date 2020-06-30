@@ -7,11 +7,15 @@ A node move is a combination of deleting a parent edge and adding a parent edge,
 URI: [ocl:NodeMove](http://w3id.org/oclNodeMove)
 
 
-![img](http://yuml.me/diagram/nofunky;dir:TB/class/[EdgeChange]^-[NodeMove&#124;about(i):string%20%3F;old_value(i):string%20%3F;new_value(i):string%20%3F])
+![img](http://yuml.me/diagram/nofunky;dir:TB/class/[NodeMove&#124;about(i):string%20%3F;old_value(i):string%20%3F;new_value(i):string%20%3F]^-[NodeDeepening],%20[EdgeChange]^-[NodeMove])
 
 ## Parents
 
- *  is_a: [EdgeChange](EdgeChange.md)
+ *  is_a: [EdgeChange](EdgeChange.md) - A change in which the entity changes is an edge
+
+## Children
+
+ * [NodeDeepening](NodeDeepening.md) - A node move in which a node where the destination is a proper descendant of the original location
 
 ## Referenced by class
 

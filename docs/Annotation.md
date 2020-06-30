@@ -2,7 +2,7 @@
 # Type: annotation
 
 
-
+owl annotations. Not to be confused with annotatuons sensu GO
 
 URI: [ocl:Annotation](http://w3id.org/oclAnnotation)
 
@@ -40,3 +40,11 @@ URI: [ocl:Annotation](http://w3id.org/oclAnnotation)
     * inherited from: None
  * [annotation set](annotation_set.md)  <sub>OPT</sub>
     * range: [Annotation](Annotation.md)
+
+## Other properties
+
+|  |  |  |
+| --- | --- | --- |
+| **Aliases:** | | property value |
+| **Mappings:** | | owl:Annotation |
+

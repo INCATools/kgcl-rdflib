@@ -50,7 +50,12 @@ classes:
       root class for all change mixins
 
   edge change:
+    aliases:
+      - axiom change
+      - triple change
     is_a: simple change
+    description: >-
+      A change in which the entity changes is an edge
     slot_usage:
       about:
         domain: edge
@@ -65,8 +70,20 @@ classes:
       change description:
         string_serialization: "move {about} from {old value} to {new value}"
 
+  node deepening:
+    is_a: node move
+    description: >-
+      A node move in which a node where the destination is a proper descendant of the original location
+    examples:
+      - value: changing a is-a b to a is-a c, where c is a subclass of b
+    slot_usage:
+      change description:
+        string_serialization: "deepened {about} from {old value} to {new value}"
+
   edge label change:
     is_a: edge change
+    description: >-
+      An edge change where the edge label (relationship type) is modified.
     examples:
       - value: changing a is-a b to a part-of b
     slot_usage:
@@ -75,6 +92,8 @@ classes:
 
   node change:
     is_a: simple change
+    description: >-
+      A simple change where the change is about a node
     slots:
       - about
     slot_usage:
@@ -83,6 +102,8 @@ classes:
 
   node rename:
     is_a: node change
+    description: >-
+      A node change where the name (aka rdfs:label) of the node changes
     slots:
       - old value
       - new value
@@ -93,7 +114,17 @@ classes:
         multivalued: false
       change description:
         string_serialization: "renaming {about} from {old value} to {new value}"
-    
+
+  node annotation change:
+    description: >-
+      A node change where the change alters node properties/annotations. TODO
+    is_a: node change
+
+  node annotation replacement:
+    is_a: node annotation change
+    description: >-
+      A node annotation change where the change replaces a particular property value. TODO
+        
   datatype change:
     is_a: change        
 

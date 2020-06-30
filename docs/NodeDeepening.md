@@ -1,17 +1,17 @@
 
-# Type: edge label change
+# Type: node deepening
 
 
-An edge change where the edge label (relationship type) is modified.
+A node move in which a node where the destination is a proper descendant of the original location
 
-URI: [ocl:EdgeLabelChange](http://w3id.org/oclEdgeLabelChange)
+URI: [ocl:NodeDeepening](http://w3id.org/oclNodeDeepening)
 
 
-![img](http://yuml.me/diagram/nofunky;dir:TB/class/[EdgeChange]^-[EdgeLabelChange&#124;about(i):string%20%3F;old_value(i):string%20%3F;new_value(i):string%20%3F])
+![img](http://yuml.me/diagram/nofunky;dir:TB/class/[NodeMove]^-[NodeDeepening&#124;about(i):string%20%3F;old_value(i):string%20%3F;new_value(i):string%20%3F])
 
 ## Parents
 
- *  is_a: [EdgeChange](EdgeChange.md) - A change in which the entity changes is an edge
+ *  is_a: [NodeMove](NodeMove.md) - A node move is a combination of deleting a parent edge and adding a parent edge, where the edge label is preserved and the object/parent node changes
 
 ## Referenced by class
 
@@ -38,5 +38,5 @@ URI: [ocl:EdgeLabelChange](http://w3id.org/oclEdgeLabelChange)
 
 |  |  |  |
 | --- | --- | --- |
-| **Examples:** | | Example(value='changing a is-a b to a part-of b', description=None) |
+| **Examples:** | | Example(value='changing a is-a b to a is-a c, where c is a subclass of b', description=None) |
 

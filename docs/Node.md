@@ -2,7 +2,7 @@
 # Type: node
 
 
-
+Any named entity in an ontology. May be a class, individual, property
 
 URI: [ocl:Node](http://w3id.org/oclNode)
 
@@ -15,8 +15,8 @@ URI: [ocl:Node](http://w3id.org/oclNode)
 
 ## Children
 
- * [ClassNode](ClassNode.md)
- * [InstanceNode](InstanceNode.md)
+ * [ClassNode](ClassNode.md) - A node that is a class
+ * [InstanceNode](InstanceNode.md) - A node that is an individual
 
 ## Referenced by class
 
@@ -49,3 +49,10 @@ URI: [ocl:Node](http://w3id.org/oclNode)
     * inherited from: None
  * [annotation set](annotation_set.md)  <sub>OPT</sub>
     * range: [Annotation](Annotation.md)
+
+## Other properties
+
+|  |  |  |
+| --- | --- | --- |
+| **Aliases:** | | entity |
+

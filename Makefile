@@ -20,3 +20,6 @@ src/schema/%.ttl: src/schema/%.owl
 	cp $< $@
 src/schema/%-docs: src/schema/%.yaml
 	pipenv run gen-markdown --dir $@ $<
+
+deploy-docs:
+	cp src/schema/ocl-docs/*md docs/

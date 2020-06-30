@@ -2,7 +2,7 @@
 # Type: edge change
 
 
-
+A change in which the entity changes is an edge
 
 URI: [ocl:EdgeChange](http://w3id.org/oclEdgeChange)
 
@@ -15,7 +15,7 @@ URI: [ocl:EdgeChange](http://w3id.org/oclEdgeChange)
 
 ## Children
 
- * [EdgeLabelChange](EdgeLabelChange.md)
+ * [EdgeLabelChange](EdgeLabelChange.md) - An edge change where the edge label (relationship type) is modified.
  * [NodeMove](NodeMove.md) - A node move is a combination of deleting a parent edge and adding a parent edge, where the edge label is preserved and the object/parent node changes
 
 ## Referenced by class
@@ -42,3 +42,11 @@ URI: [ocl:EdgeChange](http://w3id.org/oclEdgeChange)
 
  * [edge change➞about](edge_change_about.md)  <sub>OPT</sub>
     * range: [String](types/String.md)
+
+## Other properties
+
+|  |  |  |
+| --- | --- | --- |
+| **Aliases:** | | axiom change |
+|  | | triple change |
+

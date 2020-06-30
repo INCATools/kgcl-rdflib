@@ -24,29 +24,52 @@ classes:
       Any component of an ontology or knowledge graph
 
   annotation:
+    aliases:
+      - property value
     is_a: ontology element
+    description: >-
+      owl annotations. Not to be confused with annotatuons sensu GO
     slots:
       - property
       - filler
       - annotation set
+    mappings:
+      - owl:Annotation
       
   node:
+    aliases:
+      - entity
     is_a: ontology element
+    description: >-
+      Any named entity in an ontology. May be a class, individual, property
     slots:
       - id
       - name
       - annotation set
 
   class node:
+    aliases:
+      - concept
     is_a: node
+    description: >-
+      A node that is a class
     class_uri: owl:Class
 
   instance node:
+    aliases:
+      - named individual
     is_a: node
+    description: >-
+      A node that is an individual
     class_uri: owl:NamedIndividual
 
   edge:
+    aliases:
+      - triple
+      - axiom
     is_a: ontology element
+    description: >-
+      A relationship between two nodes. We assume owlstar or similar for existential restrictions
     mappings:
       - owl:Axiom
       - rdf:Statement
@@ -55,6 +78,10 @@ classes:
       - edge label
       - object
       - annotation set
+
+  logical definition:
+    is_a: ontology element
+  
 
 slots:
 

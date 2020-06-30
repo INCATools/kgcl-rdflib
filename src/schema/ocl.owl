@@ -12,7 +12,8 @@
 meta:ClassNode a owl:Class,
         meta:ClassDefinition ;
     rdfs:label "class node" ;
-    rdfs:subClassOf meta:Node .
+    rdfs:subClassOf meta:Node ;
+    skos:definition "A node that is a class" .
 
 meta:ComplexChange a owl:Class,
         meta:ClassDefinition ;
@@ -38,26 +39,40 @@ meta:Edge a owl:Class,
     rdfs:label "edge" ;
     rdfs:subClassOf [ a owl:Restriction ;
             owl:maxQualifiedCardinality 1 ;
-            owl:onClass meta:Annotation ;
-            owl:onProperty meta:annotation_set ],
-        [ a owl:Restriction ;
-            owl:maxQualifiedCardinality 1 ;
-            owl:onClass meta:Node ;
-            owl:onProperty meta:edge_label ],
-        [ a owl:Restriction ;
-            owl:maxQualifiedCardinality 1 ;
             owl:onClass meta:Node ;
             owl:onProperty meta:subject ],
         [ a owl:Restriction ;
             owl:maxQualifiedCardinality 1 ;
             owl:onClass meta:Node ;
             owl:onProperty meta:object ],
-        meta:OntologyElement .
+        [ a owl:Restriction ;
+            owl:maxQualifiedCardinality 1 ;
+            owl:onClass meta:Annotation ;
+            owl:onProperty meta:annotation_set ],
+        [ a owl:Restriction ;
+            owl:maxQualifiedCardinality 1 ;
+            owl:onClass meta:Node ;
+            owl:onProperty meta:edge_label ],
+        meta:OntologyElement ;
+    skos:definition "A relationship between two nodes. We assume owlstar or similar for existential restrictions" .
 
 meta:InstanceNode a owl:Class,
         meta:ClassDefinition ;
     rdfs:label "instance node" ;
-    rdfs:subClassOf meta:Node .
+    rdfs:subClassOf meta:Node ;
+    skos:definition "A node that is an individual" .
+
+meta:LogicalDefinition a owl:Class,
+        meta:ClassDefinition ;
+    rdfs:label "logical definition" ;
+    rdfs:subClassOf meta:OntologyElement .
+
+meta:NodeAnnotationReplacement a owl:Class,
+        meta:ClassDefinition ;
+    rdfs:label "node annotation replacement" ;
+    rdfs:subClassOf meta:NodeAnnotationChange ;
+    skos:definition """A node annotation change where the change replaces a particular property value. TODO
+  """ .
 
 meta:SubsetDefinition a owl:Class ;
     rdfs:label "subset_definition" ;
@@ -160,6 +175,13 @@ meta:node_creation_change_description a owl:ObjectProperty,
         meta:SlotDefinition ;
     rdfs:label "node creation_change description" ;
     rdfs:domain meta:NodeCreation ;
+    rdfs:range meta:string ;
+    rdfs:subPropertyOf meta:change_description .
+
+meta:node_deepening_change_description a owl:ObjectProperty,
+        meta:SlotDefinition ;
+    rdfs:label "node deepening_change description" ;
+    rdfs:domain meta:NodeDeepening ;
     rdfs:range meta:string ;
     rdfs:subPropertyOf meta:change_description .
 
@@ -285,11 +307,11 @@ meta:uriorcurie a owl:Class,
     dcterms:license "https://creativecommons.org/publicdomain/zero/1.0/" ;
     dcterms:title "ontology change language" ;
     skos:definition "A data model for describing change operations at a high level on an ontology or ontology-like artefact" ;
-    meta:generation_date "2020-06-29 18:45" ;
+    meta:generation_date "2020-06-29 19:16" ;
     meta:metamodel_version "1.4.4" ;
     meta:source_file "ocl.yaml" ;
-    meta:source_file_date "Mon Jun 29 18:44:17 2020" ;
-    meta:source_file_size 4599 .
+    meta:source_file_date "Mon Jun 29 19:15:38 2020" ;
+    meta:source_file_size 5691 .
 
 meta:Deletion a owl:Class,
         meta:ClassDefinition ;
@@ -301,16 +323,19 @@ meta:EdgeLabelChange a owl:Class,
         meta:ClassDefinition ;
     rdfs:label "edge label change" ;
     rdfs:subClassOf meta:EdgeChange ;
+    skos:definition "An edge change where the edge label (relationship type) is modified." ;
     meta:examples "Example(value='changing a is-a b to a part-of b', description=None)" .
+
+meta:NodeAnnotationChange a owl:Class,
+        meta:ClassDefinition ;
+    rdfs:label "node annotation change" ;
+    rdfs:subClassOf meta:NodeChange ;
+    skos:definition "A node change where the change alters node properties/annotations. TODO" .
 
 meta:NodeCreation a owl:Class,
         meta:ClassDefinition ;
     rdfs:label "node creation" ;
     rdfs:subClassOf [ a owl:Restriction ;
-            owl:maxQualifiedCardinality 1 ;
-            owl:onClass meta:string ;
-            owl:onProperty meta:name ],
-        [ a owl:Restriction ;
             owl:maxQualifiedCardinality 1 ;
             owl:onClass meta:Annotation ;
             owl:onProperty meta:annotation_set ],
@@ -318,8 +343,19 @@ meta:NodeCreation a owl:Class,
             owl:onClass meta:string ;
             owl:onProperty meta:id ;
             owl:qualifiedCardinality 1 ],
+        [ a owl:Restriction ;
+            owl:maxQualifiedCardinality 1 ;
+            owl:onClass meta:string ;
+            owl:onProperty meta:name ],
         meta:NodeChange,
         meta:Obsoletion .
+
+meta:NodeDeepening a owl:Class,
+        meta:ClassDefinition ;
+    rdfs:label "node deepening" ;
+    rdfs:subClassOf meta:NodeMove ;
+    skos:definition "A node move in which a node where the destination is a proper descendant of the original location" ;
+    meta:examples "Example(value='changing a is-a b to a is-a c, where c is a subclass of b', description=None)" .
 
 meta:NodeDeletion a owl:Class,
         meta:ClassDefinition ;
@@ -327,13 +363,6 @@ meta:NodeDeletion a owl:Class,
     rdfs:subClassOf meta:Deletion,
         meta:NodeChange ;
     skos:definition "Deletion of a node from the graph. Note it is recommended nodes are obsoleted and never merged, but this operation exists to represent deletions in ontologies, accidental or otherwise" .
-
-meta:NodeMove a owl:Class,
-        meta:ClassDefinition ;
-    rdfs:label "node move" ;
-    rdfs:subClassOf meta:EdgeChange ;
-    skos:definition "A node move is a combination of deleting a parent edge and adding a parent edge, where the edge label is preserved and the object/parent node changes" ;
-    meta:examples "Example(value='changing a is-a b to a is-a c', description=None)" .
 
 meta:edge_label a owl:ObjectProperty,
         meta:SlotDefinition ;
@@ -359,6 +388,13 @@ meta:subject a owl:ObjectProperty,
         meta:SlotDefinition ;
     rdfs:label "subject" ;
     rdfs:range meta:Node .
+
+meta:NodeMove a owl:Class,
+        meta:ClassDefinition ;
+    rdfs:label "node move" ;
+    rdfs:subClassOf meta:EdgeChange ;
+    skos:definition "A node move is a combination of deleting a parent edge and adding a parent edge, where the edge label is preserved and the object/parent node changes" ;
+    meta:examples "Example(value='changing a is-a b to a is-a c', description=None)" .
 
 meta:NodeObsoletionWithMerge a owl:Class,
         meta:ClassDefinition ;
@@ -388,11 +424,11 @@ meta:SimpleChange a owl:Class,
         [ a owl:Restriction ;
             owl:maxQualifiedCardinality 1 ;
             owl:onClass meta:string ;
-            owl:onProperty meta:new_value ],
+            owl:onProperty meta:about ],
         [ a owl:Restriction ;
             owl:maxQualifiedCardinality 1 ;
             owl:onClass meta:string ;
-            owl:onProperty meta:about ] ;
+            owl:onProperty meta:new_value ] ;
     skos:definition "A change that is about a single ontology element" .
 
 meta:change_set a owl:ObjectProperty,
@@ -430,7 +466,8 @@ meta:EdgeChange a owl:Class,
             owl:maxQualifiedCardinality 1 ;
             owl:onClass meta:string ;
             owl:onProperty meta:about ],
-        meta:SimpleChange .
+        meta:SimpleChange ;
+    skos:definition "A change in which the entity changes is an edge" .
 
 meta:NodeObsoletion a owl:Class,
         meta:ClassDefinition ;
@@ -444,17 +481,13 @@ meta:NodeRename a owl:Class,
     rdfs:subClassOf [ a owl:Restriction ;
             owl:maxQualifiedCardinality 1 ;
             owl:onClass meta:string ;
-            owl:onProperty meta:old_value ],
+            owl:onProperty meta:new_value ],
         [ a owl:Restriction ;
             owl:maxQualifiedCardinality 1 ;
             owl:onClass meta:string ;
-            owl:onProperty meta:new_value ],
-        meta:NodeChange .
-
-meta:OntologyElement a owl:Class,
-        meta:ClassDefinition ;
-    rdfs:label "ontology element" ;
-    skos:definition "Any component of an ontology or knowledge graph" .
+            owl:onProperty meta:old_value ],
+        meta:NodeChange ;
+    skos:definition "A node change where the name (aka rdfs:label) of the node changes" .
 
 meta:new_value a owl:ObjectProperty,
         meta:SlotDefinition ;
@@ -473,6 +506,11 @@ meta:Change a owl:Class,
     rdfs:label "change" ;
     skos:definition "Any change perform on an ontology or knowledge graph" .
 
+meta:OntologyElement a owl:Class,
+        meta:ClassDefinition ;
+    rdfs:label "ontology element" ;
+    skos:definition "Any component of an ontology or knowledge graph" .
+
 meta:annotation_set a owl:ObjectProperty,
         meta:SlotDefinition ;
     rdfs:label "annotation set" ;
@@ -483,17 +521,24 @@ meta:Annotation a owl:Class,
     rdfs:label "annotation" ;
     rdfs:subClassOf [ a owl:Restriction ;
             owl:maxQualifiedCardinality 1 ;
-            owl:onClass meta:Node ;
-            owl:onProperty meta:property ],
-        [ a owl:Restriction ;
-            owl:maxQualifiedCardinality 1 ;
             owl:onClass meta:Annotation ;
             owl:onProperty meta:annotation_set ],
         [ a owl:Restriction ;
             owl:maxQualifiedCardinality 1 ;
             owl:onClass meta:string ;
             owl:onProperty meta:filler ],
-        meta:OntologyElement .
+        [ a owl:Restriction ;
+            owl:maxQualifiedCardinality 1 ;
+            owl:onClass meta:Node ;
+            owl:onProperty meta:property ],
+        meta:OntologyElement ;
+    skos:definition "owl annotations. Not to be confused with annotatuons sensu GO" .
+
+meta:about a owl:ObjectProperty,
+        meta:SlotDefinition ;
+    rdfs:label "about" ;
+    rdfs:range meta:string ;
+    skos:definition "The 'focus' entity on which the change operates" .
 
 meta:NodeChange a owl:Class,
         meta:ClassDefinition ;
@@ -502,13 +547,8 @@ meta:NodeChange a owl:Class,
             owl:maxQualifiedCardinality 1 ;
             owl:onClass meta:string ;
             owl:onProperty meta:about ],
-        meta:SimpleChange .
-
-meta:about a owl:ObjectProperty,
-        meta:SlotDefinition ;
-    rdfs:label "about" ;
-    rdfs:range meta:string ;
-    skos:definition "The 'focus' entity on which the change operates" .
+        meta:SimpleChange ;
+    skos:definition "A simple change where the change is about a node" .
 
 meta:change_description a owl:ObjectProperty,
         meta:SlotDefinition ;
@@ -521,17 +561,18 @@ meta:Node a owl:Class,
     rdfs:label "node" ;
     rdfs:subClassOf [ a owl:Restriction ;
             owl:maxQualifiedCardinality 1 ;
-            owl:onClass meta:string ;
-            owl:onProperty meta:name ],
-        [ a owl:Restriction ;
-            owl:maxQualifiedCardinality 1 ;
             owl:onClass meta:Annotation ;
             owl:onProperty meta:annotation_set ],
         [ a owl:Restriction ;
             owl:onClass meta:string ;
             owl:onProperty meta:id ;
             owl:qualifiedCardinality 1 ],
-        meta:OntologyElement .
+        [ a owl:Restriction ;
+            owl:maxQualifiedCardinality 1 ;
+            owl:onClass meta:string ;
+            owl:onProperty meta:name ],
+        meta:OntologyElement ;
+    skos:definition "Any named entity in an ontology. May be a class, individual, property" .
 
 meta:TypeDefinition a owl:Class ;
     rdfs:label "type_definition" ;

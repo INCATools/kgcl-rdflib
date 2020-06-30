@@ -2,7 +2,7 @@
 # Type: node rename
 
 
-
+A node change where the name (aka rdfs:label) of the node changes
 
 URI: [ocl:NodeRename](http://w3id.org/oclNodeRename)
 
@@ -11,7 +11,7 @@ URI: [ocl:NodeRename](http://w3id.org/oclNodeRename)
 
 ## Parents
 
- *  is_a: [NodeChange](NodeChange.md)
+ *  is_a: [NodeChange](NodeChange.md) - A simple change where the change is about a node
 
 ## Referenced by class
 

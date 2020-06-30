@@ -66,11 +66,29 @@ type InstanceNode
     annotationSet: Annotation
   }
 
+type LogicalDefinition
+  {
+  }
+
 type Node
   {
     id: String!
     name: String
     annotationSet: Annotation
+  }
+
+type NodeAnnotationChange
+  {
+    oldValue: String
+    newValue: String
+    about: String
+  }
+
+type NodeAnnotationReplacement
+  {
+    oldValue: String
+    newValue: String
+    about: String
   }
 
 type NodeChange
@@ -88,6 +106,13 @@ type NodeCreation implements Obsoletion
     id: String!
     name: String
     annotationSet: Annotation
+  }
+
+type NodeDeepening
+  {
+    about: String
+    oldValue: String
+    newValue: String
   }
 
 type NodeDeletion implements Deletion
