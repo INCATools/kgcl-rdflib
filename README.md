@@ -13,3 +13,21 @@ a higher level than either RDF or OWL. It currently does not attempt
 to encapsulate all of OWL. Instead it focuses on the majority of
 operations performed on ontologies.
 
+## Schema
+
+Browse the schema here: [http://cmungall.github.io/ontology-change-language](http://cmungall.github.io/ontology-change-language)
+
+See the [schema/](schema/) folder
+
+The source is in YAML (biolinkml)
+
+Currently the main derived artefacts of interest are:
+
+ - [JSON Schema](src/schema/ocl.schema.json)
+ - [Python dataclasses](src/schema/ocl_datamodel.py)
+
+It is likely we will bind this into [owl-diff](https://github.com/balhoff/owl-diff) so compilation to scala traits likely in future.
+
+Note that transactions can themselves be represented in RDF. This can
+be either JSON-LD following the schema above or native. The [ShEx
+Schema](src/schema/ocl.shex) constrains the shape of the RDF graph.
