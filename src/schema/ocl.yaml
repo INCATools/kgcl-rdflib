@@ -133,7 +133,10 @@ classes:
     mixins:
       - creation
     slots:
-      - edge
+      - subject
+      - edge label
+      - object
+      - annotation set
     slot_usage:
       change description:
         string_serialization: "creating edge {edge}"
