@@ -19,6 +19,13 @@ imports:
   - ontology_model
   - prov
 
+types:
+
+  change class type:
+    typeof: uriorcurie
+    description: >-
+      CURIE for a class within this datamodel. E.g. ocl:NodeObsoletion
+  
 classes:
 
   change:
@@ -425,9 +432,3 @@ slots:
     range: change
     multivalued: true
 
-types:
-
-  change class type:
-    typeof: uriorcurie
-    description: >-
-      CURIE for a class within this datamodel. E.g. ocl:NodeObsoletion
