@@ -1,3 +1,30 @@
+type Activity
+  {
+    activityId: String!
+    startedAtTime: String
+    endedAtTime: String
+    wasInformedBy: Activity
+    wasAssociatedWith: Agent
+    used: String
+  }
+
+type AddNodeToSubset implements AddToSubset
+  {
+    oldValue: String
+    newValue: String
+    about: String
+  }
+
+interface AddToSubset
+  {
+  }
+
+type Agent
+  {
+    actedOnBehalfOf: Agent
+    wasInformedBy: Activity
+  }
+
 type Annotation
   {
     property: Node
@@ -7,9 +34,14 @@ type Annotation
 
 type Change
   {
+    wasGeneratedBy: Activity
   }
 
 interface ChangeMixin
+  {
+  }
+
+type ChangeSetSummaryStatistic
   {
   }
 
@@ -31,6 +63,7 @@ interface Creation
 
 type DatatypeChange
   {
+    wasGeneratedBy: Activity
   }
 
 interface Deletion
@@ -52,7 +85,25 @@ type EdgeChange
     newValue: String
   }
 
+type EdgeCreation implements Creation
+  {
+    about: String
+    oldValue: String
+    newValue: String
+    subject: Node
+    edgeLabel: Node
+    object: Node
+    annotationSet: Annotation
+  }
+
 type EdgeLabelChange
+  {
+    about: String
+    oldValue: String
+    newValue: String
+  }
+
+type EdgeLogicalInterpretationChange
   {
     about: String
     oldValue: String
@@ -68,6 +119,20 @@ type InstanceNode
 
 type LogicalDefinition
   {
+  }
+
+type NewSynonym
+  {
+    oldValue: String
+    about: String
+    newValue: String
+  }
+
+type NewTextDefinition
+  {
+    oldValue: String
+    about: String
+    newValue: String
   }
 
 type Node
@@ -98,7 +163,7 @@ type NodeChange
     about: String
   }
 
-type NodeCreation implements Obsoletion
+type NodeCreation implements Creation
   {
     oldValue: String
     newValue: String
@@ -155,6 +220,28 @@ type NodeRename
     about: String
     oldValue: String
     newValue: String
+    hasTextualDiff: TextualDiff
+  }
+
+type NodeSynonymChange
+  {
+    oldValue: String
+    newValue: String
+    about: String
+  }
+
+type NodeTextDefinitionChange
+  {
+    oldValue: String
+    newValue: String
+    about: String
+  }
+
+type NodeUnobsoletion implements Unobsoletion
+  {
+    oldValue: String
+    newValue: String
+    about: String
   }
 
 interface Obsoletion
@@ -165,6 +252,37 @@ type OntologyElement
   {
   }
 
+type PropertyValue
+  {
+    property: Node
+    filler: String
+  }
+
+interface RemoveFromSubset
+  {
+  }
+
+type RemoveSynonym
+  {
+    newValue: String
+    about: String
+    oldValue: String
+  }
+
+type RemoveTextDefinition
+  {
+    newValue: String
+    about: String
+    oldValue: String
+  }
+
+type RemovedNodeFromSubset implements RemoveFromSubset
+  {
+    oldValue: String
+    newValue: String
+    about: String
+  }
+
 type SimpleChange
   {
     about: String
@@ -172,9 +290,37 @@ type SimpleChange
     newValue: String
   }
 
+type Subset
+  {
+  }
+
+type SynonymReplacement
+  {
+    about: String
+    oldValue: String
+    newValue: String
+    hasTextualDiff: TextualDiff
+  }
+
+type TextDefinitionReplacement
+  {
+    about: String
+    oldValue: String
+    newValue: String
+    hasTextualDiff: TextualDiff
+  }
+
+type TextualDiff
+  {
+  }
+
 type Transaction
   {
     changeSet: [Change]
+  }
+
+interface Unobsoletion
+  {
   }
 
 

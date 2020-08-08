@@ -2,9 +2,81 @@
    "$id": "ocl",
    "$schema": "http://json-schema.org/draft-07/schema#",
    "definitions": {
+      "Activity": {
+         "additionalProperties": false,
+         "description": "a provence-generating activity",
+         "properties": {
+            "activity_id": {
+               "type": "string"
+            },
+            "ended_at_time": {
+               "type": "string"
+            },
+            "started_at_time": {
+               "type": "string"
+            },
+            "used": {
+               "type": "string"
+            },
+            "was_associated_with": {
+               "$ref": "#/definitions/Agent"
+            },
+            "was_informed_by": {
+               "type": "string"
+            }
+         },
+         "required": [
+            "activity_id"
+         ],
+         "title": "Activity",
+         "type": "object"
+      },
+      "AddNodeToSubset": {
+         "additionalProperties": false,
+         "description": "Places a node inside a subset, by annotating that node",
+         "properties": {
+            "about": {
+               "type": "string"
+            },
+            "new_value": {
+               "description": "The value of a property held in the old instance of the ontology",
+               "type": "string"
+            },
+            "old_value": {
+               "description": "The value of a property held in the old instance of the ontology",
+               "type": "string"
+            }
+         },
+         "required": [],
+         "title": "AddNodeToSubset",
+         "type": "object"
+      },
+      "AddToSubset": {
+         "additionalProperties": false,
+         "description": "placing an element inside a subset",
+         "properties": {},
+         "required": [],
+         "title": "AddToSubset",
+         "type": "object"
+      },
+      "Agent": {
+         "additionalProperties": false,
+         "description": "a provence-generating agent",
+         "properties": {
+            "acted_on_behalf_of": {
+               "$ref": "#/definitions/Agent"
+            },
+            "was_informed_by": {
+               "type": "string"
+            }
+         },
+         "required": [],
+         "title": "Agent",
+         "type": "object"
+      },
       "Annotation": {
          "additionalProperties": false,
-         "description": "owl annotations. Not to be confused with annotatuons sensu GO",
+         "description": "owl annotations. Not to be confused with annotations sensu GO",
          "properties": {
             "annotation_set": {
                "$ref": "#/definitions/Annotation"
@@ -23,7 +95,11 @@
       "Change": {
          "additionalProperties": false,
          "description": "Any change perform on an ontology or knowledge graph",
-         "properties": {},
+         "properties": {
+            "was_generated_by": {
+               "type": "string"
+            }
+         },
          "required": [],
          "title": "Change",
          "type": "object"
@@ -34,6 +110,14 @@
          "properties": {},
          "required": [],
          "title": "ChangeMixin",
+         "type": "object"
+      },
+      "ChangeSetSummaryStatistic": {
+         "additionalProperties": false,
+         "description": "A summary statistic for a set of changes of the same type, grouped by zero or more node properties",
+         "properties": {},
+         "required": [],
+         "title": "ChangeSetSummaryStatistic",
          "type": "object"
       },
       "ClassNode": {
@@ -74,7 +158,7 @@
       },
       "Creation": {
          "additionalProperties": false,
-         "description": "",
+         "description": "Creation of an element.",
          "properties": {},
          "required": [],
          "title": "Creation",
@@ -83,14 +167,18 @@
       "DatatypeChange": {
          "additionalProperties": false,
          "description": "",
-         "properties": {},
+         "properties": {
+            "was_generated_by": {
+               "type": "string"
+            }
+         },
          "required": [],
          "title": "DatatypeChange",
          "type": "object"
       },
       "Deletion": {
          "additionalProperties": false,
-         "description": "",
+         "description": "Removal of an element.",
          "properties": {},
          "required": [],
          "title": "Deletion",
@@ -137,6 +225,38 @@
          "title": "EdgeChange",
          "type": "object"
       },
+      "EdgeCreation": {
+         "additionalProperties": false,
+         "description": "",
+         "properties": {
+            "about": {
+               "type": "string"
+            },
+            "annotation_set": {
+               "$ref": "#/definitions/Annotation"
+            },
+            "edge_label": {
+               "type": "string"
+            },
+            "new_value": {
+               "description": "The value of a property held in the old instance of the ontology",
+               "type": "string"
+            },
+            "object": {
+               "type": "string"
+            },
+            "old_value": {
+               "description": "The value of a property held in the old instance of the ontology",
+               "type": "string"
+            },
+            "subject": {
+               "type": "string"
+            }
+         },
+         "required": [],
+         "title": "EdgeCreation",
+         "type": "object"
+      },
       "EdgeLabelChange": {
          "additionalProperties": false,
          "description": "An edge change where the edge label (relationship type) is modified.",
@@ -155,6 +275,26 @@
          },
          "required": [],
          "title": "EdgeLabelChange",
+         "type": "object"
+      },
+      "EdgeLogicalInterpretationChange": {
+         "additionalProperties": false,
+         "description": "An edge change where the subjet, object, and edge label are unchanged, but the logical interpretation changes",
+         "properties": {
+            "about": {
+               "type": "string"
+            },
+            "new_value": {
+               "description": "The value of a property held in the old instance of the ontology",
+               "type": "string"
+            },
+            "old_value": {
+               "description": "The value of a property held in the old instance of the ontology",
+               "type": "string"
+            }
+         },
+         "required": [],
+         "title": "EdgeLogicalInterpretationChange",
          "type": "object"
       },
       "InstanceNode": {
@@ -184,6 +324,46 @@
          "properties": {},
          "required": [],
          "title": "LogicalDefinition",
+         "type": "object"
+      },
+      "NewSynonym": {
+         "additionalProperties": false,
+         "description": "A node change where a de-novo synonym is created",
+         "properties": {
+            "about": {
+               "type": "string"
+            },
+            "new_value": {
+               "description": "The value of a property held in the old instance of the ontology",
+               "type": "string"
+            },
+            "old_value": {
+               "description": "The value of a property held in the old instance of the ontology",
+               "type": "string"
+            }
+         },
+         "required": [],
+         "title": "NewSynonym",
+         "type": "object"
+      },
+      "NewTextDefinition": {
+         "additionalProperties": false,
+         "description": "A node change where a de-novo text definition is created",
+         "properties": {
+            "about": {
+               "type": "string"
+            },
+            "new_value": {
+               "description": "The value of a property held in the old instance of the ontology",
+               "type": "string"
+            },
+            "old_value": {
+               "description": "The value of a property held in the old instance of the ontology",
+               "type": "string"
+            }
+         },
+         "required": [],
+         "title": "NewTextDefinition",
          "type": "object"
       },
       "Node": {
@@ -301,7 +481,7 @@
       },
       "NodeDeepening": {
          "additionalProperties": false,
-         "description": "A node move in which a node where the destination is a proper descendant of the original location",
+         "description": "A node move in which a node where the destination is a proper descendant of the original location. Note that here descendant applied not just to subclass, but edges of any edge label in the relational graph",
          "properties": {
             "about": {
                "type": "string"
@@ -361,7 +541,7 @@
       },
       "NodeObsoletion": {
          "additionalProperties": false,
-         "description": "",
+         "description": "Obsoletion of a node deprecates usage of that node, but does not delete it.",
          "properties": {
             "about": {
                "type": "string"
@@ -381,7 +561,7 @@
       },
       "NodeObsoletionWithMerge": {
          "additionalProperties": false,
-         "description": "An obsoletion change in which information from the obsoleted node is moved to a single target",
+         "description": "An obsoletion change in which information from the obsoleted node is moved to a single target.",
          "properties": {
             "about": {
                "type": "string"
@@ -426,6 +606,9 @@
             "about": {
                "type": "string"
             },
+            "has_textual_diff": {
+               "$ref": "#/definitions/TextualDiff"
+            },
             "new_value": {
                "type": "string"
             },
@@ -437,9 +620,69 @@
          "title": "NodeRename",
          "type": "object"
       },
-      "Obsoletion": {
+      "NodeSynonymChange": {
          "additionalProperties": false,
          "description": "",
+         "properties": {
+            "about": {
+               "type": "string"
+            },
+            "new_value": {
+               "description": "The value of a property held in the old instance of the ontology",
+               "type": "string"
+            },
+            "old_value": {
+               "description": "The value of a property held in the old instance of the ontology",
+               "type": "string"
+            }
+         },
+         "required": [],
+         "title": "NodeSynonymChange",
+         "type": "object"
+      },
+      "NodeTextDefinitionChange": {
+         "additionalProperties": false,
+         "description": "",
+         "properties": {
+            "about": {
+               "type": "string"
+            },
+            "new_value": {
+               "description": "The value of a property held in the old instance of the ontology",
+               "type": "string"
+            },
+            "old_value": {
+               "description": "The value of a property held in the old instance of the ontology",
+               "type": "string"
+            }
+         },
+         "required": [],
+         "title": "NodeTextDefinitionChange",
+         "type": "object"
+      },
+      "NodeUnobsoletion": {
+         "additionalProperties": false,
+         "description": "unobsoletion of a node deprecates usage of that node. Rarely applied.",
+         "properties": {
+            "about": {
+               "type": "string"
+            },
+            "new_value": {
+               "description": "The value of a property held in the old instance of the ontology",
+               "type": "string"
+            },
+            "old_value": {
+               "description": "The value of a property held in the old instance of the ontology",
+               "type": "string"
+            }
+         },
+         "required": [],
+         "title": "NodeUnobsoletion",
+         "type": "object"
+      },
+      "Obsoletion": {
+         "additionalProperties": false,
+         "description": "Obsoletion of an element deprecates usage of that element, but does not delete that element.",
          "properties": {},
          "required": [],
          "title": "Obsoletion",
@@ -451,6 +694,89 @@
          "properties": {},
          "required": [],
          "title": "OntologyElement",
+         "type": "object"
+      },
+      "PropertyValue": {
+         "additionalProperties": false,
+         "description": "a property-value pair",
+         "properties": {
+            "filler": {
+               "type": "string"
+            },
+            "property": {
+               "type": "string"
+            }
+         },
+         "required": [],
+         "title": "PropertyValue",
+         "type": "object"
+      },
+      "RemoveFromSubset": {
+         "additionalProperties": false,
+         "description": "removing an element from a subset",
+         "properties": {},
+         "required": [],
+         "title": "RemoveFromSubset",
+         "type": "object"
+      },
+      "RemoveSynonym": {
+         "additionalProperties": false,
+         "description": "A node change where a synonym is deleted",
+         "properties": {
+            "about": {
+               "type": "string"
+            },
+            "new_value": {
+               "description": "The value of a property held in the old instance of the ontology",
+               "type": "string"
+            },
+            "old_value": {
+               "description": "The value of a property held in the old instance of the ontology",
+               "type": "string"
+            }
+         },
+         "required": [],
+         "title": "RemoveSynonym",
+         "type": "object"
+      },
+      "RemoveTextDefinition": {
+         "additionalProperties": false,
+         "description": "A node change where a text definition is deleted",
+         "properties": {
+            "about": {
+               "type": "string"
+            },
+            "new_value": {
+               "description": "The value of a property held in the old instance of the ontology",
+               "type": "string"
+            },
+            "old_value": {
+               "description": "The value of a property held in the old instance of the ontology",
+               "type": "string"
+            }
+         },
+         "required": [],
+         "title": "RemoveTextDefinition",
+         "type": "object"
+      },
+      "RemovedNodeFromSubset": {
+         "additionalProperties": false,
+         "description": "Removes a node from a subset, by removing an annotation",
+         "properties": {
+            "about": {
+               "type": "string"
+            },
+            "new_value": {
+               "description": "The value of a property held in the old instance of the ontology",
+               "type": "string"
+            },
+            "old_value": {
+               "description": "The value of a property held in the old instance of the ontology",
+               "type": "string"
+            }
+         },
+         "required": [],
+         "title": "RemovedNodeFromSubset",
          "type": "object"
       },
       "SimpleChange": {
@@ -474,6 +800,68 @@
          "title": "SimpleChange",
          "type": "object"
       },
+      "Subset": {
+         "additionalProperties": false,
+         "description": "",
+         "properties": {},
+         "required": [],
+         "title": "Subset",
+         "type": "object"
+      },
+      "SynonymReplacement": {
+         "additionalProperties": false,
+         "description": "A node change where the text of a synonym is changed",
+         "properties": {
+            "about": {
+               "type": "string"
+            },
+            "has_textual_diff": {
+               "$ref": "#/definitions/TextualDiff"
+            },
+            "new_value": {
+               "description": "The value of a property held in the old instance of the ontology",
+               "type": "string"
+            },
+            "old_value": {
+               "description": "The value of a property held in the old instance of the ontology",
+               "type": "string"
+            }
+         },
+         "required": [],
+         "title": "SynonymReplacement",
+         "type": "object"
+      },
+      "TextDefinitionReplacement": {
+         "additionalProperties": false,
+         "description": "A node change where a text definition is modified",
+         "properties": {
+            "about": {
+               "type": "string"
+            },
+            "has_textual_diff": {
+               "$ref": "#/definitions/TextualDiff"
+            },
+            "new_value": {
+               "description": "The value of a property held in the old instance of the ontology",
+               "type": "string"
+            },
+            "old_value": {
+               "description": "The value of a property held in the old instance of the ontology",
+               "type": "string"
+            }
+         },
+         "required": [],
+         "title": "TextDefinitionReplacement",
+         "type": "object"
+      },
+      "TextualDiff": {
+         "additionalProperties": false,
+         "description": "A summarizing of a change on a piece of text. This could be rendered in a number of different ways",
+         "properties": {},
+         "required": [],
+         "title": "TextualDiff",
+         "type": "object"
+      },
       "Transaction": {
          "additionalProperties": false,
          "description": "A unified set of changes. Could be a single change, or the results of an ontology diff",
@@ -487,6 +875,14 @@
          },
          "required": [],
          "title": "Transaction",
+         "type": "object"
+      },
+      "Unobsoletion": {
+         "additionalProperties": false,
+         "description": "Opposite operation of obsoletion. Rarely performed.",
+         "properties": {},
+         "required": [],
+         "title": "Unobsoletion",
          "type": "object"
       }
    },

@@ -1,92 +1,298 @@
-@prefix OIO: <http://www.geneontology.org/formats/oboInOwl#> .
 @prefix dcterms: <http://purl.org/dc/terms/> .
 @prefix meta: <https://w3id.org/biolink/biolinkml/meta/> .
 @prefix owl: <http://www.w3.org/2002/07/owl#> .
-@prefix pav: <http://purl.org/pav/> .
-@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
 @prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
 @prefix skos: <http://www.w3.org/2004/02/skos/core#> .
-@prefix xml: <http://www.w3.org/XML/1998/namespace> .
 @prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
 
-meta:ClassNode a owl:Class,
+<http://w3id.org/ocl/omClassNode> a owl:Class,
         meta:ClassDefinition ;
     rdfs:label "class node" ;
-    rdfs:subClassOf meta:Node ;
+    rdfs:subClassOf <http://w3id.org/ocl/omNode> ;
     skos:definition "A node that is a class" .
 
-meta:ComplexChange a owl:Class,
-        meta:ClassDefinition ;
-    rdfs:label "complex change" ;
-    rdfs:subClassOf [ a owl:Restriction ;
-            owl:allValuesFrom meta:Change ;
-            owl:onProperty meta:change_set ] ;
-    skos:definition "A change that is is a composition of other changes" .
-
-meta:Creation a owl:Class,
-        meta:ClassDefinition ;
-    rdfs:label "creation" ;
-    rdfs:subClassOf meta:ChangeMixin,
-        meta:mixin .
-
-meta:DatatypeChange a owl:Class,
-        meta:ClassDefinition ;
-    rdfs:label "datatype change" ;
-    rdfs:subClassOf meta:Change .
-
-meta:Edge a owl:Class,
+<http://w3id.org/ocl/omEdge> a owl:Class,
         meta:ClassDefinition ;
     rdfs:label "edge" ;
     rdfs:subClassOf [ a owl:Restriction ;
             owl:maxQualifiedCardinality 1 ;
-            owl:onClass meta:Node ;
-            owl:onProperty meta:subject ],
+            owl:onClass <http://w3id.org/ocl/omNode> ;
+            owl:onProperty <http://w3id.org/ocl/omobject> ],
         [ a owl:Restriction ;
             owl:maxQualifiedCardinality 1 ;
-            owl:onClass meta:Node ;
-            owl:onProperty meta:object ],
+            owl:onClass <http://w3id.org/ocl/omNode> ;
+            owl:onProperty <http://w3id.org/ocl/omedge_label> ],
         [ a owl:Restriction ;
             owl:maxQualifiedCardinality 1 ;
-            owl:onClass meta:Annotation ;
-            owl:onProperty meta:annotation_set ],
+            owl:onClass <http://w3id.org/ocl/omNode> ;
+            owl:onProperty <http://w3id.org/ocl/omsubject> ],
         [ a owl:Restriction ;
             owl:maxQualifiedCardinality 1 ;
-            owl:onClass meta:Node ;
-            owl:onProperty meta:edge_label ],
-        meta:OntologyElement ;
+            owl:onClass <http://w3id.org/ocl/omAnnotation> ;
+            owl:onProperty <http://w3id.org/ocl/omannotation_set> ],
+        <http://w3id.org/ocl/omOntologyElement> ;
     skos:definition "A relationship between two nodes. We assume owlstar or similar for existential restrictions" .
 
-meta:InstanceNode a owl:Class,
+<http://w3id.org/ocl/omInstanceNode> a owl:Class,
         meta:ClassDefinition ;
     rdfs:label "instance node" ;
-    rdfs:subClassOf meta:Node ;
+    rdfs:subClassOf <http://w3id.org/ocl/omNode> ;
     skos:definition "A node that is an individual" .
 
-meta:LogicalDefinition a owl:Class,
+<http://w3id.org/ocl/omLogicalDefinition> a owl:Class,
         meta:ClassDefinition ;
     rdfs:label "logical definition" ;
-    rdfs:subClassOf meta:OntologyElement .
+    rdfs:subClassOf <http://w3id.org/ocl/omOntologyElement> .
 
-meta:NodeAnnotationReplacement a owl:Class,
+<http://w3id.org/oclAddNodeToSubset> a owl:Class,
+        meta:ClassDefinition ;
+    rdfs:label "add node to subset" ;
+    rdfs:seeAlso "http://wiki.geneontology.org/index.php/Adding_a_Term_to_a_GO_Subset_(Slim)" ;
+    rdfs:subClassOf <http://w3id.org/oclAddToSubset>,
+        <http://w3id.org/oclNodeChange> ;
+    skos:definition "Places a node inside a subset, by annotating that node" .
+
+<http://w3id.org/oclComplexChange> a owl:Class,
+        meta:ClassDefinition ;
+    rdfs:label "complex change" ;
+    rdfs:subClassOf [ a owl:Restriction ;
+            owl:allValuesFrom <http://w3id.org/oclChange> ;
+            owl:onProperty <http://w3id.org/oclchange_set> ] ;
+    skos:definition "A change that is is a composition of other changes" .
+
+<http://w3id.org/oclDatatypeChange> a owl:Class,
+        meta:ClassDefinition ;
+    rdfs:label "datatype change" ;
+    rdfs:subClassOf <http://w3id.org/oclChange> .
+
+<http://w3id.org/oclEdgeLogicalInterpretationChange> a owl:Class,
+        meta:ClassDefinition ;
+    rdfs:label "edge logical interpretation change" ;
+    rdfs:subClassOf <http://w3id.org/oclEdgeChange> ;
+    skos:definition "An edge change where the subjet, object, and edge label are unchanged, but the logical interpretation changes" ;
+    meta:examples "Example(value='changing a SubClassOf r some b to a subClassOf r only b', description=None)" .
+
+<http://w3id.org/oclNewSynonym> a owl:Class,
+        meta:ClassDefinition ;
+    rdfs:label "new synonym" ;
+    rdfs:subClassOf <http://w3id.org/oclNodeSynonymChange> ;
+    skos:definition "A node change where a de-novo synonym is created" .
+
+<http://w3id.org/oclNewTextDefinition> a owl:Class,
+        meta:ClassDefinition ;
+    rdfs:label "new text definition" ;
+    rdfs:subClassOf <http://w3id.org/oclNodeTextDefinitionChange> ;
+    skos:definition "A node change where a de-novo text definition is created" .
+
+<http://w3id.org/oclNodeAnnotationReplacement> a owl:Class,
         meta:ClassDefinition ;
     rdfs:label "node annotation replacement" ;
-    rdfs:subClassOf meta:NodeAnnotationChange ;
-    skos:definition """A node annotation change where the change replaces a particular property value. TODO
-  """ .
+    rdfs:subClassOf <http://w3id.org/oclNodeAnnotationChange> ;
+    skos:definition "A node annotation change where the change replaces a particular property value. TODO" .
+
+<http://w3id.org/oclRemoveSynonym> a owl:Class,
+        meta:ClassDefinition ;
+    rdfs:label "remove synonym" ;
+    rdfs:subClassOf <http://w3id.org/oclNodeSynonymChange> ;
+    skos:definition "A node change where a synonym is deleted" .
+
+<http://w3id.org/oclRemoveTextDefinition> a owl:Class,
+        meta:ClassDefinition ;
+    rdfs:label "remove text definition" ;
+    rdfs:subClassOf <http://w3id.org/oclNodeTextDefinitionChange> ;
+    skos:definition "A node change where a text definition is deleted" .
+
+<http://w3id.org/oclRemovedNodeFromSubset> a owl:Class,
+        meta:ClassDefinition ;
+    rdfs:label "removed node from subset" ;
+    rdfs:subClassOf [ a owl:Restriction ;
+            owl:maxQualifiedCardinality 1 ;
+            owl:onClass <http://w3id.org/ocl/omSubset> ;
+            owl:onProperty meta:in_subset ],
+        <http://w3id.org/oclNodeChange>,
+        <http://w3id.org/oclRemoveFromSubset> ;
+    skos:definition "Removes a node from a subset, by removing an annotation" .
+
+<http://w3id.org/oclSynonymReplacement> a owl:Class,
+        meta:ClassDefinition ;
+    rdfs:label "synonym replacement" ;
+    rdfs:subClassOf [ a owl:Restriction ;
+            owl:maxQualifiedCardinality 1 ;
+            owl:onClass <http://w3id.org/oclTextualDiff> ;
+            owl:onProperty <http://w3id.org/oclhas_textual_diff> ],
+        <http://w3id.org/oclNodeSynonymChange> ;
+    skos:definition "A node change where the text of a synonym is changed" .
+
+<http://w3id.org/oclTextDefinitionReplacement> a owl:Class,
+        meta:ClassDefinition ;
+    rdfs:label "text definition replacement" ;
+    rdfs:subClassOf [ a owl:Restriction ;
+            owl:maxQualifiedCardinality 1 ;
+            owl:onClass <http://w3id.org/oclTextualDiff> ;
+            owl:onProperty <http://w3id.org/oclhas_textual_diff> ],
+        <http://w3id.org/oclNodeTextDefinitionChange> ;
+    skos:definition "A node change where a text definition is modified" .
+
+<http://w3id.org/oclTransaction> a owl:Class,
+        meta:ClassDefinition ;
+    rdfs:label "transaction" ;
+    rdfs:subClassOf [ a owl:Restriction ;
+            owl:allValuesFrom <http://w3id.org/oclChange> ;
+            owl:onProperty <http://w3id.org/oclchange_set> ] ;
+    skos:definition "A unified set of changes. Could be a single change, or the results of an ontology diff" .
 
 meta:SubsetDefinition a owl:Class ;
     rdfs:label "subset_definition" ;
     skos:definition "the name and description of a subset" .
 
-meta:Transaction a owl:Class,
-        meta:ClassDefinition ;
-    rdfs:label "transaction" ;
-    rdfs:subClassOf [ a owl:Restriction ;
-            owl:allValuesFrom meta:Change ;
-            owl:onProperty meta:change_set ] ;
-    skos:definition "A unified set of changes. Could be a single change, or the results of an ontology diff" .
+meta:change_set_summary_statistic_property_value_set a owl:ObjectProperty,
+        meta:SlotDefinition ;
+    rdfs:label "change set summary statistic_property value set" ;
+    rdfs:domain <http://w3id.org/oclChangeSetSummaryStatistic> ;
+    rdfs:range <http://w3id.org/ocl/omPropertyValue> ;
+    rdfs:subPropertyOf <http://w3id.org/ocl/omproperty_value_set> ;
+    skos:definition "Summary statistic is grouped by these constraints" .
 
-meta:boolean a owl:Class,
+meta:change_type a owl:ObjectProperty,
+        meta:SlotDefinition ;
+    rdfs:label "change type" ;
+    rdfs:domain <http://w3id.org/oclChangeSetSummaryStatistic> ;
+    rdfs:range <http://w3id.org/oclChangeClassType> .
+
+meta:count a owl:ObjectProperty,
+        meta:SlotDefinition ;
+    rdfs:label "count" ;
+    rdfs:domain <http://w3id.org/oclChangeSetSummaryStatistic> ;
+    rdfs:range <https://w3id.org/biolink/biolinkml/meta/types/Integer> .
+
+meta:edge_change_about a owl:ObjectProperty,
+        meta:SlotDefinition ;
+    rdfs:label "edge change_about" ;
+    rdfs:domain <http://w3id.org/oclEdgeChange> ;
+    rdfs:range <https://w3id.org/biolink/biolinkml/meta/types/String> ;
+    rdfs:subPropertyOf <http://w3id.org/oclabout> .
+
+meta:edge_creation_change_description a owl:ObjectProperty,
+        meta:SlotDefinition ;
+    rdfs:label "edge creation_change description" ;
+    rdfs:domain <http://w3id.org/oclEdgeCreation> ;
+    rdfs:range <https://w3id.org/biolink/biolinkml/meta/types/String> ;
+    rdfs:subPropertyOf <http://w3id.org/oclchange_description> .
+
+meta:edge_label_change_change_description a owl:ObjectProperty,
+        meta:SlotDefinition ;
+    rdfs:label "edge label change_change description" ;
+    rdfs:domain <http://w3id.org/oclEdgeLabelChange> ;
+    rdfs:range <https://w3id.org/biolink/biolinkml/meta/types/String> ;
+    rdfs:subPropertyOf <http://w3id.org/oclchange_description> .
+
+meta:node_creation_change_description a owl:ObjectProperty,
+        meta:SlotDefinition ;
+    rdfs:label "node creation_change description" ;
+    rdfs:domain <http://w3id.org/oclNodeCreation> ;
+    rdfs:range <https://w3id.org/biolink/biolinkml/meta/types/String> ;
+    rdfs:subPropertyOf <http://w3id.org/oclchange_description> .
+
+meta:node_deepening_change_description a owl:ObjectProperty,
+        meta:SlotDefinition ;
+    rdfs:label "node deepening_change description" ;
+    rdfs:domain <http://w3id.org/oclNodeDeepening> ;
+    rdfs:range <https://w3id.org/biolink/biolinkml/meta/types/String> ;
+    rdfs:subPropertyOf meta:node_move_change_description .
+
+meta:node_deletion_change_description a owl:ObjectProperty,
+        meta:SlotDefinition ;
+    rdfs:label "node deletion_change description" ;
+    rdfs:domain <http://w3id.org/oclNodeDeletion> ;
+    rdfs:range <https://w3id.org/biolink/biolinkml/meta/types/String> ;
+    rdfs:subPropertyOf <http://w3id.org/oclchange_description> .
+
+meta:node_obsoletion_with_merge_about a owl:ObjectProperty,
+        meta:SlotDefinition ;
+    rdfs:label "node obsoletion with merge_about" ;
+    rdfs:domain <http://w3id.org/oclNodeObsoletionWithMerge> ;
+    rdfs:range <https://w3id.org/biolink/biolinkml/meta/types/String> ;
+    rdfs:subPropertyOf meta:node_change_about .
+
+meta:node_obsoletion_with_merge_change_description a owl:ObjectProperty,
+        meta:SlotDefinition ;
+    rdfs:label "node obsoletion with merge_change description" ;
+    rdfs:domain <http://w3id.org/oclNodeObsoletionWithMerge> ;
+    rdfs:range <https://w3id.org/biolink/biolinkml/meta/types/String> ;
+    rdfs:subPropertyOf meta:node_obsoletion_change_description .
+
+meta:node_obsoletion_with_merge_target a owl:ObjectProperty,
+        meta:SlotDefinition ;
+    rdfs:label "node obsoletion with merge_target" ;
+    rdfs:domain <http://w3id.org/oclNodeObsoletionWithMerge> ;
+    rdfs:range <https://w3id.org/biolink/biolinkml/meta/types/String> ;
+    rdfs:subPropertyOf <http://w3id.org/ocltarget> .
+
+meta:node_obsoletion_with_split_change_description a owl:ObjectProperty,
+        meta:SlotDefinition ;
+    rdfs:label "node obsoletion with split_change description" ;
+    rdfs:domain <http://w3id.org/oclNodeObsoletionWithSplit> ;
+    rdfs:range <https://w3id.org/biolink/biolinkml/meta/types/String> ;
+    rdfs:subPropertyOf meta:node_obsoletion_change_description .
+
+meta:node_obsoletion_with_split_target a owl:ObjectProperty,
+        meta:SlotDefinition ;
+    rdfs:label "node obsoletion with split_target" ;
+    rdfs:domain <http://w3id.org/oclNodeObsoletionWithSplit> ;
+    rdfs:range <https://w3id.org/biolink/biolinkml/meta/types/String> ;
+    rdfs:subPropertyOf <http://w3id.org/ocltarget> .
+
+meta:node_rename_change_description a owl:ObjectProperty,
+        meta:SlotDefinition ;
+    rdfs:label "node rename_change description" ;
+    rdfs:domain <http://w3id.org/oclNodeRename> ;
+    rdfs:range <https://w3id.org/biolink/biolinkml/meta/types/String> ;
+    rdfs:subPropertyOf <http://w3id.org/oclchange_description> .
+
+meta:node_rename_new_value a owl:ObjectProperty,
+        meta:SlotDefinition ;
+    rdfs:label "node rename_new value" ;
+    rdfs:domain <http://w3id.org/oclNodeRename> ;
+    rdfs:range <https://w3id.org/biolink/biolinkml/meta/types/String> ;
+    rdfs:subPropertyOf <http://w3id.org/oclnew_value> .
+
+meta:node_rename_old_value a owl:ObjectProperty,
+        meta:SlotDefinition ;
+    rdfs:label "node rename_old value" ;
+    rdfs:domain <http://w3id.org/oclNodeRename> ;
+    rdfs:range <https://w3id.org/biolink/biolinkml/meta/types/String> ;
+    rdfs:subPropertyOf <http://w3id.org/oclold_value> .
+
+meta:node_unobsoletion_change_description a owl:ObjectProperty,
+        meta:SlotDefinition ;
+    rdfs:label "node unobsoletion_change description" ;
+    rdfs:domain <http://w3id.org/oclNodeUnobsoletion> ;
+    rdfs:range <https://w3id.org/biolink/biolinkml/meta/types/String> ;
+    rdfs:subPropertyOf <http://w3id.org/oclchange_description> .
+
+meta:node_unobsoletion_consider a owl:ObjectProperty,
+        meta:SlotDefinition ;
+    rdfs:label "node unobsoletion_consider" ;
+    rdfs:domain <http://w3id.org/oclNodeUnobsoletion> ;
+    rdfs:range <http://w3id.org/ocl/omNode> ;
+    rdfs:subPropertyOf meta:consider .
+
+meta:node_unobsoletion_replaced_by a owl:ObjectProperty,
+        meta:SlotDefinition ;
+    rdfs:label "node unobsoletion_replaced by" ;
+    rdfs:domain <http://w3id.org/oclNodeUnobsoletion> ;
+    rdfs:range <http://w3id.org/ocl/omNode> ;
+    rdfs:subPropertyOf meta:replaced_by .
+
+meta:remove_from_subset_in_subset a owl:ObjectProperty,
+        meta:SlotDefinition ;
+    rdfs:label "remove from subset_in subset" ;
+    rdfs:domain <http://w3id.org/oclRemoveFromSubset> ;
+    rdfs:range <http://w3id.org/ocl/omSubset> ;
+    rdfs:subPropertyOf meta:in_subset ;
+    skos:definition "subset that the element is being removed from" .
+
+<https://w3id.org/biolink/biolinkml/meta/types/Boolean> a owl:Class,
         meta:TypeDefinition ;
     rdfs:label "boolean" ;
     rdfs:subClassOf [ a owl:Restriction ;
@@ -95,7 +301,7 @@ meta:boolean a owl:Class,
             owl:qualifiedCardinality 1 ] ;
     skos:definition "A binary (true or false) value" .
 
-meta:date a owl:Class,
+<https://w3id.org/biolink/biolinkml/meta/types/Date> a owl:Class,
         meta:TypeDefinition ;
     rdfs:label "date" ;
     rdfs:subClassOf [ a owl:Restriction ;
@@ -105,7 +311,7 @@ meta:date a owl:Class,
     skos:definition "a date (year, month and day) in an idealized calendar" ;
     skos:editorialNote "URI is dateTime because OWL reasoners don't work with straight date or time" .
 
-meta:datetime a owl:Class,
+<https://w3id.org/biolink/biolinkml/meta/types/Datetime> a owl:Class,
         meta:TypeDefinition ;
     rdfs:label "datetime" ;
     rdfs:subClassOf [ a owl:Restriction ;
@@ -114,7 +320,7 @@ meta:datetime a owl:Class,
             owl:qualifiedCardinality 1 ] ;
     skos:definition "The combination of a date and time" .
 
-meta:double a owl:Class,
+<https://w3id.org/biolink/biolinkml/meta/types/Double> a owl:Class,
         meta:TypeDefinition ;
     rdfs:label "double" ;
     rdfs:subClassOf [ a owl:Restriction ;
@@ -123,21 +329,7 @@ meta:double a owl:Class,
             owl:qualifiedCardinality 1 ] ;
     skos:definition "A real number that conforms to the xsd:double specification" .
 
-meta:edge_change_about a owl:ObjectProperty,
-        meta:SlotDefinition ;
-    rdfs:label "edge change_about" ;
-    rdfs:domain meta:EdgeChange ;
-    rdfs:range meta:string ;
-    rdfs:subPropertyOf meta:about .
-
-meta:edge_label_change_change_description a owl:ObjectProperty,
-        meta:SlotDefinition ;
-    rdfs:label "edge label change_change description" ;
-    rdfs:domain meta:EdgeLabelChange ;
-    rdfs:range meta:string ;
-    rdfs:subPropertyOf meta:change_description .
-
-meta:float a owl:Class,
+<https://w3id.org/biolink/biolinkml/meta/types/Float> a owl:Class,
         meta:TypeDefinition ;
     rdfs:label "float" ;
     rdfs:subClassOf [ a owl:Restriction ;
@@ -146,16 +338,7 @@ meta:float a owl:Class,
             owl:qualifiedCardinality 1 ] ;
     skos:definition "A real number that conforms to the xsd:float specification" .
 
-meta:integer a owl:Class,
-        meta:TypeDefinition ;
-    rdfs:label "integer" ;
-    rdfs:subClassOf [ a owl:Restriction ;
-            owl:onDataRange xsd:integer ;
-            owl:onProperty meta:topValue ;
-            owl:qualifiedCardinality 1 ] ;
-    skos:definition "An integer" .
-
-meta:ncname a owl:Class,
+<https://w3id.org/biolink/biolinkml/meta/types/Ncname> a owl:Class,
         meta:TypeDefinition ;
     rdfs:label "ncname" ;
     rdfs:subClassOf [ a owl:Restriction ;
@@ -164,98 +347,7 @@ meta:ncname a owl:Class,
             owl:qualifiedCardinality 1 ] ;
     skos:definition "Prefix part of CURIE" .
 
-meta:node_change_about a owl:ObjectProperty,
-        meta:SlotDefinition ;
-    rdfs:label "node change_about" ;
-    rdfs:domain meta:NodeChange ;
-    rdfs:range meta:string ;
-    rdfs:subPropertyOf meta:about .
-
-meta:node_creation_change_description a owl:ObjectProperty,
-        meta:SlotDefinition ;
-    rdfs:label "node creation_change description" ;
-    rdfs:domain meta:NodeCreation ;
-    rdfs:range meta:string ;
-    rdfs:subPropertyOf meta:change_description .
-
-meta:node_deepening_change_description a owl:ObjectProperty,
-        meta:SlotDefinition ;
-    rdfs:label "node deepening_change description" ;
-    rdfs:domain meta:NodeDeepening ;
-    rdfs:range meta:string ;
-    rdfs:subPropertyOf meta:change_description .
-
-meta:node_deletion_change_description a owl:ObjectProperty,
-        meta:SlotDefinition ;
-    rdfs:label "node deletion_change description" ;
-    rdfs:domain meta:NodeDeletion ;
-    rdfs:range meta:string ;
-    rdfs:subPropertyOf meta:change_description .
-
-meta:node_move_change_description a owl:ObjectProperty,
-        meta:SlotDefinition ;
-    rdfs:label "node move_change description" ;
-    rdfs:domain meta:NodeMove ;
-    rdfs:range meta:string ;
-    rdfs:subPropertyOf meta:change_description .
-
-meta:node_obsoletion_change_description a owl:ObjectProperty,
-        meta:SlotDefinition ;
-    rdfs:label "node obsoletion_change description" ;
-    rdfs:domain meta:NodeObsoletion ;
-    rdfs:range meta:string ;
-    rdfs:subPropertyOf meta:change_description .
-
-meta:node_obsoletion_with_merge_change_description a owl:ObjectProperty,
-        meta:SlotDefinition ;
-    rdfs:label "node obsoletion with merge_change description" ;
-    rdfs:domain meta:NodeObsoletionWithMerge ;
-    rdfs:range meta:string ;
-    rdfs:subPropertyOf meta:change_description .
-
-meta:node_obsoletion_with_merge_target a owl:ObjectProperty,
-        meta:SlotDefinition ;
-    rdfs:label "node obsoletion with merge_target" ;
-    rdfs:domain meta:NodeObsoletionWithMerge ;
-    rdfs:range meta:string ;
-    rdfs:subPropertyOf meta:target .
-
-meta:node_obsoletion_with_split_change_description a owl:ObjectProperty,
-        meta:SlotDefinition ;
-    rdfs:label "node obsoletion with split_change description" ;
-    rdfs:domain meta:NodeObsoletionWithSplit ;
-    rdfs:range meta:string ;
-    rdfs:subPropertyOf meta:change_description .
-
-meta:node_obsoletion_with_split_target a owl:ObjectProperty,
-        meta:SlotDefinition ;
-    rdfs:label "node obsoletion with split_target" ;
-    rdfs:domain meta:NodeObsoletionWithSplit ;
-    rdfs:range meta:string ;
-    rdfs:subPropertyOf meta:target .
-
-meta:node_rename_change_description a owl:ObjectProperty,
-        meta:SlotDefinition ;
-    rdfs:label "node rename_change description" ;
-    rdfs:domain meta:NodeRename ;
-    rdfs:range meta:string ;
-    rdfs:subPropertyOf meta:change_description .
-
-meta:node_rename_new_value a owl:ObjectProperty,
-        meta:SlotDefinition ;
-    rdfs:label "node rename_new value" ;
-    rdfs:domain meta:NodeRename ;
-    rdfs:range meta:string ;
-    rdfs:subPropertyOf meta:new_value .
-
-meta:node_rename_old_value a owl:ObjectProperty,
-        meta:SlotDefinition ;
-    rdfs:label "node rename_old value" ;
-    rdfs:domain meta:NodeRename ;
-    rdfs:range meta:string ;
-    rdfs:subPropertyOf meta:old_value .
-
-meta:nodeidentifier a owl:Class,
+<https://w3id.org/biolink/biolinkml/meta/types/Nodeidentifier> a owl:Class,
         meta:TypeDefinition ;
     rdfs:label "nodeidentifier" ;
     rdfs:subClassOf [ a owl:Restriction ;
@@ -264,7 +356,7 @@ meta:nodeidentifier a owl:Class,
             owl:qualifiedCardinality 1 ] ;
     skos:definition "A URI, CURIE or BNODE that represents a node in a model." .
 
-meta:objectidentifier a owl:Class,
+<https://w3id.org/biolink/biolinkml/meta/types/Objectidentifier> a owl:Class,
         meta:TypeDefinition ;
     rdfs:label "objectidentifier" ;
     rdfs:subClassOf [ a owl:Restriction ;
@@ -274,7 +366,7 @@ meta:objectidentifier a owl:Class,
     skos:definition "A URI or CURIE that represents an object in the model." ;
     skos:note "Used for inheritence and type checking" .
 
-meta:time a owl:Class,
+<https://w3id.org/biolink/biolinkml/meta/types/Time> a owl:Class,
         meta:TypeDefinition ;
     rdfs:label "time" ;
     rdfs:subClassOf [ a owl:Restriction ;
@@ -284,7 +376,7 @@ meta:time a owl:Class,
     skos:definition "A time object represents a (local) time of day, independent of any particular day" ;
     skos:editorialNote "URI is dateTime because OWL reasoners don't work with straight date or time" .
 
-meta:uri a owl:Class,
+<https://w3id.org/biolink/biolinkml/meta/types/Uri> a owl:Class,
         meta:TypeDefinition ;
     rdfs:label "uri" ;
     rdfs:subClassOf [ a owl:Restriction ;
@@ -293,7 +385,205 @@ meta:uri a owl:Class,
             owl:qualifiedCardinality 1 ] ;
     skos:definition "a complete URI" .
 
-meta:uriorcurie a owl:Class,
+<ocl> a owl:Ontology ;
+    rdfs:label "ocl" ;
+    dcterms:license "https://creativecommons.org/publicdomain/zero/1.0/" ;
+    dcterms:title "ontology change language" ;
+    skos:definition "A data model for describing change operations at a high level on an ontology or ontology-like artefact" ;
+    meta:generation_date "2020-08-07 20:19" ;
+    meta:metamodel_version "1.5.3" ;
+    meta:source_file "ocl.yaml" ;
+    meta:source_file_date "Fri Aug  7 19:47:23 2020" ;
+    meta:source_file_size 11434 .
+
+<http://w3id.org/ocl/omfiller> a owl:ObjectProperty,
+        meta:SlotDefinition ;
+    rdfs:label "filler" ;
+    rdfs:range <https://w3id.org/biolink/biolinkml/meta/types/String> .
+
+<http://w3id.org/ocl/omproperty> a owl:ObjectProperty,
+        meta:SlotDefinition ;
+    rdfs:label "property" ;
+    rdfs:range <http://w3id.org/ocl/omNode> .
+
+<http://w3id.org/oclChangeClassType> a owl:Class,
+        meta:TypeDefinition ;
+    rdfs:label "change class type" ;
+    rdfs:subClassOf <https://w3id.org/biolink/biolinkml/meta/types/Uriorcurie> ;
+    skos:definition "CURIE for a class within this datamodel. E.g. ocl:NodeObsoletion" .
+
+<http://w3id.org/oclDeletion> a owl:Class,
+        meta:ClassDefinition ;
+    rdfs:label "deletion" ;
+    rdfs:subClassOf <http://w3id.org/oclChangeMixin>,
+        meta:mixin ;
+    skos:definition "Removal of an element." .
+
+<http://w3id.org/oclEdgeCreation> a owl:Class,
+        meta:ClassDefinition ;
+    rdfs:label "edge creation" ;
+    rdfs:seeAlso "http://wiki.geneontology.org/index.php/Guidelines_for_creating_relationships_between_terms" ;
+    rdfs:subClassOf [ a owl:Restriction ;
+            owl:maxQualifiedCardinality 1 ;
+            owl:onClass <http://w3id.org/ocl/omAnnotation> ;
+            owl:onProperty <http://w3id.org/ocl/omannotation_set> ],
+        [ a owl:Restriction ;
+            owl:maxQualifiedCardinality 1 ;
+            owl:onClass <http://w3id.org/ocl/omNode> ;
+            owl:onProperty <http://w3id.org/ocl/omobject> ],
+        [ a owl:Restriction ;
+            owl:maxQualifiedCardinality 1 ;
+            owl:onClass <https://w3id.org/biolink/biolinkml/meta/types/String> ;
+            owl:onProperty <http://w3id.org/oclchange_description> ],
+        [ a owl:Restriction ;
+            owl:maxQualifiedCardinality 1 ;
+            owl:onClass <http://w3id.org/ocl/omNode> ;
+            owl:onProperty <http://w3id.org/ocl/omsubject> ],
+        [ a owl:Restriction ;
+            owl:maxQualifiedCardinality 1 ;
+            owl:onClass <http://w3id.org/ocl/omNode> ;
+            owl:onProperty <http://w3id.org/ocl/omedge_label> ],
+        <http://w3id.org/oclCreation>,
+        <http://w3id.org/oclEdgeChange> .
+
+<http://w3id.org/oclEdgeLabelChange> a owl:Class,
+        meta:ClassDefinition ;
+    rdfs:label "edge label change" ;
+    rdfs:subClassOf [ a owl:Restriction ;
+            owl:maxQualifiedCardinality 1 ;
+            owl:onClass <https://w3id.org/biolink/biolinkml/meta/types/String> ;
+            owl:onProperty <http://w3id.org/oclchange_description> ],
+        <http://w3id.org/oclEdgeChange> ;
+    skos:definition "An edge change where the edge label (relationship type) is modified." ;
+    meta:examples "Example(value='changing a is-a b to a part-of b', description=None)" .
+
+<http://w3id.org/oclNodeAnnotationChange> a owl:Class,
+        meta:ClassDefinition ;
+    rdfs:label "node annotation change" ;
+    rdfs:subClassOf <http://w3id.org/oclNodeChange> ;
+    skos:definition "A node change where the change alters node properties/annotations. TODO" .
+
+<http://w3id.org/oclNodeCreation> a owl:Class,
+        meta:ClassDefinition ;
+    rdfs:label "node creation" ;
+    rdfs:seeAlso "http://wiki.geneontology.org/index.php/Guidelines_for_creating_a_GO_term" ;
+    rdfs:subClassOf [ a owl:Restriction ;
+            owl:onClass <https://w3id.org/biolink/biolinkml/meta/types/String> ;
+            owl:onProperty <http://w3id.org/ocl/omid> ;
+            owl:qualifiedCardinality 1 ],
+        [ a owl:Restriction ;
+            owl:maxQualifiedCardinality 1 ;
+            owl:onClass <http://w3id.org/ocl/omAnnotation> ;
+            owl:onProperty <http://w3id.org/ocl/omannotation_set> ],
+        [ a owl:Restriction ;
+            owl:maxQualifiedCardinality 1 ;
+            owl:onClass <https://w3id.org/biolink/biolinkml/meta/types/String> ;
+            owl:onProperty <http://w3id.org/ocl/omname> ],
+        [ a owl:Restriction ;
+            owl:maxQualifiedCardinality 1 ;
+            owl:onClass <https://w3id.org/biolink/biolinkml/meta/types/String> ;
+            owl:onProperty <http://w3id.org/oclchange_description> ],
+        <http://w3id.org/oclCreation>,
+        <http://w3id.org/oclNodeChange> .
+
+<http://w3id.org/oclNodeDeepening> a owl:Class,
+        meta:ClassDefinition ;
+    rdfs:label "node deepening" ;
+    rdfs:subClassOf [ a owl:Restriction ;
+            owl:maxQualifiedCardinality 1 ;
+            owl:onClass <https://w3id.org/biolink/biolinkml/meta/types/String> ;
+            owl:onProperty <http://w3id.org/oclchange_description> ],
+        <http://w3id.org/oclNodeMove> ;
+    skos:definition "A node move in which a node where the destination is a proper descendant of the original location. Note that here descendant applied not just to subclass, but edges of any edge label in the relational graph" ;
+    meta:examples "Example(value='changing a is-a b to a is-a c, where c is a subclass of b', description=None)" .
+
+<http://w3id.org/oclNodeDeletion> a owl:Class,
+        meta:ClassDefinition ;
+    rdfs:label "node deletion" ;
+    rdfs:subClassOf [ a owl:Restriction ;
+            owl:maxQualifiedCardinality 1 ;
+            owl:onClass <https://w3id.org/biolink/biolinkml/meta/types/String> ;
+            owl:onProperty <http://w3id.org/oclchange_description> ],
+        <http://w3id.org/oclDeletion>,
+        <http://w3id.org/oclNodeChange> ;
+    skos:definition "Deletion of a node from the graph. Note it is recommended nodes are obsoleted and never merged, but this operation exists to represent deletions in ontologies, accidental or otherwise" .
+
+<http://w3id.org/oclObsoletion> a owl:Class,
+        meta:ClassDefinition ;
+    rdfs:label "obsoletion" ;
+    rdfs:seeAlso "http://wiki.geneontology.org/index.php/Obsoleting_an_Existing_Ontology_Term" ;
+    rdfs:subClassOf <http://w3id.org/oclChangeMixin>,
+        meta:mixin ;
+    skos:definition "Obsoletion of an element deprecates usage of that element, but does not delete that element." .
+
+<http://w3id.org/oclUnobsoletion> a owl:Class,
+        meta:ClassDefinition ;
+    rdfs:label "unobsoletion" ;
+    rdfs:seeAlso "http://wiki.geneontology.org/index.php/Restoring_an_Obsolete_Ontology_Term" ;
+    rdfs:subClassOf <http://w3id.org/oclChangeMixin>,
+        meta:mixin ;
+    skos:definition "Opposite operation of obsoletion. Rarely performed." .
+
+<http://www.w3.org/ns/prov#acted_on_behalf_of> a owl:ObjectProperty,
+        meta:SlotDefinition ;
+    rdfs:label "acted on behalf of" ;
+    rdfs:range <http://www.w3.org/ns/prov#Agent> .
+
+<http://www.w3.org/ns/prov#activity_id> a owl:ObjectProperty,
+        meta:SlotDefinition ;
+    rdfs:label "activity id" ;
+    rdfs:range <https://w3id.org/biolink/biolinkml/meta/types/String> .
+
+<http://www.w3.org/ns/prov#ended_at_time> a owl:ObjectProperty,
+        meta:SlotDefinition ;
+    rdfs:label "ended at time" ;
+    rdfs:range <https://w3id.org/biolink/biolinkml/meta/types/String> .
+
+<http://www.w3.org/ns/prov#started_at_time> a owl:ObjectProperty,
+        meta:SlotDefinition ;
+    rdfs:label "started at time" ;
+    rdfs:range <https://w3id.org/biolink/biolinkml/meta/types/String> .
+
+<http://www.w3.org/ns/prov#used> a owl:ObjectProperty,
+        meta:SlotDefinition ;
+    rdfs:label "used" ;
+    rdfs:domain <http://www.w3.org/ns/prov#Activity> ;
+    rdfs:range <https://w3id.org/biolink/biolinkml/meta/types/String> .
+
+<http://www.w3.org/ns/prov#was_associated_with> a owl:ObjectProperty,
+        meta:SlotDefinition ;
+    rdfs:label "was associated with" ;
+    rdfs:range <http://www.w3.org/ns/prov#Agent> .
+
+<http://www.w3.org/ns/prov#was_generated_by> a owl:ObjectProperty,
+        meta:SlotDefinition ;
+    rdfs:label "was generated by" ;
+    rdfs:range <http://www.w3.org/ns/prov#Activity> .
+
+meta:node_change_about a owl:ObjectProperty,
+        meta:SlotDefinition ;
+    rdfs:label "node change_about" ;
+    rdfs:domain <http://w3id.org/oclNodeChange> ;
+    rdfs:range <https://w3id.org/biolink/biolinkml/meta/types/String> ;
+    rdfs:subPropertyOf <http://w3id.org/oclabout> .
+
+meta:node_move_change_description a owl:ObjectProperty,
+        meta:SlotDefinition ;
+    rdfs:label "node move_change description" ;
+    rdfs:domain <http://w3id.org/oclNodeMove> ;
+    rdfs:range <https://w3id.org/biolink/biolinkml/meta/types/String> ;
+    rdfs:subPropertyOf <http://w3id.org/oclchange_description> .
+
+<https://w3id.org/biolink/biolinkml/meta/types/Integer> a owl:Class,
+        meta:TypeDefinition ;
+    rdfs:label "integer" ;
+    rdfs:subClassOf [ a owl:Restriction ;
+            owl:onDataRange xsd:integer ;
+            owl:onProperty meta:topValue ;
+            owl:qualifiedCardinality 1 ] ;
+    skos:definition "An integer" .
+
+<https://w3id.org/biolink/biolinkml/meta/types/Uriorcurie> a owl:Class,
         meta:TypeDefinition ;
     rdfs:label "uriorcurie" ;
     rdfs:subClassOf [ a owl:Restriction ;
@@ -302,284 +592,412 @@ meta:uriorcurie a owl:Class,
             owl:qualifiedCardinality 1 ] ;
     skos:definition "a URI or a CURIE" .
 
-<ocl> a owl:Ontology ;
-    rdfs:label "ocl" ;
-    dcterms:license "https://creativecommons.org/publicdomain/zero/1.0/" ;
-    dcterms:title "ontology change language" ;
-    skos:definition "A data model for describing change operations at a high level on an ontology or ontology-like artefact" ;
-    meta:generation_date "2020-06-29 19:16" ;
-    meta:metamodel_version "1.4.4" ;
-    meta:source_file "ocl.yaml" ;
-    meta:source_file_date "Mon Jun 29 19:15:38 2020" ;
-    meta:source_file_size 5691 .
-
-meta:Deletion a owl:Class,
-        meta:ClassDefinition ;
-    rdfs:label "deletion" ;
-    rdfs:subClassOf meta:ChangeMixin,
-        meta:mixin .
-
-meta:EdgeLabelChange a owl:Class,
-        meta:ClassDefinition ;
-    rdfs:label "edge label change" ;
-    rdfs:subClassOf meta:EdgeChange ;
-    skos:definition "An edge change where the edge label (relationship type) is modified." ;
-    meta:examples "Example(value='changing a is-a b to a part-of b', description=None)" .
-
-meta:NodeAnnotationChange a owl:Class,
-        meta:ClassDefinition ;
-    rdfs:label "node annotation change" ;
-    rdfs:subClassOf meta:NodeChange ;
-    skos:definition "A node change where the change alters node properties/annotations. TODO" .
-
-meta:NodeCreation a owl:Class,
-        meta:ClassDefinition ;
-    rdfs:label "node creation" ;
-    rdfs:subClassOf [ a owl:Restriction ;
-            owl:maxQualifiedCardinality 1 ;
-            owl:onClass meta:Annotation ;
-            owl:onProperty meta:annotation_set ],
-        [ a owl:Restriction ;
-            owl:onClass meta:string ;
-            owl:onProperty meta:id ;
-            owl:qualifiedCardinality 1 ],
-        [ a owl:Restriction ;
-            owl:maxQualifiedCardinality 1 ;
-            owl:onClass meta:string ;
-            owl:onProperty meta:name ],
-        meta:NodeChange,
-        meta:Obsoletion .
-
-meta:NodeDeepening a owl:Class,
-        meta:ClassDefinition ;
-    rdfs:label "node deepening" ;
-    rdfs:subClassOf meta:NodeMove ;
-    skos:definition "A node move in which a node where the destination is a proper descendant of the original location" ;
-    meta:examples "Example(value='changing a is-a b to a is-a c, where c is a subclass of b', description=None)" .
-
-meta:NodeDeletion a owl:Class,
-        meta:ClassDefinition ;
-    rdfs:label "node deletion" ;
-    rdfs:subClassOf meta:Deletion,
-        meta:NodeChange ;
-    skos:definition "Deletion of a node from the graph. Note it is recommended nodes are obsoleted and never merged, but this operation exists to represent deletions in ontologies, accidental or otherwise" .
-
-meta:edge_label a owl:ObjectProperty,
+<http://w3id.org/ocl/omedge_label> a owl:ObjectProperty,
         meta:SlotDefinition ;
     rdfs:label "edge label" ;
-    rdfs:range meta:Node .
+    rdfs:range <http://w3id.org/ocl/omNode> .
 
-meta:filler a owl:ObjectProperty,
+<http://w3id.org/ocl/omid> a owl:ObjectProperty,
         meta:SlotDefinition ;
-    rdfs:label "filler" ;
-    rdfs:range meta:string .
+    rdfs:label "id" ;
+    rdfs:range <https://w3id.org/biolink/biolinkml/meta/types/String> ;
+    skos:definition "CURIE or URI" .
 
-meta:object a owl:ObjectProperty,
+<http://w3id.org/ocl/omname> a owl:ObjectProperty,
+        meta:SlotDefinition ;
+    rdfs:label "name" ;
+    rdfs:range <https://w3id.org/biolink/biolinkml/meta/types/String> .
+
+<http://w3id.org/ocl/omobject> a owl:ObjectProperty,
         meta:SlotDefinition ;
     rdfs:label "object" ;
-    rdfs:range meta:Node .
+    rdfs:range <http://w3id.org/ocl/omNode> .
 
-meta:property a owl:ObjectProperty,
+<http://w3id.org/ocl/omproperty_value_set> a owl:ObjectProperty,
         meta:SlotDefinition ;
-    rdfs:label "property" ;
-    rdfs:range meta:Node .
+    rdfs:label "property value set" ;
+    rdfs:range <http://w3id.org/ocl/omPropertyValue> .
 
-meta:subject a owl:ObjectProperty,
+<http://w3id.org/ocl/omsubject> a owl:ObjectProperty,
         meta:SlotDefinition ;
     rdfs:label "subject" ;
-    rdfs:range meta:Node .
+    rdfs:range <http://w3id.org/ocl/omNode> .
 
-meta:NodeMove a owl:Class,
+<http://w3id.org/oclAddToSubset> a owl:Class,
+        meta:ClassDefinition ;
+    rdfs:label "add to subset" ;
+    rdfs:subClassOf <http://w3id.org/oclChangeMixin>,
+        meta:mixin ;
+    skos:definition "placing an element inside a subset" .
+
+<http://w3id.org/oclCreation> a owl:Class,
+        meta:ClassDefinition ;
+    rdfs:label "creation" ;
+    rdfs:subClassOf <http://w3id.org/oclChangeMixin>,
+        meta:mixin ;
+    skos:definition "Creation of an element." .
+
+<http://w3id.org/oclNodeMove> a owl:Class,
         meta:ClassDefinition ;
     rdfs:label "node move" ;
-    rdfs:subClassOf meta:EdgeChange ;
+    rdfs:subClassOf [ a owl:Restriction ;
+            owl:maxQualifiedCardinality 1 ;
+            owl:onClass <https://w3id.org/biolink/biolinkml/meta/types/String> ;
+            owl:onProperty <http://w3id.org/oclchange_description> ],
+        <http://w3id.org/oclEdgeChange> ;
     skos:definition "A node move is a combination of deleting a parent edge and adding a parent edge, where the edge label is preserved and the object/parent node changes" ;
     meta:examples "Example(value='changing a is-a b to a is-a c', description=None)" .
 
-meta:NodeObsoletionWithMerge a owl:Class,
-        meta:ClassDefinition ;
-    rdfs:label "node obsoletion with merge" ;
-    rdfs:subClassOf meta:NodeObsoletion ;
-    skos:definition "An obsoletion change in which information from the obsoleted node is moved to a single target" .
-
-meta:NodeObsoletionWithSplit a owl:Class,
+<http://w3id.org/oclNodeObsoletionWithSplit> a owl:Class,
         meta:ClassDefinition ;
     rdfs:label "node obsoletion with split" ;
-    rdfs:subClassOf meta:NodeObsoletion ;
+    rdfs:subClassOf [ a owl:Restriction ;
+            owl:maxQualifiedCardinality 1 ;
+            owl:onClass <https://w3id.org/biolink/biolinkml/meta/types/String> ;
+            owl:onProperty <http://w3id.org/oclchange_description> ],
+        [ a owl:Restriction ;
+            owl:allValuesFrom <https://w3id.org/biolink/biolinkml/meta/types/String> ;
+            owl:onProperty <http://w3id.org/ocltarget> ],
+        <http://w3id.org/oclNodeObsoletion> ;
     skos:definition "An obsoletion change in which information from the obsoleted node is moved selectively to multiple targets" .
 
-meta:Obsoletion a owl:Class,
+<http://w3id.org/oclRemoveFromSubset> a owl:Class,
         meta:ClassDefinition ;
-    rdfs:label "obsoletion" ;
-    rdfs:subClassOf meta:ChangeMixin,
-        meta:mixin .
+    rdfs:label "remove from subset" ;
+    rdfs:subClassOf [ a owl:Restriction ;
+            owl:maxQualifiedCardinality 1 ;
+            owl:onClass <http://w3id.org/ocl/omSubset> ;
+            owl:onProperty meta:in_subset ],
+        <http://w3id.org/oclChangeMixin>,
+        meta:mixin ;
+    skos:definition "removing an element from a subset" .
 
-meta:SimpleChange a owl:Class,
+<http://w3id.org/oclSimpleChange> a owl:Class,
         meta:ClassDefinition ;
     rdfs:label "simple change" ;
     rdfs:subClassOf [ a owl:Restriction ;
             owl:maxQualifiedCardinality 1 ;
-            owl:onClass meta:string ;
-            owl:onProperty meta:old_value ],
+            owl:onClass <https://w3id.org/biolink/biolinkml/meta/types/String> ;
+            owl:onProperty <http://w3id.org/oclnew_value> ],
         [ a owl:Restriction ;
             owl:maxQualifiedCardinality 1 ;
-            owl:onClass meta:string ;
-            owl:onProperty meta:about ],
+            owl:onClass <https://w3id.org/biolink/biolinkml/meta/types/String> ;
+            owl:onProperty <http://w3id.org/oclabout> ],
         [ a owl:Restriction ;
             owl:maxQualifiedCardinality 1 ;
-            owl:onClass meta:string ;
-            owl:onProperty meta:new_value ] ;
+            owl:onClass <https://w3id.org/biolink/biolinkml/meta/types/String> ;
+            owl:onProperty <http://w3id.org/oclold_value> ] ;
     skos:definition "A change that is about a single ontology element" .
 
-meta:change_set a owl:ObjectProperty,
+<http://w3id.org/oclchange_set> a owl:ObjectProperty,
         meta:SlotDefinition ;
     rdfs:label "change set" ;
-    rdfs:range meta:Change .
+    rdfs:range <http://w3id.org/oclChange> .
 
-meta:id a owl:ObjectProperty,
+<http://www.w3.org/ns/prov#was_informed_by> a owl:ObjectProperty,
         meta:SlotDefinition ;
-    rdfs:label "id" ;
-    rdfs:range meta:string ;
-    skos:definition "CURIE or URI" .
+    rdfs:label "was informed by" ;
+    rdfs:range <http://www.w3.org/ns/prov#Activity> .
 
-meta:name a owl:ObjectProperty,
+meta:consider a owl:ObjectProperty,
         meta:SlotDefinition ;
-    rdfs:label "name" ;
-    rdfs:range meta:string .
+    rdfs:label "consider" ;
+    rdfs:domain <http://w3id.org/oclNodeObsoletion> ;
+    rdfs:range <http://w3id.org/ocl/omNode> .
 
-meta:target a owl:ObjectProperty,
+meta:node_obsoletion_change_description a owl:ObjectProperty,
+        meta:SlotDefinition ;
+    rdfs:label "node obsoletion_change description" ;
+    rdfs:domain <http://w3id.org/oclNodeObsoletion> ;
+    rdfs:range <https://w3id.org/biolink/biolinkml/meta/types/String> ;
+    rdfs:subPropertyOf <http://w3id.org/oclchange_description> .
+
+meta:replaced_by a owl:ObjectProperty,
+        meta:SlotDefinition ;
+    rdfs:label "replaced by" ;
+    rdfs:domain <http://w3id.org/oclNodeObsoletion> ;
+    rdfs:range <http://w3id.org/ocl/omNode> .
+
+<http://w3id.org/oclChangeSetSummaryStatistic> a owl:Class,
+        meta:ClassDefinition ;
+    rdfs:label "change set summary statistic" ;
+    rdfs:subClassOf [ a owl:Restriction ;
+            owl:allValuesFrom <http://w3id.org/ocl/omPropertyValue> ;
+            owl:onProperty <http://w3id.org/ocl/omproperty_value_set> ] ;
+    skos:definition "A summary statistic for a set of changes of the same type, grouped by zero or more node properties" .
+
+<http://w3id.org/oclNodeObsoletionWithMerge> a owl:Class,
+        meta:ClassDefinition ;
+    rdfs:label "node obsoletion with merge" ;
+    rdfs:seeAlso "http://wiki.geneontology.org/index.php/Merging_Ontology_Terms",
+        "http://wiki.geneontology.org/index.php/Principles_for_merging_terms" ;
+    rdfs:subClassOf [ a owl:Restriction ;
+            owl:maxQualifiedCardinality 1 ;
+            owl:onClass <https://w3id.org/biolink/biolinkml/meta/types/String> ;
+            owl:onProperty <http://w3id.org/ocltarget> ],
+        [ a owl:Restriction ;
+            owl:maxQualifiedCardinality 1 ;
+            owl:onClass <https://w3id.org/biolink/biolinkml/meta/types/String> ;
+            owl:onProperty <http://w3id.org/oclchange_description> ],
+        [ a owl:Restriction ;
+            owl:maxQualifiedCardinality 1 ;
+            owl:onClass <https://w3id.org/biolink/biolinkml/meta/types/String> ;
+            owl:onProperty <http://w3id.org/oclabout> ],
+        <http://w3id.org/oclNodeObsoletion> ;
+    skos:definition "An obsoletion change in which information from the obsoleted node is moved to a single target." .
+
+<http://w3id.org/oclNodeRename> a owl:Class,
+        meta:ClassDefinition ;
+    rdfs:label "node rename" ;
+    rdfs:subClassOf [ a owl:Restriction ;
+            owl:maxQualifiedCardinality 1 ;
+            owl:onClass <https://w3id.org/biolink/biolinkml/meta/types/String> ;
+            owl:onProperty <http://w3id.org/oclold_value> ],
+        [ a owl:Restriction ;
+            owl:maxQualifiedCardinality 1 ;
+            owl:onClass <http://w3id.org/oclTextualDiff> ;
+            owl:onProperty <http://w3id.org/oclhas_textual_diff> ],
+        [ a owl:Restriction ;
+            owl:maxQualifiedCardinality 1 ;
+            owl:onClass <https://w3id.org/biolink/biolinkml/meta/types/String> ;
+            owl:onProperty <http://w3id.org/oclnew_value> ],
+        [ a owl:Restriction ;
+            owl:maxQualifiedCardinality 1 ;
+            owl:onClass <https://w3id.org/biolink/biolinkml/meta/types/String> ;
+            owl:onProperty <http://w3id.org/oclchange_description> ],
+        <http://w3id.org/oclNodeChange> ;
+    skos:definition "A node change where the name (aka rdfs:label) of the node changes" .
+
+<http://w3id.org/oclNodeSynonymChange> a owl:Class,
+        meta:ClassDefinition ;
+    rdfs:label "node synonym change" ;
+    rdfs:subClassOf <http://w3id.org/oclNodeChange> .
+
+<http://w3id.org/oclNodeTextDefinitionChange> a owl:Class,
+        meta:ClassDefinition ;
+    rdfs:label "node text definition change" ;
+    rdfs:subClassOf <http://w3id.org/oclNodeChange> .
+
+<http://w3id.org/oclNodeUnobsoletion> a owl:Class,
+        meta:ClassDefinition ;
+    rdfs:label "node unobsoletion" ;
+    rdfs:seeAlso "http://wiki.geneontology.org/index.php/Restoring_an_Obsolete_Ontology_Term" ;
+    rdfs:subClassOf [ a owl:Restriction ;
+            owl:maxQualifiedCardinality 1 ;
+            owl:onClass <http://w3id.org/ocl/omNode> ;
+            owl:onProperty meta:replaced_by ],
+        [ a owl:Restriction ;
+            owl:maxQualifiedCardinality 1 ;
+            owl:onClass <https://w3id.org/biolink/biolinkml/meta/types/String> ;
+            owl:onProperty <http://w3id.org/oclchange_description> ],
+        [ a owl:Restriction ;
+            owl:maxQualifiedCardinality 1 ;
+            owl:onClass <http://w3id.org/ocl/omNode> ;
+            owl:onProperty meta:consider ],
+        <http://w3id.org/oclNodeChange>,
+        <http://w3id.org/oclUnobsoletion> ;
+    skos:definition "unobsoletion of a node deprecates usage of that node. Rarely applied." .
+
+<http://w3id.org/oclhas_textual_diff> a owl:ObjectProperty,
+        meta:SlotDefinition ;
+    rdfs:label "has textual diff" ;
+    rdfs:domain <http://w3id.org/oclChange> ;
+    rdfs:range <http://w3id.org/oclTextualDiff> .
+
+<http://w3id.org/oclnew_value> a owl:ObjectProperty,
+        meta:SlotDefinition ;
+    rdfs:label "new value" ;
+    rdfs:range <https://w3id.org/biolink/biolinkml/meta/types/String> ;
+    skos:definition "The value of a property held in the old instance of the ontology" .
+
+<http://w3id.org/oclold_value> a owl:ObjectProperty,
+        meta:SlotDefinition ;
+    rdfs:label "old value" ;
+    rdfs:range <https://w3id.org/biolink/biolinkml/meta/types/String> ;
+    skos:definition "The value of a property held in the old instance of the ontology" .
+
+meta:in_subset a owl:ObjectProperty,
+        meta:SlotDefinition ;
+    rdfs:label "in subset" ;
+    rdfs:domain <http://w3id.org/oclAddToSubset> ;
+    rdfs:range <http://w3id.org/ocl/omSubset> ;
+    skos:definition "subset that the element is being placed inside." .
+
+<http://w3id.org/ocl/omPropertyValue> a owl:Class,
+        meta:ClassDefinition ;
+    rdfs:label "property value" ;
+    rdfs:subClassOf [ a owl:Restriction ;
+            owl:maxQualifiedCardinality 1 ;
+            owl:onClass <https://w3id.org/biolink/biolinkml/meta/types/String> ;
+            owl:onProperty <http://w3id.org/ocl/omfiller> ],
+        [ a owl:Restriction ;
+            owl:maxQualifiedCardinality 1 ;
+            owl:onClass <http://w3id.org/ocl/omNode> ;
+            owl:onProperty <http://w3id.org/ocl/omproperty> ],
+        <http://w3id.org/ocl/omOntologyElement> ;
+    skos:definition "a property-value pair" .
+
+<http://w3id.org/ocl/omSubset> a owl:Class,
+        meta:ClassDefinition ;
+    rdfs:label "subset" ;
+    rdfs:subClassOf <http://w3id.org/ocl/omOntologyElement> .
+
+<http://w3id.org/oclTextualDiff> a owl:Class,
+        meta:ClassDefinition ;
+    rdfs:label "textual diff" ;
+    skos:definition "A summarizing of a change on a piece of text. This could be rendered in a number of different ways" .
+
+<http://w3id.org/ocltarget> a owl:ObjectProperty,
         meta:SlotDefinition ;
     rdfs:label "target" ;
-    rdfs:range meta:string ;
+    rdfs:range <https://w3id.org/biolink/biolinkml/meta/types/String> ;
     skos:definition "The secondary entity on which the change operates" .
 
-meta:ChangeMixin a owl:Class,
+<http://www.w3.org/ns/prov#Agent> a owl:Class,
+        meta:ClassDefinition ;
+    rdfs:label "agent" ;
+    rdfs:subClassOf [ a owl:Restriction ;
+            owl:maxQualifiedCardinality 1 ;
+            owl:onClass <http://www.w3.org/ns/prov#Activity> ;
+            owl:onProperty <http://www.w3.org/ns/prov#was_informed_by> ],
+        [ a owl:Restriction ;
+            owl:maxQualifiedCardinality 1 ;
+            owl:onClass <http://www.w3.org/ns/prov#Agent> ;
+            owl:onProperty <http://www.w3.org/ns/prov#acted_on_behalf_of> ] ;
+    skos:definition "a provence-generating agent" .
+
+<http://w3id.org/ocl/omOntologyElement> a owl:Class,
+        meta:ClassDefinition ;
+    rdfs:label "ontology element" ;
+    skos:definition "Any component of an ontology or knowledge graph" .
+
+<http://w3id.org/ocl/omannotation_set> a owl:ObjectProperty,
+        meta:SlotDefinition ;
+    rdfs:label "annotation set" ;
+    rdfs:range <http://w3id.org/ocl/omAnnotation> .
+
+<http://w3id.org/oclChange> a owl:Class,
+        meta:ClassDefinition ;
+    rdfs:label "change" ;
+    rdfs:subClassOf [ a owl:Restriction ;
+            owl:maxQualifiedCardinality 1 ;
+            owl:onClass <http://www.w3.org/ns/prov#Activity> ;
+            owl:onProperty <http://www.w3.org/ns/prov#was_generated_by> ] ;
+    skos:definition "Any change perform on an ontology or knowledge graph" .
+
+<http://w3id.org/oclEdgeChange> a owl:Class,
+        meta:ClassDefinition ;
+    rdfs:label "edge change" ;
+    rdfs:subClassOf [ a owl:Restriction ;
+            owl:maxQualifiedCardinality 1 ;
+            owl:onClass <https://w3id.org/biolink/biolinkml/meta/types/String> ;
+            owl:onProperty <http://w3id.org/oclabout> ],
+        <http://w3id.org/oclSimpleChange> ;
+    skos:definition "A change in which the entity changes is an edge" .
+
+<http://w3id.org/oclNodeObsoletion> a owl:Class,
+        meta:ClassDefinition ;
+    rdfs:label "node obsoletion" ;
+    rdfs:seeAlso "http://wiki.geneontology.org/index.php/Obsoleting_an_Existing_Ontology_Term" ;
+    rdfs:subClassOf [ a owl:Restriction ;
+            owl:maxQualifiedCardinality 1 ;
+            owl:onClass <https://w3id.org/biolink/biolinkml/meta/types/String> ;
+            owl:onProperty <http://w3id.org/oclchange_description> ],
+        <http://w3id.org/oclNodeChange>,
+        <http://w3id.org/oclObsoletion> ;
+    skos:definition "Obsoletion of a node deprecates usage of that node, but does not delete it." .
+
+<http://w3id.org/ocl/omAnnotation> a owl:Class,
+        meta:ClassDefinition ;
+    rdfs:label "annotation" ;
+    rdfs:subClassOf [ a owl:Restriction ;
+            owl:maxQualifiedCardinality 1 ;
+            owl:onClass <http://w3id.org/ocl/omAnnotation> ;
+            owl:onProperty <http://w3id.org/ocl/omannotation_set> ],
+        <http://w3id.org/ocl/omPropertyValue> ;
+    skos:definition "owl annotations. Not to be confused with annotations sensu GO" .
+
+<http://w3id.org/oclChangeMixin> a owl:Class,
         meta:ClassDefinition ;
     rdfs:label "change mixin" ;
     rdfs:subClassOf meta:mixin ;
     skos:definition "root class for all change mixins" .
 
-meta:EdgeChange a owl:Class,
-        meta:ClassDefinition ;
-    rdfs:label "edge change" ;
-    rdfs:subClassOf [ a owl:Restriction ;
-            owl:maxQualifiedCardinality 1 ;
-            owl:onClass meta:string ;
-            owl:onProperty meta:about ],
-        meta:SimpleChange ;
-    skos:definition "A change in which the entity changes is an edge" .
-
-meta:NodeObsoletion a owl:Class,
-        meta:ClassDefinition ;
-    rdfs:label "node obsoletion" ;
-    rdfs:subClassOf meta:NodeChange,
-        meta:Obsoletion .
-
-meta:NodeRename a owl:Class,
-        meta:ClassDefinition ;
-    rdfs:label "node rename" ;
-    rdfs:subClassOf [ a owl:Restriction ;
-            owl:maxQualifiedCardinality 1 ;
-            owl:onClass meta:string ;
-            owl:onProperty meta:new_value ],
-        [ a owl:Restriction ;
-            owl:maxQualifiedCardinality 1 ;
-            owl:onClass meta:string ;
-            owl:onProperty meta:old_value ],
-        meta:NodeChange ;
-    skos:definition "A node change where the name (aka rdfs:label) of the node changes" .
-
-meta:new_value a owl:ObjectProperty,
-        meta:SlotDefinition ;
-    rdfs:label "new value" ;
-    rdfs:range meta:string ;
-    skos:definition "The value of a property held in the old instance of the ontology" .
-
-meta:old_value a owl:ObjectProperty,
-        meta:SlotDefinition ;
-    rdfs:label "old value" ;
-    rdfs:range meta:string ;
-    skos:definition "The value of a property held in the old instance of the ontology" .
-
-meta:Change a owl:Class,
-        meta:ClassDefinition ;
-    rdfs:label "change" ;
-    skos:definition "Any change perform on an ontology or knowledge graph" .
-
-meta:OntologyElement a owl:Class,
-        meta:ClassDefinition ;
-    rdfs:label "ontology element" ;
-    skos:definition "Any component of an ontology or knowledge graph" .
-
-meta:annotation_set a owl:ObjectProperty,
-        meta:SlotDefinition ;
-    rdfs:label "annotation set" ;
-    rdfs:range meta:Annotation .
-
-meta:Annotation a owl:Class,
-        meta:ClassDefinition ;
-    rdfs:label "annotation" ;
-    rdfs:subClassOf [ a owl:Restriction ;
-            owl:maxQualifiedCardinality 1 ;
-            owl:onClass meta:Annotation ;
-            owl:onProperty meta:annotation_set ],
-        [ a owl:Restriction ;
-            owl:maxQualifiedCardinality 1 ;
-            owl:onClass meta:string ;
-            owl:onProperty meta:filler ],
-        [ a owl:Restriction ;
-            owl:maxQualifiedCardinality 1 ;
-            owl:onClass meta:Node ;
-            owl:onProperty meta:property ],
-        meta:OntologyElement ;
-    skos:definition "owl annotations. Not to be confused with annotatuons sensu GO" .
-
-meta:about a owl:ObjectProperty,
+<http://w3id.org/oclabout> a owl:ObjectProperty,
         meta:SlotDefinition ;
     rdfs:label "about" ;
-    rdfs:range meta:string ;
+    rdfs:range <https://w3id.org/biolink/biolinkml/meta/types/String> ;
     skos:definition "The 'focus' entity on which the change operates" .
 
-meta:NodeChange a owl:Class,
+<http://www.w3.org/ns/prov#Activity> a owl:Class,
+        meta:ClassDefinition ;
+    rdfs:label "activity" ;
+    rdfs:subClassOf [ a owl:Restriction ;
+            owl:maxQualifiedCardinality 1 ;
+            owl:onClass <https://w3id.org/biolink/biolinkml/meta/types/String> ;
+            owl:onProperty <http://www.w3.org/ns/prov#ended_at_time> ],
+        [ a owl:Restriction ;
+            owl:maxQualifiedCardinality 1 ;
+            owl:onClass <https://w3id.org/biolink/biolinkml/meta/types/String> ;
+            owl:onProperty <http://www.w3.org/ns/prov#used> ],
+        [ a owl:Restriction ;
+            owl:maxQualifiedCardinality 1 ;
+            owl:onClass <http://www.w3.org/ns/prov#Agent> ;
+            owl:onProperty <http://www.w3.org/ns/prov#was_associated_with> ],
+        [ a owl:Restriction ;
+            owl:maxQualifiedCardinality 1 ;
+            owl:onClass <http://www.w3.org/ns/prov#Activity> ;
+            owl:onProperty <http://www.w3.org/ns/prov#was_informed_by> ],
+        [ a owl:Restriction ;
+            owl:onClass <https://w3id.org/biolink/biolinkml/meta/types/String> ;
+            owl:onProperty <http://www.w3.org/ns/prov#activity_id> ;
+            owl:qualifiedCardinality 1 ],
+        [ a owl:Restriction ;
+            owl:maxQualifiedCardinality 1 ;
+            owl:onClass <https://w3id.org/biolink/biolinkml/meta/types/String> ;
+            owl:onProperty <http://www.w3.org/ns/prov#started_at_time> ] ;
+    skos:definition "a provence-generating activity" .
+
+<http://w3id.org/oclNodeChange> a owl:Class,
         meta:ClassDefinition ;
     rdfs:label "node change" ;
     rdfs:subClassOf [ a owl:Restriction ;
             owl:maxQualifiedCardinality 1 ;
-            owl:onClass meta:string ;
-            owl:onProperty meta:about ],
-        meta:SimpleChange ;
+            owl:onClass <https://w3id.org/biolink/biolinkml/meta/types/String> ;
+            owl:onProperty <http://w3id.org/oclabout> ],
+        <http://w3id.org/oclSimpleChange> ;
     skos:definition "A simple change where the change is about a node" .
 
-meta:change_description a owl:ObjectProperty,
-        meta:SlotDefinition ;
-    rdfs:label "change description" ;
-    rdfs:range meta:string ;
-    skos:definition "A string serialization of the change" .
-
-meta:Node a owl:Class,
-        meta:ClassDefinition ;
-    rdfs:label "node" ;
-    rdfs:subClassOf [ a owl:Restriction ;
-            owl:maxQualifiedCardinality 1 ;
-            owl:onClass meta:Annotation ;
-            owl:onProperty meta:annotation_set ],
-        [ a owl:Restriction ;
-            owl:onClass meta:string ;
-            owl:onProperty meta:id ;
-            owl:qualifiedCardinality 1 ],
-        [ a owl:Restriction ;
-            owl:maxQualifiedCardinality 1 ;
-            owl:onClass meta:string ;
-            owl:onProperty meta:name ],
-        meta:OntologyElement ;
-    skos:definition "Any named entity in an ontology. May be a class, individual, property" .
+meta:topValue a owl:DatatypeProperty ;
+    rdfs:label "value" .
 
 meta:TypeDefinition a owl:Class ;
     rdfs:label "type_definition" ;
     skos:definition "A data type definition." .
 
-meta:topValue a owl:DatatypeProperty ;
-    rdfs:label "value" .
+<http://w3id.org/ocl/omNode> a owl:Class,
+        meta:ClassDefinition ;
+    rdfs:label "node" ;
+    rdfs:subClassOf [ a owl:Restriction ;
+            owl:maxQualifiedCardinality 1 ;
+            owl:onClass <https://w3id.org/biolink/biolinkml/meta/types/String> ;
+            owl:onProperty <http://w3id.org/ocl/omname> ],
+        [ a owl:Restriction ;
+            owl:onClass <https://w3id.org/biolink/biolinkml/meta/types/String> ;
+            owl:onProperty <http://w3id.org/ocl/omid> ;
+            owl:qualifiedCardinality 1 ],
+        [ a owl:Restriction ;
+            owl:maxQualifiedCardinality 1 ;
+            owl:onClass <http://w3id.org/ocl/omAnnotation> ;
+            owl:onProperty <http://w3id.org/ocl/omannotation_set> ],
+        <http://w3id.org/ocl/omOntologyElement> ;
+    skos:definition "Any named entity in an ontology. May be a class, individual, property" .
+
+<http://w3id.org/oclchange_description> a owl:ObjectProperty,
+        meta:SlotDefinition ;
+    rdfs:label "change description" ;
+    rdfs:range <https://w3id.org/biolink/biolinkml/meta/types/String> ;
+    skos:definition "A string serialization of the change" .
 
 meta:ClassDefinition a owl:Class ;
     rdfs:label "class_definition" ;
@@ -589,7 +1007,7 @@ meta:SlotDefinition a owl:Class ;
     rdfs:label "slot_definition" ;
     skos:definition "the definition of a property or a slot" .
 
-meta:string a owl:Class,
+<https://w3id.org/biolink/biolinkml/meta/types/String> a owl:Class,
         meta:TypeDefinition ;
     rdfs:label "string" ;
     rdfs:subClassOf [ a owl:Restriction ;

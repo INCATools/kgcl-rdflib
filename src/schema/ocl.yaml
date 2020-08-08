@@ -108,6 +108,7 @@ classes:
       placing an element inside a subset
     slot_usage:
       in subset:
+        range: subset
         description: >-
           subset that the element is being placed inside.
 
@@ -119,6 +120,7 @@ classes:
       removing an element from a subset
     slot_usage:
       in subset:
+        range: subset
         description: >-
           subset that the element is being removed from
       
