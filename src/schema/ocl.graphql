@@ -284,6 +284,15 @@ type NodeRename
     changeDescription: String
   }
 
+type NodeShallowing
+  {
+    wasGeneratedBy: Activity
+    oldValue: String
+    newValue: String
+    about: String
+    changeDescription: String
+  }
+
 type NodeSynonymChange
   {
     wasGeneratedBy: Activity

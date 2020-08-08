@@ -347,7 +347,7 @@ prov:Agent CLOSED {
           ) ;
           rdf:type [ <http://w3id.org/oclNodeMove> ] ?
        )
-    } OR @<http://w3id.org/oclNodeDeepening>
+    } OR @<http://w3id.org/oclNodeDeepening> OR @<http://w3id.org/oclNodeShallowing>
 )
 
 <http://w3id.org/oclNodeObsoletion>  (
@@ -393,6 +393,15 @@ prov:Agent CLOSED {
           <http://w3id.org/oclchange_description> @metatype:String ?
        ) ;
        rdf:type [ <http://w3id.org/oclNodeRename> ] ?
+    )
+}
+
+<http://w3id.org/oclNodeShallowing> CLOSED {
+    (  $<http://w3id.org/oclNodeShallowing_tes> (  &<http://w3id.org/oclNodeMove_tes> ;
+          rdf:type [ <http://w3id.org/oclNodeMove> ] ? ;
+          <http://w3id.org/oclchange_description> @metatype:String ?
+       ) ;
+       rdf:type [ <http://w3id.org/oclNodeShallowing> ] ?
     )
 }
 

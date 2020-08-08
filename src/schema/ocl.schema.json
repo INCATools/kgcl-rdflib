@@ -812,6 +812,32 @@
          "title": "NodeRename",
          "type": "object"
       },
+      "NodeShallowing": {
+         "additionalProperties": false,
+         "description": "The opposite of node deepening",
+         "properties": {
+            "about": {
+               "type": "string"
+            },
+            "change_description": {
+               "type": "string"
+            },
+            "new_value": {
+               "description": "The value of a property held in the old instance of the ontology",
+               "type": "string"
+            },
+            "old_value": {
+               "description": "The value of a property held in the old instance of the ontology",
+               "type": "string"
+            },
+            "was_generated_by": {
+               "type": "string"
+            }
+         },
+         "required": [],
+         "title": "NodeShallowing",
+         "type": "object"
+      },
       "NodeSynonymChange": {
          "additionalProperties": false,
          "description": "",

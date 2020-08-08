@@ -18,6 +18,7 @@ URI: [ocl:node_move_change_description](http://w3id.org/oclnode_move_change_desc
 ## Children
 
  *  [node deepening➞change description](node_deepening_change_description.md)
+ *  [node shallowing➞change description](node_shallowing_change_description.md)
 
 ## Used by
 

@@ -1,10 +1,11 @@
 id: ocl
 title: ontology change language
 description: >-
-  A data model for describing change operations at a high level on an ontology or ontology-like artefact
-
+  A data model for describing change operations at a high level on an ontology or ontology-like artefact.
+  See [https://github.com/cmungall/ontology-change-language](https://github.com/cmungall/ontology-change-language)
 license: https://creativecommons.org/publicdomain/zero/1.0/
 version: 0.0.1
+
 
 prefixes:
   ocl: http://w3id.org/ocl

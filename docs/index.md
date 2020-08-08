@@ -2,7 +2,7 @@
 # Ocl schema
 
 
-A data model for describing change operations at a high level on an ontology or ontology-like artefact
+A data model for describing change operations at a high level on an ontology or ontology-like artefact. See [https://github.com/cmungall/ontology-change-language](https://github.com/cmungall/ontology-change-language)
 
 
 ### Classes
@@ -21,6 +21,7 @@ A data model for describing change operations at a high level on an ontology or 
           * [EdgeObsoletion](EdgeObsoletion.md) - An edge change in which an edge is obsoleted.
           * [NodeMove](NodeMove.md) - A node move is a combination of deleting a parent edge and adding a parent edge, where the edge label is preserved and the object/parent node changes
              * [NodeDeepening](NodeDeepening.md) - A node move in which a node where the destination is a proper descendant of the original location. Note that here descendant applied not just to subclass, but edges of any edge label in the relational graph
+             * [NodeShallowing](NodeShallowing.md) - The opposite of node deepening
        * [NodeChange](NodeChange.md) - A simple change where the change is about a node
           * [AddNodeToSubset](AddNodeToSubset.md) - Places a node inside a subset, by annotating that node
           * [NodeAnnotationChange](NodeAnnotationChange.md) - A node change where the change alters node properties/annotations. TODO
@@ -88,6 +89,7 @@ A data model for describing change operations at a high level on an ontology or 
     * [node deletion➞change description](node_deletion_change_description.md)
     * [node move➞change description](node_move_change_description.md)
        * [node deepening➞change description](node_deepening_change_description.md)
+       * [node shallowing➞change description](node_shallowing_change_description.md)
     * [node obsoletion➞change description](node_obsoletion_change_description.md)
        * [node obsoletion with merge➞change description](node_obsoletion_with_merge_change_description.md)
        * [node obsoletion with split➞change description](node_obsoletion_with_split_change_description.md)

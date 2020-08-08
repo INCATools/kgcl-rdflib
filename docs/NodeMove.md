@@ -7,7 +7,7 @@ A node move is a combination of deleting a parent edge and adding a parent edge,
 URI: [ocl:NodeMove](http://w3id.org/oclNodeMove)
 
 
-![img](http://yuml.me/diagram/nofunky;dir:TB/class/[NodeMove&#124;change_description:string%20%3F;about(i):string%20%3F;old_value(i):string%20%3F;new_value(i):string%20%3F]^-[NodeDeepening],[EdgeChange]^-[NodeMove],[NodeDeepening],[EdgeChange],[Activity])
+![img](http://yuml.me/diagram/nofunky;dir:TB/class/[NodeShallowing],[NodeMove&#124;change_description:string%20%3F;about(i):string%20%3F;old_value(i):string%20%3F;new_value(i):string%20%3F]^-[NodeShallowing],[NodeMove]^-[NodeDeepening],[EdgeChange]^-[NodeMove],[NodeDeepening],[EdgeChange],[Activity])
 
 ## Parents
 
@@ -16,6 +16,7 @@ URI: [ocl:NodeMove](http://w3id.org/oclNodeMove)
 ## Children
 
  * [NodeDeepening](NodeDeepening.md) - A node move in which a node where the destination is a proper descendant of the original location. Note that here descendant applied not just to subclass, but edges of any edge label in the relational graph
+ * [NodeShallowing](NodeShallowing.md) - The opposite of node deepening
 
 ## Referenced by class
 

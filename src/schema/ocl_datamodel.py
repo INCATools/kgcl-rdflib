@@ -1,10 +1,11 @@
 # Auto generated from ocl.yaml by pythongen.py version: 0.4.0
-# Generation date: 2020-08-08 11:19
+# Generation date: 2020-08-08 11:24
 # Schema: ocl
 #
 # id: ocl
 # description: A data model for describing change operations at a high level on an ontology or ontology-like
-#              artefact
+#              artefact. See
+#              [https://github.com/cmungall/ontology-change-language](https://github.com/cmungall/ontology-change-language)
 # license: https://creativecommons.org/publicdomain/zero/1.0/
 
 import dataclasses
@@ -301,6 +302,20 @@ class NodeDeepening(NodeMove):
     class_class_curie: ClassVar[str] = "ocl:NodeDeepening"
     class_name: ClassVar[str] = "node deepening"
     class_model_uri: ClassVar[URIRef] = OCL.NodeDeepening
+
+    change_description: Optional[str] = None
+
+@dataclass
+class NodeShallowing(NodeMove):
+    """
+    The opposite of node deepening
+    """
+    _inherited_slots: ClassVar[List[str]] = []
+
+    class_class_uri: ClassVar[URIRef] = OCL.NodeShallowing
+    class_class_curie: ClassVar[str] = "ocl:NodeShallowing"
+    class_name: ClassVar[str] = "node shallowing"
+    class_model_uri: ClassVar[URIRef] = OCL.NodeShallowing
 
     change_description: Optional[str] = None
 
@@ -1007,6 +1022,9 @@ slots.node_move_change_description = Slot(uri=OCL.change_description, name="node
 
 slots.node_deepening_change_description = Slot(uri=OCL.change_description, name="node deepening_change description", curie=OCL.curie('change_description'),
                       model_uri=OCL.node_deepening_change_description, domain=NodeDeepening, range=Optional[str])
+
+slots.node_shallowing_change_description = Slot(uri=OCL.change_description, name="node shallowing_change description", curie=OCL.curie('change_description'),
+                      model_uri=OCL.node_shallowing_change_description, domain=NodeShallowing, range=Optional[str])
 
 slots.edge_label_change_change_description = Slot(uri=OCL.change_description, name="edge label change_change description", curie=OCL.curie('change_description'),
                       model_uri=OCL.edge_label_change_change_description, domain=EdgeLabelChange, range=Optional[str])
