@@ -7,7 +7,7 @@ A change that is about a single ontology element
 URI: [ocl:SimpleChange](http://w3id.org/oclSimpleChange)
 
 
-![img](http://yuml.me/diagram/nofunky;dir:TB/class/[SimpleChange&#124;about:string%20%3F;old_value:string%20%3F;new_value:string%20%3F]^-[NodeChange],[SimpleChange]^-[EdgeChange],[Change]^-[SimpleChange],[NodeChange],[EdgeChange],[Change],[Activity])
+![img](http://yuml.me/diagram/nofunky;dir:TB/class/[SimpleChange&#124;about:string%20%3F;old_value:string%20%3F;new_value:string%20%3F]^-[NodeChange],[SimpleChange]^-[EdgeChange],[SimpleChange]^-[DatatypeChange],[Change]^-[SimpleChange],[NodeChange],[EdgeChange],[DatatypeChange],[Change],[Activity])
 
 ## Parents
 
@@ -15,6 +15,7 @@ URI: [ocl:SimpleChange](http://w3id.org/oclSimpleChange)
 
 ## Children
 
+ * [DatatypeChange](DatatypeChange.md)
  * [EdgeChange](EdgeChange.md) - A change in which the entity changes is an edge
  * [NodeChange](NodeChange.md) - A simple change where the change is about a node
 

@@ -7,7 +7,7 @@ Obsoletion of an element deprecates usage of that element, but does not delete t
 URI: [ocl:Obsoletion](http://w3id.org/oclObsoletion)
 
 
-![img](http://yuml.me/diagram/nofunky;dir:TB/class/[NodeObsoletion]uses%20-.->[Obsoletion],[ChangeMixin]^-[Obsoletion],[NodeObsoletion],[ChangeMixin])
+![img](http://yuml.me/diagram/nofunky;dir:TB/class/[NodeObsoletion]uses%20-.->[Obsoletion],[EdgeObsoletion]uses%20-.->[Obsoletion],[ChangeMixin]^-[Obsoletion],[NodeObsoletion],[EdgeObsoletion],[ChangeMixin])
 
 ## Parents
 
@@ -15,6 +15,7 @@ URI: [ocl:Obsoletion](http://w3id.org/oclObsoletion)
 
 ## Mixin for
 
+ * [EdgeObsoletion](EdgeObsoletion.md) (mixin)  - An edge change in which an edge is obsoleted.
  * [NodeObsoletion](NodeObsoletion.md) (mixin)  - Obsoletion of a node deprecates usage of that node, but does not delete it.
 
 ## Referenced by class

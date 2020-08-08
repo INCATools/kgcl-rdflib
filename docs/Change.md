@@ -7,12 +7,11 @@ Any change perform on an ontology or knowledge graph
 URI: [ocl:Change](http://w3id.org/oclChange)
 
 
-![img](http://yuml.me/diagram/nofunky;dir:TB/class/[SimpleChange],[DatatypeChange],[ComplexChange],[Activity]<was%20generated%20by%200..1-%20[Change],[ComplexChange]++-%20change%20set%200..*>[Change],[Transaction]++-%20change%20set%200..*>[Change],[Change]^-[SimpleChange],[Change]^-[DatatypeChange],[Change]^-[ComplexChange],[Transaction],[Activity])
+![img](http://yuml.me/diagram/nofunky;dir:TB/class/[SimpleChange],[ComplexChange],[Activity]<was%20generated%20by%200..1-%20[Change],[ComplexChange]++-%20change%20set%200..*>[Change],[Transaction]++-%20change%20set%200..*>[Change],[Change]^-[SimpleChange],[Change]^-[ComplexChange],[Transaction],[Activity])
 
 ## Children
 
  * [ComplexChange](ComplexChange.md) - A change that is is a composition of other changes
- * [DatatypeChange](DatatypeChange.md)
  * [SimpleChange](SimpleChange.md) - A change that is about a single ontology element
 
 ## Referenced by class

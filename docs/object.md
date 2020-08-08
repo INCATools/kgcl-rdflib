@@ -21,3 +21,5 @@ None ->  <sub>OPT</sub> [Node](Node.md)
 
  * [Edge](Edge.md)
  * [EdgeCreation](EdgeCreation.md)
+ * [EdgeDeletion](EdgeDeletion.md)
+ * [EdgeObsoletion](EdgeObsoletion.md)

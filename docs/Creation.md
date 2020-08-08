@@ -15,7 +15,7 @@ URI: [ocl:Creation](http://w3id.org/oclCreation)
 
 ## Mixin for
 
- * [EdgeCreation](EdgeCreation.md) (mixin) 
+ * [EdgeCreation](EdgeCreation.md) (mixin)  - An edge change in which a de-novo edge is created. The edge is potentially annotated in the same action.
  * [NodeCreation](NodeCreation.md) (mixin) 
 
 ## Referenced by class

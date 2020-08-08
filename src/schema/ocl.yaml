@@ -141,6 +141,8 @@ classes:
     aliases:
       - relationship creation
     is_a: edge change
+    description: >-
+      An edge change in which a de-novo edge is created. The edge is potentially annotated in the same action.
     mixins:
       - creation
     slots:
@@ -153,6 +155,42 @@ classes:
         string_serialization: "creating edge {edge}"
     see_also:
       - http://wiki.geneontology.org/index.php/Guidelines_for_creating_relationships_between_terms
+        
+  edge deletion:
+    aliases:
+      - relationship deletion
+    is_a: edge change
+    description: >-
+      An edge change in which an edge is removed. All edge annotations/properies are removed in the same action.
+    mixins:
+      - deletion
+    slots:
+      - subject
+      - edge label
+      - object
+      - annotation set
+    slot_usage:
+      change description:
+        string_serialization: "deleting edge {edge}"
+        
+  edge obsoletion:
+    aliases:
+      - relationship obsoletion
+    is_a: edge change
+    description: >-
+      An edge change in which an edge is obsoleted.
+    comments:
+      - Note there is not yet consensus in how this should be done in rdf/owl implementations. Simply marking the edge deprecated with render it visible to most clients.
+    mixins:
+      - obsoletion
+    slots:
+      - subject
+      - edge label
+      - object
+      - annotation set
+    slot_usage:
+      change description:
+        string_serialization: "obsoleting edge {edge}"
         
 
   node move:
@@ -175,6 +213,16 @@ classes:
     slot_usage:
       change description:
         string_serialization: "deepened {about} from {old value} to {new value}"
+
+  node shallowing:
+    is_a: node move
+    description: >-
+      The opposite of node deepening
+    examples:
+      - value: changing a is-a c to a is-a b, where c is a subclass of b
+    slot_usage:
+      change description:
+        string_serialization: "shallowed {about} from {old value} to {new value}"
 
   edge label change:
     is_a: edge change
@@ -283,7 +331,7 @@ classes:
 
         
   datatype change:
-    is_a: change
+    is_a: simple change
 
   add node to subset:
     aliases:

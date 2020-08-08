@@ -1,13 +1,13 @@
 
-# Type: edge creation
+# Type: edge obsoletion
 
 
-An edge change in which a de-novo edge is created. The edge is potentially annotated in the same action.
+An edge change in which an edge is obsoleted.
 
-URI: [ocl:EdgeCreation](http://w3id.org/oclEdgeCreation)
+URI: [ocl:EdgeObsoletion](http://w3id.org/oclEdgeObsoletion)
 
 
-![img](http://yuml.me/diagram/nofunky;dir:TB/class/[Node],[Annotation]<annotation%20set%200..1-++[EdgeCreation&#124;change_description:string%20%3F;about(i):string%20%3F;old_value(i):string%20%3F;new_value(i):string%20%3F],[Node]<object%200..1-%20[EdgeCreation],[Node]<edge%20label%200..1-%20[EdgeCreation],[Node]<subject%200..1-%20[EdgeCreation],[EdgeCreation]uses%20-.->[Creation],[EdgeChange]^-[EdgeCreation],[EdgeChange],[Creation],[Annotation],[Activity])
+![img](http://yuml.me/diagram/nofunky;dir:TB/class/[Obsoletion],[Node],[Annotation]<annotation%20set%200..1-++[EdgeObsoletion&#124;change_description:string%20%3F;about(i):string%20%3F;old_value(i):string%20%3F;new_value(i):string%20%3F],[Node]<object%200..1-%20[EdgeObsoletion],[Node]<edge%20label%200..1-%20[EdgeObsoletion],[Node]<subject%200..1-%20[EdgeObsoletion],[EdgeObsoletion]uses%20-.->[Obsoletion],[EdgeChange]^-[EdgeObsoletion],[EdgeChange],[Annotation],[Activity])
 
 ## Parents
 
@@ -15,7 +15,7 @@ URI: [ocl:EdgeCreation](http://w3id.org/oclEdgeCreation)
 
 ## Uses Mixins
 
- *  mixin: [Creation](Creation.md) - Creation of an element.
+ *  mixin: [Obsoletion](Obsoletion.md) - Obsoletion of an element deprecates usage of that element, but does not delete that element.
 
 ## Referenced by class
 
@@ -27,10 +27,10 @@ URI: [ocl:EdgeCreation](http://w3id.org/oclEdgeCreation)
 
  * [annotation set](annotation_set.md)  <sub>OPT</sub>
     * range: [Annotation](Annotation.md)
- * [edge creation➞change description](edge_creation_change_description.md)  <sub>OPT</sub>
-    * range: [String](types/String.md)
  * [edge label](edge_label.md)  <sub>OPT</sub>
     * range: [Node](Node.md)
+ * [edge obsoletion➞change description](edge_obsoletion_change_description.md)  <sub>OPT</sub>
+    * range: [String](types/String.md)
  * [object](object.md)  <sub>OPT</sub>
     * range: [Node](Node.md)
  * [subject](subject.md)  <sub>OPT</sub>
@@ -53,6 +53,6 @@ URI: [ocl:EdgeCreation](http://w3id.org/oclEdgeCreation)
 
 |  |  |  |
 | --- | --- | --- |
-| **Aliases:** | | relationship creation |
-| **See also:** | | http://wiki.geneontology.org/index.php/Guidelines_for_creating_relationships_between_terms |
+| **Aliases:** | | relationship obsoletion |
+| **Comments:** | | Note there is not yet consensus in how this should be done in rdf/owl implementations. Simply marking the edge deprecated with render it visible to most clients. |
 

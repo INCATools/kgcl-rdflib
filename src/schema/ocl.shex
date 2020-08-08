@@ -85,7 +85,7 @@ prov:Agent CLOSED {
        (  $<http://w3id.org/oclChange_tes> prov:was_generated_by @prov:Activity ? ;
           rdf:type [ <http://w3id.org/oclChange> ] ?
        )
-    } OR @<http://w3id.org/oclComplexChange> OR @<http://w3id.org/oclDatatypeChange> OR @<http://w3id.org/oclSimpleChange>
+    } OR @<http://w3id.org/oclComplexChange> OR @<http://w3id.org/oclSimpleChange>
 )
 
 <http://w3id.org/oclChangeMixin>  (
@@ -129,8 +129,8 @@ prov:Agent CLOSED {
 }
 
 <http://w3id.org/oclDatatypeChange> CLOSED {
-    (  $<http://w3id.org/oclDatatypeChange_tes> (  &<http://w3id.org/oclChange_tes> ;
-          rdf:type [ <http://w3id.org/oclChange> ] ?
+    (  $<http://w3id.org/oclDatatypeChange_tes> (  &<http://w3id.org/oclSimpleChange_tes> ;
+          rdf:type [ <http://w3id.org/oclSimpleChange> ] ?
        ) ;
        rdf:type [ <http://w3id.org/oclDatatypeChange> ] ?
     )
@@ -164,8 +164,8 @@ prov:Agent CLOSED {
           ) ;
           rdf:type [ <http://w3id.org/oclEdgeChange> ] ?
        )
-    } OR @<http://w3id.org/oclEdgeCreation> OR @<http://w3id.org/oclEdgeLabelChange> OR
-    @<http://w3id.org/oclEdgeLogicalInterpretationChange> OR @<http://w3id.org/oclNodeMove>
+    } OR @<http://w3id.org/oclEdgeCreation> OR @<http://w3id.org/oclEdgeDeletion> OR @<http://w3id.org/oclEdgeLabelChange> OR
+    @<http://w3id.org/oclEdgeLogicalInterpretationChange> OR @<http://w3id.org/oclEdgeObsoletion> OR @<http://w3id.org/oclNodeMove>
 )
 
 <http://w3id.org/oclEdgeCreation> CLOSED {
@@ -183,6 +183,21 @@ prov:Agent CLOSED {
     )
 }
 
+<http://w3id.org/oclEdgeDeletion> CLOSED {
+    (  $<http://w3id.org/oclEdgeDeletion_tes> (  &<http://w3id.org/oclEdgeChange_tes> ;
+          rdf:type [ <http://w3id.org/oclEdgeChange> ] ? ;
+          &<http://w3id.org/oclDeletion_tes> ;
+          rdf:type [ <http://w3id.org/oclDeletion> ] ? ;
+          <omsubject> @<omNode> ? ;
+          <omedge_label> @<omNode> ? ;
+          <omobject> @<omNode> ? ;
+          <omannotation_set> @<omAnnotation> ? ;
+          <http://w3id.org/oclchange_description> @metatype:String ?
+       ) ;
+       rdf:type [ <http://w3id.org/oclEdgeDeletion> ] ?
+    )
+}
+
 <http://w3id.org/oclEdgeLabelChange> CLOSED {
     (  $<http://w3id.org/oclEdgeLabelChange_tes> (  &<http://w3id.org/oclEdgeChange_tes> ;
           rdf:type [ <http://w3id.org/oclEdgeChange> ] ? ;
@@ -197,6 +212,21 @@ prov:Agent CLOSED {
           rdf:type [ <http://w3id.org/oclEdgeChange> ] ?
        ) ;
        rdf:type [ <http://w3id.org/oclEdgeLogicalInterpretationChange> ] ?
+    )
+}
+
+<http://w3id.org/oclEdgeObsoletion> CLOSED {
+    (  $<http://w3id.org/oclEdgeObsoletion_tes> (  &<http://w3id.org/oclEdgeChange_tes> ;
+          rdf:type [ <http://w3id.org/oclEdgeChange> ] ? ;
+          &<http://w3id.org/oclObsoletion_tes> ;
+          rdf:type [ <http://w3id.org/oclObsoletion> ] ? ;
+          <omsubject> @<omNode> ? ;
+          <omedge_label> @<omNode> ? ;
+          <omobject> @<omNode> ? ;
+          <omannotation_set> @<omAnnotation> ? ;
+          <http://w3id.org/oclchange_description> @metatype:String ?
+       ) ;
+       rdf:type [ <http://w3id.org/oclEdgeObsoletion> ] ?
     )
 }
 
@@ -474,7 +504,7 @@ prov:Agent CLOSED {
           ) ;
           rdf:type [ <http://w3id.org/oclSimpleChange> ] ?
        )
-    } OR @<http://w3id.org/oclEdgeChange> OR @<http://w3id.org/oclNodeChange>
+    } OR @<http://w3id.org/oclDatatypeChange> OR @<http://w3id.org/oclEdgeChange> OR @<http://w3id.org/oclNodeChange>
 )
 
 <omSubset> CLOSED {

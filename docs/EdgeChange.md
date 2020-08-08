@@ -7,7 +7,7 @@ A change in which the entity changes is an edge
 URI: [ocl:EdgeChange](http://w3id.org/oclEdgeChange)
 
 
-![img](http://yuml.me/diagram/nofunky;dir:TB/class/[SimpleChange],[NodeMove],[EdgeLogicalInterpretationChange],[EdgeLabelChange],[EdgeCreation],[EdgeChange&#124;about:string%20%3F;old_value(i):string%20%3F;new_value(i):string%20%3F]^-[NodeMove],[EdgeChange]^-[EdgeLogicalInterpretationChange],[EdgeChange]^-[EdgeLabelChange],[EdgeChange]^-[EdgeCreation],[SimpleChange]^-[EdgeChange],[Activity])
+![img](http://yuml.me/diagram/nofunky;dir:TB/class/[SimpleChange],[NodeMove],[EdgeObsoletion],[EdgeLogicalInterpretationChange],[EdgeLabelChange],[EdgeDeletion],[EdgeCreation],[EdgeChange&#124;about:string%20%3F;old_value(i):string%20%3F;new_value(i):string%20%3F]^-[NodeMove],[EdgeChange]^-[EdgeObsoletion],[EdgeChange]^-[EdgeLogicalInterpretationChange],[EdgeChange]^-[EdgeLabelChange],[EdgeChange]^-[EdgeDeletion],[EdgeChange]^-[EdgeCreation],[SimpleChange]^-[EdgeChange],[Activity])
 
 ## Parents
 
@@ -15,9 +15,11 @@ URI: [ocl:EdgeChange](http://w3id.org/oclEdgeChange)
 
 ## Children
 
- * [EdgeCreation](EdgeCreation.md)
+ * [EdgeCreation](EdgeCreation.md) - An edge change in which a de-novo edge is created. The edge is potentially annotated in the same action.
+ * [EdgeDeletion](EdgeDeletion.md) - An edge change in which an edge is removed. All edge annotations/properies are removed in the same action.
  * [EdgeLabelChange](EdgeLabelChange.md) - An edge change where the edge label (relationship type) is modified.
  * [EdgeLogicalInterpretationChange](EdgeLogicalInterpretationChange.md) - An edge change where the subjet, object, and edge label are unchanged, but the logical interpretation changes
+ * [EdgeObsoletion](EdgeObsoletion.md) - An edge change in which an edge is obsoleted.
  * [NodeMove](NodeMove.md) - A node move is a combination of deleting a parent edge and adding a parent edge, where the edge label is preserved and the object/parent node changes
 
 ## Referenced by class

@@ -67,6 +67,9 @@ interface Creation
 type DatatypeChange
   {
     wasGeneratedBy: Activity
+    about: String
+    oldValue: String
+    newValue: String
   }
 
 interface Deletion
@@ -102,6 +105,19 @@ type EdgeCreation implements Creation
     changeDescription: String
   }
 
+type EdgeDeletion implements Deletion
+  {
+    wasGeneratedBy: Activity
+    oldValue: String
+    newValue: String
+    about: String
+    subject: Node
+    edgeLabel: Node
+    object: Node
+    annotationSet: Annotation
+    changeDescription: String
+  }
+
 type EdgeLabelChange
   {
     wasGeneratedBy: Activity
@@ -117,6 +133,19 @@ type EdgeLogicalInterpretationChange
     oldValue: String
     newValue: String
     about: String
+  }
+
+type EdgeObsoletion implements Obsoletion
+  {
+    wasGeneratedBy: Activity
+    oldValue: String
+    newValue: String
+    about: String
+    subject: Node
+    edgeLabel: Node
+    object: Node
+    annotationSet: Annotation
+    changeDescription: String
   }
 
 type InstanceNode

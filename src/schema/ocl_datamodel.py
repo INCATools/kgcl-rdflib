@@ -1,5 +1,5 @@
 # Auto generated from ocl.yaml by pythongen.py version: 0.4.0
-# Generation date: 2020-08-07 20:21
+# Generation date: 2020-08-08 11:19
 # Schema: ocl
 #
 # id: ocl
@@ -186,12 +186,75 @@ class EdgeChange(SimpleChange):
 
 @dataclass
 class EdgeCreation(EdgeChange):
+    """
+    An edge change in which a de-novo edge is created. The edge is potentially annotated in the same action.
+    """
     _inherited_slots: ClassVar[List[str]] = []
 
     class_class_uri: ClassVar[URIRef] = OCL.EdgeCreation
     class_class_curie: ClassVar[str] = "ocl:EdgeCreation"
     class_name: ClassVar[str] = "edge creation"
     class_model_uri: ClassVar[URIRef] = OCL.EdgeCreation
+
+    subject: Optional[Union[str, NodeId]] = None
+    edge_label: Optional[Union[str, NodeId]] = None
+    object: Optional[Union[str, NodeId]] = None
+    annotation_set: Optional[Union[dict, "Annotation"]] = None
+    change_description: Optional[str] = None
+
+    def __post_init__(self, **kwargs: Dict[str, Any]):
+        if self.subject is not None and not isinstance(self.subject, NodeId):
+            self.subject = NodeId(self.subject)
+        if self.edge_label is not None and not isinstance(self.edge_label, NodeId):
+            self.edge_label = NodeId(self.edge_label)
+        if self.object is not None and not isinstance(self.object, NodeId):
+            self.object = NodeId(self.object)
+        if self.annotation_set is not None and not isinstance(self.annotation_set, Annotation):
+            self.annotation_set = Annotation(**self.annotation_set)
+        super().__post_init__(**kwargs)
+
+
+@dataclass
+class EdgeDeletion(EdgeChange):
+    """
+    An edge change in which an edge is removed. All edge annotations/properies are removed in the same action.
+    """
+    _inherited_slots: ClassVar[List[str]] = []
+
+    class_class_uri: ClassVar[URIRef] = OCL.EdgeDeletion
+    class_class_curie: ClassVar[str] = "ocl:EdgeDeletion"
+    class_name: ClassVar[str] = "edge deletion"
+    class_model_uri: ClassVar[URIRef] = OCL.EdgeDeletion
+
+    subject: Optional[Union[str, NodeId]] = None
+    edge_label: Optional[Union[str, NodeId]] = None
+    object: Optional[Union[str, NodeId]] = None
+    annotation_set: Optional[Union[dict, "Annotation"]] = None
+    change_description: Optional[str] = None
+
+    def __post_init__(self, **kwargs: Dict[str, Any]):
+        if self.subject is not None and not isinstance(self.subject, NodeId):
+            self.subject = NodeId(self.subject)
+        if self.edge_label is not None and not isinstance(self.edge_label, NodeId):
+            self.edge_label = NodeId(self.edge_label)
+        if self.object is not None and not isinstance(self.object, NodeId):
+            self.object = NodeId(self.object)
+        if self.annotation_set is not None and not isinstance(self.annotation_set, Annotation):
+            self.annotation_set = Annotation(**self.annotation_set)
+        super().__post_init__(**kwargs)
+
+
+@dataclass
+class EdgeObsoletion(EdgeChange):
+    """
+    An edge change in which an edge is obsoleted.
+    """
+    _inherited_slots: ClassVar[List[str]] = []
+
+    class_class_uri: ClassVar[URIRef] = OCL.EdgeObsoletion
+    class_class_curie: ClassVar[str] = "ocl:EdgeObsoletion"
+    class_name: ClassVar[str] = "edge obsoletion"
+    class_model_uri: ClassVar[URIRef] = OCL.EdgeObsoletion
 
     subject: Optional[Union[str, NodeId]] = None
     edge_label: Optional[Union[str, NodeId]] = None
@@ -446,7 +509,7 @@ class TextDefinitionReplacement(NodeTextDefinitionChange):
         super().__post_init__(**kwargs)
 
 
-class DatatypeChange(Change):
+class DatatypeChange(SimpleChange):
     _inherited_slots: ClassVar[List[str]] = []
 
     class_class_uri: ClassVar[URIRef] = OCL.DatatypeChange
@@ -932,6 +995,12 @@ slots.edge_change_about = Slot(uri=OCL.about, name="edge change_about", curie=OC
 
 slots.edge_creation_change_description = Slot(uri=OCL.change_description, name="edge creation_change description", curie=OCL.curie('change_description'),
                       model_uri=OCL.edge_creation_change_description, domain=EdgeCreation, range=Optional[str])
+
+slots.edge_deletion_change_description = Slot(uri=OCL.change_description, name="edge deletion_change description", curie=OCL.curie('change_description'),
+                      model_uri=OCL.edge_deletion_change_description, domain=EdgeDeletion, range=Optional[str])
+
+slots.edge_obsoletion_change_description = Slot(uri=OCL.change_description, name="edge obsoletion_change description", curie=OCL.curie('change_description'),
+                      model_uri=OCL.edge_obsoletion_change_description, domain=EdgeObsoletion, range=Optional[str])
 
 slots.node_move_change_description = Slot(uri=OCL.change_description, name="node move_change description", curie=OCL.curie('change_description'),
                       model_uri=OCL.node_move_change_description, domain=NodeMove, range=Optional[str])

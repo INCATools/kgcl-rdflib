@@ -182,6 +182,18 @@
          "additionalProperties": false,
          "description": "",
          "properties": {
+            "about": {
+               "description": "The 'focus' entity on which the change operates",
+               "type": "string"
+            },
+            "new_value": {
+               "description": "The value of a property held in the old instance of the ontology",
+               "type": "string"
+            },
+            "old_value": {
+               "description": "The value of a property held in the old instance of the ontology",
+               "type": "string"
+            },
             "was_generated_by": {
                "type": "string"
             }
@@ -244,7 +256,7 @@
       },
       "EdgeCreation": {
          "additionalProperties": false,
-         "description": "",
+         "description": "An edge change in which a de-novo edge is created. The edge is potentially annotated in the same action.",
          "properties": {
             "about": {
                "type": "string"
@@ -278,6 +290,44 @@
          },
          "required": [],
          "title": "EdgeCreation",
+         "type": "object"
+      },
+      "EdgeDeletion": {
+         "additionalProperties": false,
+         "description": "An edge change in which an edge is removed. All edge annotations/properies are removed in the same action.",
+         "properties": {
+            "about": {
+               "type": "string"
+            },
+            "annotation_set": {
+               "$ref": "#/definitions/Annotation"
+            },
+            "change_description": {
+               "type": "string"
+            },
+            "edge_label": {
+               "type": "string"
+            },
+            "new_value": {
+               "description": "The value of a property held in the old instance of the ontology",
+               "type": "string"
+            },
+            "object": {
+               "type": "string"
+            },
+            "old_value": {
+               "description": "The value of a property held in the old instance of the ontology",
+               "type": "string"
+            },
+            "subject": {
+               "type": "string"
+            },
+            "was_generated_by": {
+               "type": "string"
+            }
+         },
+         "required": [],
+         "title": "EdgeDeletion",
          "type": "object"
       },
       "EdgeLabelChange": {
@@ -327,6 +377,44 @@
          },
          "required": [],
          "title": "EdgeLogicalInterpretationChange",
+         "type": "object"
+      },
+      "EdgeObsoletion": {
+         "additionalProperties": false,
+         "description": "An edge change in which an edge is obsoleted.",
+         "properties": {
+            "about": {
+               "type": "string"
+            },
+            "annotation_set": {
+               "$ref": "#/definitions/Annotation"
+            },
+            "change_description": {
+               "type": "string"
+            },
+            "edge_label": {
+               "type": "string"
+            },
+            "new_value": {
+               "description": "The value of a property held in the old instance of the ontology",
+               "type": "string"
+            },
+            "object": {
+               "type": "string"
+            },
+            "old_value": {
+               "description": "The value of a property held in the old instance of the ontology",
+               "type": "string"
+            },
+            "subject": {
+               "type": "string"
+            },
+            "was_generated_by": {
+               "type": "string"
+            }
+         },
+         "required": [],
+         "title": "EdgeObsoletion",
          "type": "object"
       },
       "InstanceNode": {

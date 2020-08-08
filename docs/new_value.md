@@ -21,10 +21,13 @@ None ->  <sub>OPT</sub> [String](types/String.md)
 ## Used by
 
  * [AddNodeToSubset](AddNodeToSubset.md)
+ * [DatatypeChange](DatatypeChange.md)
  * [EdgeChange](EdgeChange.md)
  * [EdgeCreation](EdgeCreation.md)
+ * [EdgeDeletion](EdgeDeletion.md)
  * [EdgeLabelChange](EdgeLabelChange.md)
  * [EdgeLogicalInterpretationChange](EdgeLogicalInterpretationChange.md)
+ * [EdgeObsoletion](EdgeObsoletion.md)
  * [NewSynonym](NewSynonym.md)
  * [NewTextDefinition](NewTextDefinition.md)
  * [NodeAnnotationChange](NodeAnnotationChange.md)
