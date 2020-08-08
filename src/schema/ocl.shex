@@ -85,7 +85,7 @@ prov:Agent CLOSED {
        (  $<http://w3id.org/oclChange_tes> prov:was_generated_by @prov:Activity ? ;
           rdf:type [ <http://w3id.org/oclChange> ] ?
        )
-    } OR @<http://w3id.org/oclDatatypeChange>
+    } OR @<http://w3id.org/oclComplexChange> OR @<http://w3id.org/oclDatatypeChange> OR @<http://w3id.org/oclSimpleChange>
 )
 
 <http://w3id.org/oclChangeMixin>  (
@@ -112,7 +112,10 @@ prov:Agent CLOSED {
 }
 
 <http://w3id.org/oclComplexChange> CLOSED {
-    (  $<http://w3id.org/oclComplexChange_tes> <http://w3id.org/oclchange_set> @<http://w3id.org/oclChange> * ;
+    (  $<http://w3id.org/oclComplexChange_tes> (  &<http://w3id.org/oclChange_tes> ;
+          rdf:type [ <http://w3id.org/oclChange> ] ? ;
+          <http://w3id.org/oclchange_set> @<http://w3id.org/oclChange> *
+       ) ;
        rdf:type [ <http://w3id.org/oclComplexChange> ] ?
     )
 }
@@ -463,7 +466,9 @@ prov:Agent CLOSED {
 
 <http://w3id.org/oclSimpleChange>  (
     CLOSED {
-       (  $<http://w3id.org/oclSimpleChange_tes> (  <http://w3id.org/oclabout> @metatype:String ? ;
+       (  $<http://w3id.org/oclSimpleChange_tes> (  &<http://w3id.org/oclChange_tes> ;
+             rdf:type [ <http://w3id.org/oclChange> ] ? ;
+             <http://w3id.org/oclabout> @metatype:String ? ;
              <http://w3id.org/oclold_value> @metatype:String ? ;
              <http://w3id.org/oclnew_value> @metatype:String ?
           ) ;

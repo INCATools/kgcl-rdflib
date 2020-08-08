@@ -7,7 +7,7 @@ A relationship between two nodes. We assume owlstar or similar for existential r
 URI: [ocl:Edge](http://w3id.org/oclEdge)
 
 
-![img](http://yuml.me/diagram/nofunky;dir:TB/class/[Annotation]<annotation%20set%200..1-++[Edge],%20[Node]<object%200..1-%20[Edge],%20[Node]<edge%20label%200..1-%20[Edge],%20[Node]<subject%200..1-%20[Edge],%20[OntologyElement]^-[Edge])
+![img](http://yuml.me/diagram/nofunky;dir:TB/class/[OntologyElement],[Node],[Annotation]<annotation%20set%200..1-++[Edge],[Node]<object%200..1-%20[Edge],[Node]<edge%20label%200..1-%20[Edge],[Node]<subject%200..1-%20[Edge],[OntologyElement]^-[Edge],[Annotation])
 
 ## Parents
 
@@ -33,6 +33,7 @@ URI: [ocl:Edge](http://w3id.org/oclEdge)
 | --- | --- | --- |
 | **Aliases:** | | triple |
 |  | | axiom |
+|  | | relationship |
 | **Mappings:** | | owl:Axiom |
 |  | | rdf:Statement |
 

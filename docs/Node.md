@@ -7,7 +7,7 @@ Any named entity in an ontology. May be a class, individual, property
 URI: [ocl:Node](http://w3id.org/oclNode)
 
 
-![img](http://yuml.me/diagram/nofunky;dir:TB/class/[Annotation]<annotation%20set%200..1-++[Node&#124;id:string;name:string%20%3F],%20[Node]^-[InstanceNode],%20[Node]^-[ClassNode],%20[OntologyElement]^-[Node])
+![img](http://yuml.me/diagram/nofunky;dir:TB/class/[OntologyElement],[NodeUnobsoletion],[NodeObsoletion],[Annotation]<annotation%20set%200..1-++[Node&#124;id:string;name:string%20%3F],[NodeObsoletion]-%20consider(i)%200..1>[Node],[EdgeCreation]-%20edge%20label%200..1>[Node],[Edge]-%20edge%20label%200..1>[Node],[NodeUnobsoletion]-%20consider%200..1>[Node],[NodeUnobsoletion]-%20replaced%20by%200..1>[Node],[EdgeCreation]-%20object%200..1>[Node],[Edge]-%20object%200..1>[Node],[PropertyValue]-%20property%200..1>[Node],[Annotation]-%20property(i)%200..1>[Node],[NodeObsoletion]-%20replaced%20by(i)%200..1>[Node],[EdgeCreation]-%20subject%200..1>[Node],[Edge]-%20subject%200..1>[Node],[Node]^-[InstanceNode],[Node]^-[ClassNode],[OntologyElement]^-[Node],[PropertyValue],[InstanceNode],[EdgeCreation],[Edge],[ClassNode],[Annotation])
 
 ## Parents
 
@@ -20,9 +20,13 @@ URI: [ocl:Node](http://w3id.org/oclNode)
 
 ## Referenced by class
 
+ *  **[NodeObsoletion](NodeObsoletion.md)** *[consider](consider.md)*  <sub>OPT</sub>  **[Node](Node.md)**
  *  **None** *[edge label](edge_label.md)*  <sub>OPT</sub>  **[Node](Node.md)**
+ *  **[NodeUnobsoletion](NodeUnobsoletion.md)** *[node unobsoletion➞consider](node_unobsoletion_consider.md)*  <sub>OPT</sub>  **[Node](Node.md)**
+ *  **[NodeUnobsoletion](NodeUnobsoletion.md)** *[node unobsoletion➞replaced by](node_unobsoletion_replaced_by.md)*  <sub>OPT</sub>  **[Node](Node.md)**
  *  **None** *[object](object.md)*  <sub>OPT</sub>  **[Node](Node.md)**
  *  **None** *[property](property.md)*  <sub>OPT</sub>  **[Node](Node.md)**
+ *  **[NodeObsoletion](NodeObsoletion.md)** *[replaced by](replaced_by.md)*  <sub>OPT</sub>  **[Node](Node.md)**
  *  **None** *[subject](subject.md)*  <sub>OPT</sub>  **[Node](Node.md)**
 
 ## Attributes
@@ -30,25 +34,13 @@ URI: [ocl:Node](http://w3id.org/oclNode)
 
 ### Own
 
+ * [annotation set](annotation_set.md)  <sub>OPT</sub>
+    * range: [Annotation](Annotation.md)
  * [id](id.md)  <sub>REQ</sub>
     * Description: CURIE or URI
     * range: [String](types/String.md)
  * [name](name.md)  <sub>OPT</sub>
     * range: [String](types/String.md)
-
-### Inherited from edge:
-
- * [subject](subject.md)  <sub>OPT</sub>
-    * range: [Node](Node.md)
-    * inherited from: None
- * [edge label](edge_label.md)  <sub>OPT</sub>
-    * range: [Node](Node.md)
-    * inherited from: None
- * [object](object.md)  <sub>OPT</sub>
-    * range: [Node](Node.md)
-    * inherited from: None
- * [annotation set](annotation_set.md)  <sub>OPT</sub>
-    * range: [Annotation](Annotation.md)
 
 ## Other properties
 

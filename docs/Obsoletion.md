@@ -2,12 +2,12 @@
 # Type: obsoletion
 
 
-
+Obsoletion of an element deprecates usage of that element, but does not delete that element.
 
 URI: [ocl:Obsoletion](http://w3id.org/oclObsoletion)
 
 
-![img](http://yuml.me/diagram/nofunky;dir:TB/class/[NodeObsoletion]uses%20-.->[Obsoletion],%20[NodeCreation]uses%20-.->[Obsoletion],%20[ChangeMixin]^-[Obsoletion])
+![img](http://yuml.me/diagram/nofunky;dir:TB/class/[NodeObsoletion]uses%20-.->[Obsoletion],[ChangeMixin]^-[Obsoletion],[NodeObsoletion],[ChangeMixin])
 
 ## Parents
 
@@ -15,11 +15,17 @@ URI: [ocl:Obsoletion](http://w3id.org/oclObsoletion)
 
 ## Mixin for
 
- * [NodeCreation](NodeCreation.md) (mixin) 
- * [NodeObsoletion](NodeObsoletion.md) (mixin) 
+ * [NodeObsoletion](NodeObsoletion.md) (mixin)  - Obsoletion of a node deprecates usage of that node, but does not delete it.
 
 ## Referenced by class
 
 
 ## Attributes
+
+
+## Other properties
+
+|  |  |  |
+| --- | --- | --- |
+| **See also:** | | http://wiki.geneontology.org/index.php/Obsoleting_an_Existing_Ontology_Term |
 

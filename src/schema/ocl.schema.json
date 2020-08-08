@@ -45,6 +45,9 @@
             "old_value": {
                "description": "The value of a property held in the old instance of the ontology",
                "type": "string"
+            },
+            "was_generated_by": {
+               "type": "string"
             }
          },
          "required": [],
@@ -115,7 +118,15 @@
       "ChangeSetSummaryStatistic": {
          "additionalProperties": false,
          "description": "A summary statistic for a set of changes of the same type, grouped by zero or more node properties",
-         "properties": {},
+         "properties": {
+            "property_value_set": {
+               "description": "Summary statistic is grouped by these constraints",
+               "items": {
+                  "$ref": "#/definitions/PropertyValue"
+               },
+               "type": "array"
+            }
+         },
          "required": [],
          "title": "ChangeSetSummaryStatistic",
          "type": "object"
@@ -150,6 +161,9 @@
                   "$ref": "#/definitions/Change"
                },
                "type": "array"
+            },
+            "was_generated_by": {
+               "type": "string"
             }
          },
          "required": [],
@@ -219,6 +233,9 @@
             "old_value": {
                "description": "The value of a property held in the old instance of the ontology",
                "type": "string"
+            },
+            "was_generated_by": {
+               "type": "string"
             }
          },
          "required": [],
@@ -234,6 +251,9 @@
             },
             "annotation_set": {
                "$ref": "#/definitions/Annotation"
+            },
+            "change_description": {
+               "type": "string"
             },
             "edge_label": {
                "type": "string"
@@ -251,6 +271,9 @@
             },
             "subject": {
                "type": "string"
+            },
+            "was_generated_by": {
+               "type": "string"
             }
          },
          "required": [],
@@ -264,12 +287,18 @@
             "about": {
                "type": "string"
             },
+            "change_description": {
+               "type": "string"
+            },
             "new_value": {
                "description": "The value of a property held in the old instance of the ontology",
                "type": "string"
             },
             "old_value": {
                "description": "The value of a property held in the old instance of the ontology",
+               "type": "string"
+            },
+            "was_generated_by": {
                "type": "string"
             }
          },
@@ -290,6 +319,9 @@
             },
             "old_value": {
                "description": "The value of a property held in the old instance of the ontology",
+               "type": "string"
+            },
+            "was_generated_by": {
                "type": "string"
             }
          },
@@ -340,6 +372,9 @@
             "old_value": {
                "description": "The value of a property held in the old instance of the ontology",
                "type": "string"
+            },
+            "was_generated_by": {
+               "type": "string"
             }
          },
          "required": [],
@@ -359,6 +394,9 @@
             },
             "old_value": {
                "description": "The value of a property held in the old instance of the ontology",
+               "type": "string"
+            },
+            "was_generated_by": {
                "type": "string"
             }
          },
@@ -401,6 +439,9 @@
             "old_value": {
                "description": "The value of a property held in the old instance of the ontology",
                "type": "string"
+            },
+            "was_generated_by": {
+               "type": "string"
             }
          },
          "required": [],
@@ -420,6 +461,9 @@
             },
             "old_value": {
                "description": "The value of a property held in the old instance of the ontology",
+               "type": "string"
+            },
+            "was_generated_by": {
                "type": "string"
             }
          },
@@ -441,6 +485,9 @@
             "old_value": {
                "description": "The value of a property held in the old instance of the ontology",
                "type": "string"
+            },
+            "was_generated_by": {
+               "type": "string"
             }
          },
          "required": [],
@@ -457,6 +504,9 @@
             "annotation_set": {
                "$ref": "#/definitions/Annotation"
             },
+            "change_description": {
+               "type": "string"
+            },
             "id": {
                "description": "CURIE or URI",
                "type": "string"
@@ -470,6 +520,9 @@
             },
             "old_value": {
                "description": "The value of a property held in the old instance of the ontology",
+               "type": "string"
+            },
+            "was_generated_by": {
                "type": "string"
             }
          },
@@ -486,12 +539,18 @@
             "about": {
                "type": "string"
             },
+            "change_description": {
+               "type": "string"
+            },
             "new_value": {
                "description": "The value of a property held in the old instance of the ontology",
                "type": "string"
             },
             "old_value": {
                "description": "The value of a property held in the old instance of the ontology",
+               "type": "string"
+            },
+            "was_generated_by": {
                "type": "string"
             }
          },
@@ -506,12 +565,18 @@
             "about": {
                "type": "string"
             },
+            "change_description": {
+               "type": "string"
+            },
             "new_value": {
                "description": "The value of a property held in the old instance of the ontology",
                "type": "string"
             },
             "old_value": {
                "description": "The value of a property held in the old instance of the ontology",
+               "type": "string"
+            },
+            "was_generated_by": {
                "type": "string"
             }
          },
@@ -526,12 +591,18 @@
             "about": {
                "type": "string"
             },
+            "change_description": {
+               "type": "string"
+            },
             "new_value": {
                "description": "The value of a property held in the old instance of the ontology",
                "type": "string"
             },
             "old_value": {
                "description": "The value of a property held in the old instance of the ontology",
+               "type": "string"
+            },
+            "was_generated_by": {
                "type": "string"
             }
          },
@@ -546,12 +617,18 @@
             "about": {
                "type": "string"
             },
+            "change_description": {
+               "type": "string"
+            },
             "new_value": {
                "description": "The value of a property held in the old instance of the ontology",
                "type": "string"
             },
             "old_value": {
                "description": "The value of a property held in the old instance of the ontology",
+               "type": "string"
+            },
+            "was_generated_by": {
                "type": "string"
             }
          },
@@ -566,12 +643,21 @@
             "about": {
                "type": "string"
             },
+            "change_description": {
+               "type": "string"
+            },
             "new_value": {
                "description": "The value of a property held in the old instance of the ontology",
                "type": "string"
             },
             "old_value": {
                "description": "The value of a property held in the old instance of the ontology",
+               "type": "string"
+            },
+            "target": {
+               "type": "string"
+            },
+            "was_generated_by": {
                "type": "string"
             }
          },
@@ -586,12 +672,24 @@
             "about": {
                "type": "string"
             },
+            "change_description": {
+               "type": "string"
+            },
             "new_value": {
                "description": "The value of a property held in the old instance of the ontology",
                "type": "string"
             },
             "old_value": {
                "description": "The value of a property held in the old instance of the ontology",
+               "type": "string"
+            },
+            "target": {
+               "items": {
+                  "type": "string"
+               },
+               "type": "array"
+            },
+            "was_generated_by": {
                "type": "string"
             }
          },
@@ -606,6 +704,9 @@
             "about": {
                "type": "string"
             },
+            "change_description": {
+               "type": "string"
+            },
             "has_textual_diff": {
                "$ref": "#/definitions/TextualDiff"
             },
@@ -613,6 +714,9 @@
                "type": "string"
             },
             "old_value": {
+               "type": "string"
+            },
+            "was_generated_by": {
                "type": "string"
             }
          },
@@ -634,6 +738,9 @@
             "old_value": {
                "description": "The value of a property held in the old instance of the ontology",
                "type": "string"
+            },
+            "was_generated_by": {
+               "type": "string"
             }
          },
          "required": [],
@@ -654,6 +761,9 @@
             "old_value": {
                "description": "The value of a property held in the old instance of the ontology",
                "type": "string"
+            },
+            "was_generated_by": {
+               "type": "string"
             }
          },
          "required": [],
@@ -667,12 +777,24 @@
             "about": {
                "type": "string"
             },
+            "change_description": {
+               "type": "string"
+            },
+            "consider": {
+               "type": "string"
+            },
             "new_value": {
                "description": "The value of a property held in the old instance of the ontology",
                "type": "string"
             },
             "old_value": {
                "description": "The value of a property held in the old instance of the ontology",
+               "type": "string"
+            },
+            "replaced_by": {
+               "type": "string"
+            },
+            "was_generated_by": {
                "type": "string"
             }
          },
@@ -714,7 +836,12 @@
       "RemoveFromSubset": {
          "additionalProperties": false,
          "description": "removing an element from a subset",
-         "properties": {},
+         "properties": {
+            "in_subset": {
+               "$ref": "#/definitions/Subset",
+               "description": "subset that the element is being removed from"
+            }
+         },
          "required": [],
          "title": "RemoveFromSubset",
          "type": "object"
@@ -732,6 +859,9 @@
             },
             "old_value": {
                "description": "The value of a property held in the old instance of the ontology",
+               "type": "string"
+            },
+            "was_generated_by": {
                "type": "string"
             }
          },
@@ -753,6 +883,9 @@
             "old_value": {
                "description": "The value of a property held in the old instance of the ontology",
                "type": "string"
+            },
+            "was_generated_by": {
+               "type": "string"
             }
          },
          "required": [],
@@ -766,12 +899,19 @@
             "about": {
                "type": "string"
             },
+            "in_subset": {
+               "$ref": "#/definitions/Subset",
+               "description": "subset that the element is being removed from"
+            },
             "new_value": {
                "description": "The value of a property held in the old instance of the ontology",
                "type": "string"
             },
             "old_value": {
                "description": "The value of a property held in the old instance of the ontology",
+               "type": "string"
+            },
+            "was_generated_by": {
                "type": "string"
             }
          },
@@ -793,6 +933,9 @@
             },
             "old_value": {
                "description": "The value of a property held in the old instance of the ontology",
+               "type": "string"
+            },
+            "was_generated_by": {
                "type": "string"
             }
          },
@@ -825,6 +968,9 @@
             "old_value": {
                "description": "The value of a property held in the old instance of the ontology",
                "type": "string"
+            },
+            "was_generated_by": {
+               "type": "string"
             }
          },
          "required": [],
@@ -847,6 +993,9 @@
             },
             "old_value": {
                "description": "The value of a property held in the old instance of the ontology",
+               "type": "string"
+            },
+            "was_generated_by": {
                "type": "string"
             }
          },

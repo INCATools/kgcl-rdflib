@@ -21,6 +21,8 @@ URI: [ocl:edge_change_about](http://w3id.org/ocledge_change_about)
 ## Used by
 
  * [EdgeChange](EdgeChange.md)
+ * [EdgeCreation](EdgeCreation.md)
  * [EdgeLabelChange](EdgeLabelChange.md)
+ * [EdgeLogicalInterpretationChange](EdgeLogicalInterpretationChange.md)
  * [NodeDeepening](NodeDeepening.md)
  * [NodeMove](NodeMove.md)

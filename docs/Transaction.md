@@ -7,7 +7,7 @@ A unified set of changes. Could be a single change, or the results of an ontolog
 URI: [ocl:Transaction](http://w3id.org/oclTransaction)
 
 
-![img](http://yuml.me/diagram/nofunky;dir:TB/class/[Change]<change%20set%200..*-++[Transaction])
+![img](http://yuml.me/diagram/nofunky;dir:TB/class/[Change]<change%20set%200..*-++[Transaction],[Change])
 
 ## Attributes
 

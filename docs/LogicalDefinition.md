@@ -7,7 +7,7 @@
 URI: [ocl:LogicalDefinition](http://w3id.org/oclLogicalDefinition)
 
 
-![img](http://yuml.me/diagram/nofunky;dir:TB/class/[OntologyElement]^-[LogicalDefinition])
+![img](http://yuml.me/diagram/nofunky;dir:TB/class/[OntologyElement],[OntologyElement]^-[LogicalDefinition])
 
 ## Parents
 

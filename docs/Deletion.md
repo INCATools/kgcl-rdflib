@@ -2,12 +2,12 @@
 # Type: deletion
 
 
-
+Removal of an element.
 
 URI: [ocl:Deletion](http://w3id.org/oclDeletion)
 
 
-![img](http://yuml.me/diagram/nofunky;dir:TB/class/[NodeDeletion]uses%20-.->[Deletion],%20[ChangeMixin]^-[Deletion])
+![img](http://yuml.me/diagram/nofunky;dir:TB/class/[NodeDeletion]uses%20-.->[Deletion],[ChangeMixin]^-[Deletion],[NodeDeletion],[ChangeMixin])
 
 ## Parents
 

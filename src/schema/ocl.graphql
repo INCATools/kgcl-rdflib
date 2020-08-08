@@ -10,6 +10,7 @@ type Activity
 
 type AddNodeToSubset implements AddToSubset
   {
+    wasGeneratedBy: Activity
     oldValue: String
     newValue: String
     about: String
@@ -43,6 +44,7 @@ interface ChangeMixin
 
 type ChangeSetSummaryStatistic
   {
+    propertyValueSet: [PropertyValue]
   }
 
 type ClassNode
@@ -54,6 +56,7 @@ type ClassNode
 
 type ComplexChange
   {
+    wasGeneratedBy: Activity
     changeSet: [Change]
   }
 
@@ -80,34 +83,40 @@ type Edge
 
 type EdgeChange
   {
-    about: String
+    wasGeneratedBy: Activity
     oldValue: String
     newValue: String
+    about: String
   }
 
 type EdgeCreation implements Creation
   {
-    about: String
+    wasGeneratedBy: Activity
     oldValue: String
     newValue: String
+    about: String
     subject: Node
     edgeLabel: Node
     object: Node
     annotationSet: Annotation
+    changeDescription: String
   }
 
 type EdgeLabelChange
   {
-    about: String
+    wasGeneratedBy: Activity
     oldValue: String
     newValue: String
+    about: String
+    changeDescription: String
   }
 
 type EdgeLogicalInterpretationChange
   {
-    about: String
+    wasGeneratedBy: Activity
     oldValue: String
     newValue: String
+    about: String
   }
 
 type InstanceNode
@@ -123,6 +132,7 @@ type LogicalDefinition
 
 type NewSynonym
   {
+    wasGeneratedBy: Activity
     oldValue: String
     about: String
     newValue: String
@@ -130,6 +140,7 @@ type NewSynonym
 
 type NewTextDefinition
   {
+    wasGeneratedBy: Activity
     oldValue: String
     about: String
     newValue: String
@@ -144,6 +155,7 @@ type Node
 
 type NodeAnnotationChange
   {
+    wasGeneratedBy: Activity
     oldValue: String
     newValue: String
     about: String
@@ -151,6 +163,7 @@ type NodeAnnotationChange
 
 type NodeAnnotationReplacement
   {
+    wasGeneratedBy: Activity
     oldValue: String
     newValue: String
     about: String
@@ -158,6 +171,7 @@ type NodeAnnotationReplacement
 
 type NodeChange
   {
+    wasGeneratedBy: Activity
     oldValue: String
     newValue: String
     about: String
@@ -165,66 +179,85 @@ type NodeChange
 
 type NodeCreation implements Creation
   {
+    wasGeneratedBy: Activity
     oldValue: String
     newValue: String
     about: String
     id: String!
     name: String
     annotationSet: Annotation
+    changeDescription: String
   }
 
 type NodeDeepening
   {
-    about: String
+    wasGeneratedBy: Activity
     oldValue: String
     newValue: String
+    about: String
+    changeDescription: String
   }
 
 type NodeDeletion implements Deletion
   {
+    wasGeneratedBy: Activity
     oldValue: String
     newValue: String
     about: String
+    changeDescription: String
   }
 
 type NodeMove
   {
-    about: String
+    wasGeneratedBy: Activity
     oldValue: String
     newValue: String
+    about: String
+    changeDescription: String
   }
 
 type NodeObsoletion implements Obsoletion
   {
+    wasGeneratedBy: Activity
     oldValue: String
     newValue: String
     about: String
+    changeDescription: String
   }
 
 type NodeObsoletionWithMerge
   {
+    wasGeneratedBy: Activity
     oldValue: String
     newValue: String
+    target: String
     about: String
+    changeDescription: String
   }
 
 type NodeObsoletionWithSplit
   {
+    wasGeneratedBy: Activity
     oldValue: String
     newValue: String
     about: String
+    target: [String]
+    changeDescription: String
   }
 
 type NodeRename
   {
+    wasGeneratedBy: Activity
     about: String
     oldValue: String
     newValue: String
     hasTextualDiff: TextualDiff
+    changeDescription: String
   }
 
 type NodeSynonymChange
   {
+    wasGeneratedBy: Activity
     oldValue: String
     newValue: String
     about: String
@@ -232,6 +265,7 @@ type NodeSynonymChange
 
 type NodeTextDefinitionChange
   {
+    wasGeneratedBy: Activity
     oldValue: String
     newValue: String
     about: String
@@ -239,9 +273,13 @@ type NodeTextDefinitionChange
 
 type NodeUnobsoletion implements Unobsoletion
   {
+    wasGeneratedBy: Activity
     oldValue: String
     newValue: String
     about: String
+    changeDescription: String
+    replacedBy: Node
+    consider: Node
   }
 
 interface Obsoletion
@@ -260,10 +298,12 @@ type PropertyValue
 
 interface RemoveFromSubset
   {
+    inSubset: Subset
   }
 
 type RemoveSynonym
   {
+    wasGeneratedBy: Activity
     newValue: String
     about: String
     oldValue: String
@@ -271,6 +311,7 @@ type RemoveSynonym
 
 type RemoveTextDefinition
   {
+    wasGeneratedBy: Activity
     newValue: String
     about: String
     oldValue: String
@@ -278,13 +319,16 @@ type RemoveTextDefinition
 
 type RemovedNodeFromSubset implements RemoveFromSubset
   {
+    wasGeneratedBy: Activity
     oldValue: String
     newValue: String
     about: String
+    inSubset: Subset
   }
 
 type SimpleChange
   {
+    wasGeneratedBy: Activity
     about: String
     oldValue: String
     newValue: String
@@ -296,6 +340,7 @@ type Subset
 
 type SynonymReplacement
   {
+    wasGeneratedBy: Activity
     about: String
     oldValue: String
     newValue: String
@@ -304,6 +349,7 @@ type SynonymReplacement
 
 type TextDefinitionReplacement
   {
+    wasGeneratedBy: Activity
     about: String
     oldValue: String
     newValue: String

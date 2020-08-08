@@ -17,19 +17,19 @@
     rdfs:subClassOf [ a owl:Restriction ;
             owl:maxQualifiedCardinality 1 ;
             owl:onClass <http://w3id.org/ocl/omNode> ;
-            owl:onProperty <http://w3id.org/ocl/omobject> ],
+            owl:onProperty <http://w3id.org/ocl/omsubject> ],
         [ a owl:Restriction ;
             owl:maxQualifiedCardinality 1 ;
             owl:onClass <http://w3id.org/ocl/omNode> ;
             owl:onProperty <http://w3id.org/ocl/omedge_label> ],
         [ a owl:Restriction ;
             owl:maxQualifiedCardinality 1 ;
-            owl:onClass <http://w3id.org/ocl/omNode> ;
-            owl:onProperty <http://w3id.org/ocl/omsubject> ],
-        [ a owl:Restriction ;
-            owl:maxQualifiedCardinality 1 ;
             owl:onClass <http://w3id.org/ocl/omAnnotation> ;
             owl:onProperty <http://w3id.org/ocl/omannotation_set> ],
+        [ a owl:Restriction ;
+            owl:maxQualifiedCardinality 1 ;
+            owl:onClass <http://w3id.org/ocl/omNode> ;
+            owl:onProperty <http://w3id.org/ocl/omobject> ],
         <http://w3id.org/ocl/omOntologyElement> ;
     skos:definition "A relationship between two nodes. We assume owlstar or similar for existential restrictions" .
 
@@ -57,7 +57,8 @@
     rdfs:label "complex change" ;
     rdfs:subClassOf [ a owl:Restriction ;
             owl:allValuesFrom <http://w3id.org/oclChange> ;
-            owl:onProperty <http://w3id.org/oclchange_set> ] ;
+            owl:onProperty <http://w3id.org/oclchange_set> ],
+        <http://w3id.org/oclChange> ;
     skos:definition "A change that is is a composition of other changes" .
 
 <http://w3id.org/oclDatatypeChange> a owl:Class,
@@ -390,11 +391,11 @@ meta:remove_from_subset_in_subset a owl:ObjectProperty,
     dcterms:license "https://creativecommons.org/publicdomain/zero/1.0/" ;
     dcterms:title "ontology change language" ;
     skos:definition "A data model for describing change operations at a high level on an ontology or ontology-like artefact" ;
-    meta:generation_date "2020-08-07 20:19" ;
+    meta:generation_date "2020-08-07 20:21" ;
     meta:metamodel_version "1.5.3" ;
     meta:source_file "ocl.yaml" ;
-    meta:source_file_date "Fri Aug  7 19:47:23 2020" ;
-    meta:source_file_size 11434 .
+    meta:source_file_date "Fri Aug  7 20:21:28 2020" ;
+    meta:source_file_size 11468 .
 
 <http://w3id.org/ocl/omfiller> a owl:ObjectProperty,
         meta:SlotDefinition ;
@@ -425,6 +426,10 @@ meta:remove_from_subset_in_subset a owl:ObjectProperty,
     rdfs:seeAlso "http://wiki.geneontology.org/index.php/Guidelines_for_creating_relationships_between_terms" ;
     rdfs:subClassOf [ a owl:Restriction ;
             owl:maxQualifiedCardinality 1 ;
+            owl:onClass <http://w3id.org/ocl/omNode> ;
+            owl:onProperty <http://w3id.org/ocl/omedge_label> ],
+        [ a owl:Restriction ;
+            owl:maxQualifiedCardinality 1 ;
             owl:onClass <http://w3id.org/ocl/omAnnotation> ;
             owl:onProperty <http://w3id.org/ocl/omannotation_set> ],
         [ a owl:Restriction ;
@@ -433,16 +438,12 @@ meta:remove_from_subset_in_subset a owl:ObjectProperty,
             owl:onProperty <http://w3id.org/ocl/omobject> ],
         [ a owl:Restriction ;
             owl:maxQualifiedCardinality 1 ;
-            owl:onClass <https://w3id.org/biolink/biolinkml/meta/types/String> ;
-            owl:onProperty <http://w3id.org/oclchange_description> ],
-        [ a owl:Restriction ;
-            owl:maxQualifiedCardinality 1 ;
             owl:onClass <http://w3id.org/ocl/omNode> ;
             owl:onProperty <http://w3id.org/ocl/omsubject> ],
         [ a owl:Restriction ;
             owl:maxQualifiedCardinality 1 ;
-            owl:onClass <http://w3id.org/ocl/omNode> ;
-            owl:onProperty <http://w3id.org/ocl/omedge_label> ],
+            owl:onClass <https://w3id.org/biolink/biolinkml/meta/types/String> ;
+            owl:onProperty <http://w3id.org/oclchange_description> ],
         <http://w3id.org/oclCreation>,
         <http://w3id.org/oclEdgeChange> .
 
@@ -468,21 +469,21 @@ meta:remove_from_subset_in_subset a owl:ObjectProperty,
     rdfs:label "node creation" ;
     rdfs:seeAlso "http://wiki.geneontology.org/index.php/Guidelines_for_creating_a_GO_term" ;
     rdfs:subClassOf [ a owl:Restriction ;
+            owl:maxQualifiedCardinality 1 ;
+            owl:onClass <https://w3id.org/biolink/biolinkml/meta/types/String> ;
+            owl:onProperty <http://w3id.org/ocl/omname> ],
+        [ a owl:Restriction ;
             owl:onClass <https://w3id.org/biolink/biolinkml/meta/types/String> ;
             owl:onProperty <http://w3id.org/ocl/omid> ;
             owl:qualifiedCardinality 1 ],
         [ a owl:Restriction ;
             owl:maxQualifiedCardinality 1 ;
-            owl:onClass <http://w3id.org/ocl/omAnnotation> ;
-            owl:onProperty <http://w3id.org/ocl/omannotation_set> ],
-        [ a owl:Restriction ;
-            owl:maxQualifiedCardinality 1 ;
-            owl:onClass <https://w3id.org/biolink/biolinkml/meta/types/String> ;
-            owl:onProperty <http://w3id.org/ocl/omname> ],
-        [ a owl:Restriction ;
-            owl:maxQualifiedCardinality 1 ;
             owl:onClass <https://w3id.org/biolink/biolinkml/meta/types/String> ;
             owl:onProperty <http://w3id.org/oclchange_description> ],
+        [ a owl:Restriction ;
+            owl:maxQualifiedCardinality 1 ;
+            owl:onClass <http://w3id.org/ocl/omAnnotation> ;
+            owl:onProperty <http://w3id.org/ocl/omannotation_set> ],
         <http://w3id.org/oclCreation>,
         <http://w3id.org/oclNodeChange> .
 
@@ -682,11 +683,12 @@ meta:node_move_change_description a owl:ObjectProperty,
         [ a owl:Restriction ;
             owl:maxQualifiedCardinality 1 ;
             owl:onClass <https://w3id.org/biolink/biolinkml/meta/types/String> ;
-            owl:onProperty <http://w3id.org/oclabout> ],
+            owl:onProperty <http://w3id.org/oclold_value> ],
         [ a owl:Restriction ;
             owl:maxQualifiedCardinality 1 ;
             owl:onClass <https://w3id.org/biolink/biolinkml/meta/types/String> ;
-            owl:onProperty <http://w3id.org/oclold_value> ] ;
+            owl:onProperty <http://w3id.org/oclabout> ],
+        <http://w3id.org/oclChange> ;
     skos:definition "A change that is about a single ontology element" .
 
 <http://w3id.org/oclchange_set> a owl:ObjectProperty,
@@ -734,15 +736,15 @@ meta:replaced_by a owl:ObjectProperty,
     rdfs:subClassOf [ a owl:Restriction ;
             owl:maxQualifiedCardinality 1 ;
             owl:onClass <https://w3id.org/biolink/biolinkml/meta/types/String> ;
+            owl:onProperty <http://w3id.org/oclabout> ],
+        [ a owl:Restriction ;
+            owl:maxQualifiedCardinality 1 ;
+            owl:onClass <https://w3id.org/biolink/biolinkml/meta/types/String> ;
             owl:onProperty <http://w3id.org/ocltarget> ],
         [ a owl:Restriction ;
             owl:maxQualifiedCardinality 1 ;
             owl:onClass <https://w3id.org/biolink/biolinkml/meta/types/String> ;
             owl:onProperty <http://w3id.org/oclchange_description> ],
-        [ a owl:Restriction ;
-            owl:maxQualifiedCardinality 1 ;
-            owl:onClass <https://w3id.org/biolink/biolinkml/meta/types/String> ;
-            owl:onProperty <http://w3id.org/oclabout> ],
         <http://w3id.org/oclNodeObsoletion> ;
     skos:definition "An obsoletion change in which information from the obsoleted node is moved to a single target." .
 
@@ -751,20 +753,20 @@ meta:replaced_by a owl:ObjectProperty,
     rdfs:label "node rename" ;
     rdfs:subClassOf [ a owl:Restriction ;
             owl:maxQualifiedCardinality 1 ;
-            owl:onClass <https://w3id.org/biolink/biolinkml/meta/types/String> ;
-            owl:onProperty <http://w3id.org/oclold_value> ],
-        [ a owl:Restriction ;
-            owl:maxQualifiedCardinality 1 ;
             owl:onClass <http://w3id.org/oclTextualDiff> ;
             owl:onProperty <http://w3id.org/oclhas_textual_diff> ],
         [ a owl:Restriction ;
             owl:maxQualifiedCardinality 1 ;
             owl:onClass <https://w3id.org/biolink/biolinkml/meta/types/String> ;
-            owl:onProperty <http://w3id.org/oclnew_value> ],
+            owl:onProperty <http://w3id.org/oclchange_description> ],
         [ a owl:Restriction ;
             owl:maxQualifiedCardinality 1 ;
             owl:onClass <https://w3id.org/biolink/biolinkml/meta/types/String> ;
-            owl:onProperty <http://w3id.org/oclchange_description> ],
+            owl:onProperty <http://w3id.org/oclold_value> ],
+        [ a owl:Restriction ;
+            owl:maxQualifiedCardinality 1 ;
+            owl:onClass <https://w3id.org/biolink/biolinkml/meta/types/String> ;
+            owl:onProperty <http://w3id.org/oclnew_value> ],
         <http://w3id.org/oclNodeChange> ;
     skos:definition "A node change where the name (aka rdfs:label) of the node changes" .
 
@@ -785,7 +787,7 @@ meta:replaced_by a owl:ObjectProperty,
     rdfs:subClassOf [ a owl:Restriction ;
             owl:maxQualifiedCardinality 1 ;
             owl:onClass <http://w3id.org/ocl/omNode> ;
-            owl:onProperty meta:replaced_by ],
+            owl:onProperty meta:consider ],
         [ a owl:Restriction ;
             owl:maxQualifiedCardinality 1 ;
             owl:onClass <https://w3id.org/biolink/biolinkml/meta/types/String> ;
@@ -793,7 +795,7 @@ meta:replaced_by a owl:ObjectProperty,
         [ a owl:Restriction ;
             owl:maxQualifiedCardinality 1 ;
             owl:onClass <http://w3id.org/ocl/omNode> ;
-            owl:onProperty meta:consider ],
+            owl:onProperty meta:replaced_by ],
         <http://w3id.org/oclNodeChange>,
         <http://w3id.org/oclUnobsoletion> ;
     skos:definition "unobsoletion of a node deprecates usage of that node. Rarely applied." .
@@ -828,12 +830,12 @@ meta:in_subset a owl:ObjectProperty,
     rdfs:label "property value" ;
     rdfs:subClassOf [ a owl:Restriction ;
             owl:maxQualifiedCardinality 1 ;
-            owl:onClass <https://w3id.org/biolink/biolinkml/meta/types/String> ;
-            owl:onProperty <http://w3id.org/ocl/omfiller> ],
-        [ a owl:Restriction ;
-            owl:maxQualifiedCardinality 1 ;
             owl:onClass <http://w3id.org/ocl/omNode> ;
             owl:onProperty <http://w3id.org/ocl/omproperty> ],
+        [ a owl:Restriction ;
+            owl:maxQualifiedCardinality 1 ;
+            owl:onClass <https://w3id.org/biolink/biolinkml/meta/types/String> ;
+            owl:onProperty <http://w3id.org/ocl/omfiller> ],
         <http://w3id.org/ocl/omOntologyElement> ;
     skos:definition "a property-value pair" .
 
@@ -875,15 +877,6 @@ meta:in_subset a owl:ObjectProperty,
         meta:SlotDefinition ;
     rdfs:label "annotation set" ;
     rdfs:range <http://w3id.org/ocl/omAnnotation> .
-
-<http://w3id.org/oclChange> a owl:Class,
-        meta:ClassDefinition ;
-    rdfs:label "change" ;
-    rdfs:subClassOf [ a owl:Restriction ;
-            owl:maxQualifiedCardinality 1 ;
-            owl:onClass <http://www.w3.org/ns/prov#Activity> ;
-            owl:onProperty <http://www.w3.org/ns/prov#was_generated_by> ] ;
-    skos:definition "Any change perform on an ontology or knowledge graph" .
 
 <http://w3id.org/oclEdgeChange> a owl:Class,
         meta:ClassDefinition ;
@@ -939,7 +932,15 @@ meta:in_subset a owl:ObjectProperty,
         [ a owl:Restriction ;
             owl:maxQualifiedCardinality 1 ;
             owl:onClass <https://w3id.org/biolink/biolinkml/meta/types/String> ;
+            owl:onProperty <http://www.w3.org/ns/prov#started_at_time> ],
+        [ a owl:Restriction ;
+            owl:maxQualifiedCardinality 1 ;
+            owl:onClass <https://w3id.org/biolink/biolinkml/meta/types/String> ;
             owl:onProperty <http://www.w3.org/ns/prov#used> ],
+        [ a owl:Restriction ;
+            owl:onClass <https://w3id.org/biolink/biolinkml/meta/types/String> ;
+            owl:onProperty <http://www.w3.org/ns/prov#activity_id> ;
+            owl:qualifiedCardinality 1 ],
         [ a owl:Restriction ;
             owl:maxQualifiedCardinality 1 ;
             owl:onClass <http://www.w3.org/ns/prov#Agent> ;
@@ -947,16 +948,17 @@ meta:in_subset a owl:ObjectProperty,
         [ a owl:Restriction ;
             owl:maxQualifiedCardinality 1 ;
             owl:onClass <http://www.w3.org/ns/prov#Activity> ;
-            owl:onProperty <http://www.w3.org/ns/prov#was_informed_by> ],
-        [ a owl:Restriction ;
-            owl:onClass <https://w3id.org/biolink/biolinkml/meta/types/String> ;
-            owl:onProperty <http://www.w3.org/ns/prov#activity_id> ;
-            owl:qualifiedCardinality 1 ],
-        [ a owl:Restriction ;
-            owl:maxQualifiedCardinality 1 ;
-            owl:onClass <https://w3id.org/biolink/biolinkml/meta/types/String> ;
-            owl:onProperty <http://www.w3.org/ns/prov#started_at_time> ] ;
+            owl:onProperty <http://www.w3.org/ns/prov#was_informed_by> ] ;
     skos:definition "a provence-generating activity" .
+
+<http://w3id.org/oclChange> a owl:Class,
+        meta:ClassDefinition ;
+    rdfs:label "change" ;
+    rdfs:subClassOf [ a owl:Restriction ;
+            owl:maxQualifiedCardinality 1 ;
+            owl:onClass <http://www.w3.org/ns/prov#Activity> ;
+            owl:onProperty <http://www.w3.org/ns/prov#was_generated_by> ] ;
+    skos:definition "Any change perform on an ontology or knowledge graph" .
 
 <http://w3id.org/oclNodeChange> a owl:Class,
         meta:ClassDefinition ;
@@ -979,10 +981,6 @@ meta:TypeDefinition a owl:Class ;
         meta:ClassDefinition ;
     rdfs:label "node" ;
     rdfs:subClassOf [ a owl:Restriction ;
-            owl:maxQualifiedCardinality 1 ;
-            owl:onClass <https://w3id.org/biolink/biolinkml/meta/types/String> ;
-            owl:onProperty <http://w3id.org/ocl/omname> ],
-        [ a owl:Restriction ;
             owl:onClass <https://w3id.org/biolink/biolinkml/meta/types/String> ;
             owl:onProperty <http://w3id.org/ocl/omid> ;
             owl:qualifiedCardinality 1 ],
@@ -990,6 +988,10 @@ meta:TypeDefinition a owl:Class ;
             owl:maxQualifiedCardinality 1 ;
             owl:onClass <http://w3id.org/ocl/omAnnotation> ;
             owl:onProperty <http://w3id.org/ocl/omannotation_set> ],
+        [ a owl:Restriction ;
+            owl:maxQualifiedCardinality 1 ;
+            owl:onClass <https://w3id.org/biolink/biolinkml/meta/types/String> ;
+            owl:onProperty <http://w3id.org/ocl/omname> ],
         <http://w3id.org/ocl/omOntologyElement> ;
     skos:definition "Any named entity in an ontology. May be a class, individual, property" .
 

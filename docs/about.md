@@ -23,4 +23,5 @@ None ->  <sub>OPT</sub> [String](types/String.md)
 
  * [EdgeChange](EdgeChange.md)
  * [NodeChange](NodeChange.md)
+ * [NodeObsoletionWithMerge](NodeObsoletionWithMerge.md)
  * [SimpleChange](SimpleChange.md)
