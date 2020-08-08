@@ -101,7 +101,8 @@ classes:
       placing an element inside a subset
     slot_usage:
       subset:
-        subset that the element is being placed inside.
+        description: >-
+          subset that the element is being placed inside.
 
   remove from subset:
     # reverse_of: add to subset
@@ -111,7 +112,8 @@ classes:
       removing an element from a subset
     slot_usage:
       subset:
-        subset that the element is being removed from
+        description: >-
+          subset that the element is being removed from
       
   edge change:
     aliases:
