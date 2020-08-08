@@ -23,12 +23,18 @@ classes:
     description: >-
       Any component of an ontology or knowledge graph
 
-  annotation:
-    aliases:
-      - property value
+  property value:
     is_a: ontology element
     description: >-
-      owl annotations. Not to be confused with annotatuons sensu GO
+      a property-value pair
+    slots:
+      - property
+      - filler
+      
+  annotation:
+    is_a: property value
+    description: >-
+      owl annotations. Not to be confused with annotations sensu GO
     slots:
       - property
       - filler
@@ -67,6 +73,7 @@ classes:
     aliases:
       - triple
       - axiom
+      - relationship
     is_a: ontology element
     description: >-
       A relationship between two nodes. We assume owlstar or similar for existential restrictions
@@ -80,6 +87,9 @@ classes:
       - annotation set
 
   logical definition:
+    is_a: ontology element
+  
+  subset:
     is_a: ontology element
   
 
@@ -108,3 +118,8 @@ slots:
     range: node
 
   filler: {}
+
+  property value set:
+    range: property value
+    multivalued: true
+    inlined: true
