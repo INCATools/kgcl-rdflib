@@ -25,6 +25,13 @@ Currently the main derived artefacts of interest are:
 
  - [JSON Schema](src/schema/ocl.schema.json)
  - [Python dataclasses](src/schema/ocl_datamodel.py)
+ - [GraphQL](src/schema/ocl.graphql)
+
+Note there is also an OWL vocabulary rendering, and a schema in ShEx (TODO: fix issues with namespaces)
+
+ - [JSON Schema](src/schema/ocl.schema.json)
+ - [Python dataclasses](src/schema/ocl_datamodel.py)
+
 
 It is likely we will bind this into [owl-diff](https://github.com/balhoff/owl-diff) so compilation to scala traits likely in future.
 
