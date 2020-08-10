@@ -1,18 +1,19 @@
-id: ocl
-title: ontology change language
+id: https://w3id.org/kgcl
+name: kgcl
+title: knowledge graph change language
 description: >-
-  A data model for describing change operations at a high level on an ontology or ontology-like artefact.
+  A data model for describing change operations at a high level on an ontology or ontology-like artefact, e.g Knowledge Graph.
   See [https://github.com/cmungall/ontology-change-language](https://github.com/cmungall/ontology-change-language)
 license: https://creativecommons.org/publicdomain/zero/1.0/
 version: 0.0.1
 
 
 prefixes:
-  ocl: http://w3id.org/ocl
+  kgcl: http://w3id.org/kgcl
   dcterms: http://purl.org/dc/terms/
   biolinkml: https://w3id.org/biolink/biolinkml/
   
-default_prefix: ocl
+default_prefix: kgcl
 default_range: string
 
 imports:
@@ -25,7 +26,7 @@ types:
   change class type:
     typeof: uriorcurie
     description: >-
-      CURIE for a class within this datamodel. E.g. ocl:NodeObsoletion
+      CURIE for a class within this datamodel. E.g. kgcl:NodeObsoletion
   
 classes:
 

@@ -1,4 +1,6 @@
-id: ontology_model
+id: https://w3id.org/kgcl/ontology
+name: kgcl-ontology-model
+title: knowledge graph change language ontology model
 description: >-
   A basic bare-bones model of an ontology or ontology-like structure. The purpose is not to provide a complete model,
   rather just sufficient structure for domain and range constraints in the ocl model
