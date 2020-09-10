@@ -17,7 +17,7 @@ operations performed on ontologies.
 
 Browse the schema here: [http://cmungall.github.io/ontology-change-language](http://cmungall.github.io/ontology-change-language)
 
-See the [schema/](schema/) folder
+See the [schema/](https://github.com/cmungall/ontology-change-language/tree/master/src/schema/) folder
 
 The source is in YAML (biolinkml)
 
