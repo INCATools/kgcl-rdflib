@@ -1,0 +1,375 @@
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="None">
+  
+  
+  <link rel="shortcut icon" href="img/favicon.ico">
+  <title>Knowledge Graph Change Language</title>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lato:400,700|Roboto+Slab:400,700|Inconsolata:400,700" />
+
+  <link rel="stylesheet" href="css/theme.css" />
+  <link rel="stylesheet" href="css/theme_extra.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/github.min.css" />
+  
+  <script>
+    // Current page data
+    var mkdocs_page_name = "Index";
+    var mkdocs_page_input_path = "index.md";
+    var mkdocs_page_url = null;
+  </script>
+  
+  <script src="js/jquery-2.1.1.min.js" defer></script>
+  <script src="js/modernizr-2.8.3.min.js" defer></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+  <script>hljs.initHighlightingOnLoad();</script> 
+  
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side stickynav">
+    <div class="wy-side-scroll">
+      <div class="wy-side-nav-search">
+        <a href="." class="icon icon-home"> Knowledge Graph Change Language</a>
+        <div role="search">
+  <form id ="rtd-search-form" class="wy-form" action="./search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" title="Type search term here" />
+  </form>
+</div>
+      </div>
+
+      <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+                <ul>
+                    <li class="toctree-l1"><a class="reference internal" href="home/">Home</a>
+                    </li>
+                </ul>
+                <ul class="current">
+                    <li class="toctree-l1 current"><a class="reference internal current" href=".">Index</a>
+    <ul class="current">
+    <li class="toctree-l2"><a class="reference internal" href="#classes">Classes</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#mixins">Mixins</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#slots">Slots</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#types">Types</a>
+        <ul>
+    <li class="toctree-l3"><a class="reference internal" href="#built-in">Built in</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#defined">Defined</a>
+    </li>
+        </ul>
+    </li>
+    </ul>
+                    </li>
+                </ul>
+                <ul>
+                    <li class="toctree-l1"><a class="reference internal" href="credits/">Credits</a>
+                    </li>
+                </ul>
+      </div>
+    </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+        <a href=".">Knowledge Graph Change Language</a>
+      </nav>
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href=".">Docs</a> &raquo;</li>
+    
+      
+    
+    <li>Index</li>
+    <li class="wy-breadcrumbs-aside">
+      
+    </li>
+  </ul>
+  
+  <hr/>
+</div>
+          <div role="main">
+            <div class="section">
+              
+                <h1 id="kgcl-schema">Kgcl schema</h1>
+<p>A data model for describing change operations at a high level on an ontology or ontology-like artefact, e.g Knowledge Graph. See <a href="https://github.com/cmungall/ontology-change-language">https://github.com/cmungall/ontology-change-language</a></p>
+<h3 id="classes">Classes</h3>
+<ul>
+<li><a href="Activity/">Activity</a> - a provence-generating activity</li>
+<li><a href="Agent/">Agent</a> - a provence-generating agent</li>
+<li><a href="Change/">Change</a> - Any change perform on an ontology or knowledge graph<ul>
+<li><a href="ComplexChange/">ComplexChange</a> - A change that is is a composition of other changes</li>
+<li><a href="SimpleChange/">SimpleChange</a> - A change that is about a single ontology element</li>
+<li><a href="DatatypeChange/">DatatypeChange</a></li>
+<li><a href="EdgeChange/">EdgeChange</a> - A change in which the entity changes is an edge<ul>
+<li><a href="EdgeCreation/">EdgeCreation</a> - An edge change in which a de-novo edge is created. The edge is potentially annotated in the same action.</li>
+<li><a href="EdgeDeletion/">EdgeDeletion</a> - An edge change in which an edge is removed. All edge annotations/properies are removed in the same action.</li>
+<li><a href="EdgeLabelChange/">EdgeLabelChange</a> - An edge change where the edge label (relationship type) is modified.</li>
+<li><a href="EdgeLogicalInterpretationChange/">EdgeLogicalInterpretationChange</a> - An edge change where the subjet, object, and edge label are unchanged, but the logical interpretation changes</li>
+<li><a href="EdgeObsoletion/">EdgeObsoletion</a> - An edge change in which an edge is obsoleted.</li>
+<li><a href="NodeMove/">NodeMove</a> - A node move is a combination of deleting a parent edge and adding a parent edge, where the edge label is preserved and the object/parent node changes<ul>
+<li><a href="NodeDeepening/">NodeDeepening</a> - A node move in which a node where the destination is a proper descendant of the original location. Note that here descendant applied not just to subclass, but edges of any edge label in the relational graph</li>
+<li><a href="NodeShallowing/">NodeShallowing</a> - The opposite of node deepening</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a href="NodeChange/">NodeChange</a> - A simple change where the change is about a node<ul>
+<li><a href="AddNodeToSubset/">AddNodeToSubset</a> - Places a node inside a subset, by annotating that node</li>
+<li><a href="NodeAnnotationChange/">NodeAnnotationChange</a> - A node change where the change alters node properties/annotations. TODO<ul>
+<li><a href="NodeAnnotationReplacement/">NodeAnnotationReplacement</a> - A node annotation change where the change replaces a particular property value. TODO</li>
+</ul>
+</li>
+<li><a href="NodeCreation/">NodeCreation</a></li>
+<li><a href="NodeDeletion/">NodeDeletion</a> - Deletion of a node from the graph. Note it is recommended nodes are obsoleted and never merged, but this operation exists to represent deletions in ontologies, accidental or otherwise</li>
+<li><a href="NodeObsoletion/">NodeObsoletion</a> - Obsoletion of a node deprecates usage of that node, but does not delete it.<ul>
+<li><a href="NodeObsoletionWithMerge/">NodeObsoletionWithMerge</a> - An obsoletion change in which information from the obsoleted node is moved to a single target.</li>
+<li><a href="NodeObsoletionWithSplit/">NodeObsoletionWithSplit</a> - An obsoletion change in which information from the obsoleted node is moved selectively to multiple targets</li>
+</ul>
+</li>
+<li><a href="NodeRename/">NodeRename</a> - A node change where the name (aka rdfs:label) of the node changes</li>
+<li><a href="NodeSynonymChange/">NodeSynonymChange</a><ul>
+<li><a href="NewSynonym/">NewSynonym</a> - A node change where a de-novo synonym is created</li>
+<li><a href="RemoveSynonym/">RemoveSynonym</a> - A node change where a synonym is deleted</li>
+<li><a href="SynonymReplacement/">SynonymReplacement</a> - A node change where the text of a synonym is changed</li>
+</ul>
+</li>
+<li><a href="NodeTextDefinitionChange/">NodeTextDefinitionChange</a><ul>
+<li><a href="NewTextDefinition/">NewTextDefinition</a> - A node change where a de-novo text definition is created</li>
+<li><a href="RemoveTextDefinition/">RemoveTextDefinition</a> - A node change where a text definition is deleted</li>
+<li><a href="TextDefinitionReplacement/">TextDefinitionReplacement</a> - A node change where a text definition is modified</li>
+</ul>
+</li>
+<li><a href="NodeUnobsoletion/">NodeUnobsoletion</a> - unobsoletion of a node deprecates usage of that node. Rarely applied.</li>
+<li><a href="RemovedNodeFromSubset/">RemovedNodeFromSubset</a> - Removes a node from a subset, by removing an annotation</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a href="ChangeSetSummaryStatistic/">ChangeSetSummaryStatistic</a> - A summary statistic for a set of changes of the same type, grouped by zero or more node properties</li>
+<li><a href="OntologyElement/">OntologyElement</a> - Any component of an ontology or knowledge graph<ul>
+<li><a href="Edge/">Edge</a> - A relationship between two nodes. We assume owlstar or similar for existential restrictions</li>
+<li><a href="LogicalDefinition/">LogicalDefinition</a></li>
+<li><a href="Node/">Node</a> - Any named entity in an ontology. May be a class, individual, property</li>
+<li><a href="ClassNode/">ClassNode</a> - A node that is a class</li>
+<li><a href="InstanceNode/">InstanceNode</a> - A node that is an individual</li>
+<li><a href="PropertyValue/">PropertyValue</a> - a property-value pair</li>
+<li><a href="Annotation/">Annotation</a> - owl annotations. Not to be confused with annotations sensu GO</li>
+<li><a href="Subset/">Subset</a></li>
+</ul>
+</li>
+<li><a href="TextualDiff/">TextualDiff</a> - A summarizing of a change on a piece of text. This could be rendered in a number of different ways</li>
+<li><a href="Transaction/">Transaction</a> - A unified set of changes. Could be a single change, or the results of an ontology diff</li>
+</ul>
+<h3 id="mixins">Mixins</h3>
+<ul>
+<li><a href="AddToSubset/">AddToSubset</a> - placing an element inside a subset</li>
+<li><a href="ChangeMixin/">ChangeMixin</a> - root class for all change mixins<ul>
+<li><a href="AddToSubset/">AddToSubset</a> - placing an element inside a subset</li>
+<li><a href="Creation/">Creation</a> - Creation of an element.</li>
+<li><a href="Deletion/">Deletion</a> - Removal of an element.</li>
+<li><a href="Obsoletion/">Obsoletion</a> - Obsoletion of an element deprecates usage of that element, but does not delete that element.</li>
+<li><a href="RemoveFromSubset/">RemoveFromSubset</a> - removing an element from a subset</li>
+<li><a href="Unobsoletion/">Unobsoletion</a> - Opposite operation of obsoletion. Rarely performed.</li>
+</ul>
+</li>
+<li><a href="Creation/">Creation</a> - Creation of an element.</li>
+<li><a href="Deletion/">Deletion</a> - Removal of an element.</li>
+<li><a href="Obsoletion/">Obsoletion</a> - Obsoletion of an element deprecates usage of that element, but does not delete that element.</li>
+<li><a href="RemoveFromSubset/">RemoveFromSubset</a> - removing an element from a subset</li>
+<li><a href="Unobsoletion/">Unobsoletion</a> - Opposite operation of obsoletion. Rarely performed.</li>
+</ul>
+<h3 id="slots">Slots</h3>
+<ul>
+<li><a href="about/">about</a> - The 'focus' entity on which the change operates<ul>
+<li><a href="edge_change_about/">edge change➞about</a></li>
+<li><a href="node_change_about/">node change➞about</a></li>
+<li><a href="node_obsoletion_with_merge_about/">node obsoletion with merge➞about</a></li>
+</ul>
+</li>
+<li><a href="acted_on_behalf_of/">acted on behalf of</a></li>
+<li><a href="activity_id/">activity id</a></li>
+<li><a href="annotation_set/">annotation set</a></li>
+<li><a href="change_description/">change description</a> - A string serialization of the change<ul>
+<li><a href="edge_creation_change_description/">edge creation➞change description</a></li>
+<li><a href="edge_deletion_change_description/">edge deletion➞change description</a></li>
+<li><a href="edge_label_change_change_description/">edge label change➞change description</a></li>
+<li><a href="edge_obsoletion_change_description/">edge obsoletion➞change description</a></li>
+<li><a href="node_creation_change_description/">node creation➞change description</a></li>
+<li><a href="node_deletion_change_description/">node deletion➞change description</a></li>
+<li><a href="node_move_change_description/">node move➞change description</a></li>
+<li><a href="node_deepening_change_description/">node deepening➞change description</a></li>
+<li><a href="node_shallowing_change_description/">node shallowing➞change description</a></li>
+<li><a href="node_obsoletion_change_description/">node obsoletion➞change description</a></li>
+<li><a href="node_obsoletion_with_merge_change_description/">node obsoletion with merge➞change description</a></li>
+<li><a href="node_obsoletion_with_split_change_description/">node obsoletion with split➞change description</a></li>
+<li><a href="node_rename_change_description/">node rename➞change description</a></li>
+<li><a href="node_unobsoletion_change_description/">node unobsoletion➞change description</a></li>
+</ul>
+</li>
+<li><a href="change_set/">change set</a></li>
+<li><a href="change_type/">change type</a><ul>
+<li><a href="change_set_summary_statistic_change_type/">change set summary statistic➞change type</a></li>
+</ul>
+</li>
+<li><a href="consider/">consider</a><ul>
+<li><a href="node_obsoletion_consider/">node obsoletion➞consider</a></li>
+<li><a href="node_unobsoletion_consider/">node unobsoletion➞consider</a></li>
+</ul>
+</li>
+<li><a href="count/">count</a><ul>
+<li><a href="change_set_summary_statistic_count/">change set summary statistic➞count</a></li>
+</ul>
+</li>
+<li><a href="edge_label/">edge label</a></li>
+<li><a href="ended_at_time/">ended at time</a></li>
+<li><a href="filler/">filler</a></li>
+<li><a href="has_textual_diff/">has textual diff</a></li>
+<li><a href="id/">id</a> - CURIE or URI</li>
+<li><a href="in_subset/">in subset</a> - subset that the element is being placed inside.<ul>
+<li><a href="add_to_subset_in_subset/">add to subset➞in subset</a></li>
+<li><a href="remove_from_subset_in_subset/">remove from subset➞in subset</a> - subset that the element is being removed from</li>
+</ul>
+</li>
+<li><a href="name/">name</a></li>
+<li><a href="new_value/">new value</a> - The value of a property held in the old instance of the ontology<ul>
+<li><a href="node_rename_new_value/">node rename➞new value</a></li>
+</ul>
+</li>
+<li><a href="object/">object</a></li>
+<li><a href="old_value/">old value</a> - The value of a property held in the old instance of the ontology<ul>
+<li><a href="node_rename_old_value/">node rename➞old value</a></li>
+</ul>
+</li>
+<li><a href="property/">property</a></li>
+<li><a href="property_value_set/">property value set</a><ul>
+<li><a href="change_set_summary_statistic_property_value_set/">change set summary statistic➞property value set</a> - Summary statistic is grouped by these constraints</li>
+</ul>
+</li>
+<li><a href="replaced_by/">replaced by</a><ul>
+<li><a href="node_obsoletion_replaced_by/">node obsoletion➞replaced by</a></li>
+<li><a href="node_unobsoletion_replaced_by/">node unobsoletion➞replaced by</a></li>
+</ul>
+</li>
+<li><a href="started_at_time/">started at time</a></li>
+<li><a href="subject/">subject</a></li>
+<li><a href="target/">target</a> - The secondary entity on which the change operates<ul>
+<li><a href="node_obsoletion_with_merge_target/">node obsoletion with merge➞target</a></li>
+<li><a href="node_obsoletion_with_split_target/">node obsoletion with split➞target</a></li>
+</ul>
+</li>
+<li><a href="used/">used</a></li>
+<li><a href="was_associated_with/">was associated with</a></li>
+<li><a href="was_generated_by/">was generated by</a></li>
+<li><a href="was_informed_by/">was informed by</a></li>
+</ul>
+<h3 id="types">Types</h3>
+<h4 id="built-in">Built in</h4>
+<ul>
+<li><strong>Bool</strong></li>
+<li><strong>Decimal</strong></li>
+<li><strong>ElementIdentifier</strong></li>
+<li><strong>NCName</strong></li>
+<li><strong>NodeIdentifier</strong></li>
+<li><strong>URI</strong></li>
+<li><strong>URIorCURIE</strong></li>
+<li><strong>XSDDate</strong></li>
+<li><strong>XSDDateTime</strong></li>
+<li><strong>XSDTime</strong></li>
+<li><strong>float</strong></li>
+<li><strong>int</strong></li>
+<li><strong>str</strong></li>
+</ul>
+<h4 id="defined">Defined</h4>
+<ul>
+<li><a href="types/Boolean/">Boolean</a>  (<strong>Bool</strong>)  - A binary (true or false) value</li>
+<li><a href="types/ChangeClassType/">ChangeClassType</a>  (<a href="types/Uriorcurie/">Uriorcurie</a>)  - CURIE for a class within this datamodel. E.g. kgcl:NodeObsoletion</li>
+<li><a href="types/Date/">Date</a>  (<strong>XSDDate</strong>)  - a date (year, month and day) in an idealized calendar</li>
+<li><a href="types/Datetime/">Datetime</a>  (<strong>XSDDateTime</strong>)  - The combination of a date and time</li>
+<li><a href="types/Decimal/">Decimal</a>  (<strong>Decimal</strong>)  - A real number with arbitrary precision that conforms to the xsd:decimal specification</li>
+<li><a href="types/Double/">Double</a>  (<strong>float</strong>)  - A real number that conforms to the xsd:double specification</li>
+<li><a href="types/Float/">Float</a>  (<strong>float</strong>)  - A real number that conforms to the xsd:float specification</li>
+<li><a href="types/Integer/">Integer</a>  (<strong>int</strong>)  - An integer</li>
+<li><a href="types/Ncname/">Ncname</a>  (<strong>NCName</strong>)  - Prefix part of CURIE</li>
+<li><a href="types/Nodeidentifier/">Nodeidentifier</a>  (<strong>NodeIdentifier</strong>)  - A URI, CURIE or BNODE that represents a node in a model.</li>
+<li><a href="types/Objectidentifier/">Objectidentifier</a>  (<strong>ElementIdentifier</strong>)  - A URI or CURIE that represents an object in the model.</li>
+<li><a href="types/String/">String</a>  (<strong>str</strong>)  - A character string</li>
+<li><a href="types/Time/">Time</a>  (<strong>XSDTime</strong>)  - A time object represents a (local) time of day, independent of any particular day</li>
+<li><a href="types/Uri/">Uri</a>  (<strong>URI</strong>)  - a complete URI</li>
+<li><a href="types/Uriorcurie/">Uriorcurie</a>  (<strong>URIorCURIE</strong>)  - a URI or a CURIE</li>
+</ul>
+              
+            </div>
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="credits/" class="btn btn-neutral float-right" title="Credits">Next <span class="icon icon-circle-arrow-right"></span></a>
+      
+      
+        <a href="home/" class="btn btn-neutral" title="Home"><span class="icon icon-circle-arrow-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <!-- Copyright etc -->
+    
+  </div>
+
+  Built with <a href="https://www.mkdocs.org/">MkDocs</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>.
+</footer>
+      
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+
+  <div class="rst-versions" role="note" aria-label="versions">
+    <span class="rst-current-version" data-toggle="rst-current-version">
+      
+      
+        <span><a href="home/" style="color: #fcfcfc;">&laquo; Previous</a></span>
+      
+      
+        <span style="margin-left: 15px"><a href="credits/" style="color: #fcfcfc">Next &raquo;</a></span>
+      
+    </span>
+</div>
+    <script>var base_url = '.';</script>
+    <script src="js/theme.js" defer></script>
+      <script src="search/main.js" defer></script>
+    <script defer>
+        window.onload = function () {
+            SphinxRtdTheme.Navigation.enable(true);
+        };
+    </script>
+
+</body>
+</html>
+
+<!--
+MkDocs version : 1.1.2
+Build Date UTC : 2021-02-08 04:16:57.966889+00:00
+-->
