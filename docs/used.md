@@ -4,7 +4,7 @@
 
 
 
-URI: [ocl:used](http://w3id.org/oclused)
+URI: [kgcl:used](http://w3id.org/kgclused)
 
 
 ## Domain and Range

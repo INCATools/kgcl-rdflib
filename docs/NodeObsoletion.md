@@ -4,10 +4,10 @@
 
 Obsoletion of a node deprecates usage of that node, but does not delete it.
 
-URI: [ocl:NodeObsoletion](http://w3id.org/oclNodeObsoletion)
+URI: [kgcl:NodeObsoletion](http://w3id.org/kgclNodeObsoletion)
 
 
-![img](http://yuml.me/diagram/nofunky;dir:TB/class/[Obsoletion],[NodeObsoletionWithSplit],[NodeObsoletionWithMerge],[NodeObsoletion&#124;change_description:string%20%3F;about(i):string%20%3F;old_value(i):string%20%3F;new_value(i):string%20%3F]uses%20-.->[Obsoletion],[NodeObsoletion]^-[NodeObsoletionWithSplit],[NodeObsoletion]^-[NodeObsoletionWithMerge],[NodeChange]^-[NodeObsoletion],[NodeChange],[Activity])
+![img](http://yuml.me/diagram/nofunky;dir:TB/class/[Obsoletion],[NodeObsoletionWithSplit],[NodeObsoletionWithMerge],[Node]<consider%200..1-%20[NodeObsoletion&#124;change_description:string%20%3F;about(i):string%20%3F;old_value(i):string%20%3F;new_value(i):string%20%3F],[Node]<replaced%20by%200..1-%20[NodeObsoletion],[NodeObsoletion]uses%20-.->[Obsoletion],[NodeObsoletion]^-[NodeObsoletionWithSplit],[NodeObsoletion]^-[NodeObsoletionWithMerge],[NodeChange]^-[NodeObsoletion],[NodeChange],[Node],[Activity])
 
 ## Parents
 
@@ -32,6 +32,10 @@ URI: [ocl:NodeObsoletion](http://w3id.org/oclNodeObsoletion)
 
  * [node obsoletion➞change description](node_obsoletion_change_description.md)  <sub>OPT</sub>
     * range: [String](types/String.md)
+ * [node obsoletion➞consider](node_obsoletion_consider.md)  <sub>OPT</sub>
+    * range: [Node](Node.md)
+ * [node obsoletion➞replaced by](node_obsoletion_replaced_by.md)  <sub>OPT</sub>
+    * range: [Node](Node.md)
 
 ### Inherited from node change:
 

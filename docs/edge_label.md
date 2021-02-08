@@ -4,7 +4,7 @@
 
 
 
-URI: [ocl:edge_label](http://w3id.org/ocledge_label)
+URI: [kgcl:edge_label](http://w3id.org/kgcledge_label)
 
 
 ## Domain and Range

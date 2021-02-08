@@ -4,7 +4,7 @@
 
 Summary statistic is grouped by these constraints
 
-URI: [ocl:change_set_summary_statistic_property_value_set](http://w3id.org/oclchange_set_summary_statistic_property_value_set)
+URI: [kgcl:change_set_summary_statistic_property_value_set](http://w3id.org/kgclchange_set_summary_statistic_property_value_set)
 
 
 ## Domain and Range

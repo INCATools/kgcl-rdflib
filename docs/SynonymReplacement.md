@@ -4,7 +4,7 @@
 
 A node change where the text of a synonym is changed
 
-URI: [ocl:SynonymReplacement](http://w3id.org/oclSynonymReplacement)
+URI: [kgcl:SynonymReplacement](http://w3id.org/kgclSynonymReplacement)
 
 
 ![img](http://yuml.me/diagram/nofunky;dir:TB/class/[TextualDiff],[TextualDiff]<has%20textual%20diff%200..1-++[SynonymReplacement&#124;about(i):string%20%3F;old_value(i):string%20%3F;new_value(i):string%20%3F],[NodeSynonymChange]^-[SynonymReplacement],[NodeSynonymChange],[Activity])

@@ -4,7 +4,7 @@
 
 A node change where a de-novo synonym is created
 
-URI: [ocl:NewSynonym](http://w3id.org/oclNewSynonym)
+URI: [kgcl:NewSynonym](http://w3id.org/kgclNewSynonym)
 
 
 ![img](http://yuml.me/diagram/nofunky;dir:TB/class/[NodeSynonymChange],[NodeSynonymChange]^-[NewSynonym&#124;about(i):string%20%3F;old_value(i):string%20%3F;new_value(i):string%20%3F],[Activity])

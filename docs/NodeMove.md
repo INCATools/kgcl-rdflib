@@ -4,7 +4,7 @@
 
 A node move is a combination of deleting a parent edge and adding a parent edge, where the edge label is preserved and the object/parent node changes
 
-URI: [ocl:NodeMove](http://w3id.org/oclNodeMove)
+URI: [kgcl:NodeMove](http://w3id.org/kgclNodeMove)
 
 
 ![img](http://yuml.me/diagram/nofunky;dir:TB/class/[NodeShallowing],[NodeMove&#124;change_description:string%20%3F;about(i):string%20%3F;old_value(i):string%20%3F;new_value(i):string%20%3F]^-[NodeShallowing],[NodeMove]^-[NodeDeepening],[EdgeChange]^-[NodeMove],[NodeDeepening],[EdgeChange],[Activity])

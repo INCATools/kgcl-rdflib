@@ -4,7 +4,7 @@
 
 An edge change in which a de-novo edge is created. The edge is potentially annotated in the same action.
 
-URI: [ocl:EdgeCreation](http://w3id.org/oclEdgeCreation)
+URI: [kgcl:EdgeCreation](http://w3id.org/kgclEdgeCreation)
 
 
 ![img](http://yuml.me/diagram/nofunky;dir:TB/class/[Node],[Annotation]<annotation%20set%200..1-++[EdgeCreation&#124;change_description:string%20%3F;about(i):string%20%3F;old_value(i):string%20%3F;new_value(i):string%20%3F],[Node]<object%200..1-%20[EdgeCreation],[Node]<edge%20label%200..1-%20[EdgeCreation],[Node]<subject%200..1-%20[EdgeCreation],[EdgeCreation]uses%20-.->[Creation],[EdgeChange]^-[EdgeCreation],[EdgeChange],[Creation],[Annotation],[Activity])

@@ -4,7 +4,7 @@
 
 
 
-URI: [ocl:edge_change_about](http://w3id.org/ocledge_change_about)
+URI: [kgcl:edge_change_about](http://w3id.org/kgcledge_change_about)
 
 
 ## Domain and Range

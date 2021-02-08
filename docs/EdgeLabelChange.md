@@ -4,7 +4,7 @@
 
 An edge change where the edge label (relationship type) is modified.
 
-URI: [ocl:EdgeLabelChange](http://w3id.org/oclEdgeLabelChange)
+URI: [kgcl:EdgeLabelChange](http://w3id.org/kgclEdgeLabelChange)
 
 
 ![img](http://yuml.me/diagram/nofunky;dir:TB/class/[EdgeChange]^-[EdgeLabelChange&#124;change_description:string%20%3F;about(i):string%20%3F;old_value(i):string%20%3F;new_value(i):string%20%3F],[EdgeChange],[Activity])

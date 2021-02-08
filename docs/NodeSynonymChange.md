@@ -4,7 +4,7 @@
 
 
 
-URI: [ocl:NodeSynonymChange](http://w3id.org/oclNodeSynonymChange)
+URI: [kgcl:NodeSynonymChange](http://w3id.org/kgclNodeSynonymChange)
 
 
 ![img](http://yuml.me/diagram/nofunky;dir:TB/class/[SynonymReplacement],[RemoveSynonym],[NodeSynonymChange&#124;about(i):string%20%3F;old_value(i):string%20%3F;new_value(i):string%20%3F]^-[SynonymReplacement],[NodeSynonymChange]^-[RemoveSynonym],[NodeSynonymChange]^-[NewSynonym],[NodeChange]^-[NodeSynonymChange],[NodeChange],[NewSynonym],[Activity])

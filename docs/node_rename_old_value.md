@@ -4,7 +4,7 @@
 
 
 
-URI: [ocl:node_rename_old_value](http://w3id.org/oclnode_rename_old_value)
+URI: [kgcl:node_rename_old_value](http://w3id.org/kgclnode_rename_old_value)
 
 
 ## Domain and Range

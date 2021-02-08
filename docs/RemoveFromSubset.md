@@ -4,7 +4,7 @@
 
 removing an element from a subset
 
-URI: [ocl:RemoveFromSubset](http://w3id.org/oclRemoveFromSubset)
+URI: [kgcl:RemoveFromSubset](http://w3id.org/kgclRemoveFromSubset)
 
 
 ![img](http://yuml.me/diagram/nofunky;dir:TB/class/[Subset],[Subset]<in%20subset%200..1-++[RemoveFromSubset],[RemovedNodeFromSubset]uses%20-.->[RemoveFromSubset],[ChangeMixin]^-[RemoveFromSubset],[RemovedNodeFromSubset],[ChangeMixin])

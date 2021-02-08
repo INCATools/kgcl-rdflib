@@ -4,7 +4,7 @@
 
 
 
-URI: [ocl:node_deepening_change_description](http://w3id.org/oclnode_deepening_change_description)
+URI: [kgcl:node_deepening_change_description](http://w3id.org/kgclnode_deepening_change_description)
 
 
 ## Domain and Range

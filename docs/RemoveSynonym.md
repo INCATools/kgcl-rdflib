@@ -4,7 +4,7 @@
 
 A node change where a synonym is deleted
 
-URI: [ocl:RemoveSynonym](http://w3id.org/oclRemoveSynonym)
+URI: [kgcl:RemoveSynonym](http://w3id.org/kgclRemoveSynonym)
 
 
 ![img](http://yuml.me/diagram/nofunky;dir:TB/class/[NodeSynonymChange]^-[RemoveSynonym&#124;about(i):string%20%3F;old_value(i):string%20%3F;new_value(i):string%20%3F],[NodeSynonymChange],[Activity])

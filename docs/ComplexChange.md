@@ -4,7 +4,7 @@
 
 A change that is is a composition of other changes
 
-URI: [ocl:ComplexChange](http://w3id.org/oclComplexChange)
+URI: [kgcl:ComplexChange](http://w3id.org/kgclComplexChange)
 
 
 ![img](http://yuml.me/diagram/nofunky;dir:TB/class/[Change]<change%20set%200..*-++[ComplexChange],[Change]^-[ComplexChange],[Change],[Activity])

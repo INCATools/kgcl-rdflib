@@ -4,7 +4,7 @@
 
 An edge change in which an edge is removed. All edge annotations/properies are removed in the same action.
 
-URI: [ocl:EdgeDeletion](http://w3id.org/oclEdgeDeletion)
+URI: [kgcl:EdgeDeletion](http://w3id.org/kgclEdgeDeletion)
 
 
 ![img](http://yuml.me/diagram/nofunky;dir:TB/class/[Node],[Annotation]<annotation%20set%200..1-++[EdgeDeletion&#124;change_description:string%20%3F;about(i):string%20%3F;old_value(i):string%20%3F;new_value(i):string%20%3F],[Node]<object%200..1-%20[EdgeDeletion],[Node]<edge%20label%200..1-%20[EdgeDeletion],[Node]<subject%200..1-%20[EdgeDeletion],[EdgeDeletion]uses%20-.->[Deletion],[EdgeChange]^-[EdgeDeletion],[EdgeChange],[Deletion],[Annotation],[Activity])

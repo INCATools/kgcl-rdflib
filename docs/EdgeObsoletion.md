@@ -4,7 +4,7 @@
 
 An edge change in which an edge is obsoleted.
 
-URI: [ocl:EdgeObsoletion](http://w3id.org/oclEdgeObsoletion)
+URI: [kgcl:EdgeObsoletion](http://w3id.org/kgclEdgeObsoletion)
 
 
 ![img](http://yuml.me/diagram/nofunky;dir:TB/class/[Obsoletion],[Node],[Annotation]<annotation%20set%200..1-++[EdgeObsoletion&#124;change_description:string%20%3F;about(i):string%20%3F;old_value(i):string%20%3F;new_value(i):string%20%3F],[Node]<object%200..1-%20[EdgeObsoletion],[Node]<edge%20label%200..1-%20[EdgeObsoletion],[Node]<subject%200..1-%20[EdgeObsoletion],[EdgeObsoletion]uses%20-.->[Obsoletion],[EdgeChange]^-[EdgeObsoletion],[EdgeChange],[Annotation],[Activity])

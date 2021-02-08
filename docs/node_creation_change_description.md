@@ -4,7 +4,7 @@
 
 
 
-URI: [ocl:node_creation_change_description](http://w3id.org/oclnode_creation_change_description)
+URI: [kgcl:node_creation_change_description](http://w3id.org/kgclnode_creation_change_description)
 
 
 ## Domain and Range

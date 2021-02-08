@@ -4,7 +4,7 @@
 
 A node that is a class
 
-URI: [ocl:ClassNode](http://w3id.org/oclClassNode)
+URI: [kgcl:ClassNode](http://w3id.org/kgclClassNode)
 
 
 ![img](http://yuml.me/diagram/nofunky;dir:TB/class/[Node],[Node]^-[ClassNode&#124;id(i):string;name(i):string%20%3F],[Annotation])

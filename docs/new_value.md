@@ -4,7 +4,7 @@
 
 The value of a property held in the old instance of the ontology
 
-URI: [ocl:new_value](http://w3id.org/oclnew_value)
+URI: [kgcl:new_value](http://w3id.org/kgclnew_value)
 
 
 ## Domain and Range
@@ -40,7 +40,6 @@ None ->  <sub>OPT</sub> [String](types/String.md)
  * [NodeObsoletion](NodeObsoletion.md)
  * [NodeObsoletionWithMerge](NodeObsoletionWithMerge.md)
  * [NodeObsoletionWithSplit](NodeObsoletionWithSplit.md)
- * [NodeRename](NodeRename.md)
  * [NodeShallowing](NodeShallowing.md)
  * [NodeSynonymChange](NodeSynonymChange.md)
  * [NodeTextDefinitionChange](NodeTextDefinitionChange.md)

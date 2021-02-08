@@ -4,7 +4,7 @@
 
 The 'focus' entity on which the change operates
 
-URI: [ocl:about](http://w3id.org/oclabout)
+URI: [kgcl:about](http://w3id.org/kgclabout)
 
 
 ## Domain and Range
@@ -22,7 +22,4 @@ None ->  <sub>OPT</sub> [String](types/String.md)
 ## Used by
 
  * [DatatypeChange](DatatypeChange.md)
- * [EdgeChange](EdgeChange.md)
- * [NodeChange](NodeChange.md)
- * [NodeObsoletionWithMerge](NodeObsoletionWithMerge.md)
  * [SimpleChange](SimpleChange.md)

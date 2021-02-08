@@ -4,7 +4,7 @@
 
 A unified set of changes. Could be a single change, or the results of an ontology diff
 
-URI: [ocl:Transaction](http://w3id.org/oclTransaction)
+URI: [kgcl:Transaction](http://w3id.org/kgclTransaction)
 
 
 ![img](http://yuml.me/diagram/nofunky;dir:TB/class/[Change]<change%20set%200..*-++[Transaction],[Change])

@@ -4,7 +4,7 @@
 
 
 
-URI: [ocl:activity_id](http://w3id.org/oclactivity_id)
+URI: [kgcl:activity_id](http://w3id.org/kgclactivity_id)
 
 
 ## Domain and Range

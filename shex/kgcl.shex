@@ -1,0 +1,581 @@
+BASE <http://w3id.org/kgcl/>
+PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
+PREFIX metatype: <https://w3id.org/biolink/biolinkml/meta/types/>
+PREFIX prov: <http://www.w3.org/ns/prov#>
+PREFIX owl: <http://www.w3.org/2002/07/owl#>
+
+
+<http://w3id.org/kgclChangeClassType> IRI
+
+metatype:String xsd:string
+
+metatype:Integer xsd:integer
+
+metatype:Boolean xsd:boolean
+
+metatype:Float xsd:float
+
+metatype:Double xsd:double
+
+metatype:Decimal xsd:decimal
+
+metatype:Time xsd:dateTime
+
+metatype:Date xsd:date
+
+metatype:Datetime xsd:dateTime
+
+metatype:Uriorcurie IRI
+
+metatype:Uri IRI
+
+metatype:Ncname xsd:string
+
+metatype:Objectidentifier IRI
+
+metatype:Nodeidentifier NONLITERAL
+
+prov:Activity CLOSED {
+    (  $prov:Activity_tes (  prov:started_at_time @metatype:String ? ;
+          prov:ended_at_time @metatype:String ? ;
+          prov:was_informed_by @prov:Activity ? ;
+          prov:was_associated_with @prov:Agent ? ;
+          prov:used @metatype:String ?
+       ) ;
+       rdf:type [ prov:Activity ]
+    )
+}
+
+<http://w3id.org/kgclAddNodeToSubset> CLOSED {
+    (  $<http://w3id.org/kgclAddNodeToSubset_tes> (  &<http://w3id.org/kgclNodeChange_tes> ;
+          rdf:type [ <http://w3id.org/kgclNodeChange> ] ? ;
+          &<http://w3id.org/kgclAddToSubset_tes> ;
+          rdf:type [ <http://w3id.org/kgclAddToSubset> ] ? ;
+          <http://w3id.org/kgclin_subset> @<http://w3id.org/ocl/omSubset> ?
+       ) ;
+       rdf:type [ <http://w3id.org/kgclAddNodeToSubset> ] ?
+    )
+}
+
+<http://w3id.org/kgclAddToSubset> {
+    (  $<http://w3id.org/kgclAddToSubset_tes> (  &<http://w3id.org/kgclChangeMixin_tes> ;
+          rdf:type [ <http://w3id.org/kgclChangeMixin> ] ? ;
+          <http://w3id.org/kgclin_subset> @<http://w3id.org/ocl/omSubset> ?
+       ) ;
+       rdf:type [ <http://w3id.org/kgclAddToSubset> ] ?
+    )
+}
+
+prov:Agent CLOSED {
+    (  $prov:Agent_tes (  prov:acted_on_behalf_of @prov:Agent ? ;
+          prov:was_informed_by @prov:Activity ?
+       ) ;
+       rdf:type [ prov:Agent ] ?
+    )
+}
+
+<http://w3id.org/ocl/omAnnotation> CLOSED {
+    (  $<http://w3id.org/ocl/omAnnotation_tes> (  &<http://w3id.org/ocl/omPropertyValue_tes> ;
+          rdf:type [ <http://w3id.org/ocl/omPropertyValue> ] ? ;
+          <http://w3id.org/ocl/omannotation_set> @<http://w3id.org/ocl/omAnnotation> ?
+       ) ;
+       rdf:type [ <http://w3id.org/ocl/omAnnotation> ] ?
+    )
+}
+
+<http://w3id.org/kgclChange>  (
+    CLOSED {
+       (  $<http://w3id.org/kgclChange_tes> prov:was_generated_by @prov:Activity ? ;
+          rdf:type [ <http://w3id.org/kgclChange> ] ?
+       )
+    } OR @<http://w3id.org/kgclComplexChange> OR @<http://w3id.org/kgclSimpleChange>
+)
+
+<http://w3id.org/kgclChangeMixin>  (
+    @<http://w3id.org/kgclAddToSubset> OR @<http://w3id.org/kgclCreation> OR @<http://w3id.org/kgclDeletion> OR
+    @<http://w3id.org/kgclObsoletion> OR @<http://w3id.org/kgclRemoveFromSubset> OR @<http://w3id.org/kgclUnobsoletion>
+)
+
+<http://w3id.org/kgclChangeMixin_struct> {
+    (  $<http://w3id.org/kgclChangeMixin_tes> rdf:type . * ;
+       rdf:type [ <http://w3id.org/kgclChangeMixin> ] ?
+    )
+}
+
+<http://w3id.org/kgclChangeSetSummaryStatistic> CLOSED {
+    (  $<http://w3id.org/kgclChangeSetSummaryStatistic_tes> (  <http://w3id.org/kgclchange_type>
+          @<http://w3id.org/kgclChangeClassType> ? ;
+          <http://w3id.org/kgclcount> @metatype:Integer ? ;
+          <http://w3id.org/kgclproperty_value_set> @<http://w3id.org/ocl/omPropertyValue> *
+       ) ;
+       rdf:type [ <http://w3id.org/kgclChangeSetSummaryStatistic> ] ?
+    )
+}
+
+<http://w3id.org/ocl/omClassNode> CLOSED {
+    (  $<http://w3id.org/ocl/omClassNode_tes> (  &<http://w3id.org/ocl/omNode_tes> ;
+          rdf:type [ <http://w3id.org/ocl/omNode> ] ?
+       ) ;
+       rdf:type [ owl:Class ]
+    )
+}
+
+<http://w3id.org/kgclComplexChange> CLOSED {
+    (  $<http://w3id.org/kgclComplexChange_tes> (  &<http://w3id.org/kgclChange_tes> ;
+          rdf:type [ <http://w3id.org/kgclChange> ] ? ;
+          <http://w3id.org/kgclchange_set> @<http://w3id.org/kgclChange> *
+       ) ;
+       rdf:type [ <http://w3id.org/kgclComplexChange> ] ?
+    )
+}
+
+<http://w3id.org/kgclCreation> {
+    (  $<http://w3id.org/kgclCreation_tes> (  &<http://w3id.org/kgclChangeMixin_tes> ;
+          rdf:type [ <http://w3id.org/kgclChangeMixin> ] ?
+       ) ;
+       rdf:type [ <http://w3id.org/kgclCreation> ] ?
+    )
+}
+
+<http://w3id.org/kgclDatatypeChange> CLOSED {
+    (  $<http://w3id.org/kgclDatatypeChange_tes> (  &<http://w3id.org/kgclSimpleChange_tes> ;
+          rdf:type [ <http://w3id.org/kgclSimpleChange> ] ?
+       ) ;
+       rdf:type [ <http://w3id.org/kgclDatatypeChange> ] ?
+    )
+}
+
+<http://w3id.org/kgclDeletion> {
+    (  $<http://w3id.org/kgclDeletion_tes> (  &<http://w3id.org/kgclChangeMixin_tes> ;
+          rdf:type [ <http://w3id.org/kgclChangeMixin> ] ?
+       ) ;
+       rdf:type [ <http://w3id.org/kgclDeletion> ] ?
+    )
+}
+
+<http://w3id.org/ocl/omEdge> CLOSED {
+    (  $<http://w3id.org/ocl/omEdge_tes> (  &<http://w3id.org/ocl/omOntologyElement_tes> ;
+          rdf:type [ <http://w3id.org/ocl/omOntologyElement> ] ? ;
+          <http://w3id.org/ocl/omsubject> @<http://w3id.org/ocl/omNode> ? ;
+          <http://w3id.org/ocl/omedge_label> @<http://w3id.org/ocl/omNode> ? ;
+          <http://w3id.org/ocl/omobject> @<http://w3id.org/ocl/omNode> ? ;
+          <http://w3id.org/ocl/omannotation_set> @<http://w3id.org/ocl/omAnnotation> ?
+       ) ;
+       rdf:type [ <http://w3id.org/ocl/omEdge> ] ?
+    )
+}
+
+<http://w3id.org/kgclEdgeChange>  (
+    CLOSED {
+       (  $<http://w3id.org/kgclEdgeChange_tes> (  &<http://w3id.org/kgclSimpleChange_tes> ;
+             rdf:type [ <http://w3id.org/kgclSimpleChange> ] ? ;
+             <http://w3id.org/kgclabout> @metatype:String ?
+          ) ;
+          rdf:type [ <http://w3id.org/kgclEdgeChange> ] ?
+       )
+    } OR @<http://w3id.org/kgclEdgeCreation> OR @<http://w3id.org/kgclEdgeDeletion> OR @<http://w3id.org/kgclEdgeLabelChange> OR
+    @<http://w3id.org/kgclEdgeLogicalInterpretationChange> OR @<http://w3id.org/kgclEdgeObsoletion> OR
+    @<http://w3id.org/kgclNodeMove>
+)
+
+<http://w3id.org/kgclEdgeCreation> CLOSED {
+    (  $<http://w3id.org/kgclEdgeCreation_tes> (  &<http://w3id.org/kgclEdgeChange_tes> ;
+          rdf:type [ <http://w3id.org/kgclEdgeChange> ] ? ;
+          &<http://w3id.org/kgclCreation_tes> ;
+          rdf:type [ <http://w3id.org/kgclCreation> ] ? ;
+          <http://w3id.org/ocl/omsubject> @<http://w3id.org/ocl/omNode> ? ;
+          <http://w3id.org/ocl/omedge_label> @<http://w3id.org/ocl/omNode> ? ;
+          <http://w3id.org/ocl/omobject> @<http://w3id.org/ocl/omNode> ? ;
+          <http://w3id.org/ocl/omannotation_set> @<http://w3id.org/ocl/omAnnotation> ? ;
+          <http://w3id.org/kgclchange_description> @metatype:String ?
+       ) ;
+       rdf:type [ <http://w3id.org/kgclEdgeCreation> ] ?
+    )
+}
+
+<http://w3id.org/kgclEdgeDeletion> CLOSED {
+    (  $<http://w3id.org/kgclEdgeDeletion_tes> (  &<http://w3id.org/kgclEdgeChange_tes> ;
+          rdf:type [ <http://w3id.org/kgclEdgeChange> ] ? ;
+          &<http://w3id.org/kgclDeletion_tes> ;
+          rdf:type [ <http://w3id.org/kgclDeletion> ] ? ;
+          <http://w3id.org/ocl/omsubject> @<http://w3id.org/ocl/omNode> ? ;
+          <http://w3id.org/ocl/omedge_label> @<http://w3id.org/ocl/omNode> ? ;
+          <http://w3id.org/ocl/omobject> @<http://w3id.org/ocl/omNode> ? ;
+          <http://w3id.org/ocl/omannotation_set> @<http://w3id.org/ocl/omAnnotation> ? ;
+          <http://w3id.org/kgclchange_description> @metatype:String ?
+       ) ;
+       rdf:type [ <http://w3id.org/kgclEdgeDeletion> ] ?
+    )
+}
+
+<http://w3id.org/kgclEdgeLabelChange> CLOSED {
+    (  $<http://w3id.org/kgclEdgeLabelChange_tes> (  &<http://w3id.org/kgclEdgeChange_tes> ;
+          rdf:type [ <http://w3id.org/kgclEdgeChange> ] ? ;
+          <http://w3id.org/kgclchange_description> @metatype:String ?
+       ) ;
+       rdf:type [ <http://w3id.org/kgclEdgeLabelChange> ] ?
+    )
+}
+
+<http://w3id.org/kgclEdgeLogicalInterpretationChange> CLOSED {
+    (  $<http://w3id.org/kgclEdgeLogicalInterpretationChange_tes> (  &<http://w3id.org/kgclEdgeChange_tes> ;
+          rdf:type [ <http://w3id.org/kgclEdgeChange> ] ?
+       ) ;
+       rdf:type [ <http://w3id.org/kgclEdgeLogicalInterpretationChange> ] ?
+    )
+}
+
+<http://w3id.org/kgclEdgeObsoletion> CLOSED {
+    (  $<http://w3id.org/kgclEdgeObsoletion_tes> (  &<http://w3id.org/kgclEdgeChange_tes> ;
+          rdf:type [ <http://w3id.org/kgclEdgeChange> ] ? ;
+          &<http://w3id.org/kgclObsoletion_tes> ;
+          rdf:type [ <http://w3id.org/kgclObsoletion> ] ? ;
+          <http://w3id.org/ocl/omsubject> @<http://w3id.org/ocl/omNode> ? ;
+          <http://w3id.org/ocl/omedge_label> @<http://w3id.org/ocl/omNode> ? ;
+          <http://w3id.org/ocl/omobject> @<http://w3id.org/ocl/omNode> ? ;
+          <http://w3id.org/ocl/omannotation_set> @<http://w3id.org/ocl/omAnnotation> ? ;
+          <http://w3id.org/kgclchange_description> @metatype:String ?
+       ) ;
+       rdf:type [ <http://w3id.org/kgclEdgeObsoletion> ] ?
+    )
+}
+
+<http://w3id.org/ocl/omInstanceNode> CLOSED {
+    (  $<http://w3id.org/ocl/omInstanceNode_tes> (  &<http://w3id.org/ocl/omNode_tes> ;
+          rdf:type [ <http://w3id.org/ocl/omNode> ] ?
+       ) ;
+       rdf:type [ owl:NamedIndividual ]
+    )
+}
+
+<http://w3id.org/ocl/omLogicalDefinition> CLOSED {
+    (  $<http://w3id.org/ocl/omLogicalDefinition_tes> (  &<http://w3id.org/ocl/omOntologyElement_tes> ;
+          rdf:type [ <http://w3id.org/ocl/omOntologyElement> ] ?
+       ) ;
+       rdf:type [ <http://w3id.org/ocl/omLogicalDefinition> ] ?
+    )
+}
+
+<http://w3id.org/kgclNewSynonym> CLOSED {
+    (  $<http://w3id.org/kgclNewSynonym_tes> (  &<http://w3id.org/kgclNodeSynonymChange_tes> ;
+          rdf:type [ <http://w3id.org/kgclNodeSynonymChange> ] ?
+       ) ;
+       rdf:type [ <http://w3id.org/kgclNewSynonym> ] ?
+    )
+}
+
+<http://w3id.org/kgclNewTextDefinition> CLOSED {
+    (  $<http://w3id.org/kgclNewTextDefinition_tes> (  &<http://w3id.org/kgclNodeTextDefinitionChange_tes> ;
+          rdf:type [ <http://w3id.org/kgclNodeTextDefinitionChange> ] ?
+       ) ;
+       rdf:type [ <http://w3id.org/kgclNewTextDefinition> ] ?
+    )
+}
+
+<http://w3id.org/ocl/omNode>  (
+    CLOSED {
+       (  $<http://w3id.org/ocl/omNode_tes> (  &<http://w3id.org/ocl/omOntologyElement_tes> ;
+             rdf:type [ <http://w3id.org/ocl/omOntologyElement> ] ? ;
+             <http://w3id.org/ocl/omname> @metatype:String ? ;
+             <http://w3id.org/ocl/omannotation_set> @<http://w3id.org/ocl/omAnnotation> ?
+          ) ;
+          rdf:type [ <http://w3id.org/ocl/omNode> ]
+       )
+    } OR @<http://w3id.org/ocl/omClassNode> OR @<http://w3id.org/ocl/omInstanceNode>
+)
+
+<http://w3id.org/kgclNodeAnnotationChange>  (
+    CLOSED {
+       (  $<http://w3id.org/kgclNodeAnnotationChange_tes> (  &<http://w3id.org/kgclNodeChange_tes> ;
+             rdf:type [ <http://w3id.org/kgclNodeChange> ] ?
+          ) ;
+          rdf:type [ <http://w3id.org/kgclNodeAnnotationChange> ] ?
+       )
+    } OR @<http://w3id.org/kgclNodeAnnotationReplacement>
+)
+
+<http://w3id.org/kgclNodeAnnotationReplacement> CLOSED {
+    (  $<http://w3id.org/kgclNodeAnnotationReplacement_tes> (  &<http://w3id.org/kgclNodeAnnotationChange_tes> ;
+          rdf:type [ <http://w3id.org/kgclNodeAnnotationChange> ] ?
+       ) ;
+       rdf:type [ <http://w3id.org/kgclNodeAnnotationReplacement> ] ?
+    )
+}
+
+<http://w3id.org/kgclNodeChange>  (
+    CLOSED {
+       (  $<http://w3id.org/kgclNodeChange_tes> (  &<http://w3id.org/kgclSimpleChange_tes> ;
+             rdf:type [ <http://w3id.org/kgclSimpleChange> ] ? ;
+             <http://w3id.org/kgclabout> @metatype:String ?
+          ) ;
+          rdf:type [ <http://w3id.org/kgclNodeChange> ] ?
+       )
+    } OR @<http://w3id.org/kgclAddNodeToSubset> OR @<http://w3id.org/kgclNodeAnnotationChange> OR
+    @<http://w3id.org/kgclNodeCreation> OR @<http://w3id.org/kgclNodeDeletion> OR @<http://w3id.org/kgclNodeObsoletion> OR
+    @<http://w3id.org/kgclNodeRename> OR @<http://w3id.org/kgclNodeSynonymChange> OR
+    @<http://w3id.org/kgclNodeTextDefinitionChange> OR @<http://w3id.org/kgclNodeUnobsoletion> OR
+    @<http://w3id.org/kgclRemovedNodeFromSubset>
+)
+
+<http://w3id.org/kgclNodeCreation> CLOSED {
+    (  $<http://w3id.org/kgclNodeCreation_tes> (  &<http://w3id.org/kgclNodeChange_tes> ;
+          rdf:type [ <http://w3id.org/kgclNodeChange> ] ? ;
+          &<http://w3id.org/kgclCreation_tes> ;
+          rdf:type [ <http://w3id.org/kgclCreation> ] ? ;
+          <http://w3id.org/ocl/omname> @metatype:String ? ;
+          <http://w3id.org/ocl/omannotation_set> @<http://w3id.org/ocl/omAnnotation> ? ;
+          <http://w3id.org/kgclchange_description> @metatype:String ?
+       ) ;
+       rdf:type [ <http://w3id.org/kgclNodeCreation> ]
+    )
+}
+
+<http://w3id.org/kgclNodeDeepening> CLOSED {
+    (  $<http://w3id.org/kgclNodeDeepening_tes> (  &<http://w3id.org/kgclNodeMove_tes> ;
+          rdf:type [ <http://w3id.org/kgclNodeMove> ] ? ;
+          <http://w3id.org/kgclchange_description> @metatype:String ?
+       ) ;
+       rdf:type [ <http://w3id.org/kgclNodeDeepening> ] ?
+    )
+}
+
+<http://w3id.org/kgclNodeDeletion> CLOSED {
+    (  $<http://w3id.org/kgclNodeDeletion_tes> (  &<http://w3id.org/kgclNodeChange_tes> ;
+          rdf:type [ <http://w3id.org/kgclNodeChange> ] ? ;
+          &<http://w3id.org/kgclDeletion_tes> ;
+          rdf:type [ <http://w3id.org/kgclDeletion> ] ? ;
+          <http://w3id.org/kgclchange_description> @metatype:String ?
+       ) ;
+       rdf:type [ <http://w3id.org/kgclNodeDeletion> ] ?
+    )
+}
+
+<http://w3id.org/kgclNodeMove>  (
+    CLOSED {
+       (  $<http://w3id.org/kgclNodeMove_tes> (  &<http://w3id.org/kgclEdgeChange_tes> ;
+             rdf:type [ <http://w3id.org/kgclEdgeChange> ] ? ;
+             <http://w3id.org/kgclchange_description> @metatype:String ?
+          ) ;
+          rdf:type [ <http://w3id.org/kgclNodeMove> ] ?
+       )
+    } OR @<http://w3id.org/kgclNodeDeepening> OR @<http://w3id.org/kgclNodeShallowing>
+)
+
+<http://w3id.org/kgclNodeObsoletion>  (
+    CLOSED {
+       (  $<http://w3id.org/kgclNodeObsoletion_tes> (  &<http://w3id.org/kgclNodeChange_tes> ;
+             rdf:type [ <http://w3id.org/kgclNodeChange> ] ? ;
+             &<http://w3id.org/kgclObsoletion_tes> ;
+             rdf:type [ <http://w3id.org/kgclObsoletion> ] ? ;
+             <http://w3id.org/kgclchange_description> @metatype:String ? ;
+             <http://w3id.org/kgclreplaced_by> @<http://w3id.org/ocl/omNode> ? ;
+             <http://w3id.org/kgclconsider> @<http://w3id.org/ocl/omNode> ?
+          ) ;
+          rdf:type [ <http://w3id.org/kgclNodeObsoletion> ] ?
+       )
+    } OR @<http://w3id.org/kgclNodeObsoletionWithMerge> OR @<http://w3id.org/kgclNodeObsoletionWithSplit>
+)
+
+<http://w3id.org/kgclNodeObsoletionWithMerge> CLOSED {
+    (  $<http://w3id.org/kgclNodeObsoletionWithMerge_tes> (  &<http://w3id.org/kgclNodeObsoletion_tes> ;
+          rdf:type [ <http://w3id.org/kgclNodeObsoletion> ] ? ;
+          <http://w3id.org/kgcltarget> @metatype:String ? ;
+          <http://w3id.org/kgclabout> @metatype:String ? ;
+          <http://w3id.org/kgclchange_description> @metatype:String ?
+       ) ;
+       rdf:type [ <http://w3id.org/kgclNodeObsoletionWithMerge> ] ?
+    )
+}
+
+<http://w3id.org/kgclNodeObsoletionWithSplit> CLOSED {
+    (  $<http://w3id.org/kgclNodeObsoletionWithSplit_tes> (  &<http://w3id.org/kgclNodeObsoletion_tes> ;
+          rdf:type [ <http://w3id.org/kgclNodeObsoletion> ] ? ;
+          <http://w3id.org/kgcltarget> @metatype:String * ;
+          <http://w3id.org/kgclchange_description> @metatype:String ?
+       ) ;
+       rdf:type [ <http://w3id.org/kgclNodeObsoletionWithSplit> ] ?
+    )
+}
+
+<http://w3id.org/kgclNodeRename> CLOSED {
+    (  $<http://w3id.org/kgclNodeRename_tes> (  &<http://w3id.org/kgclNodeChange_tes> ;
+          rdf:type [ <http://w3id.org/kgclNodeChange> ] ? ;
+          <http://w3id.org/kgclold_value> @metatype:String ? ;
+          <http://w3id.org/kgclnew_value> @metatype:String ? ;
+          <http://w3id.org/kgclhas_textual_diff> @<http://w3id.org/kgclTextualDiff> ? ;
+          <http://w3id.org/kgclchange_description> @metatype:String ?
+       ) ;
+       rdf:type [ <http://w3id.org/kgclNodeRename> ] ?
+    )
+}
+
+<http://w3id.org/kgclNodeShallowing> CLOSED {
+    (  $<http://w3id.org/kgclNodeShallowing_tes> (  &<http://w3id.org/kgclNodeMove_tes> ;
+          rdf:type [ <http://w3id.org/kgclNodeMove> ] ? ;
+          <http://w3id.org/kgclchange_description> @metatype:String ?
+       ) ;
+       rdf:type [ <http://w3id.org/kgclNodeShallowing> ] ?
+    )
+}
+
+<http://w3id.org/kgclNodeSynonymChange>  (
+    CLOSED {
+       (  $<http://w3id.org/kgclNodeSynonymChange_tes> (  &<http://w3id.org/kgclNodeChange_tes> ;
+             rdf:type [ <http://w3id.org/kgclNodeChange> ] ?
+          ) ;
+          rdf:type [ <http://w3id.org/kgclNodeSynonymChange> ] ?
+       )
+    } OR @<http://w3id.org/kgclNewSynonym> OR @<http://w3id.org/kgclRemoveSynonym> OR @<http://w3id.org/kgclSynonymReplacement>
+)
+
+<http://w3id.org/kgclNodeTextDefinitionChange>  (
+    CLOSED {
+       (  $<http://w3id.org/kgclNodeTextDefinitionChange_tes> (  &<http://w3id.org/kgclNodeChange_tes> ;
+             rdf:type [ <http://w3id.org/kgclNodeChange> ] ?
+          ) ;
+          rdf:type [ <http://w3id.org/kgclNodeTextDefinitionChange> ] ?
+       )
+    } OR @<http://w3id.org/kgclNewTextDefinition> OR @<http://w3id.org/kgclRemoveTextDefinition> OR
+    @<http://w3id.org/kgclTextDefinitionReplacement>
+)
+
+<http://w3id.org/kgclNodeUnobsoletion> CLOSED {
+    (  $<http://w3id.org/kgclNodeUnobsoletion_tes> (  &<http://w3id.org/kgclNodeChange_tes> ;
+          rdf:type [ <http://w3id.org/kgclNodeChange> ] ? ;
+          &<http://w3id.org/kgclUnobsoletion_tes> ;
+          rdf:type [ <http://w3id.org/kgclUnobsoletion> ] ? ;
+          <http://w3id.org/kgclchange_description> @metatype:String ? ;
+          <http://w3id.org/kgclreplaced_by> @<http://w3id.org/ocl/omNode> ? ;
+          <http://w3id.org/kgclconsider> @<http://w3id.org/ocl/omNode> ?
+       ) ;
+       rdf:type [ <http://w3id.org/kgclNodeUnobsoletion> ] ?
+    )
+}
+
+<http://w3id.org/kgclObsoletion> {
+    (  $<http://w3id.org/kgclObsoletion_tes> (  &<http://w3id.org/kgclChangeMixin_tes> ;
+          rdf:type [ <http://w3id.org/kgclChangeMixin> ] ?
+       ) ;
+       rdf:type [ <http://w3id.org/kgclObsoletion> ] ?
+    )
+}
+
+<http://w3id.org/ocl/omOntologyElement>  (
+    CLOSED {
+       (  $<http://w3id.org/ocl/omOntologyElement_tes> rdf:type . * ;
+          rdf:type [ <http://w3id.org/ocl/omOntologyElement> ] ?
+       )
+    } OR @<http://w3id.org/ocl/omEdge> OR @<http://w3id.org/ocl/omLogicalDefinition> OR @<http://w3id.org/ocl/omNode> OR
+    @<http://w3id.org/ocl/omPropertyValue> OR @<http://w3id.org/ocl/omSubset>
+)
+
+<http://w3id.org/ocl/omPropertyValue>  (
+    CLOSED {
+       (  $<http://w3id.org/ocl/omPropertyValue_tes> (  &<http://w3id.org/ocl/omOntologyElement_tes> ;
+             rdf:type [ <http://w3id.org/ocl/omOntologyElement> ] ? ;
+             <http://w3id.org/ocl/omproperty> @<http://w3id.org/ocl/omNode> ? ;
+             <http://w3id.org/ocl/omfiller> @metatype:String ?
+          ) ;
+          rdf:type [ <http://w3id.org/ocl/omPropertyValue> ] ?
+       )
+    } OR @<http://w3id.org/ocl/omAnnotation>
+)
+
+<http://w3id.org/kgclRemoveFromSubset> {
+    (  $<http://w3id.org/kgclRemoveFromSubset_tes> (  &<http://w3id.org/kgclChangeMixin_tes> ;
+          rdf:type [ <http://w3id.org/kgclChangeMixin> ] ? ;
+          <http://w3id.org/kgclin_subset> @<http://w3id.org/ocl/omSubset> ?
+       ) ;
+       rdf:type [ <http://w3id.org/kgclRemoveFromSubset> ] ?
+    )
+}
+
+<http://w3id.org/kgclRemoveSynonym> CLOSED {
+    (  $<http://w3id.org/kgclRemoveSynonym_tes> (  &<http://w3id.org/kgclNodeSynonymChange_tes> ;
+          rdf:type [ <http://w3id.org/kgclNodeSynonymChange> ] ?
+       ) ;
+       rdf:type [ <http://w3id.org/kgclRemoveSynonym> ] ?
+    )
+}
+
+<http://w3id.org/kgclRemoveTextDefinition> CLOSED {
+    (  $<http://w3id.org/kgclRemoveTextDefinition_tes> (  &<http://w3id.org/kgclNodeTextDefinitionChange_tes> ;
+          rdf:type [ <http://w3id.org/kgclNodeTextDefinitionChange> ] ?
+       ) ;
+       rdf:type [ <http://w3id.org/kgclRemoveTextDefinition> ] ?
+    )
+}
+
+<http://w3id.org/kgclRemovedNodeFromSubset> CLOSED {
+    (  $<http://w3id.org/kgclRemovedNodeFromSubset_tes> (  &<http://w3id.org/kgclNodeChange_tes> ;
+          rdf:type [ <http://w3id.org/kgclNodeChange> ] ? ;
+          &<http://w3id.org/kgclRemoveFromSubset_tes> ;
+          rdf:type [ <http://w3id.org/kgclRemoveFromSubset> ] ? ;
+          <http://w3id.org/kgclin_subset> @<http://w3id.org/ocl/omSubset> ?
+       ) ;
+       rdf:type [ <http://w3id.org/kgclRemovedNodeFromSubset> ] ?
+    )
+}
+
+<http://w3id.org/kgclSimpleChange>  (
+    CLOSED {
+       (  $<http://w3id.org/kgclSimpleChange_tes> (  &<http://w3id.org/kgclChange_tes> ;
+             rdf:type [ <http://w3id.org/kgclChange> ] ? ;
+             <http://w3id.org/kgclabout> @metatype:String ? ;
+             <http://w3id.org/kgclold_value> @metatype:String ? ;
+             <http://w3id.org/kgclnew_value> @metatype:String ?
+          ) ;
+          rdf:type [ <http://w3id.org/kgclSimpleChange> ] ?
+       )
+    } OR @<http://w3id.org/kgclDatatypeChange> OR @<http://w3id.org/kgclEdgeChange> OR @<http://w3id.org/kgclNodeChange>
+)
+
+<http://w3id.org/ocl/omSubset> CLOSED {
+    (  $<http://w3id.org/ocl/omSubset_tes> (  &<http://w3id.org/ocl/omOntologyElement_tes> ;
+          rdf:type [ <http://w3id.org/ocl/omOntologyElement> ] ?
+       ) ;
+       rdf:type [ <http://w3id.org/ocl/omSubset> ] ?
+    )
+}
+
+<http://w3id.org/kgclSynonymReplacement> CLOSED {
+    (  $<http://w3id.org/kgclSynonymReplacement_tes> (  &<http://w3id.org/kgclNodeSynonymChange_tes> ;
+          rdf:type [ <http://w3id.org/kgclNodeSynonymChange> ] ? ;
+          <http://w3id.org/kgclhas_textual_diff> @<http://w3id.org/kgclTextualDiff> ?
+       ) ;
+       rdf:type [ <http://w3id.org/kgclSynonymReplacement> ] ?
+    )
+}
+
+<http://w3id.org/kgclTextDefinitionReplacement> CLOSED {
+    (  $<http://w3id.org/kgclTextDefinitionReplacement_tes> (  &<http://w3id.org/kgclNodeTextDefinitionChange_tes> ;
+          rdf:type [ <http://w3id.org/kgclNodeTextDefinitionChange> ] ? ;
+          <http://w3id.org/kgclhas_textual_diff> @<http://w3id.org/kgclTextualDiff> ?
+       ) ;
+       rdf:type [ <http://w3id.org/kgclTextDefinitionReplacement> ] ?
+    )
+}
+
+<http://w3id.org/kgclTextualDiff> CLOSED {
+    (  $<http://w3id.org/kgclTextualDiff_tes> rdf:type . * ;
+       rdf:type [ <http://w3id.org/kgclTextualDiff> ] ?
+    )
+}
+
+<http://w3id.org/kgclTransaction> CLOSED {
+    (  $<http://w3id.org/kgclTransaction_tes> <http://w3id.org/kgclchange_set> @<http://w3id.org/kgclChange> * ;
+       rdf:type [ <http://w3id.org/kgclTransaction> ] ?
+    )
+}
+
+<http://w3id.org/kgclUnobsoletion> {
+    (  $<http://w3id.org/kgclUnobsoletion_tes> (  &<http://w3id.org/kgclChangeMixin_tes> ;
+          rdf:type [ <http://w3id.org/kgclChangeMixin> ] ?
+       ) ;
+       rdf:type [ <http://w3id.org/kgclUnobsoletion> ] ?
+    )
+}
+
+
+

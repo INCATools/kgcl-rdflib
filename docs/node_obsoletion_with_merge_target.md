@@ -4,7 +4,7 @@
 
 
 
-URI: [ocl:node_obsoletion_with_merge_target](http://w3id.org/oclnode_obsoletion_with_merge_target)
+URI: [kgcl:node_obsoletion_with_merge_target](http://w3id.org/kgclnode_obsoletion_with_merge_target)
 
 
 ## Domain and Range

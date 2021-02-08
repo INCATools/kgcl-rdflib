@@ -4,7 +4,7 @@
 
 Removal of an element.
 
-URI: [ocl:Deletion](http://w3id.org/oclDeletion)
+URI: [kgcl:Deletion](http://w3id.org/kgclDeletion)
 
 
 ![img](http://yuml.me/diagram/nofunky;dir:TB/class/[NodeDeletion]uses%20-.->[Deletion],[EdgeDeletion]uses%20-.->[Deletion],[ChangeMixin]^-[Deletion],[NodeDeletion],[EdgeDeletion],[ChangeMixin])

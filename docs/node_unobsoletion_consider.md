@@ -4,7 +4,7 @@
 
 
 
-URI: [ocl:node_unobsoletion_consider](http://w3id.org/oclnode_unobsoletion_consider)
+URI: [kgcl:node_unobsoletion_consider](http://w3id.org/kgclnode_unobsoletion_consider)
 
 
 ## Domain and Range

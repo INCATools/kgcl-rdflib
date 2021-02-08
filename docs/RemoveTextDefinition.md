@@ -4,7 +4,7 @@
 
 A node change where a text definition is deleted
 
-URI: [ocl:RemoveTextDefinition](http://w3id.org/oclRemoveTextDefinition)
+URI: [kgcl:RemoveTextDefinition](http://w3id.org/kgclRemoveTextDefinition)
 
 
 ![img](http://yuml.me/diagram/nofunky;dir:TB/class/[NodeTextDefinitionChange]^-[RemoveTextDefinition&#124;about(i):string%20%3F;old_value(i):string%20%3F;new_value(i):string%20%3F],[NodeTextDefinitionChange],[Activity])

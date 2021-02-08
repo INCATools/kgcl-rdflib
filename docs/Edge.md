@@ -4,7 +4,7 @@
 
 A relationship between two nodes. We assume owlstar or similar for existential restrictions
 
-URI: [ocl:Edge](http://w3id.org/oclEdge)
+URI: [kgcl:Edge](http://w3id.org/kgclEdge)
 
 
 ![img](http://yuml.me/diagram/nofunky;dir:TB/class/[OntologyElement],[Node],[Annotation]<annotation%20set%200..1-++[Edge],[Node]<object%200..1-%20[Edge],[Node]<edge%20label%200..1-%20[Edge],[Node]<subject%200..1-%20[Edge],[OntologyElement]^-[Edge],[Annotation])

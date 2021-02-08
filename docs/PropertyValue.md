@@ -4,7 +4,7 @@
 
 a property-value pair
 
-URI: [ocl:PropertyValue](http://w3id.org/oclPropertyValue)
+URI: [kgcl:PropertyValue](http://w3id.org/kgclPropertyValue)
 
 
 ![img](http://yuml.me/diagram/nofunky;dir:TB/class/[Node]<property%200..1-%20[PropertyValue&#124;filler:string%20%3F],[ChangeSetSummaryStatistic]++-%20property%20value%20set%200..*>[PropertyValue],[PropertyValue]^-[Annotation],[OntologyElement]^-[PropertyValue],[OntologyElement],[Node],[ChangeSetSummaryStatistic],[Annotation])

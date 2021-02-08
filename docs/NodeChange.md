@@ -4,7 +4,7 @@
 
 A simple change where the change is about a node
 
-URI: [ocl:NodeChange](http://w3id.org/oclNodeChange)
+URI: [kgcl:NodeChange](http://w3id.org/kgclNodeChange)
 
 
 ![img](http://yuml.me/diagram/nofunky;dir:TB/class/[SimpleChange],[RemovedNodeFromSubset],[NodeUnobsoletion],[NodeTextDefinitionChange],[NodeSynonymChange],[NodeRename],[NodeObsoletion],[NodeDeletion],[NodeCreation],[NodeChange&#124;about:string%20%3F;old_value(i):string%20%3F;new_value(i):string%20%3F]^-[RemovedNodeFromSubset],[NodeChange]^-[NodeUnobsoletion],[NodeChange]^-[NodeTextDefinitionChange],[NodeChange]^-[NodeSynonymChange],[NodeChange]^-[NodeRename],[NodeChange]^-[NodeObsoletion],[NodeChange]^-[NodeDeletion],[NodeChange]^-[NodeCreation],[NodeChange]^-[NodeAnnotationChange],[NodeChange]^-[AddNodeToSubset],[SimpleChange]^-[NodeChange],[NodeAnnotationChange],[AddNodeToSubset],[Activity])

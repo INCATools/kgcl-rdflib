@@ -4,7 +4,7 @@
 
 
 
-URI: [ocl:edge_deletion_change_description](http://w3id.org/ocledge_deletion_change_description)
+URI: [kgcl:edge_deletion_change_description](http://w3id.org/kgcledge_deletion_change_description)
 
 
 ## Domain and Range

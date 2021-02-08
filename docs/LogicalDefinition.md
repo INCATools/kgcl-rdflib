@@ -4,7 +4,7 @@
 
 
 
-URI: [ocl:LogicalDefinition](http://w3id.org/oclLogicalDefinition)
+URI: [kgcl:LogicalDefinition](http://w3id.org/kgclLogicalDefinition)
 
 
 ![img](http://yuml.me/diagram/nofunky;dir:TB/class/[OntologyElement],[OntologyElement]^-[LogicalDefinition])

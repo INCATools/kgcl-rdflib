@@ -4,7 +4,7 @@
 
 Deletion of a node from the graph. Note it is recommended nodes are obsoleted and never merged, but this operation exists to represent deletions in ontologies, accidental or otherwise
 
-URI: [ocl:NodeDeletion](http://w3id.org/oclNodeDeletion)
+URI: [kgcl:NodeDeletion](http://w3id.org/kgclNodeDeletion)
 
 
 ![img](http://yuml.me/diagram/nofunky;dir:TB/class/[NodeDeletion&#124;change_description:string%20%3F;about(i):string%20%3F;old_value(i):string%20%3F;new_value(i):string%20%3F]uses%20-.->[Deletion],[NodeChange]^-[NodeDeletion],[NodeChange],[Deletion],[Activity])

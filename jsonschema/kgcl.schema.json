@@ -1,5 +1,5 @@
 {
-   "$id": "ocl",
+   "$id": "https://w3id.org/kgcl",
    "$schema": "http://json-schema.org/draft-07/schema#",
    "definitions": {
       "Activity": {
@@ -38,6 +38,10 @@
             "about": {
                "type": "string"
             },
+            "in_subset": {
+               "$ref": "#/definitions/Subset",
+               "description": "subset that the element is being placed inside."
+            },
             "new_value": {
                "description": "The value of a property held in the old instance of the ontology",
                "type": "string"
@@ -52,14 +56,6 @@
          },
          "required": [],
          "title": "AddNodeToSubset",
-         "type": "object"
-      },
-      "AddToSubset": {
-         "additionalProperties": false,
-         "description": "placing an element inside a subset",
-         "properties": {},
-         "required": [],
-         "title": "AddToSubset",
          "type": "object"
       },
       "Agent": {
@@ -107,18 +103,16 @@
          "title": "Change",
          "type": "object"
       },
-      "ChangeMixin": {
-         "additionalProperties": false,
-         "description": "root class for all change mixins",
-         "properties": {},
-         "required": [],
-         "title": "ChangeMixin",
-         "type": "object"
-      },
       "ChangeSetSummaryStatistic": {
          "additionalProperties": false,
          "description": "A summary statistic for a set of changes of the same type, grouped by zero or more node properties",
          "properties": {
+            "change_type": {
+               "type": "string"
+            },
+            "count": {
+               "type": "integer"
+            },
             "property_value_set": {
                "description": "Summary statistic is grouped by these constraints",
                "items": {
@@ -170,14 +164,6 @@
          "title": "ComplexChange",
          "type": "object"
       },
-      "Creation": {
-         "additionalProperties": false,
-         "description": "Creation of an element.",
-         "properties": {},
-         "required": [],
-         "title": "Creation",
-         "type": "object"
-      },
       "DatatypeChange": {
          "additionalProperties": false,
          "description": "",
@@ -200,14 +186,6 @@
          },
          "required": [],
          "title": "DatatypeChange",
-         "type": "object"
-      },
-      "Deletion": {
-         "additionalProperties": false,
-         "description": "Removal of an element.",
-         "properties": {},
-         "required": [],
-         "title": "Deletion",
          "type": "object"
       },
       "Edge": {
@@ -708,12 +686,18 @@
             "change_description": {
                "type": "string"
             },
+            "consider": {
+               "type": "string"
+            },
             "new_value": {
                "description": "The value of a property held in the old instance of the ontology",
                "type": "string"
             },
             "old_value": {
                "description": "The value of a property held in the old instance of the ontology",
+               "type": "string"
+            },
+            "replaced_by": {
                "type": "string"
             },
             "was_generated_by": {
@@ -734,12 +718,18 @@
             "change_description": {
                "type": "string"
             },
+            "consider": {
+               "type": "string"
+            },
             "new_value": {
                "description": "The value of a property held in the old instance of the ontology",
                "type": "string"
             },
             "old_value": {
                "description": "The value of a property held in the old instance of the ontology",
+               "type": "string"
+            },
+            "replaced_by": {
                "type": "string"
             },
             "target": {
@@ -763,12 +753,18 @@
             "change_description": {
                "type": "string"
             },
+            "consider": {
+               "type": "string"
+            },
             "new_value": {
                "description": "The value of a property held in the old instance of the ontology",
                "type": "string"
             },
             "old_value": {
                "description": "The value of a property held in the old instance of the ontology",
+               "type": "string"
+            },
+            "replaced_by": {
                "type": "string"
             },
             "target": {
@@ -916,14 +912,6 @@
          "title": "NodeUnobsoletion",
          "type": "object"
       },
-      "Obsoletion": {
-         "additionalProperties": false,
-         "description": "Obsoletion of an element deprecates usage of that element, but does not delete that element.",
-         "properties": {},
-         "required": [],
-         "title": "Obsoletion",
-         "type": "object"
-      },
       "OntologyElement": {
          "additionalProperties": false,
          "description": "Any component of an ontology or knowledge graph",
@@ -945,19 +933,6 @@
          },
          "required": [],
          "title": "PropertyValue",
-         "type": "object"
-      },
-      "RemoveFromSubset": {
-         "additionalProperties": false,
-         "description": "removing an element from a subset",
-         "properties": {
-            "in_subset": {
-               "$ref": "#/definitions/Subset",
-               "description": "subset that the element is being removed from"
-            }
-         },
-         "required": [],
-         "title": "RemoveFromSubset",
          "type": "object"
       },
       "RemoveSynonym": {
@@ -1139,14 +1114,6 @@
          "required": [],
          "title": "Transaction",
          "type": "object"
-      },
-      "Unobsoletion": {
-         "additionalProperties": false,
-         "description": "Opposite operation of obsoletion. Rarely performed.",
-         "properties": {},
-         "required": [],
-         "title": "Unobsoletion",
-         "type": "object"
       }
    },
    "properties": {
@@ -1157,7 +1124,7 @@
          "type": "array"
       }
    },
-   "title": "ocl",
+   "title": "kgcl",
    "type": "object"
 }
 

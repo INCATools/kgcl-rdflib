@@ -4,7 +4,7 @@
 
 
 
-URI: [ocl:NodeTextDefinitionChange](http://w3id.org/oclNodeTextDefinitionChange)
+URI: [kgcl:NodeTextDefinitionChange](http://w3id.org/kgclNodeTextDefinitionChange)
 
 
 ![img](http://yuml.me/diagram/nofunky;dir:TB/class/[TextDefinitionReplacement],[RemoveTextDefinition],[NodeTextDefinitionChange&#124;about(i):string%20%3F;old_value(i):string%20%3F;new_value(i):string%20%3F]^-[TextDefinitionReplacement],[NodeTextDefinitionChange]^-[RemoveTextDefinition],[NodeTextDefinitionChange]^-[NewTextDefinition],[NodeChange]^-[NodeTextDefinitionChange],[NodeChange],[NewTextDefinition],[Activity])

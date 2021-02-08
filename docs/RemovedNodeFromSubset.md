@@ -4,7 +4,7 @@
 
 Removes a node from a subset, by removing an annotation
 
-URI: [ocl:RemovedNodeFromSubset](http://w3id.org/oclRemovedNodeFromSubset)
+URI: [kgcl:RemovedNodeFromSubset](http://w3id.org/kgclRemovedNodeFromSubset)
 
 
 ![img](http://yuml.me/diagram/nofunky;dir:TB/class/[Subset],[RemovedNodeFromSubset&#124;about(i):string%20%3F;old_value(i):string%20%3F;new_value(i):string%20%3F]uses%20-.->[RemoveFromSubset],[NodeChange]^-[RemovedNodeFromSubset],[RemoveFromSubset],[NodeChange],[Activity])

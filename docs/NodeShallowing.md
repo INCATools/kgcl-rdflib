@@ -4,7 +4,7 @@
 
 The opposite of node deepening
 
-URI: [ocl:NodeShallowing](http://w3id.org/oclNodeShallowing)
+URI: [kgcl:NodeShallowing](http://w3id.org/kgclNodeShallowing)
 
 
 ![img](http://yuml.me/diagram/nofunky;dir:TB/class/[NodeMove]^-[NodeShallowing&#124;change_description:string%20%3F;about(i):string%20%3F;old_value(i):string%20%3F;new_value(i):string%20%3F],[NodeMove],[Activity])

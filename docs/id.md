@@ -4,7 +4,7 @@
 
 CURIE or URI
 
-URI: [ocl:id](http://w3id.org/oclid)
+URI: [kgcl:id](http://w3id.org/kgclid)
 
 
 ## Domain and Range

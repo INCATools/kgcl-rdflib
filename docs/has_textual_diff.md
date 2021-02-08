@@ -4,7 +4,7 @@
 
 
 
-URI: [ocl:has_textual_diff](http://w3id.org/oclhas_textual_diff)
+URI: [kgcl:has_textual_diff](http://w3id.org/kgclhas_textual_diff)
 
 
 ## Domain and Range

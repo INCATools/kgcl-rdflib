@@ -4,7 +4,7 @@
 
 A change that is about a single ontology element
 
-URI: [ocl:SimpleChange](http://w3id.org/oclSimpleChange)
+URI: [kgcl:SimpleChange](http://w3id.org/kgclSimpleChange)
 
 
 ![img](http://yuml.me/diagram/nofunky;dir:TB/class/[SimpleChange&#124;about:string%20%3F;old_value:string%20%3F;new_value:string%20%3F]^-[NodeChange],[SimpleChange]^-[EdgeChange],[SimpleChange]^-[DatatypeChange],[Change]^-[SimpleChange],[NodeChange],[EdgeChange],[DatatypeChange],[Change],[Activity])

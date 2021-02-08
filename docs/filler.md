@@ -4,7 +4,7 @@
 
 
 
-URI: [ocl:filler](http://w3id.org/oclfiller)
+URI: [kgcl:filler](http://w3id.org/kgclfiller)
 
 
 ## Domain and Range

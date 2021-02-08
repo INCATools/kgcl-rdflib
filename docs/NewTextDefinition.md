@@ -4,7 +4,7 @@
 
 A node change where a de-novo text definition is created
 
-URI: [ocl:NewTextDefinition](http://w3id.org/oclNewTextDefinition)
+URI: [kgcl:NewTextDefinition](http://w3id.org/kgclNewTextDefinition)
 
 
 ![img](http://yuml.me/diagram/nofunky;dir:TB/class/[NodeTextDefinitionChange],[NodeTextDefinitionChange]^-[NewTextDefinition&#124;about(i):string%20%3F;old_value(i):string%20%3F;new_value(i):string%20%3F],[Activity])

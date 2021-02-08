@@ -4,7 +4,7 @@
 
 
 
-URI: [ocl:NodeCreation](http://w3id.org/oclNodeCreation)
+URI: [kgcl:NodeCreation](http://w3id.org/kgclNodeCreation)
 
 
 ![img](http://yuml.me/diagram/nofunky;dir:TB/class/[Annotation]<annotation%20set%200..1-++[NodeCreation&#124;id:string;name:string%20%3F;change_description:string%20%3F;about(i):string%20%3F;old_value(i):string%20%3F;new_value(i):string%20%3F],[NodeCreation]uses%20-.->[Creation],[NodeChange]^-[NodeCreation],[NodeChange],[Creation],[Annotation],[Activity])

@@ -4,7 +4,7 @@
 
 Any change perform on an ontology or knowledge graph
 
-URI: [ocl:Change](http://w3id.org/oclChange)
+URI: [kgcl:Change](http://w3id.org/kgclChange)
 
 
 ![img](http://yuml.me/diagram/nofunky;dir:TB/class/[SimpleChange],[ComplexChange],[Activity]<was%20generated%20by%200..1-%20[Change],[ComplexChange]++-%20change%20set%200..*>[Change],[Transaction]++-%20change%20set%200..*>[Change],[Change]^-[SimpleChange],[Change]^-[ComplexChange],[Transaction],[Activity])

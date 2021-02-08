@@ -4,7 +4,7 @@
 
 
 
-URI: [ocl:DatatypeChange](http://w3id.org/oclDatatypeChange)
+URI: [kgcl:DatatypeChange](http://w3id.org/kgclDatatypeChange)
 
 
 ![img](http://yuml.me/diagram/nofunky;dir:TB/class/[SimpleChange],[SimpleChange]^-[DatatypeChange&#124;about(i):string%20%3F;old_value(i):string%20%3F;new_value(i):string%20%3F],[Activity])

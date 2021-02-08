@@ -4,7 +4,7 @@
 
 Any component of an ontology or knowledge graph
 
-URI: [ocl:OntologyElement](http://w3id.org/oclOntologyElement)
+URI: [kgcl:OntologyElement](http://w3id.org/kgclOntologyElement)
 
 
 ![img](http://yuml.me/diagram/nofunky;dir:TB/class/[Subset],[PropertyValue],[OntologyElement]^-[Subset],[OntologyElement]^-[PropertyValue],[OntologyElement]^-[Node],[OntologyElement]^-[LogicalDefinition],[OntologyElement]^-[Edge],[Node],[LogicalDefinition],[Edge])

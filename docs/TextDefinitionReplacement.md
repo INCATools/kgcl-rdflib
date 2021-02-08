@@ -4,7 +4,7 @@
 
 A node change where a text definition is modified
 
-URI: [ocl:TextDefinitionReplacement](http://w3id.org/oclTextDefinitionReplacement)
+URI: [kgcl:TextDefinitionReplacement](http://w3id.org/kgclTextDefinitionReplacement)
 
 
 ![img](http://yuml.me/diagram/nofunky;dir:TB/class/[TextualDiff],[TextualDiff]<has%20textual%20diff%200..1-++[TextDefinitionReplacement&#124;about(i):string%20%3F;old_value(i):string%20%3F;new_value(i):string%20%3F],[NodeTextDefinitionChange]^-[TextDefinitionReplacement],[NodeTextDefinitionChange],[Activity])

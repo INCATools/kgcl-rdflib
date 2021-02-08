@@ -4,7 +4,7 @@
 
 A node change where the change alters node properties/annotations. TODO
 
-URI: [ocl:NodeAnnotationChange](http://w3id.org/oclNodeAnnotationChange)
+URI: [kgcl:NodeAnnotationChange](http://w3id.org/kgclNodeAnnotationChange)
 
 
 ![img](http://yuml.me/diagram/nofunky;dir:TB/class/[NodeChange],[NodeAnnotationReplacement],[NodeAnnotationChange&#124;about(i):string%20%3F;old_value(i):string%20%3F;new_value(i):string%20%3F]^-[NodeAnnotationReplacement],[NodeChange]^-[NodeAnnotationChange],[Activity])

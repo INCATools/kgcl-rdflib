@@ -1,0 +1,6 @@
+site_name: "Knowledge Graph Change Language"
+theme: readthedocs
+nav:
+  - Home: home.md
+  - Index: index.md
+  - Credits: credits.md

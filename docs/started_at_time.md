@@ -4,7 +4,7 @@
 
 
 
-URI: [ocl:started_at_time](http://w3id.org/oclstarted_at_time)
+URI: [kgcl:started_at_time](http://w3id.org/kgclstarted_at_time)
 
 
 ## Domain and Range

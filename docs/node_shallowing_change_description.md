@@ -4,7 +4,7 @@
 
 
 
-URI: [ocl:node_shallowing_change_description](http://w3id.org/oclnode_shallowing_change_description)
+URI: [kgcl:node_shallowing_change_description](http://w3id.org/kgclnode_shallowing_change_description)
 
 
 ## Domain and Range

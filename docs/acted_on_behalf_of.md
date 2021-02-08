@@ -4,7 +4,7 @@
 
 
 
-URI: [ocl:acted_on_behalf_of](http://w3id.org/oclacted_on_behalf_of)
+URI: [kgcl:acted_on_behalf_of](http://w3id.org/kgclacted_on_behalf_of)
 
 
 ## Domain and Range

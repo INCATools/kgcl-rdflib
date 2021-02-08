@@ -4,7 +4,7 @@
 
 A change in which the entity changes is an edge
 
-URI: [ocl:EdgeChange](http://w3id.org/oclEdgeChange)
+URI: [kgcl:EdgeChange](http://w3id.org/kgclEdgeChange)
 
 
 ![img](http://yuml.me/diagram/nofunky;dir:TB/class/[SimpleChange],[NodeMove],[EdgeObsoletion],[EdgeLogicalInterpretationChange],[EdgeLabelChange],[EdgeDeletion],[EdgeCreation],[EdgeChange&#124;about:string%20%3F;old_value(i):string%20%3F;new_value(i):string%20%3F]^-[NodeMove],[EdgeChange]^-[EdgeObsoletion],[EdgeChange]^-[EdgeLogicalInterpretationChange],[EdgeChange]^-[EdgeLabelChange],[EdgeChange]^-[EdgeDeletion],[EdgeChange]^-[EdgeCreation],[SimpleChange]^-[EdgeChange],[Activity])

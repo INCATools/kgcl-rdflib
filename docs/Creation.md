@@ -4,7 +4,7 @@
 
 Creation of an element.
 
-URI: [ocl:Creation](http://w3id.org/oclCreation)
+URI: [kgcl:Creation](http://w3id.org/kgclCreation)
 
 
 ![img](http://yuml.me/diagram/nofunky;dir:TB/class/[NodeCreation]uses%20-.->[Creation],[EdgeCreation]uses%20-.->[Creation],[ChangeMixin]^-[Creation],[NodeCreation],[EdgeCreation],[ChangeMixin])

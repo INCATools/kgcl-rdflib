@@ -4,7 +4,7 @@
 
 An edge change where the subjet, object, and edge label are unchanged, but the logical interpretation changes
 
-URI: [ocl:EdgeLogicalInterpretationChange](http://w3id.org/oclEdgeLogicalInterpretationChange)
+URI: [kgcl:EdgeLogicalInterpretationChange](http://w3id.org/kgclEdgeLogicalInterpretationChange)
 
 
 ![img](http://yuml.me/diagram/nofunky;dir:TB/class/[EdgeChange]^-[EdgeLogicalInterpretationChange&#124;about(i):string%20%3F;old_value(i):string%20%3F;new_value(i):string%20%3F],[EdgeChange],[Activity])

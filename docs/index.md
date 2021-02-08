@@ -1,8 +1,8 @@
 
-# Ocl schema
+# Kgcl schema
 
 
-A data model for describing change operations at a high level on an ontology or ontology-like artefact. See [https://github.com/cmungall/ontology-change-language](https://github.com/cmungall/ontology-change-language)
+A data model for describing change operations at a high level on an ontology or ontology-like artefact, e.g Knowledge Graph. See [https://github.com/cmungall/knowledge-graph-change-language](https://github.com/cmungall/knowledge-graph-change-language)
 
 
 ### Classes
@@ -97,15 +97,19 @@ A data model for describing change operations at a high level on an ontology or 
     * [node unobsoletion➞change description](node_unobsoletion_change_description.md)
  * [change set](change_set.md)
  * [change type](change_type.md)
+    * [change set summary statistic➞change type](change_set_summary_statistic_change_type.md)
  * [consider](consider.md)
+    * [node obsoletion➞consider](node_obsoletion_consider.md)
     * [node unobsoletion➞consider](node_unobsoletion_consider.md)
  * [count](count.md)
+    * [change set summary statistic➞count](change_set_summary_statistic_count.md)
  * [edge label](edge_label.md)
  * [ended at time](ended_at_time.md)
  * [filler](filler.md)
  * [has textual diff](has_textual_diff.md)
  * [id](id.md) - CURIE or URI
  * [in subset](in_subset.md) - subset that the element is being placed inside.
+    * [add to subset➞in subset](add_to_subset_in_subset.md)
     * [remove from subset➞in subset](remove_from_subset_in_subset.md) - subset that the element is being removed from
  * [name](name.md)
  * [new value](new_value.md) - The value of a property held in the old instance of the ontology
@@ -117,6 +121,7 @@ A data model for describing change operations at a high level on an ontology or 
  * [property value set](property_value_set.md)
     * [change set summary statistic➞property value set](change_set_summary_statistic_property_value_set.md) - Summary statistic is grouped by these constraints
  * [replaced by](replaced_by.md)
+    * [node obsoletion➞replaced by](node_obsoletion_replaced_by.md)
     * [node unobsoletion➞replaced by](node_unobsoletion_replaced_by.md)
  * [started at time](started_at_time.md)
  * [subject](subject.md)
@@ -134,6 +139,7 @@ A data model for describing change operations at a high level on an ontology or 
 #### Built in
 
  * **Bool**
+ * **Decimal**
  * **ElementIdentifier**
  * **NCName**
  * **NodeIdentifier**
@@ -149,9 +155,10 @@ A data model for describing change operations at a high level on an ontology or 
 #### Defined
 
  * [Boolean](types/Boolean.md)  (**Bool**)  - A binary (true or false) value
- * [ChangeClassType](types/ChangeClassType.md)  ([Uriorcurie](types/Uriorcurie.md))  - CURIE for a class within this datamodel. E.g. ocl:NodeObsoletion
+ * [ChangeClassType](types/ChangeClassType.md)  ([Uriorcurie](types/Uriorcurie.md))  - CURIE for a class within this datamodel. E.g. kgcl:NodeObsoletion
  * [Date](types/Date.md)  (**XSDDate**)  - a date (year, month and day) in an idealized calendar
  * [Datetime](types/Datetime.md)  (**XSDDateTime**)  - The combination of a date and time
+ * [Decimal](types/Decimal.md)  (**Decimal**)  - A real number with arbitrary precision that conforms to the xsd:decimal specification
  * [Double](types/Double.md)  (**float**)  - A real number that conforms to the xsd:double specification
  * [Float](types/Float.md)  (**float**)  - A real number that conforms to the xsd:float specification
  * [Integer](types/Integer.md)  (**int**)  - An integer

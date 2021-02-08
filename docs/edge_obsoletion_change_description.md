@@ -4,7 +4,7 @@
 
 
 
-URI: [ocl:edge_obsoletion_change_description](http://w3id.org/ocledge_obsoletion_change_description)
+URI: [kgcl:edge_obsoletion_change_description](http://w3id.org/kgcledge_obsoletion_change_description)
 
 
 ## Domain and Range

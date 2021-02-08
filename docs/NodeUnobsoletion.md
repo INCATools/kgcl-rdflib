@@ -4,7 +4,7 @@
 
 unobsoletion of a node deprecates usage of that node. Rarely applied.
 
-URI: [ocl:NodeUnobsoletion](http://w3id.org/oclNodeUnobsoletion)
+URI: [kgcl:NodeUnobsoletion](http://w3id.org/kgclNodeUnobsoletion)
 
 
 ![img](http://yuml.me/diagram/nofunky;dir:TB/class/[Unobsoletion],[Node]<consider%200..1-%20[NodeUnobsoletion&#124;change_description:string%20%3F;about(i):string%20%3F;old_value(i):string%20%3F;new_value(i):string%20%3F],[Node]<replaced%20by%200..1-%20[NodeUnobsoletion],[NodeUnobsoletion]uses%20-.->[Unobsoletion],[NodeChange]^-[NodeUnobsoletion],[NodeChange],[Node],[Activity])

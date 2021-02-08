@@ -4,10 +4,10 @@
 
 An obsoletion change in which information from the obsoleted node is moved to a single target.
 
-URI: [ocl:NodeObsoletionWithMerge](http://w3id.org/oclNodeObsoletionWithMerge)
+URI: [kgcl:NodeObsoletionWithMerge](http://w3id.org/kgclNodeObsoletionWithMerge)
 
 
-![img](http://yuml.me/diagram/nofunky;dir:TB/class/[NodeObsoletion]^-[NodeObsoletionWithMerge&#124;target:string%20%3F;about:string%20%3F;change_description:string%20%3F;old_value(i):string%20%3F;new_value(i):string%20%3F],[NodeObsoletion],[Activity])
+![img](http://yuml.me/diagram/nofunky;dir:TB/class/[NodeObsoletion]^-[NodeObsoletionWithMerge&#124;target:string%20%3F;about:string%20%3F;change_description:string%20%3F;old_value(i):string%20%3F;new_value(i):string%20%3F],[NodeObsoletion],[Node],[Activity])
 
 ## Parents
 
@@ -33,6 +33,10 @@ URI: [ocl:NodeObsoletionWithMerge](http://w3id.org/oclNodeObsoletionWithMerge)
  * [new value](new_value.md)  <sub>OPT</sub>
     * Description: The value of a property held in the old instance of the ontology
     * range: [String](types/String.md)
+ * [node obsoletion➞consider](node_obsoletion_consider.md)  <sub>OPT</sub>
+    * range: [Node](Node.md)
+ * [node obsoletion➞replaced by](node_obsoletion_replaced_by.md)  <sub>OPT</sub>
+    * range: [Node](Node.md)
  * [old value](old_value.md)  <sub>OPT</sub>
     * Description: The value of a property held in the old instance of the ontology
     * range: [String](types/String.md)

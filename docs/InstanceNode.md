@@ -4,7 +4,7 @@
 
 A node that is an individual
 
-URI: [ocl:InstanceNode](http://w3id.org/oclInstanceNode)
+URI: [kgcl:InstanceNode](http://w3id.org/kgclInstanceNode)
 
 
 ![img](http://yuml.me/diagram/nofunky;dir:TB/class/[Node],[Node]^-[InstanceNode&#124;id(i):string;name(i):string%20%3F],[Annotation])

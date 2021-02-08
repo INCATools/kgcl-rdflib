@@ -4,7 +4,7 @@
 
 a provence-generating activity
 
-URI: [ocl:Activity](http://w3id.org/oclActivity)
+URI: [kgcl:Activity](http://w3id.org/kgclActivity)
 
 
 ![img](http://yuml.me/diagram/nofunky;dir:TB/class/[Agent],[Agent]<was%20associated%20with%200..1-++[Activity&#124;activity_id:string;started_at_time:string%20%3F;ended_at_time:string%20%3F;used:string%20%3F],[Activity]<was%20informed%20by%200..1-%20[Activity],[Change]-%20was%20generated%20by%200..1>[Activity],[Change])

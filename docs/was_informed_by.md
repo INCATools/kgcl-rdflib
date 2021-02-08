@@ -4,7 +4,7 @@
 
 
 
-URI: [ocl:was_informed_by](http://w3id.org/oclwas_informed_by)
+URI: [kgcl:was_informed_by](http://w3id.org/kgclwas_informed_by)
 
 
 ## Domain and Range

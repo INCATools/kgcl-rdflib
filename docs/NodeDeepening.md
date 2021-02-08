@@ -4,7 +4,7 @@
 
 A node move in which a node where the destination is a proper descendant of the original location. Note that here descendant applied not just to subclass, but edges of any edge label in the relational graph
 
-URI: [ocl:NodeDeepening](http://w3id.org/oclNodeDeepening)
+URI: [kgcl:NodeDeepening](http://w3id.org/kgclNodeDeepening)
 
 
 ![img](http://yuml.me/diagram/nofunky;dir:TB/class/[NodeMove],[NodeMove]^-[NodeDeepening&#124;change_description:string%20%3F;about(i):string%20%3F;old_value(i):string%20%3F;new_value(i):string%20%3F],[Activity])

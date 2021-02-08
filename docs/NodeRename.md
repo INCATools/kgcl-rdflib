@@ -4,7 +4,7 @@
 
 A node change where the name (aka rdfs:label) of the node changes
 
-URI: [ocl:NodeRename](http://w3id.org/oclNodeRename)
+URI: [kgcl:NodeRename](http://w3id.org/kgclNodeRename)
 
 
 ![img](http://yuml.me/diagram/nofunky;dir:TB/class/[TextualDiff],[TextualDiff]<has%20textual%20diff%200..1-++[NodeRename&#124;old_value:string%20%3F;new_value:string%20%3F;change_description:string%20%3F;about(i):string%20%3F],[NodeChange]^-[NodeRename],[NodeChange],[Activity])

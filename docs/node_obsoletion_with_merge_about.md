@@ -4,7 +4,7 @@
 
 
 
-URI: [ocl:node_obsoletion_with_merge_about](http://w3id.org/oclnode_obsoletion_with_merge_about)
+URI: [kgcl:node_obsoletion_with_merge_about](http://w3id.org/kgclnode_obsoletion_with_merge_about)
 
 
 ## Domain and Range
@@ -21,3 +21,10 @@ URI: [ocl:node_obsoletion_with_merge_about](http://w3id.org/oclnode_obsoletion_w
 ## Used by
 
  * [NodeObsoletionWithMerge](NodeObsoletionWithMerge.md)
+
+## Other properties
+
+|  |  |  |
+| --- | --- | --- |
+| **Aliases:** | | alt_id |
+

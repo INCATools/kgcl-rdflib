@@ -4,10 +4,10 @@
 
 placing an element inside a subset
 
-URI: [ocl:AddToSubset](http://w3id.org/oclAddToSubset)
+URI: [kgcl:AddToSubset](http://w3id.org/kgclAddToSubset)
 
 
-![img](http://yuml.me/diagram/nofunky;dir:TB/class/[ChangeMixin],[AddNodeToSubset]uses%20-.->[AddToSubset],[ChangeMixin]^-[AddToSubset],[AddNodeToSubset])
+![img](http://yuml.me/diagram/nofunky;dir:TB/class/[Subset],[ChangeMixin],[Subset]<in%20subset%200..1-++[AddToSubset],[AddNodeToSubset]uses%20-.->[AddToSubset],[ChangeMixin]^-[AddToSubset],[AddNodeToSubset])
 
 ## Parents
 
@@ -22,3 +22,9 @@ URI: [ocl:AddToSubset](http://w3id.org/oclAddToSubset)
 
 ## Attributes
 
+
+### Own
+
+ * [add to subset➞in subset](add_to_subset_in_subset.md)  <sub>OPT</sub>
+    * Description: subset that the element is being placed inside.
+    * range: [Subset](Subset.md)

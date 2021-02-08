@@ -4,7 +4,7 @@
 
 owl annotations. Not to be confused with annotations sensu GO
 
-URI: [ocl:Annotation](http://w3id.org/oclAnnotation)
+URI: [kgcl:Annotation](http://w3id.org/kgclAnnotation)
 
 
 ![img](http://yuml.me/diagram/nofunky;dir:TB/class/[PropertyValue],[Node],[Node]<property(i)%200..1-%20[Annotation&#124;filler(i):string%20%3F],[Annotation]<annotation%20set%200..1-++[Annotation],[PropertyValue]^-[Annotation])
