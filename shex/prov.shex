@@ -1,0 +1,55 @@
+BASE <http://www.w3.org/ns/prov#>
+PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
+PREFIX metatype: <https://w3id.org/biolink/biolinkml/meta/types/>
+
+
+metatype:String xsd:string
+
+metatype:Integer xsd:integer
+
+metatype:Boolean xsd:boolean
+
+metatype:Float xsd:float
+
+metatype:Double xsd:double
+
+metatype:Decimal xsd:decimal
+
+metatype:Time xsd:dateTime
+
+metatype:Date xsd:date
+
+metatype:Datetime xsd:dateTime
+
+metatype:Uriorcurie IRI
+
+metatype:Uri IRI
+
+metatype:Ncname xsd:string
+
+metatype:Objectidentifier IRI
+
+metatype:Nodeidentifier NONLITERAL
+
+<Activity> CLOSED {
+    (  $<Activity_tes> (  <started_at_time> @metatype:String ? ;
+          <ended_at_time> @metatype:String ? ;
+          <was_informed_by> @<Activity> ? ;
+          <was_associated_with> @<Agent> ? ;
+          <used> @metatype:String ?
+       ) ;
+       rdf:type [ <Activity> ]
+    )
+}
+
+<Agent> CLOSED {
+    (  $<Agent_tes> (  <acted_on_behalf_of> @<Agent> ? ;
+          <was_informed_by> @<Activity> ?
+       ) ;
+       rdf:type [ <Agent> ] ?
+    )
+}
+
+
+
