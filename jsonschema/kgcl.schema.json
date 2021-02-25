@@ -424,6 +424,34 @@
          "title": "LogicalDefinition",
          "type": "object"
       },
+      "MultiNodeObsoletion": {
+         "additionalProperties": false,
+         "description": "A complex change consisting of multiple obsoletions.",
+         "properties": {
+            "associated_change_set": {
+               "description": "All changes associated with a set of obsoletions. This change set is the composed change set rather than the set of individual changes. For example, if previous state is:\n  `A subClassOf B subClassOf C subClassOf D`\nand we obsolete {B,C}, then the individual changes are `A moves from B to C` and `B moves from C to D`, but the composed change set is `A moves from B to D`",
+               "items": {
+                  "$ref": "#/definitions/Change"
+               },
+               "type": "array"
+            },
+            "change_description": {
+               "type": "string"
+            },
+            "change_set": {
+               "items": {
+                  "$ref": "#/definitions/NodeObsoletion"
+               },
+               "type": "array"
+            },
+            "was_generated_by": {
+               "type": "string"
+            }
+         },
+         "required": [],
+         "title": "MultiNodeObsoletion",
+         "type": "object"
+      },
       "NewSynonym": {
          "additionalProperties": false,
          "description": "A node change where a de-novo synonym is created",
@@ -683,6 +711,13 @@
             "about": {
                "type": "string"
             },
+            "associated_change_set": {
+               "description": "All changes forced as a result of this obsoletion. For example, starting with `A subClassOf B subClassOf C`, if we obsolete node B, then we may decide to bundle in a node move change of A from B to C. Note: this change set is not considered a part of the obsoletion, as obsoletion is considered atomic/simple. Instead this is a reference to a change set that may exist elsewhere",
+               "items": {
+                  "$ref": "#/definitions/Change"
+               },
+               "type": "array"
+            },
             "change_description": {
                "type": "string"
             },
@@ -698,6 +733,7 @@
                "type": "string"
             },
             "replaced_by": {
+               "description": "When this is present, the node obsoletion MAY be associated with automated rewiring changes",
                "type": "string"
             },
             "was_generated_by": {
@@ -715,6 +751,13 @@
             "about": {
                "type": "string"
             },
+            "associated_change_set": {
+               "description": "All changes forced as a result of this obsoletion. For example, starting with `A subClassOf B subClassOf C`, if we obsolete node B, then we may decide to bundle in a node move change of A from B to C. Note: this change set is not considered a part of the obsoletion, as obsoletion is considered atomic/simple. Instead this is a reference to a change set that may exist elsewhere",
+               "items": {
+                  "$ref": "#/definitions/Change"
+               },
+               "type": "array"
+            },
             "change_description": {
                "type": "string"
             },
@@ -730,6 +773,7 @@
                "type": "string"
             },
             "replaced_by": {
+               "description": "When this is present, the node obsoletion MAY be associated with automated rewiring changes",
                "type": "string"
             },
             "target": {
@@ -750,6 +794,13 @@
             "about": {
                "type": "string"
             },
+            "associated_change_set": {
+               "description": "All changes forced as a result of this obsoletion. For example, starting with `A subClassOf B subClassOf C`, if we obsolete node B, then we may decide to bundle in a node move change of A from B to C. Note: this change set is not considered a part of the obsoletion, as obsoletion is considered atomic/simple. Instead this is a reference to a change set that may exist elsewhere",
+               "items": {
+                  "$ref": "#/definitions/Change"
+               },
+               "type": "array"
+            },
             "change_description": {
                "type": "string"
             },
@@ -765,6 +816,7 @@
                "type": "string"
             },
             "replaced_by": {
+               "description": "When this is present, the node obsoletion MAY be associated with automated rewiring changes",
                "type": "string"
             },
             "target": {

@@ -163,6 +163,14 @@ type LogicalDefinition
   {
   }
 
+type MultiNodeObsoletion
+  {
+    wasGeneratedBy: Activity
+    changeSet: [NodeObsoletion]
+    changeDescription: String
+    associatedChangeSet: [Change]
+  }
+
 type NewSynonym
   {
     wasGeneratedBy: Activity
@@ -258,6 +266,7 @@ type NodeObsoletion implements Obsoletion
     changeDescription: String
     replacedBy: Node
     consider: Node
+    associatedChangeSet: [Change]
   }
 
 type NodeObsoletionWithMerge
@@ -267,6 +276,7 @@ type NodeObsoletionWithMerge
     newValue: String
     replacedBy: Node
     consider: Node
+    associatedChangeSet: [Change]
     target: String
     about: String
     changeDescription: String
@@ -280,6 +290,7 @@ type NodeObsoletionWithSplit
     about: String
     replacedBy: Node
     consider: Node
+    associatedChangeSet: [Change]
     target: [String]
     changeDescription: String
   }

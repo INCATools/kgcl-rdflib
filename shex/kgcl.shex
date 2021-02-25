@@ -121,14 +121,16 @@ prov:Agent CLOSED {
     )
 }
 
-<http://w3id.org/kgclComplexChange> CLOSED {
-    (  $<http://w3id.org/kgclComplexChange_tes> (  &<http://w3id.org/kgclChange_tes> ;
-          rdf:type [ <http://w3id.org/kgclChange> ] ? ;
-          <http://w3id.org/kgclchange_set> @<http://w3id.org/kgclChange> *
-       ) ;
-       rdf:type [ <http://w3id.org/kgclComplexChange> ] ?
-    )
-}
+<http://w3id.org/kgclComplexChange>  (
+    CLOSED {
+       (  $<http://w3id.org/kgclComplexChange_tes> (  &<http://w3id.org/kgclChange_tes> ;
+             rdf:type [ <http://w3id.org/kgclChange> ] ? ;
+             <http://w3id.org/kgclchange_set> @<http://w3id.org/kgclChange> *
+          ) ;
+          rdf:type [ <http://w3id.org/kgclComplexChange> ] ?
+       )
+    } OR @<http://w3id.org/kgclMultiNodeObsoletion>
+)
 
 <http://w3id.org/kgclCreation> {
     (  $<http://w3id.org/kgclCreation_tes> (  &<http://w3id.org/kgclChangeMixin_tes> ;
@@ -257,6 +259,17 @@ prov:Agent CLOSED {
     )
 }
 
+<http://w3id.org/kgclMultiNodeObsoletion> CLOSED {
+    (  $<http://w3id.org/kgclMultiNodeObsoletion_tes> (  &<http://w3id.org/kgclComplexChange_tes> ;
+          rdf:type [ <http://w3id.org/kgclComplexChange> ] ? ;
+          <http://w3id.org/kgclchange_set> @<http://w3id.org/kgclNodeObsoletion> * ;
+          <http://w3id.org/kgclchange_description> @metatype:String ? ;
+          <http://w3id.org/kgclassociated_change_set> @<http://w3id.org/kgclChange> *
+       ) ;
+       rdf:type [ <http://w3id.org/kgclMultiNodeObsoletion> ] ?
+    )
+}
+
 <http://w3id.org/kgclNewSynonym> CLOSED {
     (  $<http://w3id.org/kgclNewSynonym_tes> (  &<http://w3id.org/kgclNodeSynonymChange_tes> ;
           rdf:type [ <http://w3id.org/kgclNodeSynonymChange> ] ?
@@ -370,7 +383,8 @@ prov:Agent CLOSED {
              rdf:type [ <http://w3id.org/kgclObsoletion> ] ? ;
              <http://w3id.org/kgclchange_description> @metatype:String ? ;
              <http://w3id.org/kgclreplaced_by> @<http://w3id.org/ocl/omNode> ? ;
-             <http://w3id.org/kgclconsider> @<http://w3id.org/ocl/omNode> ?
+             <http://w3id.org/kgclconsider> @<http://w3id.org/ocl/omNode> ? ;
+             <http://w3id.org/kgclassociated_change_set> @<http://w3id.org/kgclChange> *
           ) ;
           rdf:type [ <http://w3id.org/kgclNodeObsoletion> ] ?
        )

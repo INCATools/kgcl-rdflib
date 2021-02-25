@@ -1,11 +1,11 @@
 # Auto generated from kgcl.yaml by pythongen.py version: 0.9.0
-# Generation date: 2021-02-07 20:16
+# Generation date: 2021-02-25 09:50
 # Schema: kgcl
 #
 # id: https://w3id.org/kgcl
 # description: A data model for describing change operations at a high level on an ontology or ontology-like
 #              artefact, e.g Knowledge Graph. See
-#              [https://github.com/cmungall/ontology-change-language](https://github.com/cmungall/ontology-change-language)
+#              [https://github.com/cmungall/knowledge-graph-change-language](https://github.com/cmungall/knowledge-graph-change-language)
 # license: https://creativecommons.org/publicdomain/zero/1.0/
 
 import dataclasses
@@ -37,9 +37,11 @@ metamodel_version = "1.7.0"
 dataclasses._init_fn = dataclasses_init_fn_with_kwargs
 
 # Namespaces
+IAO = CurieNamespace('IAO', 'http://purl.obolibrary.org/obo/IAO_')
 BIOLINKML = CurieNamespace('biolinkml', 'https://w3id.org/biolink/biolinkml/')
 DCTERMS = CurieNamespace('dcterms', 'http://purl.org/dc/terms/')
 KGCL = CurieNamespace('kgcl', 'http://w3id.org/kgcl')
+OIO = CurieNamespace('oio', 'http://www.geneontology.org/formats/oboInOwl#')
 XSD = CurieNamespace('xsd', 'http://www.w3.org/2001/XMLSchema#')
 DEFAULT_ = KGCL
 
@@ -128,6 +130,41 @@ class ComplexChange(Change):
         if not isinstance(self.change_set, list):
             self.change_set = [self.change_set]
         self.change_set = [v if isinstance(v, Change) else Change(**v) for v in self.change_set]
+
+        super().__post_init__(**kwargs)
+
+
+@dataclass
+class MultiNodeObsoletion(ComplexChange):
+    """
+    A complex change consisting of multiple obsoletions.
+    """
+    _inherited_slots: ClassVar[List[str]] = []
+
+    class_class_uri: ClassVar[URIRef] = KGCL.MultiNodeObsoletion
+    class_class_curie: ClassVar[str] = "kgcl:MultiNodeObsoletion"
+    class_name: ClassVar[str] = "multi node obsoletion"
+    class_model_uri: ClassVar[URIRef] = KGCL.MultiNodeObsoletion
+
+    change_set: Optional[Union[Union[dict, "NodeObsoletion"], List[Union[dict, "NodeObsoletion"]]]] = empty_list()
+    change_description: Optional[str] = None
+    associated_change_set: Optional[Union[Union[dict, Change], List[Union[dict, Change]]]] = empty_list()
+
+    def __post_init__(self, *_: List[str], **kwargs: Dict[str, Any]):
+        if self.change_set is None:
+            self.change_set = []
+        if not isinstance(self.change_set, list):
+            self.change_set = [self.change_set]
+        self.change_set = [v if isinstance(v, NodeObsoletion) else NodeObsoletion(**v) for v in self.change_set]
+
+        if self.change_description is not None and not isinstance(self.change_description, str):
+            self.change_description = str(self.change_description)
+
+        if self.associated_change_set is None:
+            self.associated_change_set = []
+        if not isinstance(self.associated_change_set, list):
+            self.associated_change_set = [self.associated_change_set]
+        self.associated_change_set = [v if isinstance(v, Change) else Change(**v) for v in self.associated_change_set]
 
         super().__post_init__(**kwargs)
 
@@ -824,6 +861,7 @@ class NodeObsoletion(NodeChange):
     change_description: Optional[str] = None
     replaced_by: Optional[Union[str, NodeId]] = None
     consider: Optional[Union[str, NodeId]] = None
+    associated_change_set: Optional[Union[Union[dict, Change], List[Union[dict, Change]]]] = empty_list()
 
     def __post_init__(self, *_: List[str], **kwargs: Dict[str, Any]):
         if self.change_description is not None and not isinstance(self.change_description, str):
@@ -834,6 +872,12 @@ class NodeObsoletion(NodeChange):
 
         if self.consider is not None and not isinstance(self.consider, NodeId):
             self.consider = NodeId(self.consider)
+
+        if self.associated_change_set is None:
+            self.associated_change_set = []
+        if not isinstance(self.associated_change_set, list):
+            self.associated_change_set = [self.associated_change_set]
+        self.associated_change_set = [v if isinstance(v, Change) else Change(**v) for v in self.associated_change_set]
 
         super().__post_init__(**kwargs)
 
@@ -1018,6 +1062,9 @@ slots.has_textual_diff = Slot(uri=KGCL.has_textual_diff, name="has textual diff"
 slots.change_set = Slot(uri=KGCL.change_set, name="change set", curie=KGCL.curie('change_set'),
                    model_uri=KGCL.change_set, domain=None, range=Optional[Union[Union[dict, Change], List[Union[dict, Change]]]])
 
+slots.associated_change_set = Slot(uri=KGCL.associated_change_set, name="associated change set", curie=KGCL.curie('associated_change_set'),
+                   model_uri=KGCL.associated_change_set, domain=None, range=Optional[Union[Union[dict, Change], List[Union[dict, Change]]]])
+
 slots.change_type = Slot(uri=KGCL.change_type, name="change type", curie=KGCL.curie('change_type'),
                    model_uri=KGCL.change_type, domain=None, range=Optional[Union[str, ChangeClassType]])
 
@@ -1032,6 +1079,15 @@ slots.replaced_by = Slot(uri=KGCL.replaced_by, name="replaced by", curie=KGCL.cu
 
 slots.consider = Slot(uri=KGCL.consider, name="consider", curie=KGCL.curie('consider'),
                    model_uri=KGCL.consider, domain=None, range=Optional[Union[str, NodeId]])
+
+slots.multi_node_obsoletion_change_set = Slot(uri=KGCL.change_set, name="multi node obsoletion_change set", curie=KGCL.curie('change_set'),
+                   model_uri=KGCL.multi_node_obsoletion_change_set, domain=MultiNodeObsoletion, range=Optional[Union[Union[dict, "NodeObsoletion"], List[Union[dict, "NodeObsoletion"]]]])
+
+slots.multi_node_obsoletion_change_description = Slot(uri=KGCL.change_description, name="multi node obsoletion_change description", curie=KGCL.curie('change_description'),
+                   model_uri=KGCL.multi_node_obsoletion_change_description, domain=MultiNodeObsoletion, range=Optional[str])
+
+slots.multi_node_obsoletion_associated_change_set = Slot(uri=KGCL.associated_change_set, name="multi node obsoletion_associated change set", curie=KGCL.curie('associated_change_set'),
+                   model_uri=KGCL.multi_node_obsoletion_associated_change_set, domain=MultiNodeObsoletion, range=Optional[Union[Union[dict, Change], List[Union[dict, Change]]]])
 
 slots.change_set_summary_statistic_change_type = Slot(uri=KGCL.change_type, name="change set summary statistic_change type", curie=KGCL.curie('change_type'),
                    model_uri=KGCL.change_set_summary_statistic_change_type, domain=ChangeSetSummaryStatistic, range=Optional[Union[str, ChangeClassType]])
@@ -1092,6 +1148,9 @@ slots.node_obsoletion_replaced_by = Slot(uri=KGCL.replaced_by, name="node obsole
 
 slots.node_obsoletion_consider = Slot(uri=KGCL.consider, name="node obsoletion_consider", curie=KGCL.curie('consider'),
                    model_uri=KGCL.node_obsoletion_consider, domain=NodeObsoletion, range=Optional[Union[str, NodeId]])
+
+slots.node_obsoletion_associated_change_set = Slot(uri=KGCL.associated_change_set, name="node obsoletion_associated change set", curie=KGCL.curie('associated_change_set'),
+                   model_uri=KGCL.node_obsoletion_associated_change_set, domain=NodeObsoletion, range=Optional[Union[Union[dict, Change], List[Union[dict, Change]]]])
 
 slots.node_unobsoletion_change_description = Slot(uri=KGCL.change_description, name="node unobsoletion_change description", curie=KGCL.curie('change_description'),
                    model_uri=KGCL.node_unobsoletion_change_description, domain=NodeUnobsoletion, range=Optional[str])
