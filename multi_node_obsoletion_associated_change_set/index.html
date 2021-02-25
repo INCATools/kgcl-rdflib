@@ -9,7 +9,7 @@
   
   
   <link rel="shortcut icon" href="../img/favicon.ico">
-  <title>Type: change description - Knowledge Graph Change Language</title>
+  <title>Type: multi node obsoletion_associated change set - Knowledge Graph Change Language</title>
   <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lato:400,700|Roboto+Slab:400,700|Inconsolata:400,700" />
 
   <link rel="stylesheet" href="../css/theme.css" />
@@ -18,8 +18,8 @@
   
   <script>
     // Current page data
-    var mkdocs_page_name = "Type: change description";
-    var mkdocs_page_input_path = "change_description.md";
+    var mkdocs_page_name = "Type: multi node obsoletion_associated change set";
+    var mkdocs_page_input_path = "multi_node_obsoletion_associated_change_set.md";
     var mkdocs_page_url = null;
   </script>
   
@@ -80,7 +80,7 @@
     
       
     
-    <li>Type: change description</li>
+    <li>Type: multi node obsoletion_associated change set</li>
     <li class="wy-breadcrumbs-aside">
       
     </li>
@@ -91,27 +91,22 @@
           <div role="main">
             <div class="section">
               
-                <h1 id="type-change-description">Type: change description</h1>
-<p>A string serialization of the change</p>
-<p>URI: <a href="http://w3id.org/kgclchange_description">kgcl:change_description</a></p>
+                <h1 id="type-multi-node-obsoletion_associated-change-set">Type: multi node obsoletion_associated change set</h1>
+<p>All changes associated with a set of obsoletions. This change set is the composed change set rather than the set of individual changes. For example, if previous state is:
+  <code>A subClassOf B subClassOf C subClassOf D</code>
+and we obsolete {B,C}, then the individual changes are <code>A moves from B to C</code> and <code>B moves from C to D</code>, but the composed change set is <code>A moves from B to D</code></p>
+<p>URI: <a href="http://w3id.org/kgclmulti_node_obsoletion_associated_change_set">kgcl:multi_node_obsoletion_associated_change_set</a></p>
 <h2 id="domain-and-range">Domain and Range</h2>
-<p>None -&gt;  <sub>OPT</sub> <a href="../types/String/">String</a></p>
+<p><a href="../MultiNodeObsoletion/">MultiNodeObsoletion</a> -&gt;  <sub>0..*</sub> <a href="../Change/">Change</a></p>
 <h2 id="parents">Parents</h2>
-<h2 id="children">Children</h2>
 <ul>
-<li><a href="../edge_creation_change_description/">edge creation➞change description</a></li>
-<li><a href="../edge_deletion_change_description/">edge deletion➞change description</a></li>
-<li><a href="../edge_label_change_change_description/">edge label change➞change description</a></li>
-<li><a href="../edge_obsoletion_change_description/">edge obsoletion➞change description</a></li>
-<li><a href="../multi_node_obsoletion_change_description/">multi node obsoletion➞change description</a></li>
-<li><a href="../node_creation_change_description/">node creation➞change description</a></li>
-<li><a href="../node_deletion_change_description/">node deletion➞change description</a></li>
-<li><a href="../node_move_change_description/">node move➞change description</a></li>
-<li><a href="../node_obsoletion_change_description/">node obsoletion➞change description</a></li>
-<li><a href="../node_rename_change_description/">node rename➞change description</a></li>
-<li><a href="../node_unobsoletion_change_description/">node unobsoletion➞change description</a></li>
+<li>is_a: <a href="../change_set/">change set</a></li>
 </ul>
+<h2 id="children">Children</h2>
 <h2 id="used-by">Used by</h2>
+<ul>
+<li><a href="../MultiNodeObsoletion/">MultiNodeObsoletion</a></li>
+</ul>
               
             </div>
           </div>

@@ -94,7 +94,7 @@
                 <h1 id="type-node-obsoletion-with-merge">Type: node obsoletion with merge</h1>
 <p>An obsoletion change in which information from the obsoleted node is moved to a single target.</p>
 <p>URI: <a href="http://w3id.org/kgclNodeObsoletionWithMerge">kgcl:NodeObsoletionWithMerge</a></p>
-<p><img alt="img" src="http://yuml.me/diagram/nofunky;dir:TB/class/[NodeObsoletion]^-[NodeObsoletionWithMerge&#124;target:string%20%3F;about:string%20%3F;change_description:string%20%3F;old_value(i):string%20%3F;new_value(i):string%20%3F],[NodeObsoletion],[Node],[Activity]" /></p>
+<p><img alt="img" src="http://yuml.me/diagram/nofunky;dir:TB/class/[NodeObsoletion]^-[NodeObsoletionWithMerge&#124;target:string%20%3F;about:string%20%3F;change_description:string%20%3F;old_value(i):string%20%3F;new_value(i):string%20%3F],[NodeObsoletion],[Node],[Change],[Activity]" /></p>
 <h2 id="parents">Parents</h2>
 <ul>
 <li>is_a: <a href="../NodeObsoletion/">NodeObsoletion</a> - Obsoletion of a node deprecates usage of that node, but does not delete it.</li>
@@ -121,6 +121,11 @@
 <li><a href="../new_value/">new value</a>  <sub>OPT</sub><ul>
 <li>Description: The value of a property held in the old instance of the ontology</li>
 <li>range: <a href="../types/String/">String</a></li>
+</ul>
+</li>
+<li><a href="../node_obsoletion_associated_change_set/">node obsoletion➞associated change set</a>  <sub>0..*</sub><ul>
+<li>Description: All changes forced as a result of this obsoletion. For example, starting with <code>A subClassOf B subClassOf C</code>, if we obsolete node B, then we may decide to bundle in a node move change of A from B to C. Note: this change set is not considered a part of the obsoletion, as obsoletion is considered atomic/simple. Instead this is a reference to a change set that may exist elsewhere</li>
+<li>range: <a href="../Change/">Change</a></li>
 </ul>
 </li>
 <li><a href="../node_obsoletion_consider/">node obsoletion➞consider</a>  <sub>OPT</sub><ul>

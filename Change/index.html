@@ -94,7 +94,7 @@
                 <h1 id="type-change">Type: change</h1>
 <p>Any change perform on an ontology or knowledge graph</p>
 <p>URI: <a href="http://w3id.org/kgclChange">kgcl:Change</a></p>
-<p><img alt="img" src="http://yuml.me/diagram/nofunky;dir:TB/class/[SimpleChange],[ComplexChange],[Activity]&lt;was%20generated%20by%200..1-%20[Change],[ComplexChange]++-%20change%20set%200..*&gt;[Change],[Transaction]++-%20change%20set%200..*&gt;[Change],[Change]^-[SimpleChange],[Change]^-[ComplexChange],[Transaction],[Activity]" /></p>
+<p><img alt="img" src="http://yuml.me/diagram/nofunky;dir:TB/class/[SimpleChange],[NodeObsoletion],[MultiNodeObsoletion],[ComplexChange],[Activity]&lt;was%20generated%20by%200..1-%20[Change],[ComplexChange]++-%20change%20set%200..*&gt;[Change],[Transaction]++-%20change%20set%200..*&gt;[Change],[MultiNodeObsoletion]++-%20associated%20change%20set%200..*&gt;[Change],[NodeObsoletion]++-%20associated%20change%20set%200..*&gt;[Change],[Change]^-[SimpleChange],[Change]^-[ComplexChange],[Transaction],[Activity]" /></p>
 <h2 id="children">Children</h2>
 <ul>
 <li><a href="../ComplexChange/">ComplexChange</a> - A change that is is a composition of other changes</li>
@@ -102,7 +102,10 @@
 </ul>
 <h2 id="referenced-by-class">Referenced by class</h2>
 <ul>
+<li><strong>None</strong> <em><a href="../associated_change_set/">associated change set</a></em>  <sub>0..<em></sub>  </em><em><a href="./">Change</a></em>*</li>
 <li><strong>None</strong> <em><a href="../change_set/">change set</a></em>  <sub>0..<em></sub>  </em><em><a href="./">Change</a></em>*</li>
+<li><strong><a href="../MultiNodeObsoletion/">MultiNodeObsoletion</a></strong> <em><a href="../multi_node_obsoletion_associated_change_set/">multi node obsoletion➞associated change set</a></em>  <sub>0..<em></sub>  </em><em><a href="./">Change</a></em>*</li>
+<li><strong><a href="../NodeObsoletion/">NodeObsoletion</a></strong> <em><a href="../node_obsoletion_associated_change_set/">node obsoletion➞associated change set</a></em>  <sub>0..<em></sub>  </em><em><a href="./">Change</a></em>*</li>
 </ul>
 <h2 id="attributes">Attributes</h2>
 <h3 id="own">Own</h3>

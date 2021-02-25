@@ -94,7 +94,7 @@
                 <h1 id="type-node-obsoletion">Type: node obsoletion</h1>
 <p>Obsoletion of a node deprecates usage of that node, but does not delete it.</p>
 <p>URI: <a href="http://w3id.org/kgclNodeObsoletion">kgcl:NodeObsoletion</a></p>
-<p><img alt="img" src="http://yuml.me/diagram/nofunky;dir:TB/class/[Obsoletion],[NodeObsoletionWithSplit],[NodeObsoletionWithMerge],[Node]&lt;consider%200..1-%20[NodeObsoletion&#124;change_description:string%20%3F;about(i):string%20%3F;old_value(i):string%20%3F;new_value(i):string%20%3F],[Node]&lt;replaced%20by%200..1-%20[NodeObsoletion],[NodeObsoletion]uses%20-.-&gt;[Obsoletion],[NodeObsoletion]^-[NodeObsoletionWithSplit],[NodeObsoletion]^-[NodeObsoletionWithMerge],[NodeChange]^-[NodeObsoletion],[NodeChange],[Node],[Activity]" /></p>
+<p><img alt="img" src="http://yuml.me/diagram/nofunky;dir:TB/class/[Obsoletion],[NodeObsoletionWithSplit],[NodeObsoletionWithMerge],[Change]&lt;associated%20change%20set%200..*-++[NodeObsoletion&#124;change_description:string%20%3F;about(i):string%20%3F;old_value(i):string%20%3F;new_value(i):string%20%3F],[Node]&lt;consider%200..1-%20[NodeObsoletion],[Node]&lt;replaced%20by%200..1-%20[NodeObsoletion],[MultiNodeObsoletion]++-%20change%20set%200..*&gt;[NodeObsoletion],[NodeObsoletion]uses%20-.-&gt;[Obsoletion],[NodeObsoletion]^-[NodeObsoletionWithSplit],[NodeObsoletion]^-[NodeObsoletionWithMerge],[NodeChange]^-[NodeObsoletion],[NodeChange],[Node],[MultiNodeObsoletion],[Change],[Activity]" /></p>
 <h2 id="parents">Parents</h2>
 <ul>
 <li>is_a: <a href="../NodeChange/">NodeChange</a> - A simple change where the change is about a node</li>
@@ -109,9 +109,17 @@
 <li><a href="../NodeObsoletionWithSplit/">NodeObsoletionWithSplit</a> - An obsoletion change in which information from the obsoleted node is moved selectively to multiple targets</li>
 </ul>
 <h2 id="referenced-by-class">Referenced by class</h2>
+<ul>
+<li><strong><a href="../MultiNodeObsoletion/">MultiNodeObsoletion</a></strong> <em><a href="../multi_node_obsoletion_change_set/">multi node obsoletion➞change set</a></em>  <sub>0..<em></sub>  </em><em><a href="./">NodeObsoletion</a></em>*</li>
+</ul>
 <h2 id="attributes">Attributes</h2>
 <h3 id="own">Own</h3>
 <ul>
+<li><a href="../node_obsoletion_associated_change_set/">node obsoletion➞associated change set</a>  <sub>0..*</sub><ul>
+<li>Description: All changes forced as a result of this obsoletion. For example, starting with <code>A subClassOf B subClassOf C</code>, if we obsolete node B, then we may decide to bundle in a node move change of A from B to C. Note: this change set is not considered a part of the obsoletion, as obsoletion is considered atomic/simple. Instead this is a reference to a change set that may exist elsewhere</li>
+<li>range: <a href="../Change/">Change</a></li>
+</ul>
+</li>
 <li><a href="../node_obsoletion_change_description/">node obsoletion➞change description</a>  <sub>OPT</sub><ul>
 <li>range: <a href="../types/String/">String</a></li>
 </ul>
