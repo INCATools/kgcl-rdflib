@@ -99,6 +99,9 @@
     <li>Index</li>
     <li class="wy-breadcrumbs-aside">
       
+        <a href="https://github.com/cmungall/knowledge-graph-change-language/edit/master/docs/index.md"
+          class="icon icon-github"> Edit on GitHub</a>
+      
     </li>
   </ul>
   
@@ -108,16 +111,19 @@
             <div class="section">
               
                 <h1 id="kgcl-schema">Kgcl schema</h1>
-<p>A data model for describing change operations at a high level on an ontology or ontology-like artefact, e.g Knowledge Graph.
+<p>A data model for describing change operations at a high level on an ontology or ontology-like artefact, such as a Knowledge Graph.
 See <a href="https://github.com/cmungall/knowledge-graph-change-language">https://github.com/cmungall/knowledge-graph-change-language</a></p>
 <h3 id="classes">Classes</h3>
 <ul>
 <li><a href="Activity/">Activity</a> - a provence-generating activity</li>
 <li><a href="Agent/">Agent</a> - a provence-generating agent</li>
 <li><a href="Change/">Change</a> - Any change perform on an ontology or knowledge graph<ul>
-<li><a href="ComplexChange/">ComplexChange</a> - A change that is is a composition of other changes</li>
+<li><a href="ComplexChange/">ComplexChange</a> - A change that is is a composition of other changes<ul>
 <li><a href="MultiNodeObsoletion/">MultiNodeObsoletion</a> - A complex change consisting of multiple obsoletions.</li>
-<li><a href="SimpleChange/">SimpleChange</a> - A change that is about a single ontology element</li>
+<li><a href="NameBecomesSynonym/">NameBecomesSynonym</a> - A complex change where the name NAME of an node NODE moves to a synonym, and NODE receives a new name. This change consists of compose of (1) a node rename where NAME is replaced by a different name (2) a new synonym</li>
+</ul>
+</li>
+<li><a href="SimpleChange/">SimpleChange</a> - A change that is about a single ontology element<ul>
 <li><a href="DatatypeChange/">DatatypeChange</a></li>
 <li><a href="EdgeChange/">EdgeChange</a> - A change in which the entity changes is an edge<ul>
 <li><a href="EdgeCreation/">EdgeCreation</a> - An edge change in which a de-novo edge is created. The edge is potentially annotated in the same action.</li>
@@ -138,7 +144,7 @@ See <a href="https://github.com/cmungall/knowledge-graph-change-language">https:
 <li><a href="NodeAnnotationReplacement/">NodeAnnotationReplacement</a> - A node annotation change where the change replaces a particular property value. TODO</li>
 </ul>
 </li>
-<li><a href="NodeCreation/">NodeCreation</a></li>
+<li><a href="NodeCreation/">NodeCreation</a> - a node change in which a new node is created</li>
 <li><a href="NodeDeletion/">NodeDeletion</a> - Deletion of a node from the graph. Note it is recommended nodes are obsoleted and never merged, but this operation exists to represent deletions in ontologies, accidental or otherwise</li>
 <li><a href="NodeObsoletion/">NodeObsoletion</a> - Obsoletion of a node deprecates usage of that node, but does not delete it.<ul>
 <li><a href="NodeObsoletionWithMerge/">NodeObsoletionWithMerge</a> - An obsoletion change in which information from the obsoleted node is moved to a single target.</li>
@@ -152,7 +158,7 @@ See <a href="https://github.com/cmungall/knowledge-graph-change-language">https:
 <li><a href="SynonymReplacement/">SynonymReplacement</a> - A node change where the text of a synonym is changed</li>
 </ul>
 </li>
-<li><a href="NodeTextDefinitionChange/">NodeTextDefinitionChange</a><ul>
+<li><a href="NodeTextDefinitionChange/">NodeTextDefinitionChange</a> - A node change where the text definition is changed<ul>
 <li><a href="NewTextDefinition/">NewTextDefinition</a> - A node change where a de-novo text definition is created</li>
 <li><a href="RemoveTextDefinition/">RemoveTextDefinition</a> - A node change where a text definition is deleted</li>
 <li><a href="TextDefinitionReplacement/">TextDefinitionReplacement</a> - A node change where a text definition is modified</li>
@@ -164,15 +170,21 @@ See <a href="https://github.com/cmungall/knowledge-graph-change-language">https:
 </li>
 </ul>
 </li>
+</ul>
+</li>
 <li><a href="ChangeSetSummaryStatistic/">ChangeSetSummaryStatistic</a> - A summary statistic for a set of changes of the same type, grouped by zero or more node properties</li>
 <li><a href="OntologyElement/">OntologyElement</a> - Any component of an ontology or knowledge graph<ul>
 <li><a href="Edge/">Edge</a> - A relationship between two nodes. We assume owlstar or similar for existential restrictions</li>
 <li><a href="LogicalDefinition/">LogicalDefinition</a></li>
-<li><a href="Node/">Node</a> - Any named entity in an ontology. May be a class, individual, property</li>
+<li><a href="Node/">Node</a> - Any named entity in an ontology. May be a class, individual, property<ul>
 <li><a href="ClassNode/">ClassNode</a> - A node that is a class</li>
 <li><a href="InstanceNode/">InstanceNode</a> - A node that is an individual</li>
-<li><a href="PropertyValue/">PropertyValue</a> - a property-value pair</li>
+</ul>
+</li>
+<li><a href="PropertyValue/">PropertyValue</a> - a property-value pair<ul>
 <li><a href="Annotation/">Annotation</a> - owl annotations. Not to be confused with annotations sensu GO</li>
+</ul>
+</li>
 <li><a href="Subset/">Subset</a></li>
 </ul>
 </li>
@@ -201,13 +213,23 @@ See <a href="https://github.com/cmungall/knowledge-graph-change-language">https:
 <ul>
 <li><a href="about/">about</a> - The 'focus' entity on which the change operates<ul>
 <li><a href="edge_change_about/">edge change➞about</a></li>
-<li><a href="node_change_about/">node change➞about</a></li>
+<li><a href="node_change_about/">node change➞about</a><ul>
 <li><a href="node_obsoletion_with_merge_about/">node obsoletion with merge➞about</a></li>
+</ul>
+</li>
 </ul>
 </li>
 <li><a href="acted_on_behalf_of/">acted on behalf of</a></li>
 <li><a href="activity_id/">activity id</a></li>
 <li><a href="annotation_set/">annotation set</a></li>
+<li><a href="change_1/">change 1</a><ul>
+<li><a href="name_becomes_synonym_change_1/">name becomes synonym➞change 1</a></li>
+</ul>
+</li>
+<li><a href="change_2/">change 2</a><ul>
+<li><a href="name_becomes_synonym_change_2/">name becomes synonym➞change 2</a></li>
+</ul>
+</li>
 <li><a href="change_description/">change description</a> - A string serialization of the change<ul>
 <li><a href="edge_creation_change_description/">edge creation➞change description</a></li>
 <li><a href="edge_deletion_change_description/">edge deletion➞change description</a></li>
@@ -216,17 +238,21 @@ See <a href="https://github.com/cmungall/knowledge-graph-change-language">https:
 <li><a href="multi_node_obsoletion_change_description/">multi node obsoletion➞change description</a></li>
 <li><a href="node_creation_change_description/">node creation➞change description</a></li>
 <li><a href="node_deletion_change_description/">node deletion➞change description</a></li>
-<li><a href="node_move_change_description/">node move➞change description</a></li>
+<li><a href="node_move_change_description/">node move➞change description</a><ul>
 <li><a href="node_deepening_change_description/">node deepening➞change description</a></li>
 <li><a href="node_shallowing_change_description/">node shallowing➞change description</a></li>
-<li><a href="node_obsoletion_change_description/">node obsoletion➞change description</a></li>
+</ul>
+</li>
+<li><a href="node_obsoletion_change_description/">node obsoletion➞change description</a><ul>
 <li><a href="node_obsoletion_with_merge_change_description/">node obsoletion with merge➞change description</a></li>
 <li><a href="node_obsoletion_with_split_change_description/">node obsoletion with split➞change description</a></li>
+</ul>
+</li>
 <li><a href="node_rename_change_description/">node rename➞change description</a></li>
 <li><a href="node_unobsoletion_change_description/">node unobsoletion➞change description</a></li>
 </ul>
 </li>
-<li><a href="change_set/">change set</a><ul>
+<li><a href="change_set/">change set</a> - A collection of changes<ul>
 <li><a href="associated_change_set/">associated change set</a> - All changes associated with a set of obsoletions. This change set is the composed change set rather than the set of individual changes. For example, if previous state is:</li>
 <li><a href="multi_node_obsoletion_associated_change_set/">multi node obsoletion➞associated change set</a> - All changes associated with a set of obsoletions. This change set is the composed change set rather than the set of individual changes. For example, if previous state is:</li>
 <li><a href="multi_node_obsoletion_change_set/">multi node obsoletion➞change set</a></li>
@@ -249,7 +275,7 @@ See <a href="https://github.com/cmungall/knowledge-graph-change-language">https:
 <li><a href="edge_label/">edge label</a></li>
 <li><a href="ended_at_time/">ended at time</a></li>
 <li><a href="filler/">filler</a></li>
-<li><a href="has_textual_diff/">has textual diff</a></li>
+<li><a href="has_textual_diff/">has textual diff</a> - A representation of the diff in ascii text</li>
 <li><a href="id/">id</a> - CURIE or URI</li>
 <li><a href="in_subset/">in subset</a> - subset that the element is being placed inside.<ul>
 <li><a href="add_to_subset_in_subset/">add to subset➞in subset</a></li>
@@ -358,6 +384,8 @@ See <a href="https://github.com/cmungall/knowledge-graph-change-language">https:
   <div class="rst-versions" role="note" aria-label="versions">
     <span class="rst-current-version" data-toggle="rst-current-version">
       
+          <a href="https://github.com/cmungall/knowledge-graph-change-language/" class="fa fa-github" style="float: left; color: #fcfcfc"> GitHub</a>
+      
       
         <span><a href="home/" style="color: #fcfcfc;">&laquo; Previous</a></span>
       
@@ -380,5 +408,5 @@ See <a href="https://github.com/cmungall/knowledge-graph-change-language">https:
 
 <!--
 MkDocs version : 1.1.2
-Build Date UTC : 2021-02-25 17:54:53.326822+00:00
+Build Date UTC : 2021-03-26 20:44:48.471187+00:00
 -->

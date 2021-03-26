@@ -9,7 +9,7 @@
   
   
   <link rel="shortcut icon" href="../img/favicon.ico">
-  <title>Type: node rename - Knowledge Graph Change Language</title>
+  <title>Class: NodeRename - Knowledge Graph Change Language</title>
   <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lato:400,700|Roboto+Slab:400,700|Inconsolata:400,700" />
 
   <link rel="stylesheet" href="../css/theme.css" />
@@ -18,7 +18,7 @@
   
   <script>
     // Current page data
-    var mkdocs_page_name = "Type: node rename";
+    var mkdocs_page_name = "Class: NodeRename";
     var mkdocs_page_input_path = "NodeRename.md";
     var mkdocs_page_url = null;
   </script>
@@ -80,8 +80,11 @@
     
       
     
-    <li>Type: node rename</li>
+    <li>Class: NodeRename</li>
     <li class="wy-breadcrumbs-aside">
+      
+        <a href="https://github.com/cmungall/knowledge-graph-change-language/edit/master/docs/NodeRename.md"
+          class="icon icon-github"> Edit on GitHub</a>
       
     </li>
   </ul>
@@ -91,19 +94,24 @@
           <div role="main">
             <div class="section">
               
-                <h1 id="type-node-rename">Type: node rename</h1>
+                <h1 id="class-noderename">Class: NodeRename</h1>
 <p>A node change where the name (aka rdfs:label) of the node changes</p>
 <p>URI: <a href="http://w3id.org/kgclNodeRename">kgcl:NodeRename</a></p>
-<p><img alt="img" src="http://yuml.me/diagram/nofunky;dir:TB/class/[TextualDiff],[TextualDiff]&lt;has%20textual%20diff%200..1-++[NodeRename&#124;old_value:string%20%3F;new_value:string%20%3F;change_description:string%20%3F;about(i):string%20%3F],[NodeChange]^-[NodeRename],[NodeChange],[Activity]" /></p>
+<p><img alt="img" src="http://yuml.me/diagram/nofunky;dir:TB/class/[TextualDiff],[TextualDiff]&lt;has%20textual%20diff%200..1-++[NodeRename&#124;old_value:string%20%3F;new_value:string%20%3F;change_description:string%20%3F;about(i):string%20%3F],[NameBecomesSynonym]++-%20change%201%200..1&gt;[NodeRename],[NodeChange]^-[NodeRename],[NodeChange],[NameBecomesSynonym],[Activity]" /></p>
 <h2 id="parents">Parents</h2>
 <ul>
 <li>is_a: <a href="../NodeChange/">NodeChange</a> - A simple change where the change is about a node</li>
 </ul>
 <h2 id="referenced-by-class">Referenced by class</h2>
+<ul>
+<li><strong>None</strong> <em><a href="../change_1/">change 1</a></em>  <sub>OPT</sub>  <strong><a href="./">NodeRename</a></strong></li>
+<li><strong><a href="../NameBecomesSynonym/">NameBecomesSynonym</a></strong> <em><a href="../name_becomes_synonym_change_1/">name becomes synonym➞change 1</a></em>  <sub>OPT</sub>  <strong><a href="./">NodeRename</a></strong></li>
+</ul>
 <h2 id="attributes">Attributes</h2>
 <h3 id="own">Own</h3>
 <ul>
 <li><a href="../has_textual_diff/">has textual diff</a>  <sub>OPT</sub><ul>
+<li>Description: A representation of the diff in ascii text</li>
 <li>range: <a href="../TextualDiff/">TextualDiff</a></li>
 </ul>
 </li>
@@ -156,6 +164,8 @@
 
   <div class="rst-versions" role="note" aria-label="versions">
     <span class="rst-current-version" data-toggle="rst-current-version">
+      
+          <a href="https://github.com/cmungall/knowledge-graph-change-language/" class="fa fa-github" style="float: left; color: #fcfcfc"> GitHub</a>
       
       
       

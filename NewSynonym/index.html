@@ -9,7 +9,7 @@
   
   
   <link rel="shortcut icon" href="../img/favicon.ico">
-  <title>Type: new synonym - Knowledge Graph Change Language</title>
+  <title>Class: NewSynonym - Knowledge Graph Change Language</title>
   <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lato:400,700|Roboto+Slab:400,700|Inconsolata:400,700" />
 
   <link rel="stylesheet" href="../css/theme.css" />
@@ -18,7 +18,7 @@
   
   <script>
     // Current page data
-    var mkdocs_page_name = "Type: new synonym";
+    var mkdocs_page_name = "Class: NewSynonym";
     var mkdocs_page_input_path = "NewSynonym.md";
     var mkdocs_page_url = null;
   </script>
@@ -80,8 +80,11 @@
     
       
     
-    <li>Type: new synonym</li>
+    <li>Class: NewSynonym</li>
     <li class="wy-breadcrumbs-aside">
+      
+        <a href="https://github.com/cmungall/knowledge-graph-change-language/edit/master/docs/NewSynonym.md"
+          class="icon icon-github"> Edit on GitHub</a>
       
     </li>
   </ul>
@@ -91,13 +94,18 @@
           <div role="main">
             <div class="section">
               
-                <h1 id="type-new-synonym">Type: new synonym</h1>
+                <h1 id="class-newsynonym">Class: NewSynonym</h1>
 <p>A node change where a de-novo synonym is created</p>
 <p>URI: <a href="http://w3id.org/kgclNewSynonym">kgcl:NewSynonym</a></p>
-<p><img alt="img" src="http://yuml.me/diagram/nofunky;dir:TB/class/[NodeSynonymChange],[NodeSynonymChange]^-[NewSynonym&#124;about(i):string%20%3F;old_value(i):string%20%3F;new_value(i):string%20%3F],[Activity]" /></p>
+<p><img alt="img" src="http://yuml.me/diagram/nofunky;dir:TB/class/[NodeSynonymChange],[NameBecomesSynonym]++-%20change%202%200..1&gt;[NewSynonym&#124;about(i):string%20%3F;old_value(i):string%20%3F;new_value(i):string%20%3F],[NodeSynonymChange]^-[NewSynonym],[NameBecomesSynonym],[Activity]" /></p>
 <h2 id="parents">Parents</h2>
 <ul>
 <li>is_a: <a href="../NodeSynonymChange/">NodeSynonymChange</a></li>
+</ul>
+<h2 id="referenced-by-class">Referenced by class</h2>
+<ul>
+<li><strong>None</strong> <em><a href="../change_2/">change 2</a></em>  <sub>OPT</sub>  <strong><a href="./">NewSynonym</a></strong></li>
+<li><strong><a href="../NameBecomesSynonym/">NameBecomesSynonym</a></strong> <em><a href="../name_becomes_synonym_change_2/">name becomes synonym➞change 2</a></em>  <sub>OPT</sub>  <strong><a href="./">NewSynonym</a></strong></li>
 </ul>
 <h2 id="attributes">Attributes</h2>
 <h3 id="own">Own</h3>
@@ -149,6 +157,8 @@
 
   <div class="rst-versions" role="note" aria-label="versions">
     <span class="rst-current-version" data-toggle="rst-current-version">
+      
+          <a href="https://github.com/cmungall/knowledge-graph-change-language/" class="fa fa-github" style="float: left; color: #fcfcfc"> GitHub</a>
       
       
       

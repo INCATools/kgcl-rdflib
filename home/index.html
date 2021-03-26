@@ -50,9 +50,13 @@
                 <ul class="current">
                     <li class="toctree-l1 current"><a class="reference internal current" href="./">Home</a>
     <ul class="current">
-    <li class="toctree-l2"><a class="reference internal" href="#source">Source</a>
+    <li class="toctree-l2"><a class="reference internal" href="#schema-source">Schema Source</a>
     </li>
     <li class="toctree-l2"><a class="reference internal" href="#derived-artefacts">Derived Artefacts</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#python-classes">Python Classes</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#json-schema">JSON Schema</a>
     </li>
     <li class="toctree-l2"><a class="reference internal" href="#implementation">Implementation</a>
     </li>
@@ -91,6 +95,9 @@
     <li>Home</li>
     <li class="wy-breadcrumbs-aside">
       
+        <a href="https://github.com/cmungall/knowledge-graph-change-language/edit/master/docs/home.md"
+          class="icon icon-github"> Edit on GitHub</a>
+      
     </li>
   </ul>
   
@@ -100,18 +107,52 @@
             <div class="section">
               
                 <h1 id="introduction">Introduction</h1>
+<ul>
+<li><a href="https://cmungall.github.io/knowledge-graph-change-language/">Browse Schema</a></li>
+</ul>
+<p>The goal of this project is to define a high level language and data
+model that can be used to describe changes in ontologies and more
+generally, "knowledge graphs".</p>
+<p>The language should be a higher level of abstraction than a low-level
+owl or rdf diff. For example, conceptually, changing the parent of a
+class in ontology is a single event, which can be broken down into a
+delete and add operation.</p>
+<p>The goal is to provide both a data model and a syntax for describing
+changes. This can be used in two directions:</p>
+<ul>
+<li>Generate: given two ontologies O1 and O2, generate a list of changes C</li>
+<li>Parse: Given a list of changes C, apply to ontology O1 to generate O2</li>
+</ul>
+<p>The Parse operation is anticipated to be useful in a number of ways
+Authoring operations in a file then calling a proposed new command robot apply
+Killer app: A user authoring drive-by edits into a github ticket (“create a term X, place X under Y”; “obsolete Z”), with an agent/bot taking care of creating a Pull Request
+Standard protocol for Term Brokers
+The Generate operation may be non-deterministic as there may be multiple solutions to reducing a list of primitive diff operations to higher level operations</p>
 <p>The overall idea is laid out in: <a href="https://docs.google.com/document/d/1__7p64FOI5ZhiZ6F2TXtUc8JN1XXGwglOiVRrlg9G_c/edit#heading=h.xadk0a3ee8g">this google doc</a></p>
-<p>The goal is to provide a high level abstracted graph-oriented change
-language that is intended for describing changes in ontologies and
-ontology-like artefacts. The level of abstraction is intentionally at
-a higher level than either RDF or OWL. It currently does not attempt
-to encapsulate all of OWL. Instead it focuses on the majority of
-operations performed on ontologies.</p>
-<h2 id="source">Source</h2>
+<h2 id="schema-source">Schema Source</h2>
 <p>The linkml source yaml can be found here:</p>
 <ul>
 <li><a href="https://github.com/cmungall/knowledge-graph-change-language/tree/master/src/schema">src/schema</a></li>
 </ul>
+<p>The source is in LinkML. The best way to browse this is via the <a href="https://cmungall.github.io/knowledge-graph-change-language/">generated markdown</a></p>
+<p>An example class is <a href="https://cmungall.github.io/knowledge-graph-change-language/NodeRename/">kgcl:NodeRename</a></p>
+<pre><code class="language-yaml">classes:
+  node rename:
+    is_a: node change
+    description: &gt;-
+      A node change where the name (aka rdfs:label) of the node changes
+    slots:
+      - old value
+      - new value
+      - has textual diff      
+    slot_usage:
+      old value:
+        multivalued: false
+      new value:
+        multivalued: false
+      change description:
+        string_serialization: &quot;renaming {about} from {old value} to {new value}&quot;
+</code></pre>
 <h2 id="derived-artefacts">Derived Artefacts</h2>
 <ul>
 <li><a href="https://github.com/cmungall/knowledge-graph-change-language/tree/master/jsonschema">jsonschema</a></li>
@@ -120,8 +161,50 @@ operations performed on ontologies.</p>
 <li><a href="https://github.com/cmungall/knowledge-graph-change-language/tree/master/graphql">graphql</a></li>
 <li><a href="https://github.com/cmungall/knowledge-graph-change-language/tree/master/owl">owl</a></li>
 </ul>
+<h2 id="python-classes">Python Classes</h2>
+<ul>
+<li><a href="https://github.com/cmungall/knowledge-graph-change-language/tree/master/python">python dataclasses</a></li>
+</ul>
+<p>Example code:</p>
+<pre><code class="language-python">from kgcl import NodeRename
+
+change = NodeRename(about=&quot;UBERON:1234567&quot;, old_value=&quot;limb skin&quot;, new_value=&quot;skin of limb&quot;)
+</code></pre>
+<h2 id="json-schema">JSON Schema</h2>
+<ul>
+<li><a href="https://github.com/cmungall/knowledge-graph-change-language/tree/master/jsonschema">jsonschema</a></li>
+</ul>
+<p>Example snippet:</p>
+<pre><code class="language-json">      &quot;NodeRename&quot;: {
+         &quot;additionalProperties&quot;: false,
+         &quot;description&quot;: &quot;A node change where the name (aka rdfs:label) of the node changes&quot;,
+         &quot;properties&quot;: {
+            &quot;about&quot;: {
+               &quot;type&quot;: &quot;string&quot;
+            },
+            &quot;change_description&quot;: {
+               &quot;type&quot;: &quot;string&quot;
+            },
+            &quot;has_textual_diff&quot;: {
+               &quot;$ref&quot;: &quot;#/definitions/TextualDiff&quot;
+            },
+            &quot;new_value&quot;: {
+               &quot;type&quot;: &quot;string&quot;
+            },
+            &quot;old_value&quot;: {
+               &quot;type&quot;: &quot;string&quot;
+            },
+            &quot;was_generated_by&quot;: {
+               &quot;type&quot;: &quot;string&quot;
+            }
+         },
+         &quot;required&quot;: [],
+         &quot;title&quot;: &quot;NodeRename&quot;,
+         &quot;type&quot;: &quot;object&quot;
+      },
+</code></pre>
 <h2 id="implementation">Implementation</h2>
-<p>Currently this is just a schema, no implemehtation.</p>
+<p>Currently this is just a schema, no implementation.</p>
 <p>It is likely we will bind this into <a href="https://github.com/balhoff/owl-diff">owl-diff</a> so compilation to scala traits likely in future.</p>
 <p>Note that transactions can themselves be represented in RDF. This can
 be either JSON-LD following the schema above or native. The ShEx
@@ -158,6 +241,8 @@ Schema constrains the shape of the RDF graph.</p>
 
   <div class="rst-versions" role="note" aria-label="versions">
     <span class="rst-current-version" data-toggle="rst-current-version">
+      
+          <a href="https://github.com/cmungall/knowledge-graph-change-language/" class="fa fa-github" style="float: left; color: #fcfcfc"> GitHub</a>
       
       
       
