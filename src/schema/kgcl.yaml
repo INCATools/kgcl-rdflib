@@ -2,7 +2,7 @@ id: https://w3id.org/kgcl
 name: kgcl
 title: Knowledge Graph Change Language
 description: >-
-  A data model for describing change operations at a high level on an ontology or ontology-like artefact, e.g Knowledge Graph.
+  A data model for describing change operations at a high level on an ontology or ontology-like artefact, such as a Knowledge Graph.
   
   See [https://github.com/cmungall/knowledge-graph-change-language](https://github.com/cmungall/knowledge-graph-change-language)
   
@@ -15,13 +15,13 @@ prefixes:
   dcterms: http://purl.org/dc/terms/
   IAO: http://purl.obolibrary.org/obo/IAO_
   oio: "http://www.geneontology.org/formats/oboInOwl#"
-  biolinkml: https://w3id.org/biolink/biolinkml/
+  linkml: https://w3id.org/linkml/
   
 default_prefix: kgcl
 default_range: string
 
 imports:
-  - biolinkml:types
+  - linkml:types
   - ontology_model
   - prov
 
@@ -58,6 +58,18 @@ classes:
     slots:
       - change set
 
+  name becomes synonym:
+    is_a: complex change
+    description: >-
+      A complex change where the name NAME of an node NODE moves to a synonym, and NODE receives a new name. This change consists of compose of (1) a node rename where NAME is replaced by a different name (2) a new synonym
+    slot_usage:
+      change 1:
+        range: node rename
+      change 2:
+        range: new synonym
+        description: >-
+          
+    
   multi node obsoletion:
     aliases:
       - multi node deprecation
@@ -344,7 +356,10 @@ classes:
       - has textual diff
 
   node text definition change:
+    abstract: true
     is_a: node change
+    description: >-
+      A node change where the text definition is changed
     
   new text definition:
     description: >-
@@ -456,6 +471,8 @@ classes:
     is_a: node change
     mixins:
       - creation
+    description: >-
+      a node change in which a new node is created
     slots:
       - id
       - name
@@ -533,10 +550,14 @@ slots:
       A string serialization of the change
 
   has textual diff:
+    description: >-
+      A representation of the diff in ascii text
     domain: change
     range: textual diff
       
   change set:
+    description: >-
+      A collection of changes
     range: change
     multivalued: true
 

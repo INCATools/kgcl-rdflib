@@ -151,6 +151,7 @@
          "description": "A change that is is a composition of other changes",
          "properties": {
             "change_set": {
+               "description": "A collection of changes",
                "items": {
                   "$ref": "#/definitions/Change"
                },
@@ -452,6 +453,31 @@
          "title": "MultiNodeObsoletion",
          "type": "object"
       },
+      "NameBecomesSynonym": {
+         "additionalProperties": false,
+         "description": "A complex change where the name NAME of an node NODE moves to a synonym, and NODE receives a new name. This change consists of compose of (1) a node rename where NAME is replaced by a different name (2) a new synonym",
+         "properties": {
+            "change_1": {
+               "$ref": "#/definitions/NodeRename"
+            },
+            "change_2": {
+               "$ref": "#/definitions/NewSynonym"
+            },
+            "change_set": {
+               "description": "A collection of changes",
+               "items": {
+                  "$ref": "#/definitions/Change"
+               },
+               "type": "array"
+            },
+            "was_generated_by": {
+               "type": "string"
+            }
+         },
+         "required": [],
+         "title": "NameBecomesSynonym",
+         "type": "object"
+      },
       "NewSynonym": {
          "additionalProperties": false,
          "description": "A node change where a de-novo synonym is created",
@@ -590,7 +616,7 @@
       },
       "NodeCreation": {
          "additionalProperties": false,
-         "description": "",
+         "description": "a node change in which a new node is created",
          "properties": {
             "about": {
                "type": "string"
@@ -844,7 +870,8 @@
                "type": "string"
             },
             "has_textual_diff": {
-               "$ref": "#/definitions/TextualDiff"
+               "$ref": "#/definitions/TextualDiff",
+               "description": "A representation of the diff in ascii text"
             },
             "new_value": {
                "type": "string"
@@ -907,29 +934,6 @@
          },
          "required": [],
          "title": "NodeSynonymChange",
-         "type": "object"
-      },
-      "NodeTextDefinitionChange": {
-         "additionalProperties": false,
-         "description": "",
-         "properties": {
-            "about": {
-               "type": "string"
-            },
-            "new_value": {
-               "description": "The value of a property held in the old instance of the ontology",
-               "type": "string"
-            },
-            "old_value": {
-               "description": "The value of a property held in the old instance of the ontology",
-               "type": "string"
-            },
-            "was_generated_by": {
-               "type": "string"
-            }
-         },
-         "required": [],
-         "title": "NodeTextDefinitionChange",
          "type": "object"
       },
       "NodeUnobsoletion": {
@@ -1100,7 +1104,8 @@
                "type": "string"
             },
             "has_textual_diff": {
-               "$ref": "#/definitions/TextualDiff"
+               "$ref": "#/definitions/TextualDiff",
+               "description": "A representation of the diff in ascii text"
             },
             "new_value": {
                "description": "The value of a property held in the old instance of the ontology",
@@ -1126,7 +1131,8 @@
                "type": "string"
             },
             "has_textual_diff": {
-               "$ref": "#/definitions/TextualDiff"
+               "$ref": "#/definitions/TextualDiff",
+               "description": "A representation of the diff in ascii text"
             },
             "new_value": {
                "description": "The value of a property held in the old instance of the ontology",
@@ -1157,6 +1163,7 @@
          "description": "A unified set of changes. Could be a single change, or the results of an ontology diff",
          "properties": {
             "change_set": {
+               "description": "A collection of changes",
                "items": {
                   "$ref": "#/definitions/Change"
                },
@@ -1170,6 +1177,7 @@
    },
    "properties": {
       "change_set": {
+         "description": "A collection of changes",
          "items": {
             "$ref": "#/definitions/Change"
          },

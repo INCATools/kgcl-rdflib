@@ -7,7 +7,7 @@ license: https://creativecommons.org/publicdomain/zero/1.0/
 
 prefixes:
   prov: http://www.w3.org/ns/prov#
-  biolinkml: https://w3id.org/biolink/biolinkml/
+  linkml: https://w3id.org/linkml/
   
 default_prefix: prov
 default_range: string
@@ -16,7 +16,7 @@ default_curi_maps:
   - semweb_context
 
 imports:
-  - biolinkml:types
+  - linkml:types
 
 classes:
 

@@ -9,15 +9,15 @@ license: https://creativecommons.org/publicdomain/zero/1.0/
 version: 0.0.1
 
 prefixes:
-  om: http://w3id.org/ocl/om
+  om: http://w3id.org/kgcl/om
   dcterms: http://purl.org/dc/terms/
-  biolinkml: https://w3id.org/biolink/biolinkml/
+  linkml: https://w3id.org/linkml/
   
 default_prefix: om
 default_range: string
 
 imports:
-  - biolinkml:types
+  - linkml:types
   
 classes:
 

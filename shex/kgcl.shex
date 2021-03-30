@@ -1,47 +1,47 @@
 BASE <http://w3id.org/kgcl/>
 PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
 PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
-PREFIX metatype: <https://w3id.org/biolink/biolinkml/meta/types/>
+PREFIX linkml: <https://w3id.org/linkml/>
 PREFIX prov: <http://www.w3.org/ns/prov#>
 PREFIX owl: <http://www.w3.org/2002/07/owl#>
 
 
 <http://w3id.org/kgclChangeClassType> IRI
 
-metatype:String xsd:string
+linkml:String xsd:string
 
-metatype:Integer xsd:integer
+linkml:Integer xsd:integer
 
-metatype:Boolean xsd:boolean
+linkml:Boolean xsd:boolean
 
-metatype:Float xsd:float
+linkml:Float xsd:float
 
-metatype:Double xsd:double
+linkml:Double xsd:double
 
-metatype:Decimal xsd:decimal
+linkml:Decimal xsd:decimal
 
-metatype:Time xsd:dateTime
+linkml:Time xsd:dateTime
 
-metatype:Date xsd:date
+linkml:Date xsd:date
 
-metatype:Datetime xsd:dateTime
+linkml:Datetime xsd:dateTime
 
-metatype:Uriorcurie IRI
+linkml:Uriorcurie IRI
 
-metatype:Uri IRI
+linkml:Uri IRI
 
-metatype:Ncname xsd:string
+linkml:Ncname xsd:string
 
-metatype:Objectidentifier IRI
+linkml:Objectidentifier IRI
 
-metatype:Nodeidentifier NONLITERAL
+linkml:Nodeidentifier NONLITERAL
 
 prov:Activity CLOSED {
-    (  $prov:Activity_tes (  prov:started_at_time @metatype:String ? ;
-          prov:ended_at_time @metatype:String ? ;
+    (  $prov:Activity_tes (  prov:started_at_time @linkml:String ? ;
+          prov:ended_at_time @linkml:String ? ;
           prov:was_informed_by @prov:Activity ? ;
           prov:was_associated_with @prov:Agent ? ;
-          prov:used @metatype:String ?
+          prov:used @linkml:String ?
        ) ;
        rdf:type [ prov:Activity ]
     )
@@ -52,7 +52,7 @@ prov:Activity CLOSED {
           rdf:type [ <http://w3id.org/kgclNodeChange> ] ? ;
           &<http://w3id.org/kgclAddToSubset_tes> ;
           rdf:type [ <http://w3id.org/kgclAddToSubset> ] ? ;
-          <http://w3id.org/kgclin_subset> @<http://w3id.org/ocl/omSubset> ?
+          <http://w3id.org/kgclin_subset> @<omSubset> ?
        ) ;
        rdf:type [ <http://w3id.org/kgclAddNodeToSubset> ] ?
     )
@@ -61,7 +61,7 @@ prov:Activity CLOSED {
 <http://w3id.org/kgclAddToSubset> {
     (  $<http://w3id.org/kgclAddToSubset_tes> (  &<http://w3id.org/kgclChangeMixin_tes> ;
           rdf:type [ <http://w3id.org/kgclChangeMixin> ] ? ;
-          <http://w3id.org/kgclin_subset> @<http://w3id.org/ocl/omSubset> ?
+          <http://w3id.org/kgclin_subset> @<omSubset> ?
        ) ;
        rdf:type [ <http://w3id.org/kgclAddToSubset> ] ?
     )
@@ -75,12 +75,12 @@ prov:Agent CLOSED {
     )
 }
 
-<http://w3id.org/ocl/omAnnotation> CLOSED {
-    (  $<http://w3id.org/ocl/omAnnotation_tes> (  &<http://w3id.org/ocl/omPropertyValue_tes> ;
-          rdf:type [ <http://w3id.org/ocl/omPropertyValue> ] ? ;
-          <http://w3id.org/ocl/omannotation_set> @<http://w3id.org/ocl/omAnnotation> ?
+<omAnnotation> CLOSED {
+    (  $<omAnnotation_tes> (  &<omPropertyValue_tes> ;
+          rdf:type [ <omPropertyValue> ] ? ;
+          <omannotation_set> @<omAnnotation> ?
        ) ;
-       rdf:type [ <http://w3id.org/ocl/omAnnotation> ] ?
+       rdf:type [ <omAnnotation> ] ?
     )
 }
 
@@ -106,16 +106,16 @@ prov:Agent CLOSED {
 <http://w3id.org/kgclChangeSetSummaryStatistic> CLOSED {
     (  $<http://w3id.org/kgclChangeSetSummaryStatistic_tes> (  <http://w3id.org/kgclchange_type>
           @<http://w3id.org/kgclChangeClassType> ? ;
-          <http://w3id.org/kgclcount> @metatype:Integer ? ;
-          <http://w3id.org/kgclproperty_value_set> @<http://w3id.org/ocl/omPropertyValue> *
+          <http://w3id.org/kgclcount> @linkml:Integer ? ;
+          <http://w3id.org/kgclproperty_value_set> @<omPropertyValue> *
        ) ;
        rdf:type [ <http://w3id.org/kgclChangeSetSummaryStatistic> ] ?
     )
 }
 
-<http://w3id.org/ocl/omClassNode> CLOSED {
-    (  $<http://w3id.org/ocl/omClassNode_tes> (  &<http://w3id.org/ocl/omNode_tes> ;
-          rdf:type [ <http://w3id.org/ocl/omNode> ] ?
+<omClassNode> CLOSED {
+    (  $<omClassNode_tes> (  &<omNode_tes> ;
+          rdf:type [ <omNode> ] ?
        ) ;
        rdf:type [ owl:Class ]
     )
@@ -129,7 +129,7 @@ prov:Agent CLOSED {
           ) ;
           rdf:type [ <http://w3id.org/kgclComplexChange> ] ?
        )
-    } OR @<http://w3id.org/kgclMultiNodeObsoletion>
+    } OR @<http://w3id.org/kgclMultiNodeObsoletion> OR @<http://w3id.org/kgclNameBecomesSynonym>
 )
 
 <http://w3id.org/kgclCreation> {
@@ -156,15 +156,15 @@ prov:Agent CLOSED {
     )
 }
 
-<http://w3id.org/ocl/omEdge> CLOSED {
-    (  $<http://w3id.org/ocl/omEdge_tes> (  &<http://w3id.org/ocl/omOntologyElement_tes> ;
-          rdf:type [ <http://w3id.org/ocl/omOntologyElement> ] ? ;
-          <http://w3id.org/ocl/omsubject> @<http://w3id.org/ocl/omNode> ? ;
-          <http://w3id.org/ocl/omedge_label> @<http://w3id.org/ocl/omNode> ? ;
-          <http://w3id.org/ocl/omobject> @<http://w3id.org/ocl/omNode> ? ;
-          <http://w3id.org/ocl/omannotation_set> @<http://w3id.org/ocl/omAnnotation> ?
+<omEdge> CLOSED {
+    (  $<omEdge_tes> (  &<omOntologyElement_tes> ;
+          rdf:type [ <omOntologyElement> ] ? ;
+          <omsubject> @<omNode> ? ;
+          <omedge_label> @<omNode> ? ;
+          <omobject> @<omNode> ? ;
+          <omannotation_set> @<omAnnotation> ?
        ) ;
-       rdf:type [ <http://w3id.org/ocl/omEdge> ] ?
+       rdf:type [ <omEdge> ] ?
     )
 }
 
@@ -172,7 +172,7 @@ prov:Agent CLOSED {
     CLOSED {
        (  $<http://w3id.org/kgclEdgeChange_tes> (  &<http://w3id.org/kgclSimpleChange_tes> ;
              rdf:type [ <http://w3id.org/kgclSimpleChange> ] ? ;
-             <http://w3id.org/kgclabout> @metatype:String ?
+             <http://w3id.org/kgclabout> @linkml:String ?
           ) ;
           rdf:type [ <http://w3id.org/kgclEdgeChange> ] ?
        )
@@ -186,11 +186,11 @@ prov:Agent CLOSED {
           rdf:type [ <http://w3id.org/kgclEdgeChange> ] ? ;
           &<http://w3id.org/kgclCreation_tes> ;
           rdf:type [ <http://w3id.org/kgclCreation> ] ? ;
-          <http://w3id.org/ocl/omsubject> @<http://w3id.org/ocl/omNode> ? ;
-          <http://w3id.org/ocl/omedge_label> @<http://w3id.org/ocl/omNode> ? ;
-          <http://w3id.org/ocl/omobject> @<http://w3id.org/ocl/omNode> ? ;
-          <http://w3id.org/ocl/omannotation_set> @<http://w3id.org/ocl/omAnnotation> ? ;
-          <http://w3id.org/kgclchange_description> @metatype:String ?
+          <omsubject> @<omNode> ? ;
+          <omedge_label> @<omNode> ? ;
+          <omobject> @<omNode> ? ;
+          <omannotation_set> @<omAnnotation> ? ;
+          <http://w3id.org/kgclchange_description> @linkml:String ?
        ) ;
        rdf:type [ <http://w3id.org/kgclEdgeCreation> ] ?
     )
@@ -201,11 +201,11 @@ prov:Agent CLOSED {
           rdf:type [ <http://w3id.org/kgclEdgeChange> ] ? ;
           &<http://w3id.org/kgclDeletion_tes> ;
           rdf:type [ <http://w3id.org/kgclDeletion> ] ? ;
-          <http://w3id.org/ocl/omsubject> @<http://w3id.org/ocl/omNode> ? ;
-          <http://w3id.org/ocl/omedge_label> @<http://w3id.org/ocl/omNode> ? ;
-          <http://w3id.org/ocl/omobject> @<http://w3id.org/ocl/omNode> ? ;
-          <http://w3id.org/ocl/omannotation_set> @<http://w3id.org/ocl/omAnnotation> ? ;
-          <http://w3id.org/kgclchange_description> @metatype:String ?
+          <omsubject> @<omNode> ? ;
+          <omedge_label> @<omNode> ? ;
+          <omobject> @<omNode> ? ;
+          <omannotation_set> @<omAnnotation> ? ;
+          <http://w3id.org/kgclchange_description> @linkml:String ?
        ) ;
        rdf:type [ <http://w3id.org/kgclEdgeDeletion> ] ?
     )
@@ -214,7 +214,7 @@ prov:Agent CLOSED {
 <http://w3id.org/kgclEdgeLabelChange> CLOSED {
     (  $<http://w3id.org/kgclEdgeLabelChange_tes> (  &<http://w3id.org/kgclEdgeChange_tes> ;
           rdf:type [ <http://w3id.org/kgclEdgeChange> ] ? ;
-          <http://w3id.org/kgclchange_description> @metatype:String ?
+          <http://w3id.org/kgclchange_description> @linkml:String ?
        ) ;
        rdf:type [ <http://w3id.org/kgclEdgeLabelChange> ] ?
     )
@@ -233,29 +233,29 @@ prov:Agent CLOSED {
           rdf:type [ <http://w3id.org/kgclEdgeChange> ] ? ;
           &<http://w3id.org/kgclObsoletion_tes> ;
           rdf:type [ <http://w3id.org/kgclObsoletion> ] ? ;
-          <http://w3id.org/ocl/omsubject> @<http://w3id.org/ocl/omNode> ? ;
-          <http://w3id.org/ocl/omedge_label> @<http://w3id.org/ocl/omNode> ? ;
-          <http://w3id.org/ocl/omobject> @<http://w3id.org/ocl/omNode> ? ;
-          <http://w3id.org/ocl/omannotation_set> @<http://w3id.org/ocl/omAnnotation> ? ;
-          <http://w3id.org/kgclchange_description> @metatype:String ?
+          <omsubject> @<omNode> ? ;
+          <omedge_label> @<omNode> ? ;
+          <omobject> @<omNode> ? ;
+          <omannotation_set> @<omAnnotation> ? ;
+          <http://w3id.org/kgclchange_description> @linkml:String ?
        ) ;
        rdf:type [ <http://w3id.org/kgclEdgeObsoletion> ] ?
     )
 }
 
-<http://w3id.org/ocl/omInstanceNode> CLOSED {
-    (  $<http://w3id.org/ocl/omInstanceNode_tes> (  &<http://w3id.org/ocl/omNode_tes> ;
-          rdf:type [ <http://w3id.org/ocl/omNode> ] ?
+<omInstanceNode> CLOSED {
+    (  $<omInstanceNode_tes> (  &<omNode_tes> ;
+          rdf:type [ <omNode> ] ?
        ) ;
        rdf:type [ owl:NamedIndividual ]
     )
 }
 
-<http://w3id.org/ocl/omLogicalDefinition> CLOSED {
-    (  $<http://w3id.org/ocl/omLogicalDefinition_tes> (  &<http://w3id.org/ocl/omOntologyElement_tes> ;
-          rdf:type [ <http://w3id.org/ocl/omOntologyElement> ] ?
+<omLogicalDefinition> CLOSED {
+    (  $<omLogicalDefinition_tes> (  &<omOntologyElement_tes> ;
+          rdf:type [ <omOntologyElement> ] ?
        ) ;
-       rdf:type [ <http://w3id.org/ocl/omLogicalDefinition> ] ?
+       rdf:type [ <omLogicalDefinition> ] ?
     )
 }
 
@@ -263,10 +263,20 @@ prov:Agent CLOSED {
     (  $<http://w3id.org/kgclMultiNodeObsoletion_tes> (  &<http://w3id.org/kgclComplexChange_tes> ;
           rdf:type [ <http://w3id.org/kgclComplexChange> ] ? ;
           <http://w3id.org/kgclchange_set> @<http://w3id.org/kgclNodeObsoletion> * ;
-          <http://w3id.org/kgclchange_description> @metatype:String ? ;
+          <http://w3id.org/kgclchange_description> @linkml:String ? ;
           <http://w3id.org/kgclassociated_change_set> @<http://w3id.org/kgclChange> *
        ) ;
        rdf:type [ <http://w3id.org/kgclMultiNodeObsoletion> ] ?
+    )
+}
+
+<http://w3id.org/kgclNameBecomesSynonym> CLOSED {
+    (  $<http://w3id.org/kgclNameBecomesSynonym_tes> (  &<http://w3id.org/kgclComplexChange_tes> ;
+          rdf:type [ <http://w3id.org/kgclComplexChange> ] ? ;
+          <http://w3id.org/kgclchange_1> @<http://w3id.org/kgclNodeRename> ? ;
+          <http://w3id.org/kgclchange_2> @<http://w3id.org/kgclNewSynonym> ?
+       ) ;
+       rdf:type [ <http://w3id.org/kgclNameBecomesSynonym> ] ?
     )
 }
 
@@ -286,16 +296,16 @@ prov:Agent CLOSED {
     )
 }
 
-<http://w3id.org/ocl/omNode>  (
+<omNode>  (
     CLOSED {
-       (  $<http://w3id.org/ocl/omNode_tes> (  &<http://w3id.org/ocl/omOntologyElement_tes> ;
-             rdf:type [ <http://w3id.org/ocl/omOntologyElement> ] ? ;
-             <http://w3id.org/ocl/omname> @metatype:String ? ;
-             <http://w3id.org/ocl/omannotation_set> @<http://w3id.org/ocl/omAnnotation> ?
+       (  $<omNode_tes> (  &<omOntologyElement_tes> ;
+             rdf:type [ <omOntologyElement> ] ? ;
+             <omname> @linkml:String ? ;
+             <omannotation_set> @<omAnnotation> ?
           ) ;
-          rdf:type [ <http://w3id.org/ocl/omNode> ]
+          rdf:type [ <omNode> ]
        )
-    } OR @<http://w3id.org/ocl/omClassNode> OR @<http://w3id.org/ocl/omInstanceNode>
+    } OR @<omClassNode> OR @<omInstanceNode>
 )
 
 <http://w3id.org/kgclNodeAnnotationChange>  (
@@ -320,7 +330,7 @@ prov:Agent CLOSED {
     CLOSED {
        (  $<http://w3id.org/kgclNodeChange_tes> (  &<http://w3id.org/kgclSimpleChange_tes> ;
              rdf:type [ <http://w3id.org/kgclSimpleChange> ] ? ;
-             <http://w3id.org/kgclabout> @metatype:String ?
+             <http://w3id.org/kgclabout> @linkml:String ?
           ) ;
           rdf:type [ <http://w3id.org/kgclNodeChange> ] ?
        )
@@ -336,9 +346,9 @@ prov:Agent CLOSED {
           rdf:type [ <http://w3id.org/kgclNodeChange> ] ? ;
           &<http://w3id.org/kgclCreation_tes> ;
           rdf:type [ <http://w3id.org/kgclCreation> ] ? ;
-          <http://w3id.org/ocl/omname> @metatype:String ? ;
-          <http://w3id.org/ocl/omannotation_set> @<http://w3id.org/ocl/omAnnotation> ? ;
-          <http://w3id.org/kgclchange_description> @metatype:String ?
+          <omname> @linkml:String ? ;
+          <omannotation_set> @<omAnnotation> ? ;
+          <http://w3id.org/kgclchange_description> @linkml:String ?
        ) ;
        rdf:type [ <http://w3id.org/kgclNodeCreation> ]
     )
@@ -347,7 +357,7 @@ prov:Agent CLOSED {
 <http://w3id.org/kgclNodeDeepening> CLOSED {
     (  $<http://w3id.org/kgclNodeDeepening_tes> (  &<http://w3id.org/kgclNodeMove_tes> ;
           rdf:type [ <http://w3id.org/kgclNodeMove> ] ? ;
-          <http://w3id.org/kgclchange_description> @metatype:String ?
+          <http://w3id.org/kgclchange_description> @linkml:String ?
        ) ;
        rdf:type [ <http://w3id.org/kgclNodeDeepening> ] ?
     )
@@ -358,7 +368,7 @@ prov:Agent CLOSED {
           rdf:type [ <http://w3id.org/kgclNodeChange> ] ? ;
           &<http://w3id.org/kgclDeletion_tes> ;
           rdf:type [ <http://w3id.org/kgclDeletion> ] ? ;
-          <http://w3id.org/kgclchange_description> @metatype:String ?
+          <http://w3id.org/kgclchange_description> @linkml:String ?
        ) ;
        rdf:type [ <http://w3id.org/kgclNodeDeletion> ] ?
     )
@@ -368,7 +378,7 @@ prov:Agent CLOSED {
     CLOSED {
        (  $<http://w3id.org/kgclNodeMove_tes> (  &<http://w3id.org/kgclEdgeChange_tes> ;
              rdf:type [ <http://w3id.org/kgclEdgeChange> ] ? ;
-             <http://w3id.org/kgclchange_description> @metatype:String ?
+             <http://w3id.org/kgclchange_description> @linkml:String ?
           ) ;
           rdf:type [ <http://w3id.org/kgclNodeMove> ] ?
        )
@@ -381,9 +391,9 @@ prov:Agent CLOSED {
              rdf:type [ <http://w3id.org/kgclNodeChange> ] ? ;
              &<http://w3id.org/kgclObsoletion_tes> ;
              rdf:type [ <http://w3id.org/kgclObsoletion> ] ? ;
-             <http://w3id.org/kgclchange_description> @metatype:String ? ;
-             <http://w3id.org/kgclreplaced_by> @<http://w3id.org/ocl/omNode> ? ;
-             <http://w3id.org/kgclconsider> @<http://w3id.org/ocl/omNode> ? ;
+             <http://w3id.org/kgclchange_description> @linkml:String ? ;
+             <http://w3id.org/kgclreplaced_by> @<omNode> ? ;
+             <http://w3id.org/kgclconsider> @<omNode> ? ;
              <http://w3id.org/kgclassociated_change_set> @<http://w3id.org/kgclChange> *
           ) ;
           rdf:type [ <http://w3id.org/kgclNodeObsoletion> ] ?
@@ -394,9 +404,9 @@ prov:Agent CLOSED {
 <http://w3id.org/kgclNodeObsoletionWithMerge> CLOSED {
     (  $<http://w3id.org/kgclNodeObsoletionWithMerge_tes> (  &<http://w3id.org/kgclNodeObsoletion_tes> ;
           rdf:type [ <http://w3id.org/kgclNodeObsoletion> ] ? ;
-          <http://w3id.org/kgcltarget> @metatype:String ? ;
-          <http://w3id.org/kgclabout> @metatype:String ? ;
-          <http://w3id.org/kgclchange_description> @metatype:String ?
+          <http://w3id.org/kgcltarget> @linkml:String ? ;
+          <http://w3id.org/kgclabout> @linkml:String ? ;
+          <http://w3id.org/kgclchange_description> @linkml:String ?
        ) ;
        rdf:type [ <http://w3id.org/kgclNodeObsoletionWithMerge> ] ?
     )
@@ -405,8 +415,8 @@ prov:Agent CLOSED {
 <http://w3id.org/kgclNodeObsoletionWithSplit> CLOSED {
     (  $<http://w3id.org/kgclNodeObsoletionWithSplit_tes> (  &<http://w3id.org/kgclNodeObsoletion_tes> ;
           rdf:type [ <http://w3id.org/kgclNodeObsoletion> ] ? ;
-          <http://w3id.org/kgcltarget> @metatype:String * ;
-          <http://w3id.org/kgclchange_description> @metatype:String ?
+          <http://w3id.org/kgcltarget> @linkml:String * ;
+          <http://w3id.org/kgclchange_description> @linkml:String ?
        ) ;
        rdf:type [ <http://w3id.org/kgclNodeObsoletionWithSplit> ] ?
     )
@@ -415,10 +425,10 @@ prov:Agent CLOSED {
 <http://w3id.org/kgclNodeRename> CLOSED {
     (  $<http://w3id.org/kgclNodeRename_tes> (  &<http://w3id.org/kgclNodeChange_tes> ;
           rdf:type [ <http://w3id.org/kgclNodeChange> ] ? ;
-          <http://w3id.org/kgclold_value> @metatype:String ? ;
-          <http://w3id.org/kgclnew_value> @metatype:String ? ;
+          <http://w3id.org/kgclold_value> @linkml:String ? ;
+          <http://w3id.org/kgclnew_value> @linkml:String ? ;
           <http://w3id.org/kgclhas_textual_diff> @<http://w3id.org/kgclTextualDiff> ? ;
-          <http://w3id.org/kgclchange_description> @metatype:String ?
+          <http://w3id.org/kgclchange_description> @linkml:String ?
        ) ;
        rdf:type [ <http://w3id.org/kgclNodeRename> ] ?
     )
@@ -427,7 +437,7 @@ prov:Agent CLOSED {
 <http://w3id.org/kgclNodeShallowing> CLOSED {
     (  $<http://w3id.org/kgclNodeShallowing_tes> (  &<http://w3id.org/kgclNodeMove_tes> ;
           rdf:type [ <http://w3id.org/kgclNodeMove> ] ? ;
-          <http://w3id.org/kgclchange_description> @metatype:String ?
+          <http://w3id.org/kgclchange_description> @linkml:String ?
        ) ;
        rdf:type [ <http://w3id.org/kgclNodeShallowing> ] ?
     )
@@ -444,24 +454,26 @@ prov:Agent CLOSED {
 )
 
 <http://w3id.org/kgclNodeTextDefinitionChange>  (
-    CLOSED {
-       (  $<http://w3id.org/kgclNodeTextDefinitionChange_tes> (  &<http://w3id.org/kgclNodeChange_tes> ;
-             rdf:type [ <http://w3id.org/kgclNodeChange> ] ?
-          ) ;
-          rdf:type [ <http://w3id.org/kgclNodeTextDefinitionChange> ] ?
-       )
-    } OR @<http://w3id.org/kgclNewTextDefinition> OR @<http://w3id.org/kgclRemoveTextDefinition> OR
+    @<http://w3id.org/kgclNewTextDefinition> OR @<http://w3id.org/kgclRemoveTextDefinition> OR
     @<http://w3id.org/kgclTextDefinitionReplacement>
 )
+
+<http://w3id.org/kgclNodeTextDefinitionChange_struct> {
+    (  $<http://w3id.org/kgclNodeTextDefinitionChange_tes> (  &<http://w3id.org/kgclNodeChange_tes> ;
+          rdf:type [ <http://w3id.org/kgclNodeChange> ] ?
+       ) ;
+       rdf:type [ <http://w3id.org/kgclNodeTextDefinitionChange> ] ?
+    )
+}
 
 <http://w3id.org/kgclNodeUnobsoletion> CLOSED {
     (  $<http://w3id.org/kgclNodeUnobsoletion_tes> (  &<http://w3id.org/kgclNodeChange_tes> ;
           rdf:type [ <http://w3id.org/kgclNodeChange> ] ? ;
           &<http://w3id.org/kgclUnobsoletion_tes> ;
           rdf:type [ <http://w3id.org/kgclUnobsoletion> ] ? ;
-          <http://w3id.org/kgclchange_description> @metatype:String ? ;
-          <http://w3id.org/kgclreplaced_by> @<http://w3id.org/ocl/omNode> ? ;
-          <http://w3id.org/kgclconsider> @<http://w3id.org/ocl/omNode> ?
+          <http://w3id.org/kgclchange_description> @linkml:String ? ;
+          <http://w3id.org/kgclreplaced_by> @<omNode> ? ;
+          <http://w3id.org/kgclconsider> @<omNode> ?
        ) ;
        rdf:type [ <http://w3id.org/kgclNodeUnobsoletion> ] ?
     )
@@ -475,31 +487,30 @@ prov:Agent CLOSED {
     )
 }
 
-<http://w3id.org/ocl/omOntologyElement>  (
+<omOntologyElement>  (
     CLOSED {
-       (  $<http://w3id.org/ocl/omOntologyElement_tes> rdf:type . * ;
-          rdf:type [ <http://w3id.org/ocl/omOntologyElement> ] ?
+       (  $<omOntologyElement_tes> rdf:type . * ;
+          rdf:type [ <omOntologyElement> ] ?
        )
-    } OR @<http://w3id.org/ocl/omEdge> OR @<http://w3id.org/ocl/omLogicalDefinition> OR @<http://w3id.org/ocl/omNode> OR
-    @<http://w3id.org/ocl/omPropertyValue> OR @<http://w3id.org/ocl/omSubset>
+    } OR @<omEdge> OR @<omLogicalDefinition> OR @<omNode> OR @<omPropertyValue> OR @<omSubset>
 )
 
-<http://w3id.org/ocl/omPropertyValue>  (
+<omPropertyValue>  (
     CLOSED {
-       (  $<http://w3id.org/ocl/omPropertyValue_tes> (  &<http://w3id.org/ocl/omOntologyElement_tes> ;
-             rdf:type [ <http://w3id.org/ocl/omOntologyElement> ] ? ;
-             <http://w3id.org/ocl/omproperty> @<http://w3id.org/ocl/omNode> ? ;
-             <http://w3id.org/ocl/omfiller> @metatype:String ?
+       (  $<omPropertyValue_tes> (  &<omOntologyElement_tes> ;
+             rdf:type [ <omOntologyElement> ] ? ;
+             <omproperty> @<omNode> ? ;
+             <omfiller> @linkml:String ?
           ) ;
-          rdf:type [ <http://w3id.org/ocl/omPropertyValue> ] ?
+          rdf:type [ <omPropertyValue> ] ?
        )
-    } OR @<http://w3id.org/ocl/omAnnotation>
+    } OR @<omAnnotation>
 )
 
 <http://w3id.org/kgclRemoveFromSubset> {
     (  $<http://w3id.org/kgclRemoveFromSubset_tes> (  &<http://w3id.org/kgclChangeMixin_tes> ;
           rdf:type [ <http://w3id.org/kgclChangeMixin> ] ? ;
-          <http://w3id.org/kgclin_subset> @<http://w3id.org/ocl/omSubset> ?
+          <http://w3id.org/kgclin_subset> @<omSubset> ?
        ) ;
        rdf:type [ <http://w3id.org/kgclRemoveFromSubset> ] ?
     )
@@ -526,7 +537,7 @@ prov:Agent CLOSED {
           rdf:type [ <http://w3id.org/kgclNodeChange> ] ? ;
           &<http://w3id.org/kgclRemoveFromSubset_tes> ;
           rdf:type [ <http://w3id.org/kgclRemoveFromSubset> ] ? ;
-          <http://w3id.org/kgclin_subset> @<http://w3id.org/ocl/omSubset> ?
+          <http://w3id.org/kgclin_subset> @<omSubset> ?
        ) ;
        rdf:type [ <http://w3id.org/kgclRemovedNodeFromSubset> ] ?
     )
@@ -536,20 +547,20 @@ prov:Agent CLOSED {
     CLOSED {
        (  $<http://w3id.org/kgclSimpleChange_tes> (  &<http://w3id.org/kgclChange_tes> ;
              rdf:type [ <http://w3id.org/kgclChange> ] ? ;
-             <http://w3id.org/kgclabout> @metatype:String ? ;
-             <http://w3id.org/kgclold_value> @metatype:String ? ;
-             <http://w3id.org/kgclnew_value> @metatype:String ?
+             <http://w3id.org/kgclabout> @linkml:String ? ;
+             <http://w3id.org/kgclold_value> @linkml:String ? ;
+             <http://w3id.org/kgclnew_value> @linkml:String ?
           ) ;
           rdf:type [ <http://w3id.org/kgclSimpleChange> ] ?
        )
     } OR @<http://w3id.org/kgclDatatypeChange> OR @<http://w3id.org/kgclEdgeChange> OR @<http://w3id.org/kgclNodeChange>
 )
 
-<http://w3id.org/ocl/omSubset> CLOSED {
-    (  $<http://w3id.org/ocl/omSubset_tes> (  &<http://w3id.org/ocl/omOntologyElement_tes> ;
-          rdf:type [ <http://w3id.org/ocl/omOntologyElement> ] ?
+<omSubset> CLOSED {
+    (  $<omSubset_tes> (  &<omOntologyElement_tes> ;
+          rdf:type [ <omOntologyElement> ] ?
        ) ;
-       rdf:type [ <http://w3id.org/ocl/omSubset> ] ?
+       rdf:type [ <omSubset> ] ?
     )
 }
 

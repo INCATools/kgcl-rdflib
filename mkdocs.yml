@@ -1,5 +1,6 @@
 site_name: "Knowledge Graph Change Language"
 theme: readthedocs
+repo_url: https://github.com/cmungall/knowledge-graph-change-language
 nav:
   - Home: home.md
   - Index: index.md

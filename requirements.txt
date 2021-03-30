@@ -1,1 +1,2 @@
-biolinkml >= 1.7.1
+linkml
+mkdocs

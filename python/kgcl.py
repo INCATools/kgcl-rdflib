@@ -1,10 +1,10 @@
 # Auto generated from kgcl.yaml by pythongen.py version: 0.9.0
-# Generation date: 2021-02-25 09:50
+# Generation date: 2021-03-30 09:26
 # Schema: kgcl
 #
 # id: https://w3id.org/kgcl
 # description: A data model for describing change operations at a high level on an ontology or ontology-like
-#              artefact, e.g Knowledge Graph. See
+#              artefact, such as a Knowledge Graph. See
 #              [https://github.com/cmungall/knowledge-graph-change-language](https://github.com/cmungall/knowledge-graph-change-language)
 # license: https://creativecommons.org/publicdomain/zero/1.0/
 
@@ -13,23 +13,20 @@ import sys
 import re
 from typing import Optional, List, Union, Dict, ClassVar, Any
 from dataclasses import dataclass
-from biolinkml.meta import EnumDefinition, PermissibleValue, PvFormulaOptions
+from linkml_model.meta import EnumDefinition, PermissibleValue, PvFormulaOptions
 
-from biolinkml.utils.slot import Slot
-from biolinkml.utils.metamodelcore import empty_list, empty_dict, bnode
-from biolinkml.utils.yamlutils import YAMLRoot, extended_str, extended_float, extended_int
-if sys.version_info < (3, 7, 6):
-    from biolinkml.utils.dataclass_extensions_375 import dataclasses_init_fn_with_kwargs
-else:
-    from biolinkml.utils.dataclass_extensions_376 import dataclasses_init_fn_with_kwargs
-from biolinkml.utils.formatutils import camelcase, underscore, sfx
-from biolinkml.utils.enumerations import EnumDefinitionImpl
+from linkml.utils.slot import Slot
+from linkml.utils.metamodelcore import empty_list, empty_dict, bnode
+from linkml.utils.yamlutils import YAMLRoot, extended_str, extended_float, extended_int
+from linkml.utils.dataclass_extensions_376 import dataclasses_init_fn_with_kwargs
+from linkml.utils.formatutils import camelcase, underscore, sfx
+from linkml.utils.enumerations import EnumDefinitionImpl
 from rdflib import Namespace, URIRef
-from biolinkml.utils.curienamespace import CurieNamespace
+from linkml.utils.curienamespace import CurieNamespace
 from . ontology_model import Annotation, NodeId, PropertyValue, Subset
 from . prov import ActivityActivityId
-from biolinkml.utils.metamodelcore import URIorCURIE
-from includes.types import Integer, String, Uriorcurie
+from linkml.utils.metamodelcore import URIorCURIE
+from linkml_model.types import Integer, String, Uriorcurie
 
 metamodel_version = "1.7.0"
 
@@ -38,9 +35,9 @@ dataclasses._init_fn = dataclasses_init_fn_with_kwargs
 
 # Namespaces
 IAO = CurieNamespace('IAO', 'http://purl.obolibrary.org/obo/IAO_')
-BIOLINKML = CurieNamespace('biolinkml', 'https://w3id.org/biolink/biolinkml/')
 DCTERMS = CurieNamespace('dcterms', 'http://purl.org/dc/terms/')
 KGCL = CurieNamespace('kgcl', 'http://w3id.org/kgcl')
+LINKML = CurieNamespace('linkml', 'https://w3id.org/linkml/')
 OIO = CurieNamespace('oio', 'http://www.geneontology.org/formats/oboInOwl#')
 XSD = CurieNamespace('xsd', 'http://www.w3.org/2001/XMLSchema#')
 DEFAULT_ = KGCL
@@ -130,6 +127,32 @@ class ComplexChange(Change):
         if not isinstance(self.change_set, list):
             self.change_set = [self.change_set]
         self.change_set = [v if isinstance(v, Change) else Change(**v) for v in self.change_set]
+
+        super().__post_init__(**kwargs)
+
+
+@dataclass
+class NameBecomesSynonym(ComplexChange):
+    """
+    A complex change where the name NAME of an node NODE moves to a synonym, and NODE receives a new name. This change
+    consists of compose of (1) a node rename where NAME is replaced by a different name (2) a new synonym
+    """
+    _inherited_slots: ClassVar[List[str]] = []
+
+    class_class_uri: ClassVar[URIRef] = KGCL.NameBecomesSynonym
+    class_class_curie: ClassVar[str] = "kgcl:NameBecomesSynonym"
+    class_name: ClassVar[str] = "name becomes synonym"
+    class_model_uri: ClassVar[URIRef] = KGCL.NameBecomesSynonym
+
+    change_1: Optional[Union[dict, "NodeRename"]] = None
+    change_2: Optional[Union[dict, "NewSynonym"]] = None
+
+    def __post_init__(self, *_: List[str], **kwargs: Dict[str, Any]):
+        if self.change_1 is not None and not isinstance(self.change_1, NodeRename):
+            self.change_1 = NodeRename(**self.change_1)
+
+        if self.change_2 is not None and not isinstance(self.change_2, NewSynonym):
+            self.change_2 = NewSynonym(**self.change_2)
 
         super().__post_init__(**kwargs)
 
@@ -716,6 +739,9 @@ class SynonymReplacement(NodeSynonymChange):
 
 
 class NodeTextDefinitionChange(NodeChange):
+    """
+    A node change where the text definition is changed
+    """
     _inherited_slots: ClassVar[List[str]] = []
 
     class_class_uri: ClassVar[URIRef] = KGCL.NodeTextDefinitionChange
@@ -913,6 +939,9 @@ class NodeUnobsoletion(NodeChange):
 
 @dataclass
 class NodeCreation(NodeChange):
+    """
+    a node change in which a new node is created
+    """
     _inherited_slots: ClassVar[List[str]] = []
 
     class_class_uri: ClassVar[URIRef] = KGCL.NodeCreation
@@ -1062,6 +1091,12 @@ slots.has_textual_diff = Slot(uri=KGCL.has_textual_diff, name="has textual diff"
 slots.change_set = Slot(uri=KGCL.change_set, name="change set", curie=KGCL.curie('change_set'),
                    model_uri=KGCL.change_set, domain=None, range=Optional[Union[Union[dict, Change], List[Union[dict, Change]]]])
 
+slots.change_1 = Slot(uri=KGCL.change_1, name="change 1", curie=KGCL.curie('change_1'),
+                   model_uri=KGCL.change_1, domain=None, range=Optional[Union[dict, NodeRename]])
+
+slots.change_2 = Slot(uri=KGCL.change_2, name="change 2", curie=KGCL.curie('change_2'),
+                   model_uri=KGCL.change_2, domain=None, range=Optional[Union[dict, NewSynonym]])
+
 slots.associated_change_set = Slot(uri=KGCL.associated_change_set, name="associated change set", curie=KGCL.curie('associated_change_set'),
                    model_uri=KGCL.associated_change_set, domain=None, range=Optional[Union[Union[dict, Change], List[Union[dict, Change]]]])
 
@@ -1079,6 +1114,12 @@ slots.replaced_by = Slot(uri=KGCL.replaced_by, name="replaced by", curie=KGCL.cu
 
 slots.consider = Slot(uri=KGCL.consider, name="consider", curie=KGCL.curie('consider'),
                    model_uri=KGCL.consider, domain=None, range=Optional[Union[str, NodeId]])
+
+slots.name_becomes_synonym_change_1 = Slot(uri=KGCL.change_1, name="name becomes synonym_change 1", curie=KGCL.curie('change_1'),
+                   model_uri=KGCL.name_becomes_synonym_change_1, domain=NameBecomesSynonym, range=Optional[Union[dict, "NodeRename"]])
+
+slots.name_becomes_synonym_change_2 = Slot(uri=KGCL.change_2, name="name becomes synonym_change 2", curie=KGCL.curie('change_2'),
+                   model_uri=KGCL.name_becomes_synonym_change_2, domain=NameBecomesSynonym, range=Optional[Union[dict, "NewSynonym"]])
 
 slots.multi_node_obsoletion_change_set = Slot(uri=KGCL.change_set, name="multi node obsoletion_change set", curie=KGCL.curie('change_set'),
                    model_uri=KGCL.multi_node_obsoletion_change_set, domain=MultiNodeObsoletion, range=Optional[Union[Union[dict, "NodeObsoletion"], List[Union[dict, "NodeObsoletion"]]]])

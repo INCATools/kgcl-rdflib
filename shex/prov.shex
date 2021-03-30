@@ -1,43 +1,43 @@
 BASE <http://www.w3.org/ns/prov#>
 PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
 PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
-PREFIX metatype: <https://w3id.org/biolink/biolinkml/meta/types/>
+PREFIX linkml: <https://w3id.org/linkml/>
 
 
-metatype:String xsd:string
+linkml:String xsd:string
 
-metatype:Integer xsd:integer
+linkml:Integer xsd:integer
 
-metatype:Boolean xsd:boolean
+linkml:Boolean xsd:boolean
 
-metatype:Float xsd:float
+linkml:Float xsd:float
 
-metatype:Double xsd:double
+linkml:Double xsd:double
 
-metatype:Decimal xsd:decimal
+linkml:Decimal xsd:decimal
 
-metatype:Time xsd:dateTime
+linkml:Time xsd:dateTime
 
-metatype:Date xsd:date
+linkml:Date xsd:date
 
-metatype:Datetime xsd:dateTime
+linkml:Datetime xsd:dateTime
 
-metatype:Uriorcurie IRI
+linkml:Uriorcurie IRI
 
-metatype:Uri IRI
+linkml:Uri IRI
 
-metatype:Ncname xsd:string
+linkml:Ncname xsd:string
 
-metatype:Objectidentifier IRI
+linkml:Objectidentifier IRI
 
-metatype:Nodeidentifier NONLITERAL
+linkml:Nodeidentifier NONLITERAL
 
 <Activity> CLOSED {
-    (  $<Activity_tes> (  <started_at_time> @metatype:String ? ;
-          <ended_at_time> @metatype:String ? ;
+    (  $<Activity_tes> (  <started_at_time> @linkml:String ? ;
+          <ended_at_time> @linkml:String ? ;
           <was_informed_by> @<Activity> ? ;
           <was_associated_with> @<Agent> ? ;
-          <used> @metatype:String ?
+          <used> @linkml:String ?
        ) ;
        rdf:type [ <Activity> ]
     )
