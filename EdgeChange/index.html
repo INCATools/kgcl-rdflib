@@ -97,7 +97,7 @@
                 <h1 id="class-edgechange">Class: EdgeChange</h1>
 <p>A change in which the entity changes is an edge</p>
 <p>URI: <a href="http://w3id.org/kgclEdgeChange">kgcl:EdgeChange</a></p>
-<p><img alt="img" src="http://yuml.me/diagram/nofunky;dir:TB/class/[SimpleChange],[NodeMove],[EdgeObsoletion],[EdgeLogicalInterpretationChange],[EdgeLabelChange],[EdgeDeletion],[EdgeCreation],[EdgeChange&#124;about:string%20%3F;old_value(i):string%20%3F;new_value(i):string%20%3F]^-[NodeMove],[EdgeChange]^-[EdgeObsoletion],[EdgeChange]^-[EdgeLogicalInterpretationChange],[EdgeChange]^-[EdgeLabelChange],[EdgeChange]^-[EdgeDeletion],[EdgeChange]^-[EdgeCreation],[SimpleChange]^-[EdgeChange],[Activity]" /></p>
+<p><img alt="img" src="http://yuml.me/diagram/nofunky;dir:TB/class/[SimpleChange],[NodeMove],[EdgeRewiring],[EdgeObsoletion],[EdgeLogicalInterpretationChange],[EdgeLabelChange],[EdgeDeletion],[EdgeCreation],[EdgeChange&#124;about:string%20%3F;old_value(i):string%20%3F;new_value(i):string%20%3F]^-[NodeMove],[EdgeChange]^-[EdgeRewiring],[EdgeChange]^-[EdgeObsoletion],[EdgeChange]^-[EdgeLogicalInterpretationChange],[EdgeChange]^-[EdgeLabelChange],[EdgeChange]^-[EdgeDeletion],[EdgeChange]^-[EdgeCreation],[SimpleChange]^-[EdgeChange],[Activity]" /></p>
 <h2 id="parents">Parents</h2>
 <ul>
 <li>is_a: <a href="../SimpleChange/">SimpleChange</a> - A change that is about a single ontology element</li>
@@ -109,6 +109,7 @@
 <li><a href="../EdgeLabelChange/">EdgeLabelChange</a> - An edge change where the edge label (relationship type) is modified.</li>
 <li><a href="../EdgeLogicalInterpretationChange/">EdgeLogicalInterpretationChange</a> - An edge change where the subjet, object, and edge label are unchanged, but the logical interpretation changes</li>
 <li><a href="../EdgeObsoletion/">EdgeObsoletion</a> - An edge change in which an edge is obsoleted.</li>
+<li><a href="../EdgeRewiring/">EdgeRewiring</a> - An edge change where one node is replaced with another, as in the case of obsoletion with replacement</li>
 <li><a href="../NodeMove/">NodeMove</a> - A node move is a combination of deleting a parent edge and adding a parent edge, where the edge label is preserved and the object/parent node changes</li>
 </ul>
 <h2 id="referenced-by-class">Referenced by class</h2>
@@ -123,7 +124,7 @@
 <h3 id="inherited-from-simple-change">Inherited from simple change:</h3>
 <ul>
 <li><a href="../new_value/">new value</a>  <sub>OPT</sub><ul>
-<li>Description: The value of a property held in the old instance of the ontology</li>
+<li>Description: The value of a property held in the new instance of the ontology</li>
 <li>range: <a href="../types/String/">String</a></li>
 </ul>
 </li>

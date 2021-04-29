@@ -97,7 +97,7 @@
                 <h1 id="class-simplechange">Class: SimpleChange</h1>
 <p>A change that is about a single ontology element</p>
 <p>URI: <a href="http://w3id.org/kgclSimpleChange">kgcl:SimpleChange</a></p>
-<p><img alt="img" src="http://yuml.me/diagram/nofunky;dir:TB/class/[SimpleChange&#124;about:string%20%3F;old_value:string%20%3F;new_value:string%20%3F]^-[NodeChange],[SimpleChange]^-[EdgeChange],[SimpleChange]^-[DatatypeChange],[Change]^-[SimpleChange],[NodeChange],[EdgeChange],[DatatypeChange],[Change],[Activity]" /></p>
+<p><img alt="img" src="http://yuml.me/diagram/nofunky;dir:TB/class/[SimpleChange&#124;about:string%20%3F;old_value:string%20%3F;new_value:string%20%3F]^-[NodeChange],[SimpleChange]^-[LogicalAxiomChange],[SimpleChange]^-[EdgeChange],[SimpleChange]^-[DatatypeChange],[Change]^-[SimpleChange],[NodeChange],[LogicalAxiomChange],[EdgeChange],[DatatypeChange],[Change],[Activity]" /></p>
 <h2 id="parents">Parents</h2>
 <ul>
 <li>is_a: <a href="../Change/">Change</a> - Any change perform on an ontology or knowledge graph</li>
@@ -106,6 +106,7 @@
 <ul>
 <li><a href="../DatatypeChange/">DatatypeChange</a></li>
 <li><a href="../EdgeChange/">EdgeChange</a> - A change in which the entity changes is an edge</li>
+<li><a href="../LogicalAxiomChange/">LogicalAxiomChange</a> - A simple change where a logical axiom is changed, where the logical axiom cannot be represented as an edge</li>
 <li><a href="../NodeChange/">NodeChange</a> - A simple change where the change is about a node</li>
 </ul>
 <h2 id="referenced-by-class">Referenced by class</h2>
@@ -118,7 +119,7 @@
 </ul>
 </li>
 <li><a href="../new_value/">new value</a>  <sub>OPT</sub><ul>
-<li>Description: The value of a property held in the old instance of the ontology</li>
+<li>Description: The value of a property held in the new instance of the ontology</li>
 <li>range: <a href="../types/String/">String</a></li>
 </ul>
 </li>

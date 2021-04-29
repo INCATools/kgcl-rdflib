@@ -97,10 +97,14 @@
                 <h1 id="class-obsoletion">Class: Obsoletion</h1>
 <p>Obsoletion of an element deprecates usage of that element, but does not delete that element.</p>
 <p>URI: <a href="http://w3id.org/kgclObsoletion">kgcl:Obsoletion</a></p>
-<p><img alt="img" src="http://yuml.me/diagram/nofunky;dir:TB/class/[NodeObsoletion]uses%20-.-&gt;[Obsoletion],[EdgeObsoletion]uses%20-.-&gt;[Obsoletion],[ChangeMixin]^-[Obsoletion],[NodeObsoletion],[EdgeObsoletion],[ChangeMixin]" /></p>
+<p><img alt="img" src="http://yuml.me/diagram/nofunky;dir:TB/class/[NodeObsoletion]uses%20-.-&gt;[Obsoletion],[EdgeObsoletion]uses%20-.-&gt;[Obsoletion],[Obsoletion]^-[AllowsAutomaticReplacementOfEdges],[ChangeMixin]^-[Obsoletion],[NodeObsoletion],[EdgeObsoletion],[ChangeMixin],[AllowsAutomaticReplacementOfEdges]" /></p>
 <h2 id="parents">Parents</h2>
 <ul>
 <li>is_a: <a href="../ChangeMixin/">ChangeMixin</a> - root class for all change mixins</li>
+</ul>
+<h2 id="children">Children</h2>
+<ul>
+<li><a href="../AllowsAutomaticReplacementOfEdges/">AllowsAutomaticReplacementOfEdges</a> - Applies to an obsoletion in which annotations or edges pointing at the obsoleted node can be automatically rewired to point to a target</li>
 </ul>
 <h2 id="mixin-for">Mixin for</h2>
 <ul>
