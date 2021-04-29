@@ -75,6 +75,14 @@ prov:Agent CLOSED {
     )
 }
 
+<http://w3id.org/kgclAllowsAutomaticReplacementOfEdges> {
+    (  $<http://w3id.org/kgclAllowsAutomaticReplacementOfEdges_tes> (  &<http://w3id.org/kgclObsoletion_tes> ;
+          rdf:type [ <http://w3id.org/kgclObsoletion> ] ?
+       ) ;
+       rdf:type [ <http://w3id.org/kgclAllowsAutomaticReplacementOfEdges> ] ?
+    )
+}
+
 <omAnnotation> CLOSED {
     (  $<omAnnotation_tes> (  &<omPropertyValue_tes> ;
           rdf:type [ <omPropertyValue> ] ? ;
@@ -178,7 +186,7 @@ prov:Agent CLOSED {
        )
     } OR @<http://w3id.org/kgclEdgeCreation> OR @<http://w3id.org/kgclEdgeDeletion> OR @<http://w3id.org/kgclEdgeLabelChange> OR
     @<http://w3id.org/kgclEdgeLogicalInterpretationChange> OR @<http://w3id.org/kgclEdgeObsoletion> OR
-    @<http://w3id.org/kgclNodeMove>
+    @<http://w3id.org/kgclEdgeRewiring> OR @<http://w3id.org/kgclNodeMove>
 )
 
 <http://w3id.org/kgclEdgeCreation> CLOSED {
@@ -243,11 +251,27 @@ prov:Agent CLOSED {
     )
 }
 
+<http://w3id.org/kgclEdgeRewiring> CLOSED {
+    (  $<http://w3id.org/kgclEdgeRewiring_tes> (  &<http://w3id.org/kgclEdgeChange_tes> ;
+          rdf:type [ <http://w3id.org/kgclEdgeChange> ] ?
+       ) ;
+       rdf:type [ <http://w3id.org/kgclEdgeRewiring> ] ?
+    )
+}
+
 <omInstanceNode> CLOSED {
     (  $<omInstanceNode_tes> (  &<omNode_tes> ;
           rdf:type [ <omNode> ] ?
        ) ;
        rdf:type [ owl:NamedIndividual ]
+    )
+}
+
+<http://w3id.org/kgclLogicalAxiomChange> CLOSED {
+    (  $<http://w3id.org/kgclLogicalAxiomChange_tes> (  &<http://w3id.org/kgclSimpleChange_tes> ;
+          rdf:type [ <http://w3id.org/kgclSimpleChange> ] ?
+       ) ;
+       rdf:type [ <http://w3id.org/kgclLogicalAxiomChange> ] ?
     )
 }
 
@@ -374,6 +398,19 @@ prov:Agent CLOSED {
     )
 }
 
+<http://w3id.org/kgclNodeDirectMerge> CLOSED {
+    (  $<http://w3id.org/kgclNodeDirectMerge_tes> (  &<http://w3id.org/kgclNodeObsoletion_tes> ;
+          rdf:type [ <http://w3id.org/kgclNodeObsoletion> ] ? ;
+          &<http://w3id.org/kgclAllowsAutomaticReplacementOfEdges_tes> ;
+          rdf:type [ <http://w3id.org/kgclAllowsAutomaticReplacementOfEdges> ] ? ;
+          <http://w3id.org/kgclhas_direct_replacement> @<omNode> ;
+          <http://w3id.org/kgclabout> @linkml:String ? ;
+          <http://w3id.org/kgclchange_description> @linkml:String ?
+       ) ;
+       rdf:type [ <http://w3id.org/kgclNodeDirectMerge> ] ?
+    )
+}
+
 <http://w3id.org/kgclNodeMove>  (
     CLOSED {
        (  $<http://w3id.org/kgclNodeMove_tes> (  &<http://w3id.org/kgclEdgeChange_tes> ;
@@ -391,34 +428,36 @@ prov:Agent CLOSED {
              rdf:type [ <http://w3id.org/kgclNodeChange> ] ? ;
              &<http://w3id.org/kgclObsoletion_tes> ;
              rdf:type [ <http://w3id.org/kgclObsoletion> ] ? ;
+             <http://w3id.org/kgclhas_direct_replacement> @<omNode> ? ;
+             <http://w3id.org/kgclhas_nondirect_replacement> @<omNode> * ;
              <http://w3id.org/kgclchange_description> @linkml:String ? ;
-             <http://w3id.org/kgclreplaced_by> @<omNode> ? ;
-             <http://w3id.org/kgclconsider> @<omNode> ? ;
              <http://w3id.org/kgclassociated_change_set> @<http://w3id.org/kgclChange> *
           ) ;
           rdf:type [ <http://w3id.org/kgclNodeObsoletion> ] ?
        )
-    } OR @<http://w3id.org/kgclNodeObsoletionWithMerge> OR @<http://w3id.org/kgclNodeObsoletionWithSplit>
+    } OR @<http://w3id.org/kgclNodeDirectMerge> OR @<http://w3id.org/kgclNodeObsoletionWithDirectReplacement> OR
+    @<http://w3id.org/kgclNodeObsoletionWithNoDirectReplacement>
 )
 
-<http://w3id.org/kgclNodeObsoletionWithMerge> CLOSED {
-    (  $<http://w3id.org/kgclNodeObsoletionWithMerge_tes> (  &<http://w3id.org/kgclNodeObsoletion_tes> ;
+<http://w3id.org/kgclNodeObsoletionWithDirectReplacement> CLOSED {
+    (  $<http://w3id.org/kgclNodeObsoletionWithDirectReplacement_tes> (  &<http://w3id.org/kgclNodeObsoletion_tes> ;
           rdf:type [ <http://w3id.org/kgclNodeObsoletion> ] ? ;
-          <http://w3id.org/kgcltarget> @linkml:String ? ;
-          <http://w3id.org/kgclabout> @linkml:String ? ;
+          &<http://w3id.org/kgclAllowsAutomaticReplacementOfEdges_tes> ;
+          rdf:type [ <http://w3id.org/kgclAllowsAutomaticReplacementOfEdges> ] ? ;
+          <http://w3id.org/kgclhas_direct_replacement> @<omNode> ;
           <http://w3id.org/kgclchange_description> @linkml:String ?
        ) ;
-       rdf:type [ <http://w3id.org/kgclNodeObsoletionWithMerge> ] ?
+       rdf:type [ <http://w3id.org/kgclNodeObsoletionWithDirectReplacement> ] ?
     )
 }
 
-<http://w3id.org/kgclNodeObsoletionWithSplit> CLOSED {
-    (  $<http://w3id.org/kgclNodeObsoletionWithSplit_tes> (  &<http://w3id.org/kgclNodeObsoletion_tes> ;
+<http://w3id.org/kgclNodeObsoletionWithNoDirectReplacement> CLOSED {
+    (  $<http://w3id.org/kgclNodeObsoletionWithNoDirectReplacement_tes> (  &<http://w3id.org/kgclNodeObsoletion_tes> ;
           rdf:type [ <http://w3id.org/kgclNodeObsoletion> ] ? ;
-          <http://w3id.org/kgcltarget> @linkml:String * ;
+          <http://w3id.org/kgclhas_nondirect_replacement> @<omNode> + ;
           <http://w3id.org/kgclchange_description> @linkml:String ?
        ) ;
-       rdf:type [ <http://w3id.org/kgclNodeObsoletionWithSplit> ] ?
+       rdf:type [ <http://w3id.org/kgclNodeObsoletionWithNoDirectReplacement> ] ?
     )
 }
 
@@ -479,13 +518,15 @@ prov:Agent CLOSED {
     )
 }
 
-<http://w3id.org/kgclObsoletion> {
-    (  $<http://w3id.org/kgclObsoletion_tes> (  &<http://w3id.org/kgclChangeMixin_tes> ;
-          rdf:type [ <http://w3id.org/kgclChangeMixin> ] ?
-       ) ;
-       rdf:type [ <http://w3id.org/kgclObsoletion> ] ?
-    )
-}
+<http://w3id.org/kgclObsoletion>  (
+    {
+       (  $<http://w3id.org/kgclObsoletion_tes> (  &<http://w3id.org/kgclChangeMixin_tes> ;
+             rdf:type [ <http://w3id.org/kgclChangeMixin> ] ?
+          ) ;
+          rdf:type [ <http://w3id.org/kgclObsoletion> ] ?
+       )
+    } OR @<http://w3id.org/kgclAllowsAutomaticReplacementOfEdges>
+)
 
 <omOntologyElement>  (
     CLOSED {
@@ -553,7 +594,8 @@ prov:Agent CLOSED {
           ) ;
           rdf:type [ <http://w3id.org/kgclSimpleChange> ] ?
        )
-    } OR @<http://w3id.org/kgclDatatypeChange> OR @<http://w3id.org/kgclEdgeChange> OR @<http://w3id.org/kgclNodeChange>
+    } OR @<http://w3id.org/kgclDatatypeChange> OR @<http://w3id.org/kgclEdgeChange> OR @<http://w3id.org/kgclLogicalAxiomChange> OR
+    @<http://w3id.org/kgclNodeChange>
 )
 
 <omSubset> CLOSED {

@@ -1,5 +1,5 @@
 # Auto generated from kgcl.yaml by pythongen.py version: 0.9.0
-# Generation date: 2021-03-30 09:26
+# Generation date: 2021-04-29 15:52
 # Schema: kgcl
 #
 # id: https://w3id.org/kgcl
@@ -272,6 +272,19 @@ class Obsoletion(ChangeMixin):
     class_model_uri: ClassVar[URIRef] = KGCL.Obsoletion
 
 
+class AllowsAutomaticReplacementOfEdges(Obsoletion):
+    """
+    Applies to an obsoletion in which annotations or edges pointing at the obsoleted node can be automatically rewired
+    to point to a target
+    """
+    _inherited_slots: ClassVar[List[str]] = []
+
+    class_class_uri: ClassVar[URIRef] = KGCL.AllowsAutomaticReplacementOfEdges
+    class_class_curie: ClassVar[str] = "kgcl:AllowsAutomaticReplacementOfEdges"
+    class_name: ClassVar[str] = "allows automatic replacement of edges"
+    class_model_uri: ClassVar[URIRef] = KGCL.AllowsAutomaticReplacementOfEdges
+
+
 class Unobsoletion(ChangeMixin):
     """
     Opposite operation of obsoletion. Rarely performed.
@@ -482,6 +495,18 @@ class EdgeObsoletion(EdgeChange):
         super().__post_init__(**kwargs)
 
 
+class EdgeRewiring(EdgeChange):
+    """
+    An edge change where one node is replaced with another, as in the case of obsoletion with replacement
+    """
+    _inherited_slots: ClassVar[List[str]] = []
+
+    class_class_uri: ClassVar[URIRef] = KGCL.EdgeRewiring
+    class_class_curie: ClassVar[str] = "kgcl:EdgeRewiring"
+    class_name: ClassVar[str] = "edge rewiring"
+    class_model_uri: ClassVar[URIRef] = KGCL.EdgeRewiring
+
+
 @dataclass
 class NodeMove(EdgeChange):
     """
@@ -578,6 +603,18 @@ class EdgeLogicalInterpretationChange(EdgeChange):
     class_class_curie: ClassVar[str] = "kgcl:EdgeLogicalInterpretationChange"
     class_name: ClassVar[str] = "edge logical interpretation change"
     class_model_uri: ClassVar[URIRef] = KGCL.EdgeLogicalInterpretationChange
+
+
+class LogicalAxiomChange(SimpleChange):
+    """
+    A simple change where a logical axiom is changed, where the logical axiom cannot be represented as an edge
+    """
+    _inherited_slots: ClassVar[List[str]] = []
+
+    class_class_uri: ClassVar[URIRef] = KGCL.LogicalAxiomChange
+    class_class_curie: ClassVar[str] = "kgcl:LogicalAxiomChange"
+    class_name: ClassVar[str] = "logical axiom change"
+    class_model_uri: ClassVar[URIRef] = KGCL.LogicalAxiomChange
 
 
 @dataclass
@@ -884,20 +921,23 @@ class NodeObsoletion(NodeChange):
     class_name: ClassVar[str] = "node obsoletion"
     class_model_uri: ClassVar[URIRef] = KGCL.NodeObsoletion
 
+    has_direct_replacement: Optional[Union[str, NodeId]] = None
+    has_nondirect_replacement: Optional[Union[Union[str, NodeId], List[Union[str, NodeId]]]] = empty_list()
     change_description: Optional[str] = None
-    replaced_by: Optional[Union[str, NodeId]] = None
-    consider: Optional[Union[str, NodeId]] = None
     associated_change_set: Optional[Union[Union[dict, Change], List[Union[dict, Change]]]] = empty_list()
 
     def __post_init__(self, *_: List[str], **kwargs: Dict[str, Any]):
+        if self.has_direct_replacement is not None and not isinstance(self.has_direct_replacement, NodeId):
+            self.has_direct_replacement = NodeId(self.has_direct_replacement)
+
+        if self.has_nondirect_replacement is None:
+            self.has_nondirect_replacement = []
+        if not isinstance(self.has_nondirect_replacement, list):
+            self.has_nondirect_replacement = [self.has_nondirect_replacement]
+        self.has_nondirect_replacement = [v if isinstance(v, NodeId) else NodeId(v) for v in self.has_nondirect_replacement]
+
         if self.change_description is not None and not isinstance(self.change_description, str):
             self.change_description = str(self.change_description)
-
-        if self.replaced_by is not None and not isinstance(self.replaced_by, NodeId):
-            self.replaced_by = NodeId(self.replaced_by)
-
-        if self.consider is not None and not isinstance(self.consider, NodeId):
-            self.consider = NodeId(self.consider)
 
         if self.associated_change_set is None:
             self.associated_change_set = []
@@ -995,24 +1035,27 @@ class NodeDeletion(NodeChange):
 
 
 @dataclass
-class NodeObsoletionWithMerge(NodeObsoletion):
+class NodeDirectMerge(NodeObsoletion):
     """
-    An obsoletion change in which information from the obsoleted node is moved to a single target.
+    An obsoletion change in which all metadata (including name/label) from the source node is deleted and added to the
+    target node, and edges can automatically be rewired to point to the target node
     """
     _inherited_slots: ClassVar[List[str]] = []
 
-    class_class_uri: ClassVar[URIRef] = KGCL.NodeObsoletionWithMerge
-    class_class_curie: ClassVar[str] = "kgcl:NodeObsoletionWithMerge"
-    class_name: ClassVar[str] = "node obsoletion with merge"
-    class_model_uri: ClassVar[URIRef] = KGCL.NodeObsoletionWithMerge
+    class_class_uri: ClassVar[URIRef] = KGCL.NodeDirectMerge
+    class_class_curie: ClassVar[str] = "kgcl:NodeDirectMerge"
+    class_name: ClassVar[str] = "node direct merge"
+    class_model_uri: ClassVar[URIRef] = KGCL.NodeDirectMerge
 
-    target: Optional[str] = None
+    has_direct_replacement: Union[str, NodeId] = None
     about: Optional[str] = None
     change_description: Optional[str] = None
 
     def __post_init__(self, *_: List[str], **kwargs: Dict[str, Any]):
-        if self.target is not None and not isinstance(self.target, str):
-            self.target = str(self.target)
+        if self.has_direct_replacement is None:
+            raise ValueError("has_direct_replacement must be supplied")
+        if not isinstance(self.has_direct_replacement, NodeId):
+            self.has_direct_replacement = NodeId(self.has_direct_replacement)
 
         if self.about is not None and not isinstance(self.about, str):
             self.about = str(self.about)
@@ -1024,26 +1067,56 @@ class NodeObsoletionWithMerge(NodeObsoletion):
 
 
 @dataclass
-class NodeObsoletionWithSplit(NodeObsoletion):
+class NodeObsoletionWithDirectReplacement(NodeObsoletion):
     """
-    An obsoletion change in which information from the obsoleted node is moved selectively to multiple targets
+    An obsoletion change in which information from the obsoleted node is selectively copied to a single target, and
+    edges can automatically be rewired to point to the target node
     """
     _inherited_slots: ClassVar[List[str]] = []
 
-    class_class_uri: ClassVar[URIRef] = KGCL.NodeObsoletionWithSplit
-    class_class_curie: ClassVar[str] = "kgcl:NodeObsoletionWithSplit"
-    class_name: ClassVar[str] = "node obsoletion with split"
-    class_model_uri: ClassVar[URIRef] = KGCL.NodeObsoletionWithSplit
+    class_class_uri: ClassVar[URIRef] = KGCL.NodeObsoletionWithDirectReplacement
+    class_class_curie: ClassVar[str] = "kgcl:NodeObsoletionWithDirectReplacement"
+    class_name: ClassVar[str] = "node obsoletion with direct replacement"
+    class_model_uri: ClassVar[URIRef] = KGCL.NodeObsoletionWithDirectReplacement
 
-    target: Optional[Union[str, List[str]]] = empty_list()
+    has_direct_replacement: Union[str, NodeId] = None
     change_description: Optional[str] = None
 
     def __post_init__(self, *_: List[str], **kwargs: Dict[str, Any]):
-        if self.target is None:
-            self.target = []
-        if not isinstance(self.target, list):
-            self.target = [self.target]
-        self.target = [v if isinstance(v, str) else str(v) for v in self.target]
+        if self.has_direct_replacement is None:
+            raise ValueError("has_direct_replacement must be supplied")
+        if not isinstance(self.has_direct_replacement, NodeId):
+            self.has_direct_replacement = NodeId(self.has_direct_replacement)
+
+        if self.change_description is not None and not isinstance(self.change_description, str):
+            self.change_description = str(self.change_description)
+
+        super().__post_init__(**kwargs)
+
+
+@dataclass
+class NodeObsoletionWithNoDirectReplacement(NodeObsoletion):
+    """
+    An obsoletion change in which there is no direct replacement
+    """
+    _inherited_slots: ClassVar[List[str]] = []
+
+    class_class_uri: ClassVar[URIRef] = KGCL.NodeObsoletionWithNoDirectReplacement
+    class_class_curie: ClassVar[str] = "kgcl:NodeObsoletionWithNoDirectReplacement"
+    class_name: ClassVar[str] = "node obsoletion with no direct replacement"
+    class_model_uri: ClassVar[URIRef] = KGCL.NodeObsoletionWithNoDirectReplacement
+
+    has_nondirect_replacement: Union[Union[str, NodeId], List[Union[str, NodeId]]] = None
+    change_description: Optional[str] = None
+
+    def __post_init__(self, *_: List[str], **kwargs: Dict[str, Any]):
+        if self.has_nondirect_replacement is None:
+            raise ValueError("has_nondirect_replacement must be supplied")
+        elif not isinstance(self.has_nondirect_replacement, list):
+            self.has_nondirect_replacement = [self.has_nondirect_replacement]
+        elif len(self.has_nondirect_replacement) == 0:
+            raise ValueError(f"has_nondirect_replacement must be a non-empty list")
+        self.has_nondirect_replacement = [v if isinstance(v, NodeId) else NodeId(v) for v in self.has_nondirect_replacement]
 
         if self.change_description is not None and not isinstance(self.change_description, str):
             self.change_description = str(self.change_description)
@@ -1090,6 +1163,15 @@ slots.has_textual_diff = Slot(uri=KGCL.has_textual_diff, name="has textual diff"
 
 slots.change_set = Slot(uri=KGCL.change_set, name="change set", curie=KGCL.curie('change_set'),
                    model_uri=KGCL.change_set, domain=None, range=Optional[Union[Union[dict, Change], List[Union[dict, Change]]]])
+
+slots.has_replacement = Slot(uri=KGCL.has_replacement, name="has replacement", curie=KGCL.curie('has_replacement'),
+                   model_uri=KGCL.has_replacement, domain=NodeObsoletion, range=Optional[Union[str, NodeId]])
+
+slots.has_direct_replacement = Slot(uri=KGCL.has_direct_replacement, name="has direct replacement", curie=KGCL.curie('has_direct_replacement'),
+                   model_uri=KGCL.has_direct_replacement, domain=None, range=Optional[Union[str, NodeId]])
+
+slots.has_nondirect_replacement = Slot(uri=KGCL.has_nondirect_replacement, name="has nondirect replacement", curie=KGCL.curie('has_nondirect_replacement'),
+                   model_uri=KGCL.has_nondirect_replacement, domain=None, range=Optional[Union[Union[str, NodeId], List[Union[str, NodeId]]]])
 
 slots.change_1 = Slot(uri=KGCL.change_1, name="change 1", curie=KGCL.curie('change_1'),
                    model_uri=KGCL.change_1, domain=None, range=Optional[Union[dict, NodeRename]])
@@ -1184,12 +1266,6 @@ slots.node_rename_change_description = Slot(uri=KGCL.change_description, name="n
 slots.node_obsoletion_change_description = Slot(uri=KGCL.change_description, name="node obsoletion_change description", curie=KGCL.curie('change_description'),
                    model_uri=KGCL.node_obsoletion_change_description, domain=NodeObsoletion, range=Optional[str])
 
-slots.node_obsoletion_replaced_by = Slot(uri=KGCL.replaced_by, name="node obsoletion_replaced by", curie=KGCL.curie('replaced_by'),
-                   model_uri=KGCL.node_obsoletion_replaced_by, domain=NodeObsoletion, range=Optional[Union[str, NodeId]])
-
-slots.node_obsoletion_consider = Slot(uri=KGCL.consider, name="node obsoletion_consider", curie=KGCL.curie('consider'),
-                   model_uri=KGCL.node_obsoletion_consider, domain=NodeObsoletion, range=Optional[Union[str, NodeId]])
-
 slots.node_obsoletion_associated_change_set = Slot(uri=KGCL.associated_change_set, name="node obsoletion_associated change set", curie=KGCL.curie('associated_change_set'),
                    model_uri=KGCL.node_obsoletion_associated_change_set, domain=NodeObsoletion, range=Optional[Union[Union[dict, Change], List[Union[dict, Change]]]])
 
@@ -1208,17 +1284,23 @@ slots.node_creation_change_description = Slot(uri=KGCL.change_description, name=
 slots.node_deletion_change_description = Slot(uri=KGCL.change_description, name="node deletion_change description", curie=KGCL.curie('change_description'),
                    model_uri=KGCL.node_deletion_change_description, domain=NodeDeletion, range=Optional[str])
 
-slots.node_obsoletion_with_merge_target = Slot(uri=KGCL.target, name="node obsoletion with merge_target", curie=KGCL.curie('target'),
-                   model_uri=KGCL.node_obsoletion_with_merge_target, domain=NodeObsoletionWithMerge, range=Optional[str])
+slots.node_direct_merge_has_direct_replacement = Slot(uri=KGCL.has_direct_replacement, name="node direct merge_has direct replacement", curie=KGCL.curie('has_direct_replacement'),
+                   model_uri=KGCL.node_direct_merge_has_direct_replacement, domain=NodeDirectMerge, range=Union[str, NodeId])
 
-slots.node_obsoletion_with_merge_about = Slot(uri=KGCL.about, name="node obsoletion with merge_about", curie=KGCL.curie('about'),
-                   model_uri=KGCL.node_obsoletion_with_merge_about, domain=NodeObsoletionWithMerge, range=Optional[str])
+slots.node_direct_merge_about = Slot(uri=KGCL.about, name="node direct merge_about", curie=KGCL.curie('about'),
+                   model_uri=KGCL.node_direct_merge_about, domain=NodeDirectMerge, range=Optional[str])
 
-slots.node_obsoletion_with_merge_change_description = Slot(uri=KGCL.change_description, name="node obsoletion with merge_change description", curie=KGCL.curie('change_description'),
-                   model_uri=KGCL.node_obsoletion_with_merge_change_description, domain=NodeObsoletionWithMerge, range=Optional[str])
+slots.node_direct_merge_change_description = Slot(uri=KGCL.change_description, name="node direct merge_change description", curie=KGCL.curie('change_description'),
+                   model_uri=KGCL.node_direct_merge_change_description, domain=NodeDirectMerge, range=Optional[str])
 
-slots.node_obsoletion_with_split_target = Slot(uri=KGCL.target, name="node obsoletion with split_target", curie=KGCL.curie('target'),
-                   model_uri=KGCL.node_obsoletion_with_split_target, domain=NodeObsoletionWithSplit, range=Optional[Union[str, List[str]]])
+slots.node_obsoletion_with_direct_replacement_has_direct_replacement = Slot(uri=KGCL.has_direct_replacement, name="node obsoletion with direct replacement_has direct replacement", curie=KGCL.curie('has_direct_replacement'),
+                   model_uri=KGCL.node_obsoletion_with_direct_replacement_has_direct_replacement, domain=NodeObsoletionWithDirectReplacement, range=Union[str, NodeId])
 
-slots.node_obsoletion_with_split_change_description = Slot(uri=KGCL.change_description, name="node obsoletion with split_change description", curie=KGCL.curie('change_description'),
-                   model_uri=KGCL.node_obsoletion_with_split_change_description, domain=NodeObsoletionWithSplit, range=Optional[str])
+slots.node_obsoletion_with_direct_replacement_change_description = Slot(uri=KGCL.change_description, name="node obsoletion with direct replacement_change description", curie=KGCL.curie('change_description'),
+                   model_uri=KGCL.node_obsoletion_with_direct_replacement_change_description, domain=NodeObsoletionWithDirectReplacement, range=Optional[str])
+
+slots.node_obsoletion_with_no_direct_replacement_has_nondirect_replacement = Slot(uri=KGCL.has_nondirect_replacement, name="node obsoletion with no direct replacement_has nondirect replacement", curie=KGCL.curie('has_nondirect_replacement'),
+                   model_uri=KGCL.node_obsoletion_with_no_direct_replacement_has_nondirect_replacement, domain=NodeObsoletionWithNoDirectReplacement, range=Union[Union[str, NodeId], List[Union[str, NodeId]]])
+
+slots.node_obsoletion_with_no_direct_replacement_change_description = Slot(uri=KGCL.change_description, name="node obsoletion with no direct replacement_change description", curie=KGCL.curie('change_description'),
+                   model_uri=KGCL.node_obsoletion_with_no_direct_replacement_change_description, domain=NodeObsoletionWithNoDirectReplacement, range=Optional[str])
