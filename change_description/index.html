@@ -95,26 +95,76 @@
             <div class="section">
               
                 <h1 id="slot-change_description">Slot: change_description</h1>
-<p>A string serialization of the change</p>
+<p>A string serialization of the change. This should be both human-readable, and parseable.</p>
 <p>URI: <a href="http://w3id.org/kgclchange_description">kgcl:change_description</a></p>
 <h2 id="domain-and-range">Domain and Range</h2>
-<p>None -&gt;  <sub>OPT</sub> <a href="../types/String/">String</a></p>
+<p>None -&gt;  <sub>OPT</sub>
+ <a href="../types/String/">String</a></p>
 <h2 id="parents">Parents</h2>
 <h2 id="children">Children</h2>
 <ul>
 <li><a href="../edge_creation_change_description/">edge creation➞change description</a></li>
 <li><a href="../edge_deletion_change_description/">edge deletion➞change description</a></li>
-<li><a href="../edge_label_change_change_description/">edge label change➞change description</a></li>
 <li><a href="../edge_obsoletion_change_description/">edge obsoletion➞change description</a></li>
 <li><a href="../multi_node_obsoletion_change_description/">multi node obsoletion➞change description</a></li>
+<li><a href="../name_becomes_synonym_change_description/">name becomes synonym➞change description</a></li>
 <li><a href="../node_creation_change_description/">node creation➞change description</a></li>
 <li><a href="../node_deletion_change_description/">node deletion➞change description</a></li>
 <li><a href="../node_move_change_description/">node move➞change description</a></li>
 <li><a href="../node_obsoletion_change_description/">node obsoletion➞change description</a></li>
 <li><a href="../node_rename_change_description/">node rename➞change description</a></li>
 <li><a href="../node_unobsoletion_change_description/">node unobsoletion➞change description</a></li>
+<li><a href="../predicate_change_change_description/">predicate change➞change description</a></li>
+<li><a href="../removed_node_from_subset_change_description/">removed node from subset➞change description</a></li>
 </ul>
 <h2 id="used-by">Used by</h2>
+<h2 id="other-properties">Other properties</h2>
+<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Comments:</strong></td>
+<td></td>
+<td>{'Form 1': 'IRIs are denoted by CURIEs, optionally followed by label in parenthesis'}</td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td>{'Form 2': "IRIs are denoted by the rdfs:label in single quotes, e.g. 'nervous system'"}</td>
+</tr>
+<tr>
+<td><strong>Examples:</strong></td>
+<td></td>
+<td>Example(value="rename UBERON:0002398 from 'manus' to 'hand'", description=None)</td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td>Example(value="move 'hand' from 'part of' 'hindlimb' to 'part of' 'forelimb'", description=None)</td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td>Example(value="merge 'cellular metabolic process' into 'metabolic process'", description=None)</td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td>Example(value="search and replace 'metabolic process' with 'metabolism' in all labels under 'biological process'", description=None)</td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td>Example(value="search and replace 'metabolic process' with 'metabolism' in all labels under 'biological process' retaining as 'exact synonym'", description=None)</td>
+</tr>
+</tbody>
+</table>
               
             </div>
           </div>

@@ -97,7 +97,7 @@
                 <h1 id="class-classnode">Class: ClassNode</h1>
 <p>A node that is a class</p>
 <p>URI: <a href="http://w3id.org/kgclClassNode">kgcl:ClassNode</a></p>
-<p><img alt="img" src="http://yuml.me/diagram/nofunky;dir:TB/class/[Node],[Node]^-[ClassNode&#124;id(i):string;name(i):string%20%3F],[Annotation]" /></p>
+<p><img alt="img" src="http://yuml.me/diagram/nofunky;dir:TB/class/[Node],[Node]^-[ClassNode&#124;id(i):string;name(i):string%20%3F;owl_type(i):owl_type_enum%20%3F],[Annotation]" /></p>
 <h2 id="parents">Parents</h2>
 <ul>
 <li>is_a: <a href="../Node/">Node</a> - Any named entity in an ontology. May be a class, individual, property</li>
@@ -105,17 +105,29 @@
 <h2 id="attributes">Attributes</h2>
 <h3 id="inherited-from-node">Inherited from node:</h3>
 <ul>
-<li><a href="../annotation_set/">annotation set</a>  <sub>OPT</sub><ul>
+<li>
+<p><a href="../annotation_set/">annotation set</a>  <sub>OPT</sub></p>
+<ul>
 <li>range: <a href="../Annotation/">Annotation</a></li>
-</ul>
+<li>
+<p><a href="../id/">id</a>  <sub>REQ</sub></p>
 </li>
-<li><a href="../id/">id</a>  <sub>REQ</sub><ul>
-<li>Description: CURIE or URI</li>
-<li>range: <a href="../types/String/">String</a></li>
-</ul>
+<li>
+<p>Description: CURIE or URI</p>
 </li>
-<li><a href="../name/">name</a>  <sub>OPT</sub><ul>
 <li>range: <a href="../types/String/">String</a></li>
+<li>
+<p><a href="../name/">name</a>  <sub>OPT</sub></p>
+</li>
+<li>
+<p>range: <a href="../types/String/">String</a></p>
+</li>
+<li>
+<p><a href="../owl_type/">owl type</a>  <sub>OPT</sub></p>
+</li>
+<li>
+<p>range: <a href="../owl_type_enum/">owl_type_enum</a></p>
+</li>
 </ul>
 </li>
 </ul>

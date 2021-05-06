@@ -97,7 +97,7 @@
                 <h1 id="class-edge">Class: Edge</h1>
 <p>A relationship between two nodes. We assume owlstar or similar for existential restrictions</p>
 <p>URI: <a href="http://w3id.org/kgclEdge">kgcl:Edge</a></p>
-<p><img alt="img" src="http://yuml.me/diagram/nofunky;dir:TB/class/[OntologyElement],[Node],[Annotation]&lt;annotation%20set%200..1-++[Edge],[Node]&lt;object%200..1-%20[Edge],[Node]&lt;edge%20label%200..1-%20[Edge],[Node]&lt;subject%200..1-%20[Edge],[OntologyElement]^-[Edge],[Annotation]" /></p>
+<p><img alt="img" src="http://yuml.me/diagram/nofunky;dir:TB/class/[OntologyElement],[Node],[Annotation]&lt;annotation%20set%200..1-++[Edge],[Node]&lt;object%200..1-%20[Edge],[Node]&lt;predicate%200..1-%20[Edge],[Node]&lt;subject%200..1-%20[Edge],[OntologyElement]^-[Edge],[Annotation]" /></p>
 <h2 id="parents">Parents</h2>
 <ul>
 <li>is_a: <a href="../OntologyElement/">OntologyElement</a> - Any component of an ontology or knowledge graph</li>
@@ -105,20 +105,28 @@
 <h2 id="attributes">Attributes</h2>
 <h3 id="own">Own</h3>
 <ul>
-<li><a href="../annotation_set/">annotation set</a>  <sub>OPT</sub><ul>
+<li>
+<p><a href="../annotation_set/">annotation set</a>  <sub>OPT</sub></p>
+<ul>
 <li>range: <a href="../Annotation/">Annotation</a></li>
-</ul>
+<li>
+<p><a href="../object/">object</a>  <sub>OPT</sub></p>
 </li>
-<li><a href="../edge_label/">edge label</a>  <sub>OPT</sub><ul>
-<li>range: <a href="../Node/">Node</a></li>
-</ul>
+<li>
+<p>range: <a href="../Node/">Node</a></p>
 </li>
-<li><a href="../object/">object</a>  <sub>OPT</sub><ul>
-<li>range: <a href="../Node/">Node</a></li>
-</ul>
+<li>
+<p><a href="../predicate/">predicate</a>  <sub>OPT</sub></p>
 </li>
-<li><a href="../subject/">subject</a>  <sub>OPT</sub><ul>
-<li>range: <a href="../Node/">Node</a></li>
+<li>
+<p>range: <a href="../Node/">Node</a></p>
+</li>
+<li>
+<p><a href="../subject/">subject</a>  <sub>OPT</sub></p>
+</li>
+<li>
+<p>range: <a href="../Node/">Node</a></p>
+</li>
 </ul>
 </li>
 </ul>

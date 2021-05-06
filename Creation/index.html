@@ -97,7 +97,7 @@
                 <h1 id="class-creation">Class: Creation</h1>
 <p>Creation of an element.</p>
 <p>URI: <a href="http://w3id.org/kgclCreation">kgcl:Creation</a></p>
-<p><img alt="img" src="http://yuml.me/diagram/nofunky;dir:TB/class/[NodeCreation]uses%20-.-&gt;[Creation],[EdgeCreation]uses%20-.-&gt;[Creation],[ChangeMixin]^-[Creation],[NodeCreation],[EdgeCreation],[ChangeMixin]" /></p>
+<p><img alt="img" src="http://yuml.me/diagram/nofunky;dir:TB/class/[Deletion],[Deletion]&lt;has%20undo%200..1-++[Creation],[NodeCreation]uses%20-.-&gt;[Creation],[EdgeCreation]uses%20-.-&gt;[Creation],[ChangeMixin]^-[Creation],[NodeCreation],[EdgeCreation],[ChangeMixin]" /></p>
 <h2 id="parents">Parents</h2>
 <ul>
 <li>is_a: <a href="../ChangeMixin/">ChangeMixin</a> - root class for all change mixins</li>
@@ -109,6 +109,15 @@
 </ul>
 <h2 id="referenced-by-class">Referenced by class</h2>
 <h2 id="attributes">Attributes</h2>
+<h3 id="own">Own</h3>
+<ul>
+<li>
+<p><a href="../creation_has_undo/">creation➞has undo</a>  <sub>OPT</sub></p>
+<ul>
+<li>range: <a href="../Deletion/">Deletion</a></li>
+</ul>
+</li>
+</ul>
               
             </div>
           </div>

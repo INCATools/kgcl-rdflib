@@ -60,6 +60,8 @@
     </li>
     <li class="toctree-l2"><a class="reference internal" href="#slots">Slots</a>
     </li>
+    <li class="toctree-l2"><a class="reference internal" href="#enums">Enums</a>
+    </li>
     <li class="toctree-l2"><a class="reference internal" href="#types">Types</a>
         <ul>
     <li class="toctree-l3"><a class="reference internal" href="#built-in">Built in</a>
@@ -120,23 +122,22 @@ See <a href="https://github.com/cmungall/knowledge-graph-change-language">https:
 <li><a href="Change/">Change</a> - Any change perform on an ontology or knowledge graph<ul>
 <li><a href="ComplexChange/">ComplexChange</a> - A change that is is a composition of other changes<ul>
 <li><a href="MultiNodeObsoletion/">MultiNodeObsoletion</a> - A complex change consisting of multiple obsoletions.</li>
-<li><a href="NameBecomesSynonym/">NameBecomesSynonym</a> - A complex change where the name NAME of an node NODE moves to a synonym, and NODE receives a new name. This change consists of compose of (1) a node rename where NAME is replaced by a different name (2) a new synonym</li>
 </ul>
 </li>
 <li><a href="SimpleChange/">SimpleChange</a> - A change that is about a single ontology element<ul>
 <li><a href="DatatypeChange/">DatatypeChange</a></li>
-<li><a href="EdgeChange/">EdgeChange</a> - A change in which the entity changes is an edge<ul>
+<li><a href="EdgeChange/">EdgeChange</a> - A change in which the element that is the focus of the change is an edge.<ul>
 <li><a href="EdgeCreation/">EdgeCreation</a> - An edge change in which a de-novo edge is created. The edge is potentially annotated in the same action.</li>
 <li><a href="EdgeDeletion/">EdgeDeletion</a> - An edge change in which an edge is removed. All edge annotations/properies are removed in the same action.</li>
-<li><a href="EdgeLabelChange/">EdgeLabelChange</a> - An edge change where the edge label (relationship type) is modified.</li>
-<li><a href="EdgeLogicalInterpretationChange/">EdgeLogicalInterpretationChange</a> - An edge change where the subjet, object, and edge label are unchanged, but the logical interpretation changes</li>
+<li><a href="EdgeLogicalInterpretationChange/">EdgeLogicalInterpretationChange</a> - An edge change where the subjet, object, and predicate are unchanged, but the logical interpretation changes</li>
 <li><a href="EdgeObsoletion/">EdgeObsoletion</a> - An edge change in which an edge is obsoleted.</li>
 <li><a href="EdgeRewiring/">EdgeRewiring</a> - An edge change where one node is replaced with another, as in the case of obsoletion with replacement</li>
-<li><a href="NodeMove/">NodeMove</a> - A node move is a combination of deleting a parent edge and adding a parent edge, where the edge label is preserved and the object/parent node changes<ul>
-<li><a href="NodeDeepening/">NodeDeepening</a> - A node move in which a node where the destination is a proper descendant of the original location. Note that here descendant applied not just to subclass, but edges of any edge label in the relational graph</li>
+<li><a href="NodeMove/">NodeMove</a> - A node move is a combination of deleting a parent edge and adding a parent edge, where the predicate is preserved and the object/parent node changes<ul>
+<li><a href="NodeDeepening/">NodeDeepening</a> - A node move in which a node where the destination is a proper descendant of the original location. Note that here descendant applied not just to subclass, but edges of any predicate in the relational graph</li>
 <li><a href="NodeShallowing/">NodeShallowing</a> - The opposite of node deepening</li>
 </ul>
 </li>
+<li><a href="PredicateChange/">PredicateChange</a> - An edge change where the predicate (relationship type) is modified.</li>
 </ul>
 </li>
 <li><a href="LogicalAxiomChange/">LogicalAxiomChange</a> - A simple change where a logical axiom is changed, where the logical axiom cannot be represented as an edge</li>
@@ -156,9 +157,11 @@ See <a href="https://github.com/cmungall/knowledge-graph-change-language">https:
 </li>
 <li><a href="NodeRename/">NodeRename</a> - A node change where the name (aka rdfs:label) of the node changes</li>
 <li><a href="NodeSynonymChange/">NodeSynonymChange</a><ul>
-<li><a href="NewSynonym/">NewSynonym</a> - A node change where a de-novo synonym is created</li>
-<li><a href="RemoveSynonym/">RemoveSynonym</a> - A node change where a synonym is deleted</li>
-<li><a href="SynonymReplacement/">SynonymReplacement</a> - A node change where the text of a synonym is changed</li>
+<li><a href="NameBecomesSynonym/">NameBecomesSynonym</a> - A node synonym where the name NAME of an node NODE moves to a synonym, and NODE receives a new name. This change consists of compose of (1) a node rename where NAME is replaced by a different name (2) a new synonym</li>
+<li><a href="NewSynonym/">NewSynonym</a> - A node synonym change where a de-novo synonym is created</li>
+<li><a href="RemoveSynonym/">RemoveSynonym</a> - A node synonym change where a synonym is deleted</li>
+<li><a href="SynonymPredicateChange/">SynonymPredicateChange</a> - A node synonym change where the predicate of a synonym is changed. Background: synonyms can be represented by a variety of predicates. For example, many OBO ontologies make use of predicates such as oio:hasExactSynonym, oio:hasRelatedSynonym, etc</li>
+<li><a href="SynonymReplacement/">SynonymReplacement</a> - A node synonym change where the text of a synonym is changed</li>
 </ul>
 </li>
 <li><a href="NodeTextDefinitionChange/">NodeTextDefinitionChange</a> - A node change where the text definition is changed<ul>
@@ -173,6 +176,7 @@ See <a href="https://github.com/cmungall/knowledge-graph-change-language">https:
 </li>
 </ul>
 </li>
+<li><a href="Transaction/">Transaction</a> - A change that is a composition of a set of changes, where those changes are treated as a single unit. Could be a single change, or the results of an ontology diff</li>
 </ul>
 </li>
 <li><a href="ChangeSetSummaryStatistic/">ChangeSetSummaryStatistic</a> - A summary statistic for a set of changes of the same type, grouped by zero or more node properties</li>
@@ -184,29 +188,31 @@ See <a href="https://github.com/cmungall/knowledge-graph-change-language">https:
 <li><a href="InstanceNode/">InstanceNode</a> - A node that is an individual</li>
 </ul>
 </li>
+<li><a href="OntologySubset/">OntologySubset</a></li>
 <li><a href="PropertyValue/">PropertyValue</a> - a property-value pair<ul>
 <li><a href="Annotation/">Annotation</a> - owl annotations. Not to be confused with annotations sensu GO</li>
 </ul>
 </li>
-<li><a href="Subset/">Subset</a></li>
 </ul>
 </li>
 <li><a href="TextualDiff/">TextualDiff</a> - A summarizing of a change on a piece of text. This could be rendered in a number of different ways</li>
-<li><a href="Transaction/">Transaction</a> - A unified set of changes. Could be a single change, or the results of an ontology diff</li>
 </ul>
 <h3 id="mixins">Mixins</h3>
 <ul>
 <li><a href="AddToSubset/">AddToSubset</a> - placing an element inside a subset</li>
 <li><a href="AllowsAutomaticReplacementOfEdges/">AllowsAutomaticReplacementOfEdges</a> - Applies to an obsoletion in which annotations or edges pointing at the obsoleted node can be automatically rewired to point to a target</li>
 <li><a href="ChangeMixin/">ChangeMixin</a> - root class for all change mixins<ul>
-<li><a href="AddToSubset/">AddToSubset</a> - placing an element inside a subset</li>
 <li><a href="Creation/">Creation</a> - Creation of an element.</li>
 <li><a href="Deletion/">Deletion</a> - Removal of an element.</li>
 <li><a href="Obsoletion/">Obsoletion</a> - Obsoletion of an element deprecates usage of that element, but does not delete that element.<ul>
 <li><a href="AllowsAutomaticReplacementOfEdges/">AllowsAutomaticReplacementOfEdges</a> - Applies to an obsoletion in which annotations or edges pointing at the obsoleted node can be automatically rewired to point to a target</li>
 </ul>
 </li>
+<li><a href="SubsetMembershipChange/">SubsetMembershipChange</a> - A change in the membership status of a node with respect to a subset (view)<ul>
+<li><a href="AddToSubset/">AddToSubset</a> - placing an element inside a subset</li>
 <li><a href="RemoveFromSubset/">RemoveFromSubset</a> - removing an element from a subset</li>
+</ul>
+</li>
 <li><a href="Unobsoletion/">Unobsoletion</a> - Opposite operation of obsoletion. Rarely performed.</li>
 </ul>
 </li>
@@ -217,6 +223,11 @@ See <a href="https://github.com/cmungall/knowledge-graph-change-language">https:
 </ul>
 </li>
 <li><a href="RemoveFromSubset/">RemoveFromSubset</a> - removing an element from a subset</li>
+<li><a href="SubsetMembershipChange/">SubsetMembershipChange</a> - A change in the membership status of a node with respect to a subset (view)<ul>
+<li><a href="AddToSubset/">AddToSubset</a> - placing an element inside a subset</li>
+<li><a href="RemoveFromSubset/">RemoveFromSubset</a> - removing an element from a subset</li>
+</ul>
+</li>
 <li><a href="Unobsoletion/">Unobsoletion</a> - Opposite operation of obsoletion. Rarely performed.</li>
 </ul>
 <h3 id="slots">Slots</h3>
@@ -225,8 +236,10 @@ See <a href="https://github.com/cmungall/knowledge-graph-change-language">https:
 <li><a href="edge_change_about/">edge change➞about</a></li>
 <li><a href="node_change_about/">node change➞about</a><ul>
 <li><a href="node_direct_merge_about/">node direct merge➞about</a></li>
+<li><a href="removed_node_from_subset_about/">removed node from subset➞about</a> - The node that is removed from the subset</li>
 </ul>
 </li>
+<li><a href="obsoletion_about/">obsoletion➞about</a> - The element that is obsoleted by this change.</li>
 </ul>
 </li>
 <li><a href="acted_on_behalf_of/">acted on behalf of</a></li>
@@ -240,12 +253,16 @@ See <a href="https://github.com/cmungall/knowledge-graph-change-language">https:
 <li><a href="name_becomes_synonym_change_2/">name becomes synonym➞change 2</a></li>
 </ul>
 </li>
-<li><a href="change_description/">change description</a> - A string serialization of the change<ul>
+<li><a href="change_date/">change date</a><ul>
+<li><a href="change_change_date/">change➞change date</a></li>
+</ul>
+</li>
+<li><a href="change_description/">change description</a> - A string serialization of the change. This should be both human-readable, and parseable.<ul>
 <li><a href="edge_creation_change_description/">edge creation➞change description</a></li>
 <li><a href="edge_deletion_change_description/">edge deletion➞change description</a></li>
-<li><a href="edge_label_change_change_description/">edge label change➞change description</a></li>
 <li><a href="edge_obsoletion_change_description/">edge obsoletion➞change description</a></li>
 <li><a href="multi_node_obsoletion_change_description/">multi node obsoletion➞change description</a></li>
+<li><a href="name_becomes_synonym_change_description/">name becomes synonym➞change description</a></li>
 <li><a href="node_creation_change_description/">node creation➞change description</a></li>
 <li><a href="node_deletion_change_description/">node deletion➞change description</a></li>
 <li><a href="node_move_change_description/">node move➞change description</a><ul>
@@ -261,6 +278,8 @@ See <a href="https://github.com/cmungall/knowledge-graph-change-language">https:
 </li>
 <li><a href="node_rename_change_description/">node rename➞change description</a></li>
 <li><a href="node_unobsoletion_change_description/">node unobsoletion➞change description</a></li>
+<li><a href="predicate_change_change_description/">predicate change➞change description</a></li>
+<li><a href="removed_node_from_subset_change_description/">removed node from subset➞change description</a></li>
 </ul>
 </li>
 <li><a href="change_set/">change set</a> - A collection of changes<ul>
@@ -278,11 +297,15 @@ See <a href="https://github.com/cmungall/knowledge-graph-change-language">https:
 <li><a href="node_unobsoletion_consider/">node unobsoletion➞consider</a></li>
 </ul>
 </li>
+<li><a href="contributor/">contributor</a></li>
 <li><a href="count/">count</a><ul>
 <li><a href="change_set_summary_statistic_count/">change set summary statistic➞count</a></li>
 </ul>
 </li>
-<li><a href="edge_label/">edge label</a></li>
+<li><a href="creator/">creator</a><ul>
+<li><a href="change_creator/">change➞creator</a></li>
+</ul>
+</li>
 <li><a href="ended_at_time/">ended at time</a></li>
 <li><a href="filler/">filler</a></li>
 <li><a href="has_direct_replacement/">has direct replacement</a> - An obsoletion replacement where it IS valid to automatically update annotations/edges pointing at the node with its direct replacement<ul>
@@ -294,10 +317,17 @@ See <a href="https://github.com/cmungall/knowledge-graph-change-language">https:
 <li><a href="node_obsoletion_with_no_direct_replacement_has_nondirect_replacement/">node obsoletion with no direct replacement➞has nondirect replacement</a></li>
 </ul>
 </li>
-<li><a href="has_textual_diff/">has textual diff</a> - A representation of the diff in ascii text</li>
+<li><a href="has_textual_diff/">has textual diff</a> - A representation of character-level changes on a textual literal property. For example, if a text definition may change by only a single character such as addition of a period, it is useful to be able to see this visually.</li>
+<li><a href="has_undo/">has undo</a> - A change that reverses this change<ul>
+<li><a href="creation_has_undo/">creation➞has undo</a></li>
+<li><a href="obsoletion_has_undo/">obsoletion➞has undo</a></li>
+<li><a href="remove_from_subset_has_undo/">remove from subset➞has undo</a></li>
+<li><a href="unobsoletion_has_undo/">unobsoletion➞has undo</a></li>
+</ul>
+</li>
 <li><a href="id/">id</a> - CURIE or URI</li>
-<li><a href="in_subset/">in subset</a> - subset that the element is being placed inside.<ul>
-<li><a href="add_to_subset_in_subset/">add to subset➞in subset</a></li>
+<li><a href="in_subset/">in subset</a> - The subset that pertains to this change<ul>
+<li><a href="add_to_subset_in_subset/">add to subset➞in subset</a> - subset that the element is being placed inside.</li>
 <li><a href="remove_from_subset_in_subset/">remove from subset➞in subset</a> - subset that the element is being removed from</li>
 </ul>
 </li>
@@ -311,25 +341,46 @@ See <a href="https://github.com/cmungall/knowledge-graph-change-language">https:
 <li><a href="node_rename_old_value/">node rename➞old value</a></li>
 </ul>
 </li>
+<li><a href="owl_type/">owl type</a></li>
+<li><a href="predicate/">predicate</a></li>
 <li><a href="property/">property</a></li>
 <li><a href="property_value_set/">property value set</a><ul>
 <li><a href="change_set_summary_statistic_property_value_set/">change set summary statistic➞property value set</a> - Summary statistic is grouped by these constraints</li>
+</ul>
+</li>
+<li><a href="pull_request/">pull request</a><ul>
+<li><a href="change_pull_request/">change➞pull request</a></li>
 </ul>
 </li>
 <li><a href="replaced_by/">replaced by</a><ul>
 <li><a href="node_unobsoletion_replaced_by/">node unobsoletion➞replaced by</a></li>
 </ul>
 </li>
+<li><a href="see_also/">see also</a><ul>
+<li><a href="change_see_also/">change➞see also</a></li>
+</ul>
+</li>
 <li><a href="started_at_time/">started at time</a></li>
 <li><a href="subject/">subject</a></li>
+<li><a href="subset.md">subset</a> - The subset from which the node is to be removed<ul>
+<li><a href="removed_node_from_subset_subset/">removed node from subset➞subset</a></li>
+</ul>
+</li>
 <li><a href="target/">target</a> - The secondary entity on which the change operates<ul>
 <li><a href="has_replacement/">has replacement</a> - A single node obsoletion event may be accompanied by one or more suggested replacement nodes</li>
 </ul>
 </li>
 <li><a href="used/">used</a></li>
 <li><a href="was_associated_with/">was associated with</a></li>
-<li><a href="was_generated_by/">was generated by</a></li>
+<li><a href="was_generated_by/">was generated by</a><ul>
+<li><a href="change_was_generated_by/">change➞was generated by</a></li>
+</ul>
+</li>
 <li><a href="was_informed_by/">was informed by</a></li>
+</ul>
+<h3 id="enums">Enums</h3>
+<ul>
+<li><a href="owl_type_enum/">owl_type_enum</a></li>
 </ul>
 <h3 id="types">Types</h3>
 <h4 id="built-in">Built in</h4>
@@ -425,5 +476,5 @@ See <a href="https://github.com/cmungall/knowledge-graph-change-language">https:
 
 <!--
 MkDocs version : 1.1.2
-Build Date UTC : 2021-04-29 22:54:33.815044+00:00
+Build Date UTC : 2021-05-06 19:03:25.385679+00:00
 -->

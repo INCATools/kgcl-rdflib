@@ -97,14 +97,13 @@
                 <h1 id="class-changemixin">Class: ChangeMixin</h1>
 <p>root class for all change mixins</p>
 <p>URI: <a href="http://w3id.org/kgclChangeMixin">kgcl:ChangeMixin</a></p>
-<p><img alt="img" src="http://yuml.me/diagram/nofunky;dir:TB/class/[Unobsoletion],[RemoveFromSubset],[Obsoletion],[Deletion],[Creation],[ChangeMixin]^-[Unobsoletion],[ChangeMixin]^-[RemoveFromSubset],[ChangeMixin]^-[Obsoletion],[ChangeMixin]^-[Deletion],[ChangeMixin]^-[Creation],[ChangeMixin]^-[AddToSubset],[AddToSubset]" /></p>
+<p><img alt="img" src="http://yuml.me/diagram/nofunky;dir:TB/class/[Unobsoletion],[SubsetMembershipChange],[Obsoletion],[Deletion],[Creation],[ChangeMixin]^-[Unobsoletion],[ChangeMixin]^-[SubsetMembershipChange],[ChangeMixin]^-[Obsoletion],[ChangeMixin]^-[Deletion],[ChangeMixin]^-[Creation]" /></p>
 <h2 id="children">Children</h2>
 <ul>
-<li><a href="../AddToSubset/">AddToSubset</a> - placing an element inside a subset</li>
 <li><a href="../Creation/">Creation</a> - Creation of an element.</li>
 <li><a href="../Deletion/">Deletion</a> - Removal of an element.</li>
 <li><a href="../Obsoletion/">Obsoletion</a> - Obsoletion of an element deprecates usage of that element, but does not delete that element.</li>
-<li><a href="../RemoveFromSubset/">RemoveFromSubset</a> - removing an element from a subset</li>
+<li><a href="../SubsetMembershipChange/">SubsetMembershipChange</a> - A change in the membership status of a node with respect to a subset (view)</li>
 <li><a href="../Unobsoletion/">Unobsoletion</a> - Opposite operation of obsoletion. Rarely performed.</li>
 </ul>
 <h2 id="referenced-by-class">Referenced by class</h2>

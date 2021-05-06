@@ -97,7 +97,7 @@
                 <h1 id="class-obsoletion">Class: Obsoletion</h1>
 <p>Obsoletion of an element deprecates usage of that element, but does not delete that element.</p>
 <p>URI: <a href="http://w3id.org/kgclObsoletion">kgcl:Obsoletion</a></p>
-<p><img alt="img" src="http://yuml.me/diagram/nofunky;dir:TB/class/[NodeObsoletion]uses%20-.-&gt;[Obsoletion],[EdgeObsoletion]uses%20-.-&gt;[Obsoletion],[Obsoletion]^-[AllowsAutomaticReplacementOfEdges],[ChangeMixin]^-[Obsoletion],[NodeObsoletion],[EdgeObsoletion],[ChangeMixin],[AllowsAutomaticReplacementOfEdges]" /></p>
+<p><img alt="img" src="http://yuml.me/diagram/nofunky;dir:TB/class/[Unobsoletion],[Obsoletion]&lt;has%20undo%200..1-++[Obsoletion&#124;about:string%20%3F],[Unobsoletion]++-%20has%20undo%200..1&gt;[Obsoletion],[NodeObsoletion]uses%20-.-&gt;[Obsoletion],[EdgeObsoletion]uses%20-.-&gt;[Obsoletion],[Obsoletion]^-[AllowsAutomaticReplacementOfEdges],[ChangeMixin]^-[Obsoletion],[NodeObsoletion],[EdgeObsoletion],[ChangeMixin],[AllowsAutomaticReplacementOfEdges]" /></p>
 <h2 id="parents">Parents</h2>
 <ul>
 <li>is_a: <a href="../ChangeMixin/">ChangeMixin</a> - root class for all change mixins</li>
@@ -112,7 +112,29 @@
 <li><a href="../NodeObsoletion/">NodeObsoletion</a> (mixin)  - Obsoletion of a node deprecates usage of that node, but does not delete it.</li>
 </ul>
 <h2 id="referenced-by-class">Referenced by class</h2>
+<ul>
+<li><strong><a href="./">Obsoletion</a></strong> <em><a href="../obsoletion_has_undo/">obsoletion➞has undo</a></em>  <sub>OPT</sub>
+  <strong><a href="./">Obsoletion</a></strong></li>
+<li><strong><a href="../Unobsoletion/">Unobsoletion</a></strong> <em><a href="../unobsoletion_has_undo/">unobsoletion➞has undo</a></em>  <sub>OPT</sub>
+  <strong><a href="./">Obsoletion</a></strong></li>
+</ul>
 <h2 id="attributes">Attributes</h2>
+<h3 id="own">Own</h3>
+<ul>
+<li>
+<p><a href="../obsoletion_about/">obsoletion➞about</a>  <sub>OPT</sub></p>
+<ul>
+<li>Description: The element that is obsoleted by this change.</li>
+<li>range: <a href="../types/String/">String</a></li>
+<li>
+<p><a href="../obsoletion_has_undo/">obsoletion➞has undo</a>  <sub>OPT</sub></p>
+</li>
+<li>
+<p>range: <a href="./">Obsoletion</a></p>
+</li>
+</ul>
+</li>
+</ul>
 <h2 id="other-properties">Other properties</h2>
 <table>
 <thead>
@@ -124,9 +146,29 @@
 </thead>
 <tbody>
 <tr>
+<td><strong>Aliases:</strong></td>
+<td></td>
+<td>deprecation</td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td>retiring</td>
+</tr>
+<tr>
+<td><strong>Comments:</strong></td>
+<td></td>
+<td>In OWL, deprecation is handled by the deprecation axiom. In OBO, we use this, but place additional requirements and expectations on obsolete elements</td>
+</tr>
+<tr>
 <td><strong>See also:</strong></td>
 <td></td>
 <td>http://wiki.geneontology.org/index.php/Obsoleting_an_Existing_Ontology_Term</td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td>https://mondo.readthedocs.io/en/latest/editors-guide/merging-and-obsoleting/</td>
 </tr>
 </tbody>
 </table>
