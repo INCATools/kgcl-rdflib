@@ -96,28 +96,22 @@
               
                 <h1 id="class-changesetsummarystatistic">Class: ChangeSetSummaryStatistic</h1>
 <p>A summary statistic for a set of changes of the same type, grouped by zero or more node properties</p>
-<p>URI: <a href="http://w3id.org/kgclChangeSetSummaryStatistic">kgcl:ChangeSetSummaryStatistic</a></p>
+<p>URI: <a href="http://w3id.org/kgcl/ChangeSetSummaryStatistic">kgcl:ChangeSetSummaryStatistic</a></p>
 <p><img alt="img" src="http://yuml.me/diagram/nofunky;dir:TB/class/[PropertyValue],[PropertyValue]&lt;property%20value%20set%200..*-++[ChangeSetSummaryStatistic&#124;change_type:change_class_type%20%3F;count:integer%20%3F]" /></p>
 <h2 id="referenced-by-class">Referenced by class</h2>
 <h2 id="attributes">Attributes</h2>
 <h3 id="own">Own</h3>
 <ul>
-<li>
-<p><a href="../change_set_summary_statistic_change_type/">change set summary statistic➞change type</a>  <sub>OPT</sub></p>
-<ul>
+<li><a href="../change_set_summary_statistic_change_type/">change set summary statistic➞change type</a>  <sub>OPT</sub><ul>
 <li>range: <a href="../types/ChangeClassType/">ChangeClassType</a></li>
-<li>
-<p><a href="../change_set_summary_statistic_count/">change set summary statistic➞count</a>  <sub>OPT</sub></p>
+</ul>
 </li>
-<li>
-<p>range: <a href="../types/Integer/">Integer</a></p>
+<li><a href="../change_set_summary_statistic_count/">change set summary statistic➞count</a>  <sub>OPT</sub><ul>
+<li>range: <a href="../types/Integer/">Integer</a></li>
+</ul>
 </li>
-<li>
-<p><a href="../change_set_summary_statistic_property_value_set/">change set summary statistic➞property value set</a>  <sub>0..*</sub></p>
-</li>
-<li>
-<p>Description: Summary statistic is grouped by these constraints</p>
-</li>
+<li><a href="../change_set_summary_statistic_property_value_set/">change set summary statistic➞property value set</a>  <sub>0..*</sub><ul>
+<li>Description: Summary statistic is grouped by these constraints</li>
 <li>range: <a href="../PropertyValue/">PropertyValue</a></li>
 </ul>
 </li>

@@ -127,7 +127,10 @@ See <a href="https://github.com/cmungall/knowledge-graph-change-language">https:
 <li><a href="SimpleChange/">SimpleChange</a> - A change that is about a single ontology element<ul>
 <li><a href="DatatypeChange/">DatatypeChange</a></li>
 <li><a href="EdgeChange/">EdgeChange</a> - A change in which the element that is the focus of the change is an edge.<ul>
-<li><a href="EdgeCreation/">EdgeCreation</a> - An edge change in which a de-novo edge is created. The edge is potentially annotated in the same action.</li>
+<li><a href="EdgeCreation/">EdgeCreation</a> - An edge change in which a de-novo edge is created. The edge is potentially annotated in the same action.<ul>
+<li><a href="PlaceUnder/">PlaceUnder</a> - An edge creation where the predicate is owl:subClassOf</li>
+</ul>
+</li>
 <li><a href="EdgeDeletion/">EdgeDeletion</a> - An edge change in which an edge is removed. All edge annotations/properies are removed in the same action.</li>
 <li><a href="EdgeLogicalInterpretationChange/">EdgeLogicalInterpretationChange</a> - An edge change where the subjet, object, and predicate are unchanged, but the logical interpretation changes</li>
 <li><a href="EdgeObsoletion/">EdgeObsoletion</a> - An edge change in which an edge is obsoleted.</li>
@@ -147,7 +150,10 @@ See <a href="https://github.com/cmungall/knowledge-graph-change-language">https:
 <li><a href="NodeAnnotationReplacement/">NodeAnnotationReplacement</a> - A node annotation change where the change replaces a particular property value. TODO</li>
 </ul>
 </li>
-<li><a href="NodeCreation/">NodeCreation</a> - a node change in which a new node is created</li>
+<li><a href="NodeCreation/">NodeCreation</a> - a node change in which a new node is created<ul>
+<li><a href="ClassCreation/">ClassCreation</a> - A node creation where the owl type is 'class'</li>
+</ul>
+</li>
 <li><a href="NodeDeletion/">NodeDeletion</a> - Deletion of a node from the graph. Note it is recommended nodes are obsoleted and never merged, but this operation exists to represent deletions in ontologies, accidental or otherwise</li>
 <li><a href="NodeObsoletion/">NodeObsoletion</a> - Obsoletion of a node deprecates usage of that node, but does not delete it.<ul>
 <li><a href="NodeDirectMerge/">NodeDirectMerge</a> - An obsoletion change in which all metadata (including name/label) from the source node is deleted and added to the target node, and edges can automatically be rewired to point to the target node</li>
@@ -180,6 +186,7 @@ See <a href="https://github.com/cmungall/knowledge-graph-change-language">https:
 </ul>
 </li>
 <li><a href="ChangeSetSummaryStatistic/">ChangeSetSummaryStatistic</a> - A summary statistic for a set of changes of the same type, grouped by zero or more node properties</li>
+<li><a href="Configuration/">Configuration</a> - The meaning of operations can be configured</li>
 <li><a href="OntologyElement/">OntologyElement</a> - Any component of an ontology or knowledge graph<ul>
 <li><a href="Edge/">Edge</a> - A relationship between two nodes. We assume owlstar or similar for existential restrictions</li>
 <li><a href="LogicalDefinition/">LogicalDefinition</a></li>
@@ -195,6 +202,7 @@ See <a href="https://github.com/cmungall/knowledge-graph-change-language">https:
 </li>
 </ul>
 </li>
+<li><a href="Session/">Session</a> - A session consists of a set of change sets bundled with the activities that generated those change sets</li>
 <li><a href="TextualDiff/">TextualDiff</a> - A summarizing of a change on a piece of text. This could be rendered in a number of different ways</li>
 </ul>
 <h3 id="mixins">Mixins</h3>
@@ -243,7 +251,8 @@ See <a href="https://github.com/cmungall/knowledge-graph-change-language">https:
 </ul>
 </li>
 <li><a href="acted_on_behalf_of/">acted on behalf of</a></li>
-<li><a href="activity_id/">activity id</a></li>
+<li><a href="activity_set/">activity set</a></li>
+<li><a href="agent_set/">agent set</a></li>
 <li><a href="annotation_set/">annotation set</a></li>
 <li><a href="change_1/">change 1</a><ul>
 <li><a href="name_becomes_synonym_change_1/">name becomes synonym➞change 1</a></li>
@@ -293,6 +302,14 @@ See <a href="https://github.com/cmungall/knowledge-graph-change-language">https:
 <li><a href="change_set_summary_statistic_change_type/">change set summary statistic➞change type</a></li>
 </ul>
 </li>
+<li><a href="configuration__contributor_predicate/">➞contributor predicate</a></li>
+<li><a href="configuration__creator_predicate/">➞creator predicate</a></li>
+<li><a href="configuration__definition_predicate/">➞definition predicate</a></li>
+<li><a href="configuration__main_synonym_predicate/">➞main synonym predicate</a></li>
+<li><a href="configuration__name_predicate/">➞name predicate</a></li>
+<li><a href="configuration__obsoletion_policy/">➞obsoletion policy</a></li>
+<li><a href="configuration__obsoletion_workflow/">➞obsoletion workflow</a></li>
+<li><a href="configuration__synonym_predicates/">➞synonym predicates</a></li>
 <li><a href="consider/">consider</a><ul>
 <li><a href="node_unobsoletion_consider/">node unobsoletion➞consider</a></li>
 </ul>
@@ -306,6 +323,7 @@ See <a href="https://github.com/cmungall/knowledge-graph-change-language">https:
 <li><a href="change_creator/">change➞creator</a></li>
 </ul>
 </li>
+<li><a href="description/">description</a></li>
 <li><a href="ended_at_time/">ended at time</a></li>
 <li><a href="filler/">filler</a></li>
 <li><a href="has_direct_replacement/">has direct replacement</a> - An obsoletion replacement where it IS valid to automatically update annotations/edges pointing at the node with its direct replacement<ul>
@@ -325,7 +343,7 @@ See <a href="https://github.com/cmungall/knowledge-graph-change-language">https:
 <li><a href="unobsoletion_has_undo/">unobsoletion➞has undo</a></li>
 </ul>
 </li>
-<li><a href="id/">id</a> - CURIE or URI</li>
+<li><a href="id/">id</a></li>
 <li><a href="in_subset/">in subset</a> - The subset that pertains to this change<ul>
 <li><a href="add_to_subset_in_subset/">add to subset➞in subset</a> - subset that the element is being placed inside.</li>
 <li><a href="remove_from_subset_in_subset/">remove from subset➞in subset</a> - subset that the element is being removed from</li>
@@ -336,6 +354,7 @@ See <a href="https://github.com/cmungall/knowledge-graph-change-language">https:
 <li><a href="node_rename_new_value/">node rename➞new value</a></li>
 </ul>
 </li>
+<li><a href="node_id/">node id</a> - id of a node to be created</li>
 <li><a href="object/">object</a></li>
 <li><a href="old_value/">old value</a> - The value of a property held in the old instance of the ontology<ul>
 <li><a href="node_rename_old_value/">node rename➞old value</a></li>
@@ -361,11 +380,15 @@ See <a href="https://github.com/cmungall/knowledge-graph-change-language">https:
 </ul>
 </li>
 <li><a href="started_at_time/">started at time</a></li>
-<li><a href="subject/">subject</a></li>
+<li><a href="subject/">subject</a><ul>
+<li><a href="edge_change_subject/">edge change➞subject</a></li>
+</ul>
+</li>
 <li><a href="subset.md">subset</a> - The subset from which the node is to be removed<ul>
 <li><a href="removed_node_from_subset_subset/">removed node from subset➞subset</a></li>
 </ul>
 </li>
+<li><a href="superclass/">superclass</a></li>
 <li><a href="target/">target</a> - The secondary entity on which the change operates<ul>
 <li><a href="has_replacement/">has replacement</a> - A single node obsoletion event may be accompanied by one or more suggested replacement nodes</li>
 </ul>
@@ -476,5 +499,5 @@ See <a href="https://github.com/cmungall/knowledge-graph-change-language">https:
 
 <!--
 MkDocs version : 1.1.2
-Build Date UTC : 2021-05-06 19:03:25.385679+00:00
+Build Date UTC : 2021-05-07 00:30:02.175312+00:00
 -->
