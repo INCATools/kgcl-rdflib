@@ -1,5 +1,5 @@
 # Auto generated from kgcl.yaml by pythongen.py version: 0.9.0
-# Generation date: 2021-05-06 17:27
+# Generation date: 2021-05-06 16:57
 # Schema: kgcl
 #
 # id: https://w3id.org/kgcl
@@ -24,7 +24,7 @@ from linkml.utils.enumerations import EnumDefinitionImpl
 from rdflib import Namespace, URIRef
 from linkml.utils.curienamespace import CurieNamespace
 from . ontology_model import Annotation, NodeId, OntologySubset, OwlTypeEnum, PropertyValue
-from . prov import Activity, ActivityId
+from . prov import ActivityId
 from linkml.utils.metamodelcore import URIorCURIE
 from linkml_model.types import Integer, String, Uriorcurie
 
@@ -36,7 +36,7 @@ dataclasses._init_fn = dataclasses_init_fn_with_kwargs
 # Namespaces
 IAO = CurieNamespace('IAO', 'http://purl.obolibrary.org/obo/IAO_')
 DCTERMS = CurieNamespace('dcterms', 'http://purl.org/dc/terms/')
-KGCL = CurieNamespace('kgcl', 'http://w3id.org/kgcl/')
+KGCL = CurieNamespace('kgcl', 'http://w3id.org/kgcl')
 LINKML = CurieNamespace('linkml', 'https://w3id.org/linkml/')
 OIO = CurieNamespace('oio', 'http://www.geneontology.org/formats/oboInOwl#')
 RDFS = CurieNamespace('rdfs', 'http://www.w3.org/2000/01/rdf-schema#')
@@ -1531,7 +1531,7 @@ class NodeCreation(NodeChange):
     class_model_uri: ClassVar[URIRef] = KGCL.NodeCreation
 
     id: Union[str, NodeCreationId] = None
-    node_id: Optional[Union[str, NodeId]] = None
+    node_id: Optional[str] = None
     name: Optional[str] = None
     owl_type: Optional[Union[str, "OwlTypeEnum"]] = None
     annotation_set: Optional[Union[dict, Annotation]] = None
@@ -1543,8 +1543,8 @@ class NodeCreation(NodeChange):
         if not isinstance(self.id, NodeCreationId):
             self.id = NodeCreationId(self.id)
 
-        if self.node_id is not None and not isinstance(self.node_id, NodeId):
-            self.node_id = NodeId(self.node_id)
+        if self.node_id is not None and not isinstance(self.node_id, str):
+            self.node_id = str(self.node_id)
 
         if self.name is not None and not isinstance(self.name, str):
             self.name = str(self.name)
@@ -1798,7 +1798,7 @@ class Session(YAMLRoot):
     class_model_uri: ClassVar[URIRef] = KGCL.Session
 
     change_set: Optional[Union[Dict[Union[str, ChangeId], Union[dict, Change]], List[Union[dict, Change]]]] = empty_dict()
-    activity_set: Optional[Union[Dict[Union[str, ActivityId], Union[dict, Activity]], List[Union[dict, Activity]]]] = empty_dict()
+    activity_set: Optional[Union[Union[str, ActivityId], List[Union[str, ActivityId]]]] = empty_list()
 
     def __post_init__(self, *_: List[str], **kwargs: Dict[str, Any]):
         if self.change_set is None:
@@ -1809,9 +1809,9 @@ class Session(YAMLRoot):
 
         if self.activity_set is None:
             self.activity_set = []
-        if not isinstance(self.activity_set, (list, dict)):
+        if not isinstance(self.activity_set, list):
             self.activity_set = [self.activity_set]
-        self._normalize_inlined_slot(slot_name="activity_set", slot_type=Activity, key_name="id", inlined_as_list=True, keyed=True)
+        self.activity_set = [v if isinstance(v, ActivityId) else ActivityId(v) for v in self.activity_set]
 
         super().__post_init__(**kwargs)
 
@@ -1842,7 +1842,7 @@ slots.has_undo = Slot(uri=KGCL.has_undo, name="has undo", curie=KGCL.curie('has_
                    model_uri=KGCL.has_undo, domain=Change, range=Optional[Union[str, ChangeId]])
 
 slots.node_id = Slot(uri=KGCL.node_id, name="node id", curie=KGCL.curie('node_id'),
-                   model_uri=KGCL.node_id, domain=None, range=Optional[Union[str, NodeId]])
+                   model_uri=KGCL.node_id, domain=None, range=Optional[str])
 
 slots.superclass = Slot(uri=KGCL.superclass, name="superclass", curie=KGCL.curie('superclass'),
                    model_uri=KGCL.superclass, domain=None, range=Optional[Union[str, NodeId]])

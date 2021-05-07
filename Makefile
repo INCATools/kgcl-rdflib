@@ -5,7 +5,7 @@ SCHEMA_NAMES = $(patsubst $(SCHEMA_DIR)/%.yaml, %, $(SOURCE_FILES))
 
 SCHEMA_NAME = kgcl
 SCHEMA_SRC = $(SCHEMA_DIR)/$(SCHEMA_NAME).yaml
-TGTS = graphql jsonschema docs shex owl csv graphql python
+TGTS = graphql jsonschema ldcontext docs  owl csv graphql python shex
 
 #GEN_OPTS = --no-mergeimports
 GEN_OPTS = 
@@ -69,6 +69,18 @@ gen-jsonschema: target/jsonschema/$(SCHEMA_NAME).schema.json
 target/jsonschema/%.schema.json: $(SCHEMA_DIR)/%.yaml tdir-jsonschema
 	gen-json-schema $(GEN_OPTS) -t transaction $< > $@
 
+###  -- JSON-LD context --
+# TODO: modularize imports. For now imports are merged.
+gen-ldcontext: target/ldcontext/$(SCHEMA_NAME).context.jsonld
+target/ldcontext/%.context.jsonld: $(SCHEMA_DIR)/%.yaml tdir-ldcontext
+	gen-jsonld-context --mergeimports $(GEN_OPTS)  $< > $@
+
+###  -- SQL schema --
+# TODO: modularize imports. For now imports are merged.
+gen-sqlddl: target/sql/$(SCHEMA_NAME).schema.sql
+target/sql/%.schema.sql: $(SCHEMA_DIR)/%.yaml tdir-sql
+	gen-sqlddl $(GEN_OPTS) --dialect sqlite $< > $@
+
 ###  -- Shex --
 # one file per module
 gen-shex: $(patsubst %, target/shex/%.shex, $(SCHEMA_NAMES))
@@ -105,5 +117,11 @@ target/linkml/%.yaml: $(SCHEMA_DIR)/%.yaml tdir-limkml
 docserve:
 	mkdocs serve
 
+deploy-python: stage-python
+	cp python/* kgcl/model/
+
 gh-deploy:
 	mkdocs gh-deploy
+
+%.jsonld: ldcontext/kgcl.context.jsonld %.json
+	jq -s '.[0] * .[1]' > $@

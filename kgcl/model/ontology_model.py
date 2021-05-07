@@ -1,5 +1,5 @@
 # Auto generated from ontology_model.yaml by pythongen.py version: 0.9.0
-# Generation date: 2021-05-06 17:25
+# Generation date: 2021-05-06 16:38
 # Schema: kgcl-ontology-model
 #
 # id: https://w3id.org/kgcl/ontology
@@ -32,7 +32,7 @@ dataclasses._init_fn = dataclasses_init_fn_with_kwargs
 # Namespaces
 DCTERMS = CurieNamespace('dcterms', 'http://purl.org/dc/terms/')
 LINKML = CurieNamespace('linkml', 'https://w3id.org/linkml/')
-OM = CurieNamespace('om', 'http://w3id.org/kgcl/om/')
+OM = CurieNamespace('om', 'http://w3id.org/kgcl/om')
 OWL = CurieNamespace('owl', 'http://www.w3.org/2002/07/owl#')
 RDF = CurieNamespace('rdf', 'http://www.w3.org/1999/02/22-rdf-syntax-ns#')
 DEFAULT_ = OM

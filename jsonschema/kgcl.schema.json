@@ -6,10 +6,13 @@
          "additionalProperties": false,
          "description": "a provence-generating activity",
          "properties": {
-            "activity_id": {
+            "description": {
                "type": "string"
             },
             "ended_at_time": {
+               "type": "string"
+            },
+            "id": {
                "type": "string"
             },
             "started_at_time": {
@@ -19,14 +22,14 @@
                "type": "string"
             },
             "was_associated_with": {
-               "$ref": "#/definitions/Agent"
+               "type": "string"
             },
             "was_informed_by": {
                "type": "string"
             }
          },
          "required": [
-            "activity_id"
+            "id"
          ],
          "title": "Activity",
          "type": "object"
@@ -38,8 +41,24 @@
             "about": {
                "type": "string"
             },
+            "change_date": {
+               "type": "string"
+            },
+            "contributor": {
+               "type": "string"
+            },
+            "creator": {
+               "type": "string"
+            },
+            "has_undo": {
+               "description": "A change that reverses this change",
+               "type": "string"
+            },
+            "id": {
+               "type": "string"
+            },
             "in_subset": {
-               "$ref": "#/definitions/Subset",
+               "$ref": "#/definitions/OntologySubset",
                "description": "subset that the element is being placed inside."
             },
             "new_value": {
@@ -50,11 +69,19 @@
                "description": "The value of a property held in the old instance of the ontology",
                "type": "string"
             },
+            "pull_request": {
+               "type": "string"
+            },
+            "see_also": {
+               "type": "string"
+            },
             "was_generated_by": {
                "type": "string"
             }
          },
-         "required": [],
+         "required": [
+            "id"
+         ],
          "title": "AddNodeToSubset",
          "type": "object"
       },
@@ -63,13 +90,18 @@
          "description": "a provence-generating agent",
          "properties": {
             "acted_on_behalf_of": {
-               "$ref": "#/definitions/Agent"
+               "type": "string"
+            },
+            "id": {
+               "type": "string"
             },
             "was_informed_by": {
                "type": "string"
             }
          },
-         "required": [],
+         "required": [
+            "id"
+         ],
          "title": "Agent",
          "type": "object"
       },
@@ -89,18 +121,6 @@
          },
          "required": [],
          "title": "Annotation",
-         "type": "object"
-      },
-      "Change": {
-         "additionalProperties": false,
-         "description": "Any change perform on an ontology or knowledge graph",
-         "properties": {
-            "was_generated_by": {
-               "type": "string"
-            }
-         },
-         "required": [],
-         "title": "Change",
          "type": "object"
       },
       "ChangeSetSummaryStatistic": {
@@ -125,6 +145,72 @@
          "title": "ChangeSetSummaryStatistic",
          "type": "object"
       },
+      "ClassCreation": {
+         "additionalProperties": false,
+         "description": "A node creation where the owl type is 'class'",
+         "properties": {
+            "about": {
+               "type": "string"
+            },
+            "annotation_set": {
+               "$ref": "#/definitions/Annotation"
+            },
+            "change_date": {
+               "type": "string"
+            },
+            "change_description": {
+               "type": "string"
+            },
+            "contributor": {
+               "type": "string"
+            },
+            "creator": {
+               "type": "string"
+            },
+            "has_undo": {
+               "description": "A change that reverses this change",
+               "type": "string"
+            },
+            "id": {
+               "type": "string"
+            },
+            "name": {
+               "type": "string"
+            },
+            "new_value": {
+               "description": "The value of a property held in the new instance of the ontology",
+               "type": "string"
+            },
+            "node_id": {
+               "description": "id of a node to be created",
+               "type": "string"
+            },
+            "old_value": {
+               "description": "The value of a property held in the old instance of the ontology",
+               "type": "string"
+            },
+            "owl_type": {
+               "type": "string"
+            },
+            "pull_request": {
+               "type": "string"
+            },
+            "see_also": {
+               "type": "string"
+            },
+            "superclass": {
+               "type": "string"
+            },
+            "was_generated_by": {
+               "type": "string"
+            }
+         },
+         "required": [
+            "id"
+         ],
+         "title": "ClassCreation",
+         "type": "object"
+      },
       "ClassNode": {
          "additionalProperties": false,
          "description": "A node that is a class",
@@ -133,10 +219,12 @@
                "$ref": "#/definitions/Annotation"
             },
             "id": {
-               "description": "CURIE or URI",
                "type": "string"
             },
             "name": {
+               "type": "string"
+            },
+            "owl_type": {
                "type": "string"
             }
          },
@@ -146,23 +234,37 @@
          "title": "ClassNode",
          "type": "object"
       },
-      "ComplexChange": {
+      "Configuration": {
          "additionalProperties": false,
-         "description": "A change that is is a composition of other changes",
+         "description": "The meaning of operations can be configured",
          "properties": {
-            "change_set": {
-               "description": "A collection of changes",
-               "items": {
-                  "$ref": "#/definitions/Change"
-               },
-               "type": "array"
-            },
-            "was_generated_by": {
+            "contributor_predicate": {
                "type": "string"
+            },
+            "creator_predicate": {
+               "type": "string"
+            },
+            "definition_predicate": {
+               "type": "string"
+            },
+            "main_synonym_predicate": {
+               "type": "string"
+            },
+            "name_predicate": {
+               "type": "string"
+            },
+            "obsoletion_policy": {
+               "type": "string"
+            },
+            "obsoletion_workflow": {
+               "type": "string"
+            },
+            "synonym_predicates": {
+               "$ref": "string"
             }
          },
          "required": [],
-         "title": "ComplexChange",
+         "title": "Configuration",
          "type": "object"
       },
       "DatatypeChange": {
@@ -173,6 +275,22 @@
                "description": "The 'focus' entity on which the change operates",
                "type": "string"
             },
+            "change_date": {
+               "type": "string"
+            },
+            "contributor": {
+               "type": "string"
+            },
+            "creator": {
+               "type": "string"
+            },
+            "has_undo": {
+               "description": "A change that reverses this change",
+               "type": "string"
+            },
+            "id": {
+               "type": "string"
+            },
             "new_value": {
                "description": "The value of a property held in the new instance of the ontology",
                "type": "string"
@@ -181,11 +299,19 @@
                "description": "The value of a property held in the old instance of the ontology",
                "type": "string"
             },
+            "pull_request": {
+               "type": "string"
+            },
+            "see_also": {
+               "type": "string"
+            },
             "was_generated_by": {
                "type": "string"
             }
          },
-         "required": [],
+         "required": [
+            "id"
+         ],
          "title": "DatatypeChange",
          "type": "object"
       },
@@ -196,10 +322,10 @@
             "annotation_set": {
                "$ref": "#/definitions/Annotation"
             },
-            "edge_label": {
+            "object": {
                "type": "string"
             },
-            "object": {
+            "predicate": {
                "type": "string"
             },
             "subject": {
@@ -208,29 +334,6 @@
          },
          "required": [],
          "title": "Edge",
-         "type": "object"
-      },
-      "EdgeChange": {
-         "additionalProperties": false,
-         "description": "A change in which the entity changes is an edge",
-         "properties": {
-            "about": {
-               "type": "string"
-            },
-            "new_value": {
-               "description": "The value of a property held in the new instance of the ontology",
-               "type": "string"
-            },
-            "old_value": {
-               "description": "The value of a property held in the old instance of the ontology",
-               "type": "string"
-            },
-            "was_generated_by": {
-               "type": "string"
-            }
-         },
-         "required": [],
-         "title": "EdgeChange",
          "type": "object"
       },
       "EdgeCreation": {
@@ -243,10 +346,23 @@
             "annotation_set": {
                "$ref": "#/definitions/Annotation"
             },
+            "change_date": {
+               "type": "string"
+            },
             "change_description": {
                "type": "string"
             },
-            "edge_label": {
+            "contributor": {
+               "type": "string"
+            },
+            "creator": {
+               "type": "string"
+            },
+            "has_undo": {
+               "description": "A change that reverses this change",
+               "type": "string"
+            },
+            "id": {
                "type": "string"
             },
             "new_value": {
@@ -260,6 +376,15 @@
                "description": "The value of a property held in the old instance of the ontology",
                "type": "string"
             },
+            "predicate": {
+               "type": "string"
+            },
+            "pull_request": {
+               "type": "string"
+            },
+            "see_also": {
+               "type": "string"
+            },
             "subject": {
                "type": "string"
             },
@@ -267,7 +392,9 @@
                "type": "string"
             }
          },
-         "required": [],
+         "required": [
+            "id"
+         ],
          "title": "EdgeCreation",
          "type": "object"
       },
@@ -281,10 +408,23 @@
             "annotation_set": {
                "$ref": "#/definitions/Annotation"
             },
+            "change_date": {
+               "type": "string"
+            },
             "change_description": {
                "type": "string"
             },
-            "edge_label": {
+            "contributor": {
+               "type": "string"
+            },
+            "creator": {
+               "type": "string"
+            },
+            "has_undo": {
+               "description": "A change that reverses this change",
+               "type": "string"
+            },
+            "id": {
                "type": "string"
             },
             "new_value": {
@@ -298,6 +438,15 @@
                "description": "The value of a property held in the old instance of the ontology",
                "type": "string"
             },
+            "predicate": {
+               "type": "string"
+            },
+            "pull_request": {
+               "type": "string"
+            },
+            "see_also": {
+               "type": "string"
+            },
             "subject": {
                "type": "string"
             },
@@ -305,41 +454,33 @@
                "type": "string"
             }
          },
-         "required": [],
+         "required": [
+            "id"
+         ],
          "title": "EdgeDeletion",
-         "type": "object"
-      },
-      "EdgeLabelChange": {
-         "additionalProperties": false,
-         "description": "An edge change where the edge label (relationship type) is modified.",
-         "properties": {
-            "about": {
-               "type": "string"
-            },
-            "change_description": {
-               "type": "string"
-            },
-            "new_value": {
-               "description": "The value of a property held in the new instance of the ontology",
-               "type": "string"
-            },
-            "old_value": {
-               "description": "The value of a property held in the old instance of the ontology",
-               "type": "string"
-            },
-            "was_generated_by": {
-               "type": "string"
-            }
-         },
-         "required": [],
-         "title": "EdgeLabelChange",
          "type": "object"
       },
       "EdgeLogicalInterpretationChange": {
          "additionalProperties": false,
-         "description": "An edge change where the subjet, object, and edge label are unchanged, but the logical interpretation changes",
+         "description": "An edge change where the subjet, object, and predicate are unchanged, but the logical interpretation changes",
          "properties": {
             "about": {
+               "type": "string"
+            },
+            "change_date": {
+               "type": "string"
+            },
+            "contributor": {
+               "type": "string"
+            },
+            "creator": {
+               "type": "string"
+            },
+            "has_undo": {
+               "description": "A change that reverses this change",
+               "type": "string"
+            },
+            "id": {
                "type": "string"
             },
             "new_value": {
@@ -350,11 +491,22 @@
                "description": "The value of a property held in the old instance of the ontology",
                "type": "string"
             },
+            "pull_request": {
+               "type": "string"
+            },
+            "see_also": {
+               "type": "string"
+            },
+            "subject": {
+               "type": "string"
+            },
             "was_generated_by": {
                "type": "string"
             }
          },
-         "required": [],
+         "required": [
+            "id"
+         ],
          "title": "EdgeLogicalInterpretationChange",
          "type": "object"
       },
@@ -368,10 +520,23 @@
             "annotation_set": {
                "$ref": "#/definitions/Annotation"
             },
+            "change_date": {
+               "type": "string"
+            },
             "change_description": {
                "type": "string"
             },
-            "edge_label": {
+            "contributor": {
+               "type": "string"
+            },
+            "creator": {
+               "type": "string"
+            },
+            "has_undo": {
+               "description": "A change that reverses this change",
+               "type": "string"
+            },
+            "id": {
                "type": "string"
             },
             "new_value": {
@@ -385,6 +550,15 @@
                "description": "The value of a property held in the old instance of the ontology",
                "type": "string"
             },
+            "predicate": {
+               "type": "string"
+            },
+            "pull_request": {
+               "type": "string"
+            },
+            "see_also": {
+               "type": "string"
+            },
             "subject": {
                "type": "string"
             },
@@ -392,7 +566,9 @@
                "type": "string"
             }
          },
-         "required": [],
+         "required": [
+            "id"
+         ],
          "title": "EdgeObsoletion",
          "type": "object"
       },
@@ -403,6 +579,22 @@
             "about": {
                "type": "string"
             },
+            "change_date": {
+               "type": "string"
+            },
+            "contributor": {
+               "type": "string"
+            },
+            "creator": {
+               "type": "string"
+            },
+            "has_undo": {
+               "description": "A change that reverses this change",
+               "type": "string"
+            },
+            "id": {
+               "type": "string"
+            },
             "new_value": {
                "description": "The value of a property held in the new instance of the ontology",
                "type": "string"
@@ -411,11 +603,22 @@
                "description": "The value of a property held in the old instance of the ontology",
                "type": "string"
             },
+            "pull_request": {
+               "type": "string"
+            },
+            "see_also": {
+               "type": "string"
+            },
+            "subject": {
+               "type": "string"
+            },
             "was_generated_by": {
                "type": "string"
             }
          },
-         "required": [],
+         "required": [
+            "id"
+         ],
          "title": "EdgeRewiring",
          "type": "object"
       },
@@ -427,10 +630,12 @@
                "$ref": "#/definitions/Annotation"
             },
             "id": {
-               "description": "CURIE or URI",
                "type": "string"
             },
             "name": {
+               "type": "string"
+            },
+            "owl_type": {
                "type": "string"
             }
          },
@@ -448,6 +653,22 @@
                "description": "The 'focus' entity on which the change operates",
                "type": "string"
             },
+            "change_date": {
+               "type": "string"
+            },
+            "contributor": {
+               "type": "string"
+            },
+            "creator": {
+               "type": "string"
+            },
+            "has_undo": {
+               "description": "A change that reverses this change",
+               "type": "string"
+            },
+            "id": {
+               "type": "string"
+            },
             "new_value": {
                "description": "The value of a property held in the new instance of the ontology",
                "type": "string"
@@ -456,11 +677,19 @@
                "description": "The value of a property held in the old instance of the ontology",
                "type": "string"
             },
+            "pull_request": {
+               "type": "string"
+            },
+            "see_also": {
+               "type": "string"
+            },
             "was_generated_by": {
                "type": "string"
             }
          },
-         "required": [],
+         "required": [
+            "id"
+         ],
          "title": "LogicalAxiomChange",
          "type": "object"
       },
@@ -483,6 +712,9 @@
                },
                "type": "array"
             },
+            "change_date": {
+               "type": "string"
+            },
             "change_description": {
                "type": "string"
             },
@@ -492,44 +724,65 @@
                },
                "type": "array"
             },
+            "contributor": {
+               "type": "string"
+            },
+            "creator": {
+               "type": "string"
+            },
+            "has_undo": {
+               "description": "A change that reverses this change",
+               "type": "string"
+            },
+            "id": {
+               "type": "string"
+            },
+            "pull_request": {
+               "type": "string"
+            },
+            "see_also": {
+               "type": "string"
+            },
             "was_generated_by": {
                "type": "string"
             }
          },
-         "required": [],
+         "required": [
+            "id"
+         ],
          "title": "MultiNodeObsoletion",
          "type": "object"
       },
       "NameBecomesSynonym": {
          "additionalProperties": false,
-         "description": "A complex change where the name NAME of an node NODE moves to a synonym, and NODE receives a new name. This change consists of compose of (1) a node rename where NAME is replaced by a different name (2) a new synonym",
-         "properties": {
-            "change_1": {
-               "$ref": "#/definitions/NodeRename"
-            },
-            "change_2": {
-               "$ref": "#/definitions/NewSynonym"
-            },
-            "change_set": {
-               "description": "A collection of changes",
-               "items": {
-                  "$ref": "#/definitions/Change"
-               },
-               "type": "array"
-            },
-            "was_generated_by": {
-               "type": "string"
-            }
-         },
-         "required": [],
-         "title": "NameBecomesSynonym",
-         "type": "object"
-      },
-      "NewSynonym": {
-         "additionalProperties": false,
-         "description": "A node change where a de-novo synonym is created",
+         "description": "A node synonym where the name NAME of an node NODE moves to a synonym, and NODE receives a new name. This change consists of compose of (1) a node rename where NAME is replaced by a different name (2) a new synonym",
          "properties": {
             "about": {
+               "type": "string"
+            },
+            "change_1": {
+               "type": "string"
+            },
+            "change_2": {
+               "type": "string"
+            },
+            "change_date": {
+               "type": "string"
+            },
+            "change_description": {
+               "type": "string"
+            },
+            "contributor": {
+               "type": "string"
+            },
+            "creator": {
+               "type": "string"
+            },
+            "has_undo": {
+               "description": "A change that reverses this change",
+               "type": "string"
+            },
+            "id": {
                "type": "string"
             },
             "new_value": {
@@ -540,11 +793,66 @@
                "description": "The value of a property held in the old instance of the ontology",
                "type": "string"
             },
+            "pull_request": {
+               "type": "string"
+            },
+            "see_also": {
+               "type": "string"
+            },
             "was_generated_by": {
                "type": "string"
             }
          },
-         "required": [],
+         "required": [
+            "id"
+         ],
+         "title": "NameBecomesSynonym",
+         "type": "object"
+      },
+      "NewSynonym": {
+         "additionalProperties": false,
+         "description": "A node synonym change where a de-novo synonym is created",
+         "properties": {
+            "about": {
+               "type": "string"
+            },
+            "change_date": {
+               "type": "string"
+            },
+            "contributor": {
+               "type": "string"
+            },
+            "creator": {
+               "type": "string"
+            },
+            "has_undo": {
+               "description": "A change that reverses this change",
+               "type": "string"
+            },
+            "id": {
+               "type": "string"
+            },
+            "new_value": {
+               "description": "The value of a property held in the new instance of the ontology",
+               "type": "string"
+            },
+            "old_value": {
+               "description": "The value of a property held in the old instance of the ontology",
+               "type": "string"
+            },
+            "pull_request": {
+               "type": "string"
+            },
+            "see_also": {
+               "type": "string"
+            },
+            "was_generated_by": {
+               "type": "string"
+            }
+         },
+         "required": [
+            "id"
+         ],
          "title": "NewSynonym",
          "type": "object"
       },
@@ -555,6 +863,22 @@
             "about": {
                "type": "string"
             },
+            "change_date": {
+               "type": "string"
+            },
+            "contributor": {
+               "type": "string"
+            },
+            "creator": {
+               "type": "string"
+            },
+            "has_undo": {
+               "description": "A change that reverses this change",
+               "type": "string"
+            },
+            "id": {
+               "type": "string"
+            },
             "new_value": {
                "description": "The value of a property held in the new instance of the ontology",
                "type": "string"
@@ -563,11 +887,19 @@
                "description": "The value of a property held in the old instance of the ontology",
                "type": "string"
             },
+            "pull_request": {
+               "type": "string"
+            },
+            "see_also": {
+               "type": "string"
+            },
             "was_generated_by": {
                "type": "string"
             }
          },
-         "required": [],
+         "required": [
+            "id"
+         ],
          "title": "NewTextDefinition",
          "type": "object"
       },
@@ -579,10 +911,12 @@
                "$ref": "#/definitions/Annotation"
             },
             "id": {
-               "description": "CURIE or URI",
                "type": "string"
             },
             "name": {
+               "type": "string"
+            },
+            "owl_type": {
                "type": "string"
             }
          },
@@ -599,6 +933,22 @@
             "about": {
                "type": "string"
             },
+            "change_date": {
+               "type": "string"
+            },
+            "contributor": {
+               "type": "string"
+            },
+            "creator": {
+               "type": "string"
+            },
+            "has_undo": {
+               "description": "A change that reverses this change",
+               "type": "string"
+            },
+            "id": {
+               "type": "string"
+            },
             "new_value": {
                "description": "The value of a property held in the new instance of the ontology",
                "type": "string"
@@ -607,11 +957,19 @@
                "description": "The value of a property held in the old instance of the ontology",
                "type": "string"
             },
+            "pull_request": {
+               "type": "string"
+            },
+            "see_also": {
+               "type": "string"
+            },
             "was_generated_by": {
                "type": "string"
             }
          },
-         "required": [],
+         "required": [
+            "id"
+         ],
          "title": "NodeAnnotationChange",
          "type": "object"
       },
@@ -622,6 +980,22 @@
             "about": {
                "type": "string"
             },
+            "change_date": {
+               "type": "string"
+            },
+            "contributor": {
+               "type": "string"
+            },
+            "creator": {
+               "type": "string"
+            },
+            "has_undo": {
+               "description": "A change that reverses this change",
+               "type": "string"
+            },
+            "id": {
+               "type": "string"
+            },
             "new_value": {
                "description": "The value of a property held in the new instance of the ontology",
                "type": "string"
@@ -630,35 +1004,20 @@
                "description": "The value of a property held in the old instance of the ontology",
                "type": "string"
             },
+            "pull_request": {
+               "type": "string"
+            },
+            "see_also": {
+               "type": "string"
+            },
             "was_generated_by": {
                "type": "string"
             }
          },
-         "required": [],
+         "required": [
+            "id"
+         ],
          "title": "NodeAnnotationReplacement",
-         "type": "object"
-      },
-      "NodeChange": {
-         "additionalProperties": false,
-         "description": "A simple change where the change is about a node",
-         "properties": {
-            "about": {
-               "type": "string"
-            },
-            "new_value": {
-               "description": "The value of a property held in the new instance of the ontology",
-               "type": "string"
-            },
-            "old_value": {
-               "description": "The value of a property held in the old instance of the ontology",
-               "type": "string"
-            },
-            "was_generated_by": {
-               "type": "string"
-            }
-         },
-         "required": [],
-         "title": "NodeChange",
          "type": "object"
       },
       "NodeCreation": {
@@ -671,11 +1030,23 @@
             "annotation_set": {
                "$ref": "#/definitions/Annotation"
             },
+            "change_date": {
+               "type": "string"
+            },
             "change_description": {
                "type": "string"
             },
+            "contributor": {
+               "type": "string"
+            },
+            "creator": {
+               "type": "string"
+            },
+            "has_undo": {
+               "description": "A change that reverses this change",
+               "type": "string"
+            },
             "id": {
-               "description": "CURIE or URI",
                "type": "string"
             },
             "name": {
@@ -685,8 +1056,21 @@
                "description": "The value of a property held in the new instance of the ontology",
                "type": "string"
             },
+            "node_id": {
+               "description": "id of a node to be created",
+               "type": "string"
+            },
             "old_value": {
                "description": "The value of a property held in the old instance of the ontology",
+               "type": "string"
+            },
+            "owl_type": {
+               "type": "string"
+            },
+            "pull_request": {
+               "type": "string"
+            },
+            "see_also": {
                "type": "string"
             },
             "was_generated_by": {
@@ -701,12 +1085,28 @@
       },
       "NodeDeepening": {
          "additionalProperties": false,
-         "description": "A node move in which a node where the destination is a proper descendant of the original location. Note that here descendant applied not just to subclass, but edges of any edge label in the relational graph",
+         "description": "A node move in which a node where the destination is a proper descendant of the original location. Note that here descendant applied not just to subclass, but edges of any predicate in the relational graph",
          "properties": {
             "about": {
                "type": "string"
             },
+            "change_date": {
+               "type": "string"
+            },
             "change_description": {
+               "type": "string"
+            },
+            "contributor": {
+               "type": "string"
+            },
+            "creator": {
+               "type": "string"
+            },
+            "has_undo": {
+               "description": "A change that reverses this change",
+               "type": "string"
+            },
+            "id": {
                "type": "string"
             },
             "new_value": {
@@ -717,11 +1117,22 @@
                "description": "The value of a property held in the old instance of the ontology",
                "type": "string"
             },
+            "pull_request": {
+               "type": "string"
+            },
+            "see_also": {
+               "type": "string"
+            },
+            "subject": {
+               "type": "string"
+            },
             "was_generated_by": {
                "type": "string"
             }
          },
-         "required": [],
+         "required": [
+            "id"
+         ],
          "title": "NodeDeepening",
          "type": "object"
       },
@@ -732,7 +1143,23 @@
             "about": {
                "type": "string"
             },
+            "change_date": {
+               "type": "string"
+            },
             "change_description": {
+               "type": "string"
+            },
+            "contributor": {
+               "type": "string"
+            },
+            "creator": {
+               "type": "string"
+            },
+            "has_undo": {
+               "description": "A change that reverses this change",
+               "type": "string"
+            },
+            "id": {
                "type": "string"
             },
             "new_value": {
@@ -743,11 +1170,19 @@
                "description": "The value of a property held in the old instance of the ontology",
                "type": "string"
             },
+            "pull_request": {
+               "type": "string"
+            },
+            "see_also": {
+               "type": "string"
+            },
             "was_generated_by": {
                "type": "string"
             }
          },
-         "required": [],
+         "required": [
+            "id"
+         ],
          "title": "NodeDeletion",
          "type": "object"
       },
@@ -765,7 +1200,16 @@
                },
                "type": "array"
             },
+            "change_date": {
+               "type": "string"
+            },
             "change_description": {
+               "type": "string"
+            },
+            "contributor": {
+               "type": "string"
+            },
+            "creator": {
                "type": "string"
             },
             "has_direct_replacement": {
@@ -778,12 +1222,25 @@
                },
                "type": "array"
             },
+            "has_undo": {
+               "description": "A change that reverses this change",
+               "type": "string"
+            },
+            "id": {
+               "type": "string"
+            },
             "new_value": {
                "description": "The value of a property held in the new instance of the ontology",
                "type": "string"
             },
             "old_value": {
                "description": "The value of a property held in the old instance of the ontology",
+               "type": "string"
+            },
+            "pull_request": {
+               "type": "string"
+            },
+            "see_also": {
                "type": "string"
             },
             "was_generated_by": {
@@ -791,6 +1248,7 @@
             }
          },
          "required": [
+            "id",
             "has_direct_replacement"
          ],
          "title": "NodeDirectMerge",
@@ -798,12 +1256,28 @@
       },
       "NodeMove": {
          "additionalProperties": false,
-         "description": "A node move is a combination of deleting a parent edge and adding a parent edge, where the edge label is preserved and the object/parent node changes",
+         "description": "A node move is a combination of deleting a parent edge and adding a parent edge, where the predicate is preserved and the object/parent node changes",
          "properties": {
             "about": {
                "type": "string"
             },
+            "change_date": {
+               "type": "string"
+            },
             "change_description": {
+               "type": "string"
+            },
+            "contributor": {
+               "type": "string"
+            },
+            "creator": {
+               "type": "string"
+            },
+            "has_undo": {
+               "description": "A change that reverses this change",
+               "type": "string"
+            },
+            "id": {
                "type": "string"
             },
             "new_value": {
@@ -814,11 +1288,22 @@
                "description": "The value of a property held in the old instance of the ontology",
                "type": "string"
             },
+            "pull_request": {
+               "type": "string"
+            },
+            "see_also": {
+               "type": "string"
+            },
+            "subject": {
+               "type": "string"
+            },
             "was_generated_by": {
                "type": "string"
             }
          },
-         "required": [],
+         "required": [
+            "id"
+         ],
          "title": "NodeMove",
          "type": "object"
       },
@@ -836,7 +1321,16 @@
                },
                "type": "array"
             },
+            "change_date": {
+               "type": "string"
+            },
             "change_description": {
+               "type": "string"
+            },
+            "contributor": {
+               "type": "string"
+            },
+            "creator": {
                "type": "string"
             },
             "has_direct_replacement": {
@@ -850,6 +1344,13 @@
                },
                "type": "array"
             },
+            "has_undo": {
+               "description": "A change that reverses this change",
+               "type": "string"
+            },
+            "id": {
+               "type": "string"
+            },
             "new_value": {
                "description": "The value of a property held in the new instance of the ontology",
                "type": "string"
@@ -858,11 +1359,19 @@
                "description": "The value of a property held in the old instance of the ontology",
                "type": "string"
             },
+            "pull_request": {
+               "type": "string"
+            },
+            "see_also": {
+               "type": "string"
+            },
             "was_generated_by": {
                "type": "string"
             }
          },
-         "required": [],
+         "required": [
+            "id"
+         ],
          "title": "NodeObsoletion",
          "type": "object"
       },
@@ -880,7 +1389,16 @@
                },
                "type": "array"
             },
+            "change_date": {
+               "type": "string"
+            },
             "change_description": {
+               "type": "string"
+            },
+            "contributor": {
+               "type": "string"
+            },
+            "creator": {
                "type": "string"
             },
             "has_direct_replacement": {
@@ -893,6 +1411,13 @@
                },
                "type": "array"
             },
+            "has_undo": {
+               "description": "A change that reverses this change",
+               "type": "string"
+            },
+            "id": {
+               "type": "string"
+            },
             "new_value": {
                "description": "The value of a property held in the new instance of the ontology",
                "type": "string"
@@ -901,11 +1426,18 @@
                "description": "The value of a property held in the old instance of the ontology",
                "type": "string"
             },
+            "pull_request": {
+               "type": "string"
+            },
+            "see_also": {
+               "type": "string"
+            },
             "was_generated_by": {
                "type": "string"
             }
          },
          "required": [
+            "id",
             "has_direct_replacement"
          ],
          "title": "NodeObsoletionWithDirectReplacement",
@@ -925,7 +1457,16 @@
                },
                "type": "array"
             },
+            "change_date": {
+               "type": "string"
+            },
             "change_description": {
+               "type": "string"
+            },
+            "contributor": {
+               "type": "string"
+            },
+            "creator": {
                "type": "string"
             },
             "has_direct_replacement": {
@@ -938,6 +1479,13 @@
                },
                "type": "array"
             },
+            "has_undo": {
+               "description": "A change that reverses this change",
+               "type": "string"
+            },
+            "id": {
+               "type": "string"
+            },
             "new_value": {
                "description": "The value of a property held in the new instance of the ontology",
                "type": "string"
@@ -946,11 +1494,18 @@
                "description": "The value of a property held in the old instance of the ontology",
                "type": "string"
             },
+            "pull_request": {
+               "type": "string"
+            },
+            "see_also": {
+               "type": "string"
+            },
             "was_generated_by": {
                "type": "string"
             }
          },
          "required": [
+            "id",
             "has_nondirect_replacement"
          ],
          "title": "NodeObsoletionWithNoDirectReplacement",
@@ -963,12 +1518,28 @@
             "about": {
                "type": "string"
             },
+            "change_date": {
+               "type": "string"
+            },
             "change_description": {
+               "type": "string"
+            },
+            "contributor": {
+               "type": "string"
+            },
+            "creator": {
                "type": "string"
             },
             "has_textual_diff": {
                "$ref": "#/definitions/TextualDiff",
-               "description": "A representation of the diff in ascii text"
+               "description": "A representation of character-level changes on a textual literal property. For example, if a text definition may change by only a single character such as addition of a period, it is useful to be able to see this visually."
+            },
+            "has_undo": {
+               "description": "A change that reverses this change",
+               "type": "string"
+            },
+            "id": {
+               "type": "string"
             },
             "new_value": {
                "type": "string"
@@ -976,11 +1547,19 @@
             "old_value": {
                "type": "string"
             },
+            "pull_request": {
+               "type": "string"
+            },
+            "see_also": {
+               "type": "string"
+            },
             "was_generated_by": {
                "type": "string"
             }
          },
-         "required": [],
+         "required": [
+            "id"
+         ],
          "title": "NodeRename",
          "type": "object"
       },
@@ -991,7 +1570,23 @@
             "about": {
                "type": "string"
             },
+            "change_date": {
+               "type": "string"
+            },
             "change_description": {
+               "type": "string"
+            },
+            "contributor": {
+               "type": "string"
+            },
+            "creator": {
+               "type": "string"
+            },
+            "has_undo": {
+               "description": "A change that reverses this change",
+               "type": "string"
+            },
+            "id": {
                "type": "string"
             },
             "new_value": {
@@ -1002,11 +1597,22 @@
                "description": "The value of a property held in the old instance of the ontology",
                "type": "string"
             },
+            "pull_request": {
+               "type": "string"
+            },
+            "see_also": {
+               "type": "string"
+            },
+            "subject": {
+               "type": "string"
+            },
             "was_generated_by": {
                "type": "string"
             }
          },
-         "required": [],
+         "required": [
+            "id"
+         ],
          "title": "NodeShallowing",
          "type": "object"
       },
@@ -1017,6 +1623,22 @@
             "about": {
                "type": "string"
             },
+            "change_date": {
+               "type": "string"
+            },
+            "contributor": {
+               "type": "string"
+            },
+            "creator": {
+               "type": "string"
+            },
+            "has_undo": {
+               "description": "A change that reverses this change",
+               "type": "string"
+            },
+            "id": {
+               "type": "string"
+            },
             "new_value": {
                "description": "The value of a property held in the new instance of the ontology",
                "type": "string"
@@ -1025,11 +1647,19 @@
                "description": "The value of a property held in the old instance of the ontology",
                "type": "string"
             },
+            "pull_request": {
+               "type": "string"
+            },
+            "see_also": {
+               "type": "string"
+            },
             "was_generated_by": {
                "type": "string"
             }
          },
-         "required": [],
+         "required": [
+            "id"
+         ],
          "title": "NodeSynonymChange",
          "type": "object"
       },
@@ -1040,10 +1670,26 @@
             "about": {
                "type": "string"
             },
+            "change_date": {
+               "type": "string"
+            },
             "change_description": {
                "type": "string"
             },
             "consider": {
+               "type": "string"
+            },
+            "contributor": {
+               "type": "string"
+            },
+            "creator": {
+               "type": "string"
+            },
+            "has_undo": {
+               "description": "A change that reverses this change",
+               "type": "string"
+            },
+            "id": {
                "type": "string"
             },
             "new_value": {
@@ -1054,14 +1700,22 @@
                "description": "The value of a property held in the old instance of the ontology",
                "type": "string"
             },
+            "pull_request": {
+               "type": "string"
+            },
             "replaced_by": {
+               "type": "string"
+            },
+            "see_also": {
                "type": "string"
             },
             "was_generated_by": {
                "type": "string"
             }
          },
-         "required": [],
+         "required": [
+            "id"
+         ],
          "title": "NodeUnobsoletion",
          "type": "object"
       },
@@ -1071,6 +1725,129 @@
          "properties": {},
          "required": [],
          "title": "OntologyElement",
+         "type": "object"
+      },
+      "OntologySubset": {
+         "additionalProperties": false,
+         "description": "",
+         "properties": {},
+         "required": [],
+         "title": "OntologySubset",
+         "type": "object"
+      },
+      "PlaceUnder": {
+         "additionalProperties": false,
+         "description": "An edge creation where the predicate is owl:subClassOf",
+         "properties": {
+            "about": {
+               "type": "string"
+            },
+            "annotation_set": {
+               "$ref": "#/definitions/Annotation"
+            },
+            "change_date": {
+               "type": "string"
+            },
+            "change_description": {
+               "type": "string"
+            },
+            "contributor": {
+               "type": "string"
+            },
+            "creator": {
+               "type": "string"
+            },
+            "has_undo": {
+               "description": "A change that reverses this change",
+               "type": "string"
+            },
+            "id": {
+               "type": "string"
+            },
+            "new_value": {
+               "description": "The value of a property held in the new instance of the ontology",
+               "type": "string"
+            },
+            "object": {
+               "type": "string"
+            },
+            "old_value": {
+               "description": "The value of a property held in the old instance of the ontology",
+               "type": "string"
+            },
+            "predicate": {
+               "type": "string"
+            },
+            "pull_request": {
+               "type": "string"
+            },
+            "see_also": {
+               "type": "string"
+            },
+            "subject": {
+               "type": "string"
+            },
+            "was_generated_by": {
+               "type": "string"
+            }
+         },
+         "required": [
+            "id"
+         ],
+         "title": "PlaceUnder",
+         "type": "object"
+      },
+      "PredicateChange": {
+         "additionalProperties": false,
+         "description": "An edge change where the predicate (relationship type) is modified.",
+         "properties": {
+            "about": {
+               "type": "string"
+            },
+            "change_date": {
+               "type": "string"
+            },
+            "change_description": {
+               "type": "string"
+            },
+            "contributor": {
+               "type": "string"
+            },
+            "creator": {
+               "type": "string"
+            },
+            "has_undo": {
+               "description": "A change that reverses this change",
+               "type": "string"
+            },
+            "id": {
+               "type": "string"
+            },
+            "new_value": {
+               "description": "The value of a property held in the new instance of the ontology",
+               "type": "string"
+            },
+            "old_value": {
+               "description": "The value of a property held in the old instance of the ontology",
+               "type": "string"
+            },
+            "pull_request": {
+               "type": "string"
+            },
+            "see_also": {
+               "type": "string"
+            },
+            "subject": {
+               "type": "string"
+            },
+            "was_generated_by": {
+               "type": "string"
+            }
+         },
+         "required": [
+            "id"
+         ],
+         "title": "PredicateChange",
          "type": "object"
       },
       "PropertyValue": {
@@ -1090,9 +1867,25 @@
       },
       "RemoveSynonym": {
          "additionalProperties": false,
-         "description": "A node change where a synonym is deleted",
+         "description": "A node synonym change where a synonym is deleted",
          "properties": {
             "about": {
+               "type": "string"
+            },
+            "change_date": {
+               "type": "string"
+            },
+            "contributor": {
+               "type": "string"
+            },
+            "creator": {
+               "type": "string"
+            },
+            "has_undo": {
+               "description": "A change that reverses this change",
+               "type": "string"
+            },
+            "id": {
                "type": "string"
             },
             "new_value": {
@@ -1103,11 +1896,19 @@
                "description": "The value of a property held in the old instance of the ontology",
                "type": "string"
             },
+            "pull_request": {
+               "type": "string"
+            },
+            "see_also": {
+               "type": "string"
+            },
             "was_generated_by": {
                "type": "string"
             }
          },
-         "required": [],
+         "required": [
+            "id"
+         ],
          "title": "RemoveSynonym",
          "type": "object"
       },
@@ -1118,6 +1919,22 @@
             "about": {
                "type": "string"
             },
+            "change_date": {
+               "type": "string"
+            },
+            "contributor": {
+               "type": "string"
+            },
+            "creator": {
+               "type": "string"
+            },
+            "has_undo": {
+               "description": "A change that reverses this change",
+               "type": "string"
+            },
+            "id": {
+               "type": "string"
+            },
             "new_value": {
                "description": "The value of a property held in the new instance of the ontology",
                "type": "string"
@@ -1126,11 +1943,19 @@
                "description": "The value of a property held in the old instance of the ontology",
                "type": "string"
             },
+            "pull_request": {
+               "type": "string"
+            },
+            "see_also": {
+               "type": "string"
+            },
             "was_generated_by": {
                "type": "string"
             }
          },
-         "required": [],
+         "required": [
+            "id"
+         ],
          "title": "RemoveTextDefinition",
          "type": "object"
       },
@@ -1139,10 +1964,30 @@
          "description": "Removes a node from a subset, by removing an annotation",
          "properties": {
             "about": {
+               "description": "The node that is removed from the subset",
+               "type": "string"
+            },
+            "change_date": {
+               "type": "string"
+            },
+            "change_description": {
+               "type": "string"
+            },
+            "contributor": {
+               "type": "string"
+            },
+            "creator": {
+               "type": "string"
+            },
+            "has_undo": {
+               "description": "A change that reverses this change",
+               "type": "string"
+            },
+            "id": {
                "type": "string"
             },
             "in_subset": {
-               "$ref": "#/definitions/Subset",
+               "$ref": "#/definitions/OntologySubset",
                "description": "subset that the element is being removed from"
             },
             "new_value": {
@@ -1153,56 +1998,74 @@
                "description": "The value of a property held in the old instance of the ontology",
                "type": "string"
             },
+            "pull_request": {
+               "type": "string"
+            },
+            "see_also": {
+               "type": "string"
+            },
+            "subset": {
+               "description": "The subset from which the node is to be removed",
+               "type": "string"
+            },
             "was_generated_by": {
                "type": "string"
             }
          },
-         "required": [],
+         "required": [
+            "id"
+         ],
          "title": "RemovedNodeFromSubset",
          "type": "object"
       },
-      "SimpleChange": {
+      "Session": {
          "additionalProperties": false,
-         "description": "A change that is about a single ontology element",
+         "description": "A session consists of a set of change sets bundled with the activities that generated those change sets",
          "properties": {
-            "about": {
-               "description": "The 'focus' entity on which the change operates",
-               "type": "string"
+            "activity_set": {
+               "items": {
+                  "$ref": "#/definitions/Activity"
+               },
+               "type": "array"
             },
-            "new_value": {
-               "description": "The value of a property held in the new instance of the ontology",
-               "type": "string"
-            },
-            "old_value": {
-               "description": "The value of a property held in the old instance of the ontology",
-               "type": "string"
-            },
-            "was_generated_by": {
-               "type": "string"
+            "change_set": {
+               "description": "A collection of changes",
+               "items": {
+                  "$ref": "#/definitions/Change"
+               },
+               "type": "array"
             }
          },
          "required": [],
-         "title": "SimpleChange",
+         "title": "Session",
          "type": "object"
       },
-      "Subset": {
+      "SynonymPredicateChange": {
          "additionalProperties": false,
-         "description": "",
-         "properties": {},
-         "required": [],
-         "title": "Subset",
-         "type": "object"
-      },
-      "SynonymReplacement": {
-         "additionalProperties": false,
-         "description": "A node change where the text of a synonym is changed",
+         "description": "A node synonym change where the predicate of a synonym is changed. Background: synonyms can be represented by a variety of predicates. For example, many OBO ontologies make use of predicates such as oio:hasExactSynonym, oio:hasRelatedSynonym, etc",
          "properties": {
             "about": {
+               "type": "string"
+            },
+            "change_date": {
+               "type": "string"
+            },
+            "contributor": {
+               "type": "string"
+            },
+            "creator": {
                "type": "string"
             },
             "has_textual_diff": {
                "$ref": "#/definitions/TextualDiff",
-               "description": "A representation of the diff in ascii text"
+               "description": "A representation of character-level changes on a textual literal property. For example, if a text definition may change by only a single character such as addition of a period, it is useful to be able to see this visually."
+            },
+            "has_undo": {
+               "description": "A change that reverses this change",
+               "type": "string"
+            },
+            "id": {
+               "type": "string"
             },
             "new_value": {
                "description": "The value of a property held in the new instance of the ontology",
@@ -1212,11 +2075,70 @@
                "description": "The value of a property held in the old instance of the ontology",
                "type": "string"
             },
+            "pull_request": {
+               "type": "string"
+            },
+            "see_also": {
+               "type": "string"
+            },
             "was_generated_by": {
                "type": "string"
             }
          },
-         "required": [],
+         "required": [
+            "id"
+         ],
+         "title": "SynonymPredicateChange",
+         "type": "object"
+      },
+      "SynonymReplacement": {
+         "additionalProperties": false,
+         "description": "A node synonym change where the text of a synonym is changed",
+         "properties": {
+            "about": {
+               "type": "string"
+            },
+            "change_date": {
+               "type": "string"
+            },
+            "contributor": {
+               "type": "string"
+            },
+            "creator": {
+               "type": "string"
+            },
+            "has_textual_diff": {
+               "$ref": "#/definitions/TextualDiff",
+               "description": "A representation of character-level changes on a textual literal property. For example, if a text definition may change by only a single character such as addition of a period, it is useful to be able to see this visually."
+            },
+            "has_undo": {
+               "description": "A change that reverses this change",
+               "type": "string"
+            },
+            "id": {
+               "type": "string"
+            },
+            "new_value": {
+               "description": "The value of a property held in the new instance of the ontology",
+               "type": "string"
+            },
+            "old_value": {
+               "description": "The value of a property held in the old instance of the ontology",
+               "type": "string"
+            },
+            "pull_request": {
+               "type": "string"
+            },
+            "see_also": {
+               "type": "string"
+            },
+            "was_generated_by": {
+               "type": "string"
+            }
+         },
+         "required": [
+            "id"
+         ],
          "title": "SynonymReplacement",
          "type": "object"
       },
@@ -1227,9 +2149,25 @@
             "about": {
                "type": "string"
             },
+            "change_date": {
+               "type": "string"
+            },
+            "contributor": {
+               "type": "string"
+            },
+            "creator": {
+               "type": "string"
+            },
             "has_textual_diff": {
                "$ref": "#/definitions/TextualDiff",
-               "description": "A representation of the diff in ascii text"
+               "description": "A representation of character-level changes on a textual literal property. For example, if a text definition may change by only a single character such as addition of a period, it is useful to be able to see this visually."
+            },
+            "has_undo": {
+               "description": "A change that reverses this change",
+               "type": "string"
+            },
+            "id": {
+               "type": "string"
             },
             "new_value": {
                "description": "The value of a property held in the new instance of the ontology",
@@ -1239,11 +2177,19 @@
                "description": "The value of a property held in the old instance of the ontology",
                "type": "string"
             },
+            "pull_request": {
+               "type": "string"
+            },
+            "see_also": {
+               "type": "string"
+            },
             "was_generated_by": {
                "type": "string"
             }
          },
-         "required": [],
+         "required": [
+            "id"
+         ],
          "title": "TextDefinitionReplacement",
          "type": "object"
       },
@@ -1257,28 +2203,80 @@
       },
       "Transaction": {
          "additionalProperties": false,
-         "description": "A unified set of changes. Could be a single change, or the results of an ontology diff",
+         "description": "A change that is a composition of a set of changes, where those changes are treated as a single unit. Could be a single change, or the results of an ontology diff",
          "properties": {
+            "change_date": {
+               "type": "string"
+            },
             "change_set": {
                "description": "A collection of changes",
                "items": {
                   "$ref": "#/definitions/Change"
                },
                "type": "array"
+            },
+            "contributor": {
+               "type": "string"
+            },
+            "creator": {
+               "type": "string"
+            },
+            "has_undo": {
+               "description": "A change that reverses this change",
+               "type": "string"
+            },
+            "id": {
+               "type": "string"
+            },
+            "pull_request": {
+               "type": "string"
+            },
+            "see_also": {
+               "type": "string"
+            },
+            "was_generated_by": {
+               "type": "string"
             }
          },
-         "required": [],
+         "required": [
+            "id"
+         ],
          "title": "Transaction",
          "type": "object"
       }
    },
    "properties": {
+      "change_date": {
+         "type": "string"
+      },
       "change_set": {
          "description": "A collection of changes",
          "items": {
             "$ref": "#/definitions/Change"
          },
          "type": "array"
+      },
+      "contributor": {
+         "type": "string"
+      },
+      "creator": {
+         "type": "string"
+      },
+      "has_undo": {
+         "description": "A change that reverses this change",
+         "type": "string"
+      },
+      "id": {
+         "type": "string"
+      },
+      "pull_request": {
+         "type": "string"
+      },
+      "see_also": {
+         "type": "string"
+      },
+      "was_generated_by": {
+         "type": "string"
       }
    },
    "title": "kgcl",

@@ -2,7 +2,7 @@ BASE <http://w3id.org/kgcl/om/>
 PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
 PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
 PREFIX linkml: <https://w3id.org/linkml/>
-PREFIX owl: <http://example.org/UNKNOWN/owl/>
+PREFIX owl: <http://www.w3.org/2002/07/owl#>
 
 
 linkml:String xsd:string
@@ -33,91 +33,91 @@ linkml:Objectidentifier IRI
 
 linkml:Nodeidentifier NONLITERAL
 
-<http://w3id.org/kgcl/omAnnotation> CLOSED {
-    (  $<http://w3id.org/kgcl/omAnnotation_tes> (  &<http://w3id.org/kgcl/omPropertyValue_tes> ;
-          rdf:type [ <http://w3id.org/kgcl/omPropertyValue> ] ? ;
-          <http://w3id.org/kgcl/omannotation_set> @<http://w3id.org/kgcl/omAnnotation> ?
+<Annotation> CLOSED {
+    (  $<Annotation_tes> (  &<PropertyValue_tes> ;
+          rdf:type [ <PropertyValue> ] ? ;
+          <annotation_set> @<Annotation> ?
        ) ;
-       rdf:type [ <http://w3id.org/kgcl/omAnnotation> ] ?
+       rdf:type [ <Annotation> ] ?
     )
 }
 
-<http://w3id.org/kgcl/omClassNode> CLOSED {
-    (  $<http://w3id.org/kgcl/omClassNode_tes> (  &<http://w3id.org/kgcl/omNode_tes> ;
-          rdf:type [ <http://w3id.org/kgcl/omNode> ] ?
+<ClassNode> CLOSED {
+    (  $<ClassNode_tes> (  &<Node_tes> ;
+          rdf:type [ <Node> ] ?
        ) ;
        rdf:type [ owl:Class ]
     )
 }
 
-<http://w3id.org/kgcl/omEdge> CLOSED {
-    (  $<http://w3id.org/kgcl/omEdge_tes> (  &<http://w3id.org/kgcl/omOntologyElement_tes> ;
-          rdf:type [ <http://w3id.org/kgcl/omOntologyElement> ] ? ;
-          <http://w3id.org/kgcl/omsubject> @<http://w3id.org/kgcl/omNode> ? ;
-          <http://w3id.org/kgcl/omedge_label> @<http://w3id.org/kgcl/omNode> ? ;
-          <http://w3id.org/kgcl/omobject> @<http://w3id.org/kgcl/omNode> ? ;
-          <http://w3id.org/kgcl/omannotation_set> @<http://w3id.org/kgcl/omAnnotation> ?
+<Edge> CLOSED {
+    (  $<Edge_tes> (  &<OntologyElement_tes> ;
+          rdf:type [ <OntologyElement> ] ? ;
+          <subject> @<Node> ? ;
+          <predicate> @<Node> ? ;
+          <object> @<Node> ? ;
+          <annotation_set> @<Annotation> ?
        ) ;
-       rdf:type [ <http://w3id.org/kgcl/omEdge> ] ?
+       rdf:type [ <Edge> ] ?
     )
 }
 
-<http://w3id.org/kgcl/omInstanceNode> CLOSED {
-    (  $<http://w3id.org/kgcl/omInstanceNode_tes> (  &<http://w3id.org/kgcl/omNode_tes> ;
-          rdf:type [ <http://w3id.org/kgcl/omNode> ] ?
+<InstanceNode> CLOSED {
+    (  $<InstanceNode_tes> (  &<Node_tes> ;
+          rdf:type [ <Node> ] ?
        ) ;
        rdf:type [ owl:NamedIndividual ]
     )
 }
 
-<http://w3id.org/kgcl/omLogicalDefinition> CLOSED {
-    (  $<http://w3id.org/kgcl/omLogicalDefinition_tes> (  &<http://w3id.org/kgcl/omOntologyElement_tes> ;
-          rdf:type [ <http://w3id.org/kgcl/omOntologyElement> ] ?
+<LogicalDefinition> CLOSED {
+    (  $<LogicalDefinition_tes> (  &<OntologyElement_tes> ;
+          rdf:type [ <OntologyElement> ] ?
        ) ;
-       rdf:type [ <http://w3id.org/kgcl/omLogicalDefinition> ] ?
+       rdf:type [ <LogicalDefinition> ] ?
     )
 }
 
-<http://w3id.org/kgcl/omNode>  (
+<Node>  (
     CLOSED {
-       (  $<http://w3id.org/kgcl/omNode_tes> (  &<http://w3id.org/kgcl/omOntologyElement_tes> ;
-             rdf:type [ <http://w3id.org/kgcl/omOntologyElement> ] ? ;
-             <http://w3id.org/kgcl/omname> @linkml:String ? ;
-             <http://w3id.org/kgcl/omannotation_set> @<http://w3id.org/kgcl/omAnnotation> ?
+       (  $<Node_tes> (  &<OntologyElement_tes> ;
+             rdf:type [ <OntologyElement> ] ? ;
+             <name> @linkml:String ? ;
+             <annotation_set> @<Annotation> ? ;
+             <owl_type> @<OwlTypeEnum> ?
           ) ;
-          rdf:type [ <http://w3id.org/kgcl/omNode> ]
+          rdf:type [ <Node> ]
        )
-    } OR @<http://w3id.org/kgcl/omClassNode> OR @<http://w3id.org/kgcl/omInstanceNode>
+    } OR @<ClassNode> OR @<InstanceNode>
 )
 
-<http://w3id.org/kgcl/omOntologyElement>  (
+<OntologyElement>  (
     CLOSED {
-       (  $<http://w3id.org/kgcl/omOntologyElement_tes> rdf:type . * ;
-          rdf:type [ <http://w3id.org/kgcl/omOntologyElement> ] ?
+       (  $<OntologyElement_tes> rdf:type . * ;
+          rdf:type [ <OntologyElement> ] ?
        )
-    } OR @<http://w3id.org/kgcl/omEdge> OR @<http://w3id.org/kgcl/omLogicalDefinition> OR @<http://w3id.org/kgcl/omNode> OR
-    @<http://w3id.org/kgcl/omPropertyValue> OR @<http://w3id.org/kgcl/omSubset>
+    } OR @<Edge> OR @<LogicalDefinition> OR @<Node> OR @<OntologySubset> OR @<PropertyValue>
 )
 
-<http://w3id.org/kgcl/omPropertyValue>  (
-    CLOSED {
-       (  $<http://w3id.org/kgcl/omPropertyValue_tes> (  &<http://w3id.org/kgcl/omOntologyElement_tes> ;
-             rdf:type [ <http://w3id.org/kgcl/omOntologyElement> ] ? ;
-             <http://w3id.org/kgcl/omproperty> @<http://w3id.org/kgcl/omNode> ? ;
-             <http://w3id.org/kgcl/omfiller> @linkml:String ?
-          ) ;
-          rdf:type [ <http://w3id.org/kgcl/omPropertyValue> ] ?
-       )
-    } OR @<http://w3id.org/kgcl/omAnnotation>
-)
-
-<http://w3id.org/kgcl/omSubset> CLOSED {
-    (  $<http://w3id.org/kgcl/omSubset_tes> (  &<http://w3id.org/kgcl/omOntologyElement_tes> ;
-          rdf:type [ <http://w3id.org/kgcl/omOntologyElement> ] ?
+<OntologySubset> CLOSED {
+    (  $<OntologySubset_tes> (  &<OntologyElement_tes> ;
+          rdf:type [ <OntologyElement> ] ?
        ) ;
-       rdf:type [ <http://w3id.org/kgcl/omSubset> ] ?
+       rdf:type [ <OntologySubset> ] ?
     )
 }
+
+<PropertyValue>  (
+    CLOSED {
+       (  $<PropertyValue_tes> (  &<OntologyElement_tes> ;
+             rdf:type [ <OntologyElement> ] ? ;
+             <property> @<Node> ? ;
+             <filler> @linkml:String ?
+          ) ;
+          rdf:type [ <PropertyValue> ] ?
+       )
+    } OR @<Annotation>
+)
 
 
 

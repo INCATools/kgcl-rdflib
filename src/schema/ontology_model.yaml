@@ -9,7 +9,7 @@ license: https://creativecommons.org/publicdomain/zero/1.0/
 version: 0.0.1
 
 prefixes:
-  om: http://w3id.org/kgcl/om
+  om: http://w3id.org/kgcl/om/
   dcterms: http://purl.org/dc/terms/
   linkml: https://w3id.org/linkml/
   
@@ -18,10 +18,13 @@ default_range: string
 
 imports:
   - linkml:types
+  - basics
   
 classes:
 
   ontology element:
+    aliases:
+      - entity
     description: >-
       Any component of an ontology or knowledge graph
 
@@ -47,6 +50,7 @@ classes:
   node:
     aliases:
       - entity
+      - term
     is_a: ontology element
     description: >-
       Any named entity in an ontology. May be a class, individual, property
@@ -54,6 +58,7 @@ classes:
       - id
       - name
       - annotation set
+      - owl type
 
   class node:
     aliases:
@@ -84,24 +89,22 @@ classes:
       - rdf:Statement
     slots:
       - subject
-      - edge label
+      - predicate
       - object
       - annotation set
 
   logical definition:
     is_a: ontology element
   
-  subset:
+  ontology subset:
     is_a: ontology element
   
 
 slots:
 
-  id:
-    identifier: true
-    description: >-
-      CURIE or URI
-
+  owl type:
+    range: owl_type_enum
+    
   name: {}
 
   subject:
@@ -110,7 +113,7 @@ slots:
   object:
     range: node
     
-  edge label:
+  predicate:
     range: node    
     
   annotation set:
@@ -125,3 +128,17 @@ slots:
     range: property value
     multivalued: true
     inlined: true
+
+enums:
+
+  owl_type_enum:
+    todos:
+      - make this complete
+    permissible_values:
+      class:
+        meaning: owl:Class
+      object property:
+        meaning: owl:ObjectProperty
+      named individual:
+        meaning: owl:NamedIndividual
+        

@@ -1,35 +1,46 @@
 type Activity
   {
-    activityId: String!
+    id: String!
     startedAtTime: String
     endedAtTime: String
     wasInformedBy: Activity
     wasAssociatedWith: Agent
     used: String
+    description: String
   }
 
 type AddNodeToSubset implements AddToSubset
   {
+    id: String!
     wasGeneratedBy: Activity
+    seeAlso: String
+    pullRequest: String
+    creator: String
+    changeDate: String
+    contributor: String
+    hasUndo: Change
     oldValue: String
     newValue: String
     about: String
-    inSubset: Subset
+    inSubset: OntologySubset
   }
 
 interface AddToSubset
   {
-    inSubset: Subset
+    inSubset: OntologySubset
   }
 
 type Agent
   {
+    id: String!
     actedOnBehalfOf: Agent
     wasInformedBy: Activity
   }
 
 interface AllowsAutomaticReplacementOfEdges
   {
+    about: String
+    hasUndo: Obsoletion
   }
 
 type Annotation
@@ -39,9 +50,16 @@ type Annotation
     annotationSet: Annotation
   }
 
-type Change
+interface Change
   {
+    id: String!
     wasGeneratedBy: Activity
+    seeAlso: String
+    pullRequest: String
+    creator: String
+    changeDate: String
+    contributor: String
+    hasUndo: Change
   }
 
 interface ChangeMixin
@@ -55,26 +73,75 @@ type ChangeSetSummaryStatistic
     propertyValueSet: [PropertyValue]
   }
 
+type ClassCreation
+  {
+    id: String!
+    wasGeneratedBy: Activity
+    seeAlso: String
+    pullRequest: String
+    creator: String
+    changeDate: String
+    contributor: String
+    hasUndo: Change
+    oldValue: String
+    newValue: String
+    about: String
+    nodeId: Node
+    name: String
+    owlType: OwlTypeEnum
+    annotationSet: Annotation
+    changeDescription: String
+    superclass: Node
+  }
+
 type ClassNode
   {
     id: String!
     name: String
     annotationSet: Annotation
+    owlType: OwlTypeEnum
   }
 
-type ComplexChange
+interface ComplexChange
   {
+    id: String!
     wasGeneratedBy: Activity
+    seeAlso: String
+    pullRequest: String
+    creator: String
+    changeDate: String
+    contributor: String
+    hasUndo: Change
     changeSet: [Change]
+  }
+
+type Configuration
+  {
+    namePredicate: String
+    definitionPredicate: String
+    mainSynonymPredicate: String
+    synonymPredicates: String
+    creatorPredicate: String
+    contributorPredicate: String
+    obsoletionWorkflow: String
+    obsoletionPolicy: String
   }
 
 interface Creation
   {
+    hasUndo: Deletion
   }
 
 type DatatypeChange
   {
+    id: String!
     wasGeneratedBy: Activity
+    seeAlso: String
+    pullRequest: String
+    creator: String
+    changeDate: String
+    contributor: String
+    hasUndo: Change
     about: String
     oldValue: String
     newValue: String
@@ -87,27 +154,42 @@ interface Deletion
 type Edge
   {
     subject: Node
-    edgeLabel: Node
+    predicate: Node
     object: Node
     annotationSet: Annotation
   }
 
-type EdgeChange
+interface EdgeChange
   {
+    id: String!
     wasGeneratedBy: Activity
-    oldValue: String
-    newValue: String
-    about: String
-  }
-
-type EdgeCreation implements Creation
-  {
-    wasGeneratedBy: Activity
+    seeAlso: String
+    pullRequest: String
+    creator: String
+    changeDate: String
+    contributor: String
+    hasUndo: Change
     oldValue: String
     newValue: String
     about: String
     subject: Node
-    edgeLabel: Node
+  }
+
+type EdgeCreation implements Creation
+  {
+    id: String!
+    wasGeneratedBy: Activity
+    seeAlso: String
+    pullRequest: String
+    creator: String
+    changeDate: String
+    contributor: String
+    hasUndo: Change
+    oldValue: String
+    newValue: String
+    about: String
+    subject: Node
+    predicate: Node
     object: Node
     annotationSet: Annotation
     changeDescription: String
@@ -115,42 +197,55 @@ type EdgeCreation implements Creation
 
 type EdgeDeletion implements Deletion
   {
+    id: String!
     wasGeneratedBy: Activity
+    seeAlso: String
+    pullRequest: String
+    creator: String
+    changeDate: String
+    contributor: String
+    hasUndo: Change
     oldValue: String
     newValue: String
     about: String
     subject: Node
-    edgeLabel: Node
+    predicate: Node
     object: Node
     annotationSet: Annotation
     changeDescription: String
   }
 
-type EdgeLabelChange
-  {
-    wasGeneratedBy: Activity
-    oldValue: String
-    newValue: String
-    about: String
-    changeDescription: String
-  }
-
 type EdgeLogicalInterpretationChange
   {
+    id: String!
     wasGeneratedBy: Activity
-    oldValue: String
-    newValue: String
-    about: String
-  }
-
-type EdgeObsoletion implements Obsoletion
-  {
-    wasGeneratedBy: Activity
+    seeAlso: String
+    pullRequest: String
+    creator: String
+    changeDate: String
+    contributor: String
+    hasUndo: Change
     oldValue: String
     newValue: String
     about: String
     subject: Node
-    edgeLabel: Node
+  }
+
+type EdgeObsoletion implements Obsoletion
+  {
+    id: String!
+    wasGeneratedBy: Activity
+    seeAlso: String
+    pullRequest: String
+    creator: String
+    changeDate: String
+    contributor: String
+    hasUndo: Change
+    oldValue: String
+    newValue: String
+    about: String
+    subject: Node
+    predicate: Node
     object: Node
     annotationSet: Annotation
     changeDescription: String
@@ -158,10 +253,18 @@ type EdgeObsoletion implements Obsoletion
 
 type EdgeRewiring
   {
+    id: String!
     wasGeneratedBy: Activity
+    seeAlso: String
+    pullRequest: String
+    creator: String
+    changeDate: String
+    contributor: String
+    hasUndo: Change
     oldValue: String
     newValue: String
     about: String
+    subject: Node
   }
 
 type InstanceNode
@@ -169,11 +272,19 @@ type InstanceNode
     id: String!
     name: String
     annotationSet: Annotation
+    owlType: OwlTypeEnum
   }
 
 type LogicalAxiomChange
   {
+    id: String!
     wasGeneratedBy: Activity
+    seeAlso: String
+    pullRequest: String
+    creator: String
+    changeDate: String
+    contributor: String
+    hasUndo: Change
     about: String
     oldValue: String
     newValue: String
@@ -185,7 +296,14 @@ type LogicalDefinition
 
 type MultiNodeObsoletion
   {
+    id: String!
     wasGeneratedBy: Activity
+    seeAlso: String
+    pullRequest: String
+    creator: String
+    changeDate: String
+    contributor: String
+    hasUndo: Change
     changeSet: [NodeObsoletion]
     changeDescription: String
     associatedChangeSet: [Change]
@@ -193,15 +311,32 @@ type MultiNodeObsoletion
 
 type NameBecomesSynonym
   {
+    id: String!
     wasGeneratedBy: Activity
-    changeSet: [Change]
+    seeAlso: String
+    pullRequest: String
+    creator: String
+    changeDate: String
+    contributor: String
+    hasUndo: Change
+    oldValue: String
+    newValue: String
+    about: String
     change1: NodeRename
     change2: NewSynonym
+    changeDescription: String
   }
 
 type NewSynonym
   {
+    id: String!
     wasGeneratedBy: Activity
+    seeAlso: String
+    pullRequest: String
+    creator: String
+    changeDate: String
+    contributor: String
+    hasUndo: Change
     oldValue: String
     about: String
     newValue: String
@@ -209,7 +344,14 @@ type NewSynonym
 
 type NewTextDefinition
   {
+    id: String!
     wasGeneratedBy: Activity
+    seeAlso: String
+    pullRequest: String
+    creator: String
+    changeDate: String
+    contributor: String
+    hasUndo: Change
     oldValue: String
     about: String
     newValue: String
@@ -220,11 +362,19 @@ type Node
     id: String!
     name: String
     annotationSet: Annotation
+    owlType: OwlTypeEnum
   }
 
 type NodeAnnotationChange
   {
+    id: String!
     wasGeneratedBy: Activity
+    seeAlso: String
+    pullRequest: String
+    creator: String
+    changeDate: String
+    contributor: String
+    hasUndo: Change
     oldValue: String
     newValue: String
     about: String
@@ -232,15 +382,29 @@ type NodeAnnotationChange
 
 type NodeAnnotationReplacement
   {
+    id: String!
     wasGeneratedBy: Activity
+    seeAlso: String
+    pullRequest: String
+    creator: String
+    changeDate: String
+    contributor: String
+    hasUndo: Change
     oldValue: String
     newValue: String
     about: String
   }
 
-type NodeChange
+interface NodeChange
   {
+    id: String!
     wasGeneratedBy: Activity
+    seeAlso: String
+    pullRequest: String
+    creator: String
+    changeDate: String
+    contributor: String
+    hasUndo: Change
     oldValue: String
     newValue: String
     about: String
@@ -248,28 +412,51 @@ type NodeChange
 
 type NodeCreation implements Creation
   {
+    id: String!
     wasGeneratedBy: Activity
+    seeAlso: String
+    pullRequest: String
+    creator: String
+    changeDate: String
+    contributor: String
+    hasUndo: Change
     oldValue: String
     newValue: String
     about: String
-    id: String!
+    nodeId: Node
     name: String
+    owlType: OwlTypeEnum
     annotationSet: Annotation
     changeDescription: String
   }
 
 type NodeDeepening
   {
+    id: String!
     wasGeneratedBy: Activity
+    seeAlso: String
+    pullRequest: String
+    creator: String
+    changeDate: String
+    contributor: String
+    hasUndo: Change
     oldValue: String
     newValue: String
     about: String
+    subject: Node
     changeDescription: String
   }
 
 type NodeDeletion implements Deletion
   {
+    id: String!
     wasGeneratedBy: Activity
+    seeAlso: String
+    pullRequest: String
+    creator: String
+    changeDate: String
+    contributor: String
+    hasUndo: Change
     oldValue: String
     newValue: String
     about: String
@@ -278,7 +465,14 @@ type NodeDeletion implements Deletion
 
 type NodeDirectMerge implements AllowsAutomaticReplacementOfEdges
   {
+    id: String!
     wasGeneratedBy: Activity
+    seeAlso: String
+    pullRequest: String
+    creator: String
+    changeDate: String
+    contributor: String
+    hasUndo: Change
     oldValue: String
     newValue: String
     hasNondirectReplacement: [Node]
@@ -290,16 +484,31 @@ type NodeDirectMerge implements AllowsAutomaticReplacementOfEdges
 
 type NodeMove
   {
+    id: String!
     wasGeneratedBy: Activity
+    seeAlso: String
+    pullRequest: String
+    creator: String
+    changeDate: String
+    contributor: String
+    hasUndo: Change
     oldValue: String
     newValue: String
     about: String
+    subject: Node
     changeDescription: String
   }
 
 type NodeObsoletion implements Obsoletion
   {
+    id: String!
     wasGeneratedBy: Activity
+    seeAlso: String
+    pullRequest: String
+    creator: String
+    changeDate: String
+    contributor: String
+    hasUndo: Change
     oldValue: String
     newValue: String
     about: String
@@ -311,7 +520,14 @@ type NodeObsoletion implements Obsoletion
 
 type NodeObsoletionWithDirectReplacement implements AllowsAutomaticReplacementOfEdges
   {
+    id: String!
     wasGeneratedBy: Activity
+    seeAlso: String
+    pullRequest: String
+    creator: String
+    changeDate: String
+    contributor: String
+    hasUndo: Change
     oldValue: String
     newValue: String
     about: String
@@ -323,7 +539,14 @@ type NodeObsoletionWithDirectReplacement implements AllowsAutomaticReplacementOf
 
 type NodeObsoletionWithNoDirectReplacement
   {
+    id: String!
     wasGeneratedBy: Activity
+    seeAlso: String
+    pullRequest: String
+    creator: String
+    changeDate: String
+    contributor: String
+    hasUndo: Change
     oldValue: String
     newValue: String
     about: String
@@ -335,7 +558,14 @@ type NodeObsoletionWithNoDirectReplacement
 
 type NodeRename
   {
+    id: String!
     wasGeneratedBy: Activity
+    seeAlso: String
+    pullRequest: String
+    creator: String
+    changeDate: String
+    contributor: String
+    hasUndo: Change
     about: String
     oldValue: String
     newValue: String
@@ -345,16 +575,31 @@ type NodeRename
 
 type NodeShallowing
   {
+    id: String!
     wasGeneratedBy: Activity
+    seeAlso: String
+    pullRequest: String
+    creator: String
+    changeDate: String
+    contributor: String
+    hasUndo: Change
     oldValue: String
     newValue: String
     about: String
+    subject: Node
     changeDescription: String
   }
 
 type NodeSynonymChange
   {
+    id: String!
     wasGeneratedBy: Activity
+    seeAlso: String
+    pullRequest: String
+    creator: String
+    changeDate: String
+    contributor: String
+    hasUndo: Change
     oldValue: String
     newValue: String
     about: String
@@ -362,7 +607,14 @@ type NodeSynonymChange
 
 interface NodeTextDefinitionChange
   {
+    id: String!
     wasGeneratedBy: Activity
+    seeAlso: String
+    pullRequest: String
+    creator: String
+    changeDate: String
+    contributor: String
+    hasUndo: Change
     oldValue: String
     newValue: String
     about: String
@@ -370,7 +622,14 @@ interface NodeTextDefinitionChange
 
 type NodeUnobsoletion implements Unobsoletion
   {
+    id: String!
     wasGeneratedBy: Activity
+    seeAlso: String
+    pullRequest: String
+    creator: String
+    changeDate: String
+    contributor: String
+    hasUndo: Change
     oldValue: String
     newValue: String
     about: String
@@ -381,10 +640,53 @@ type NodeUnobsoletion implements Unobsoletion
 
 interface Obsoletion
   {
+    about: String
+    hasUndo: Obsoletion
   }
 
 type OntologyElement
   {
+  }
+
+type OntologySubset
+  {
+  }
+
+type PlaceUnder
+  {
+    id: String!
+    wasGeneratedBy: Activity
+    seeAlso: String
+    pullRequest: String
+    creator: String
+    changeDate: String
+    contributor: String
+    hasUndo: Change
+    oldValue: String
+    newValue: String
+    about: String
+    subject: Node
+    predicate: Node
+    object: Node
+    annotationSet: Annotation
+    changeDescription: String
+  }
+
+type PredicateChange
+  {
+    id: String!
+    wasGeneratedBy: Activity
+    seeAlso: String
+    pullRequest: String
+    creator: String
+    changeDate: String
+    contributor: String
+    hasUndo: Change
+    oldValue: String
+    newValue: String
+    about: String
+    subject: Node
+    changeDescription: String
   }
 
 type PropertyValue
@@ -395,12 +697,20 @@ type PropertyValue
 
 interface RemoveFromSubset
   {
-    inSubset: Subset
+    inSubset: OntologySubset
+    hasUndo: AddToSubset
   }
 
 type RemoveSynonym
   {
+    id: String!
     wasGeneratedBy: Activity
+    seeAlso: String
+    pullRequest: String
+    creator: String
+    changeDate: String
+    contributor: String
+    hasUndo: Change
     newValue: String
     about: String
     oldValue: String
@@ -408,7 +718,14 @@ type RemoveSynonym
 
 type RemoveTextDefinition
   {
+    id: String!
     wasGeneratedBy: Activity
+    seeAlso: String
+    pullRequest: String
+    creator: String
+    changeDate: String
+    contributor: String
+    hasUndo: Change
     newValue: String
     about: String
     oldValue: String
@@ -416,28 +733,74 @@ type RemoveTextDefinition
 
 type RemovedNodeFromSubset implements RemoveFromSubset
   {
+    id: String!
     wasGeneratedBy: Activity
+    seeAlso: String
+    pullRequest: String
+    creator: String
+    changeDate: String
+    contributor: String
+    hasUndo: Change
     oldValue: String
     newValue: String
+    changeDescription: String
     about: String
-    inSubset: Subset
+    subset: String
+    inSubset: OntologySubset
   }
 
-type SimpleChange
+type Session
   {
+    changeSet: [Change]
+    activitySet: [Activity]
+  }
+
+interface SimpleChange
+  {
+    id: String!
     wasGeneratedBy: Activity
+    seeAlso: String
+    pullRequest: String
+    creator: String
+    changeDate: String
+    contributor: String
+    hasUndo: Change
     about: String
     oldValue: String
     newValue: String
   }
 
-type Subset
+interface SubsetMembershipChange
   {
+    inSubset: OntologySubset
+  }
+
+type SynonymPredicateChange
+  {
+    id: String!
+    wasGeneratedBy: Activity
+    seeAlso: String
+    pullRequest: String
+    creator: String
+    changeDate: String
+    contributor: String
+    hasUndo: Change
+    about: String
+    oldValue: String
+    newValue: String
+    hasTextualDiff: TextualDiff
   }
 
 type SynonymReplacement
   {
+    id: String!
     wasGeneratedBy: Activity
+    seeAlso: String
+    pullRequest: String
+    creator: String
+    changeDate: String
+    contributor: String
+    hasUndo: Change
     about: String
     oldValue: String
     newValue: String
@@ -446,7 +809,14 @@ type SynonymReplacement
 
 type TextDefinitionReplacement
   {
+    id: String!
     wasGeneratedBy: Activity
+    seeAlso: String
+    pullRequest: String
+    creator: String
+    changeDate: String
+    contributor: String
+    hasUndo: Change
     about: String
     oldValue: String
     newValue: String
@@ -459,11 +829,20 @@ type TextualDiff
 
 type Transaction
   {
+    id: String!
+    wasGeneratedBy: Activity
+    seeAlso: String
+    pullRequest: String
+    creator: String
+    changeDate: String
+    contributor: String
+    hasUndo: Change
     changeSet: [Change]
   }
 
 interface Unobsoletion
   {
+    hasUndo: Obsoletion
   }
 
 

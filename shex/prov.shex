@@ -2,6 +2,7 @@ BASE <http://www.w3.org/ns/prov#>
 PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
 PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
 PREFIX linkml: <https://w3id.org/linkml/>
+PREFIX dcterms: <http://purl.org/dc/terms/>
 
 
 linkml:String xsd:string
@@ -33,21 +34,22 @@ linkml:Objectidentifier IRI
 linkml:Nodeidentifier NONLITERAL
 
 <Activity> CLOSED {
-    (  $<Activity_tes> (  <started_at_time> @linkml:String ? ;
-          <ended_at_time> @linkml:String ? ;
-          <was_informed_by> @<Activity> ? ;
-          <was_associated_with> @<Agent> ? ;
-          <used> @linkml:String ?
+    (  $<Activity_tes> (  <startedAtTime> @linkml:String ? ;
+          <endedAtTime> @linkml:String ? ;
+          <wasInformedBy> @<Activity> ? ;
+          <wasAssociatedWith> @<Agent> ? ;
+          <used> @linkml:String ? ;
+          dcterms:description @linkml:String ?
        ) ;
        rdf:type [ <Activity> ]
     )
 }
 
 <Agent> CLOSED {
-    (  $<Agent_tes> (  <acted_on_behalf_of> @<Agent> ? ;
-          <was_informed_by> @<Activity> ?
+    (  $<Agent_tes> (  <actedOnBehalfOf> @<Agent> ? ;
+          <wasInformedBy> @<Activity> ?
        ) ;
-       rdf:type [ <Agent> ] ?
+       rdf:type [ <Agent> ]
     )
 }
 
