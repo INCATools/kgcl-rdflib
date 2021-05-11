@@ -1,3 +1,5 @@
+## note this is a slight variant of the linkml serialization of the model;
+## we include a type field for all change objects, so the correct class can be instantiated
 activity_set:
 - {id: uuid:876aac6a6ef6, description: "my sane edits", was_associated_with: "https://orcid.org/0000-0002-6601-2165"}
 - {id: uuid:e887d3aac33f, description: "deliberate mistakes", was_associated_with: "OntologicalAnarchist"}

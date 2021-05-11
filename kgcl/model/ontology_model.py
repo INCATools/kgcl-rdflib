@@ -1,5 +1,5 @@
 # Auto generated from ontology_model.yaml by pythongen.py version: 0.9.0
-# Generation date: 2021-05-06 16:38
+# Generation date: 2021-05-11 09:08
 # Schema: kgcl-ontology-model
 #
 # id: https://w3id.org/kgcl/ontology
@@ -10,18 +10,19 @@
 import dataclasses
 import sys
 import re
+from jsonasobj2 import JsonObj
 from typing import Optional, List, Union, Dict, ClassVar, Any
 from dataclasses import dataclass
-from linkml_model.meta import EnumDefinition, PermissibleValue, PvFormulaOptions
+from linkml_runtime.linkml_model.meta import EnumDefinition, PermissibleValue, PvFormulaOptions
 
-from linkml.utils.slot import Slot
-from linkml.utils.metamodelcore import empty_list, empty_dict, bnode
-from linkml.utils.yamlutils import YAMLRoot, extended_str, extended_float, extended_int
-from linkml.utils.dataclass_extensions_376 import dataclasses_init_fn_with_kwargs
-from linkml.utils.formatutils import camelcase, underscore, sfx
-from linkml.utils.enumerations import EnumDefinitionImpl
+from linkml_runtime.utils.slot import Slot
+from linkml_runtime.utils.metamodelcore import empty_list, empty_dict, bnode
+from linkml_runtime.utils.yamlutils import YAMLRoot, extended_str, extended_float, extended_int
+from linkml_runtime.utils.dataclass_extensions_376 import dataclasses_init_fn_with_kwargs
+from linkml_runtime.utils.formatutils import camelcase, underscore, sfx
+from linkml_runtime.utils.enumerations import EnumDefinitionImpl
 from rdflib import Namespace, URIRef
-from linkml.utils.curienamespace import CurieNamespace
+from linkml_runtime.utils.curienamespace import CurieNamespace
 from linkml_model.types import String
 
 metamodel_version = "1.7.0"
@@ -32,7 +33,7 @@ dataclasses._init_fn = dataclasses_init_fn_with_kwargs
 # Namespaces
 DCTERMS = CurieNamespace('dcterms', 'http://purl.org/dc/terms/')
 LINKML = CurieNamespace('linkml', 'https://w3id.org/linkml/')
-OM = CurieNamespace('om', 'http://w3id.org/kgcl/om')
+OM = CurieNamespace('om', 'http://w3id.org/kgcl/om/')
 OWL = CurieNamespace('owl', 'http://www.w3.org/2002/07/owl#')
 RDF = CurieNamespace('rdf', 'http://www.w3.org/1999/02/22-rdf-syntax-ns#')
 DEFAULT_ = OM
@@ -137,7 +138,7 @@ class Node(OntologyElement):
     owl_type: Optional[Union[str, "OwlTypeEnum"]] = None
 
     def __post_init__(self, *_: List[str], **kwargs: Dict[str, Any]):
-        if self.id is None:
+        if self._is_empty(self.id):
             raise ValueError("id must be supplied")
         if not isinstance(self.id, NodeId):
             self.id = NodeId(self.id)
@@ -169,7 +170,7 @@ class ClassNode(Node):
     id: Union[str, ClassNodeId] = None
 
     def __post_init__(self, *_: List[str], **kwargs: Dict[str, Any]):
-        if self.id is None:
+        if self._is_empty(self.id):
             raise ValueError("id must be supplied")
         if not isinstance(self.id, ClassNodeId):
             self.id = ClassNodeId(self.id)
@@ -192,7 +193,7 @@ class InstanceNode(Node):
     id: Union[str, InstanceNodeId] = None
 
     def __post_init__(self, *_: List[str], **kwargs: Dict[str, Any]):
-        if self.id is None:
+        if self._is_empty(self.id):
             raise ValueError("id must be supplied")
         if not isinstance(self.id, InstanceNodeId):
             self.id = InstanceNodeId(self.id)
