@@ -1,5 +1,5 @@
 # Auto generated from kgcl.yaml by pythongen.py version: 0.9.0
-# Generation date: 2021-05-11 09:03
+# Generation date: 2021-05-13 14:04
 # Schema: kgcl
 #
 # id: https://w3id.org/kgcl
@@ -26,7 +26,7 @@ from rdflib import Namespace, URIRef
 from linkml_runtime.utils.curienamespace import CurieNamespace
 from . ontology_model import Annotation, NodeId, OntologySubset, OwlTypeEnum, PropertyValue
 from . prov import Activity, ActivityId
-from linkml_model.types import Integer, String, Uriorcurie
+from linkml_runtime.linkml_model.types import Integer, String, Uriorcurie
 from linkml_runtime.utils.metamodelcore import URIorCURIE
 
 metamodel_version = "1.7.0"
