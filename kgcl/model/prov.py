@@ -1,5 +1,5 @@
 # Auto generated from prov.yaml by pythongen.py version: 0.9.0
-# Generation date: 2021-05-11 09:08
+# Generation date: 2021-05-15 16:35
 # Schema: KGCL-PROV
 #
 # id: https://w3id.org/kgcl/prov
@@ -22,7 +22,7 @@ from linkml_runtime.utils.formatutils import camelcase, underscore, sfx
 from linkml_runtime.utils.enumerations import EnumDefinitionImpl
 from rdflib import Namespace, URIRef
 from linkml_runtime.utils.curienamespace import CurieNamespace
-from linkml_model.types import String
+from linkml_runtime.linkml_model.types import String
 
 metamodel_version = "1.7.0"
 

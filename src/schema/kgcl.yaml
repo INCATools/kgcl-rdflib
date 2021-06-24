@@ -1,13 +1,14 @@
 id: https://w3id.org/kgcl
 name: kgcl
 title: Knowledge Graph Change Language
-description: >-
+description: |-
   A data model for describing change operations at a high level on an ontology or ontology-like artefact, such as a Knowledge Graph.
   
-  See [https://github.com/cmungall/knowledge-graph-change-language](https://github.com/cmungall/knowledge-graph-change-language)
+  * [Browse Schema](https://cmungall.github.io/knowledge-graph-change-language/)
+  * [GitHub](https://github.com/cmungall/knowledge-graph-change-language)
+  
 license: https://creativecommons.org/publicdomain/zero/1.0/
 version: 0.0.1
-
 
 prefixes:
   kgcl: http://w3id.org/kgcl/
@@ -597,6 +598,9 @@ classes:
       - restrict owltype value
     slots:
       - superclass
+    slot_usage:
+      change description:
+        string_serialization: "creating {about}"
       
   node deletion:
     is_a: node change
@@ -652,7 +656,7 @@ classes:
       has nondirect replacement:
         required: true
       change description:
-        string_serialization: "obsoleting {about} considering {has nondirect}"
+        string_serialization: "obsoleting {about} considering {has nondirect replacement}"
 
   textual diff:
     description: >-

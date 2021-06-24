@@ -1,5 +1,5 @@
 # Auto generated from ontology_model.yaml by pythongen.py version: 0.9.0
-# Generation date: 2021-05-11 09:08
+# Generation date: 2021-05-15 17:00
 # Schema: kgcl-ontology-model
 #
 # id: https://w3id.org/kgcl/ontology
@@ -23,7 +23,7 @@ from linkml_runtime.utils.formatutils import camelcase, underscore, sfx
 from linkml_runtime.utils.enumerations import EnumDefinitionImpl
 from rdflib import Namespace, URIRef
 from linkml_runtime.utils.curienamespace import CurieNamespace
-from linkml_model.types import String
+from linkml_runtime.linkml_model.types import String
 
 metamodel_version = "1.7.0"
 
@@ -33,6 +33,7 @@ dataclasses._init_fn = dataclasses_init_fn_with_kwargs
 # Namespaces
 DCTERMS = CurieNamespace('dcterms', 'http://purl.org/dc/terms/')
 LINKML = CurieNamespace('linkml', 'https://w3id.org/linkml/')
+OIO = CurieNamespace('oio', 'http://www.geneontology.org/formats/oboInOwl#')
 OM = CurieNamespace('om', 'http://w3id.org/kgcl/om/')
 OWL = CurieNamespace('owl', 'http://www.w3.org/2002/07/owl#')
 RDF = CurieNamespace('rdf', 'http://www.w3.org/1999/02/22-rdf-syntax-ns#')
@@ -255,21 +256,28 @@ class OntologySubset(OntologyElement):
 # Enumerations
 class OwlTypeEnum(EnumDefinitionImpl):
 
+    CLASS = PermissibleValue(text="CLASS",
+                                 meaning=OWL.Class)
+    OBJECT_PROPERTY = PermissibleValue(text="OBJECT_PROPERTY",
+                                                     meaning=OWL.ObjectProperty)
+    NAMED_INDIVIDUAL = PermissibleValue(text="NAMED_INDIVIDUAL",
+                                                       meaning=OWL.NamedIndividual)
+
     _defn = EnumDefinition(
         name="OwlTypeEnum",
     )
 
-    @classmethod
-    def _addvals(cls):
-        setattr(cls, "class",
-                PermissibleValue(text="class",
-                                 meaning=OWL.Class) )
-        setattr(cls, "object property",
-                PermissibleValue(text="object property",
-                                 meaning=OWL.ObjectProperty) )
-        setattr(cls, "named individual",
-                PermissibleValue(text="named individual",
-                                 meaning=OWL.NamedIndividual) )
+class SynonymScopeEnum(EnumDefinitionImpl):
+
+    related = PermissibleValue(text="related")
+    broad = PermissibleValue(text="broad")
+    narrow = PermissibleValue(text="narrow")
+    exact = PermissibleValue(text="exact",
+                                 meaning=OIO.hasExactSynonym)
+
+    _defn = EnumDefinition(
+        name="SynonymScopeEnum",
+    )
 
 # Slots
 class slots:

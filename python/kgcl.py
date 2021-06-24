@@ -1,32 +1,34 @@
 # Auto generated from kgcl.yaml by pythongen.py version: 0.9.0
-# Generation date: 2021-05-06 17:27
+# Generation date: 2021-06-24 12:02
 # Schema: kgcl
 #
 # id: https://w3id.org/kgcl
 # description: A data model for describing change operations at a high level on an ontology or ontology-like
-#              artefact, such as a Knowledge Graph. See
-#              [https://github.com/cmungall/knowledge-graph-change-language](https://github.com/cmungall/knowledge-graph-change-language)
+#              artefact, such as a Knowledge Graph. * [Browse
+#              Schema](https://cmungall.github.io/knowledge-graph-change-language/) *
+#              [GitHub](https://github.com/cmungall/knowledge-graph-change-language)
 # license: https://creativecommons.org/publicdomain/zero/1.0/
 
 import dataclasses
 import sys
 import re
+from jsonasobj2 import JsonObj
 from typing import Optional, List, Union, Dict, ClassVar, Any
 from dataclasses import dataclass
-from linkml_model.meta import EnumDefinition, PermissibleValue, PvFormulaOptions
+from linkml_runtime.linkml_model.meta import EnumDefinition, PermissibleValue, PvFormulaOptions
 
-from linkml.utils.slot import Slot
-from linkml.utils.metamodelcore import empty_list, empty_dict, bnode
-from linkml.utils.yamlutils import YAMLRoot, extended_str, extended_float, extended_int
-from linkml.utils.dataclass_extensions_376 import dataclasses_init_fn_with_kwargs
-from linkml.utils.formatutils import camelcase, underscore, sfx
-from linkml.utils.enumerations import EnumDefinitionImpl
+from linkml_runtime.utils.slot import Slot
+from linkml_runtime.utils.metamodelcore import empty_list, empty_dict, bnode
+from linkml_runtime.utils.yamlutils import YAMLRoot, extended_str, extended_float, extended_int
+from linkml_runtime.utils.dataclass_extensions_376 import dataclasses_init_fn_with_kwargs
+from linkml_runtime.utils.formatutils import camelcase, underscore, sfx
+from linkml_runtime.utils.enumerations import EnumDefinitionImpl
 from rdflib import Namespace, URIRef
-from linkml.utils.curienamespace import CurieNamespace
+from linkml_runtime.utils.curienamespace import CurieNamespace
 from . ontology_model import Annotation, NodeId, OntologySubset, OwlTypeEnum, PropertyValue
 from . prov import Activity, ActivityId
-from linkml.utils.metamodelcore import URIorCURIE
-from linkml_model.types import Integer, String, Uriorcurie
+from linkml_runtime.linkml_model.types import Integer, String, Uriorcurie
+from linkml_runtime.utils.metamodelcore import URIorCURIE
 
 metamodel_version = "1.7.0"
 
@@ -244,8 +246,8 @@ class Change(YAMLRoot):
     has_undo: Optional[Union[str, ChangeId]] = None
 
     def __post_init__(self, *_: List[str], **kwargs: Dict[str, Any]):
-        if self.id is None:
-            raise ValueError("id must be supplied")
+        if self._is_empty(self.id):
+            self.MissingRequiredField("id")
         if not isinstance(self.id, ChangeId):
             self.id = ChangeId(self.id)
 
@@ -319,11 +321,7 @@ class ComplexChange(Change):
     change_set: Optional[Union[Dict[Union[str, ChangeId], Union[dict, Change]], List[Union[dict, Change]]]] = empty_dict()
 
     def __post_init__(self, *_: List[str], **kwargs: Dict[str, Any]):
-        if self.change_set is None:
-            self.change_set = []
-        if not isinstance(self.change_set, (list, dict)):
-            self.change_set = [self.change_set]
-        self._normalize_inlined_slot(slot_name="change_set", slot_type=Change, key_name="id", inlined_as_list=True, keyed=True)
+        self._normalize_inlined_as_list(slot_name="change_set", slot_type=Change, key_name="id", keyed=True)
 
         super().__post_init__(**kwargs)
 
@@ -346,25 +344,17 @@ class MultiNodeObsoletion(ComplexChange):
     associated_change_set: Optional[Union[Dict[Union[str, ChangeId], Union[dict, Change]], List[Union[dict, Change]]]] = empty_dict()
 
     def __post_init__(self, *_: List[str], **kwargs: Dict[str, Any]):
-        if self.id is None:
-            raise ValueError("id must be supplied")
+        if self._is_empty(self.id):
+            self.MissingRequiredField("id")
         if not isinstance(self.id, MultiNodeObsoletionId):
             self.id = MultiNodeObsoletionId(self.id)
 
-        if self.change_set is None:
-            self.change_set = []
-        if not isinstance(self.change_set, (list, dict)):
-            self.change_set = [self.change_set]
-        self._normalize_inlined_slot(slot_name="change_set", slot_type=NodeObsoletion, key_name="id", inlined_as_list=True, keyed=True)
+        self._normalize_inlined_as_list(slot_name="change_set", slot_type=NodeObsoletion, key_name="id", keyed=True)
 
         if self.change_description is not None and not isinstance(self.change_description, str):
             self.change_description = str(self.change_description)
 
-        if self.associated_change_set is None:
-            self.associated_change_set = []
-        if not isinstance(self.associated_change_set, (list, dict)):
-            self.associated_change_set = [self.associated_change_set]
-        self._normalize_inlined_slot(slot_name="associated_change_set", slot_type=Change, key_name="id", inlined_as_list=True, keyed=True)
+        self._normalize_inlined_as_list(slot_name="associated_change_set", slot_type=Change, key_name="id", keyed=True)
 
         super().__post_init__(**kwargs)
 
@@ -386,16 +376,12 @@ class Transaction(Change):
     change_set: Optional[Union[Dict[Union[str, ChangeId], Union[dict, Change]], List[Union[dict, Change]]]] = empty_dict()
 
     def __post_init__(self, *_: List[str], **kwargs: Dict[str, Any]):
-        if self.id is None:
-            raise ValueError("id must be supplied")
+        if self._is_empty(self.id):
+            self.MissingRequiredField("id")
         if not isinstance(self.id, TransactionId):
             self.id = TransactionId(self.id)
 
-        if self.change_set is None:
-            self.change_set = []
-        if not isinstance(self.change_set, (list, dict)):
-            self.change_set = [self.change_set]
-        self._normalize_inlined_slot(slot_name="change_set", slot_type=Change, key_name="id", inlined_as_list=True, keyed=True)
+        self._normalize_inlined_as_list(slot_name="change_set", slot_type=Change, key_name="id", keyed=True)
 
         super().__post_init__(**kwargs)
 
@@ -423,10 +409,8 @@ class ChangeSetSummaryStatistic(YAMLRoot):
         if self.count is not None and not isinstance(self.count, int):
             self.count = int(self.count)
 
-        if self.property_value_set is None:
-            self.property_value_set = []
         if not isinstance(self.property_value_set, list):
-            self.property_value_set = [self.property_value_set]
+            self.property_value_set = [self.property_value_set] if self.property_value_set is not None else []
         self.property_value_set = [v if isinstance(v, PropertyValue) else PropertyValue(**v) for v in self.property_value_set]
 
         super().__post_init__(**kwargs)
@@ -649,8 +633,8 @@ class EdgeCreation(EdgeChange):
     change_description: Optional[str] = None
 
     def __post_init__(self, *_: List[str], **kwargs: Dict[str, Any]):
-        if self.id is None:
-            raise ValueError("id must be supplied")
+        if self._is_empty(self.id):
+            self.MissingRequiredField("id")
         if not isinstance(self.id, EdgeCreationId):
             self.id = EdgeCreationId(self.id)
 
@@ -687,8 +671,8 @@ class PlaceUnder(EdgeCreation):
     id: Union[str, PlaceUnderId] = None
 
     def __post_init__(self, *_: List[str], **kwargs: Dict[str, Any]):
-        if self.id is None:
-            raise ValueError("id must be supplied")
+        if self._is_empty(self.id):
+            self.MissingRequiredField("id")
         if not isinstance(self.id, PlaceUnderId):
             self.id = PlaceUnderId(self.id)
 
@@ -715,8 +699,8 @@ class EdgeDeletion(EdgeChange):
     change_description: Optional[str] = None
 
     def __post_init__(self, *_: List[str], **kwargs: Dict[str, Any]):
-        if self.id is None:
-            raise ValueError("id must be supplied")
+        if self._is_empty(self.id):
+            self.MissingRequiredField("id")
         if not isinstance(self.id, EdgeDeletionId):
             self.id = EdgeDeletionId(self.id)
 
@@ -758,8 +742,8 @@ class EdgeObsoletion(EdgeChange):
     change_description: Optional[str] = None
 
     def __post_init__(self, *_: List[str], **kwargs: Dict[str, Any]):
-        if self.id is None:
-            raise ValueError("id must be supplied")
+        if self._is_empty(self.id):
+            self.MissingRequiredField("id")
         if not isinstance(self.id, EdgeObsoletionId):
             self.id = EdgeObsoletionId(self.id)
 
@@ -796,8 +780,8 @@ class EdgeRewiring(EdgeChange):
     id: Union[str, EdgeRewiringId] = None
 
     def __post_init__(self, *_: List[str], **kwargs: Dict[str, Any]):
-        if self.id is None:
-            raise ValueError("id must be supplied")
+        if self._is_empty(self.id):
+            self.MissingRequiredField("id")
         if not isinstance(self.id, EdgeRewiringId):
             self.id = EdgeRewiringId(self.id)
 
@@ -821,8 +805,8 @@ class NodeMove(EdgeChange):
     change_description: Optional[str] = None
 
     def __post_init__(self, *_: List[str], **kwargs: Dict[str, Any]):
-        if self.id is None:
-            raise ValueError("id must be supplied")
+        if self._is_empty(self.id):
+            self.MissingRequiredField("id")
         if not isinstance(self.id, NodeMoveId):
             self.id = NodeMoveId(self.id)
 
@@ -849,8 +833,8 @@ class NodeDeepening(NodeMove):
     change_description: Optional[str] = None
 
     def __post_init__(self, *_: List[str], **kwargs: Dict[str, Any]):
-        if self.id is None:
-            raise ValueError("id must be supplied")
+        if self._is_empty(self.id):
+            self.MissingRequiredField("id")
         if not isinstance(self.id, NodeDeepeningId):
             self.id = NodeDeepeningId(self.id)
 
@@ -876,8 +860,8 @@ class NodeShallowing(NodeMove):
     change_description: Optional[str] = None
 
     def __post_init__(self, *_: List[str], **kwargs: Dict[str, Any]):
-        if self.id is None:
-            raise ValueError("id must be supplied")
+        if self._is_empty(self.id):
+            self.MissingRequiredField("id")
         if not isinstance(self.id, NodeShallowingId):
             self.id = NodeShallowingId(self.id)
 
@@ -903,8 +887,8 @@ class PredicateChange(EdgeChange):
     change_description: Optional[str] = None
 
     def __post_init__(self, *_: List[str], **kwargs: Dict[str, Any]):
-        if self.id is None:
-            raise ValueError("id must be supplied")
+        if self._is_empty(self.id):
+            self.MissingRequiredField("id")
         if not isinstance(self.id, PredicateChangeId):
             self.id = PredicateChangeId(self.id)
 
@@ -929,8 +913,8 @@ class EdgeLogicalInterpretationChange(EdgeChange):
     id: Union[str, EdgeLogicalInterpretationChangeId] = None
 
     def __post_init__(self, *_: List[str], **kwargs: Dict[str, Any]):
-        if self.id is None:
-            raise ValueError("id must be supplied")
+        if self._is_empty(self.id):
+            self.MissingRequiredField("id")
         if not isinstance(self.id, EdgeLogicalInterpretationChangeId):
             self.id = EdgeLogicalInterpretationChangeId(self.id)
 
@@ -952,8 +936,8 @@ class LogicalAxiomChange(SimpleChange):
     id: Union[str, LogicalAxiomChangeId] = None
 
     def __post_init__(self, *_: List[str], **kwargs: Dict[str, Any]):
-        if self.id is None:
-            raise ValueError("id must be supplied")
+        if self._is_empty(self.id):
+            self.MissingRequiredField("id")
         if not isinstance(self.id, LogicalAxiomChangeId):
             self.id = LogicalAxiomChangeId(self.id)
 
@@ -1001,8 +985,8 @@ class NodeRename(NodeChange):
     change_description: Optional[str] = None
 
     def __post_init__(self, *_: List[str], **kwargs: Dict[str, Any]):
-        if self.id is None:
-            raise ValueError("id must be supplied")
+        if self._is_empty(self.id):
+            self.MissingRequiredField("id")
         if not isinstance(self.id, NodeRenameId):
             self.id = NodeRenameId(self.id)
 
@@ -1036,8 +1020,8 @@ class NodeAnnotationChange(NodeChange):
     id: Union[str, NodeAnnotationChangeId] = None
 
     def __post_init__(self, *_: List[str], **kwargs: Dict[str, Any]):
-        if self.id is None:
-            raise ValueError("id must be supplied")
+        if self._is_empty(self.id):
+            self.MissingRequiredField("id")
         if not isinstance(self.id, NodeAnnotationChangeId):
             self.id = NodeAnnotationChangeId(self.id)
 
@@ -1059,8 +1043,8 @@ class NodeAnnotationReplacement(NodeAnnotationChange):
     id: Union[str, NodeAnnotationReplacementId] = None
 
     def __post_init__(self, *_: List[str], **kwargs: Dict[str, Any]):
-        if self.id is None:
-            raise ValueError("id must be supplied")
+        if self._is_empty(self.id):
+            self.MissingRequiredField("id")
         if not isinstance(self.id, NodeAnnotationReplacementId):
             self.id = NodeAnnotationReplacementId(self.id)
 
@@ -1079,8 +1063,8 @@ class NodeSynonymChange(NodeChange):
     id: Union[str, NodeSynonymChangeId] = None
 
     def __post_init__(self, *_: List[str], **kwargs: Dict[str, Any]):
-        if self.id is None:
-            raise ValueError("id must be supplied")
+        if self._is_empty(self.id):
+            self.MissingRequiredField("id")
         if not isinstance(self.id, NodeSynonymChangeId):
             self.id = NodeSynonymChangeId(self.id)
 
@@ -1103,8 +1087,8 @@ class NewSynonym(NodeSynonymChange):
     new_value: Optional[str] = None
 
     def __post_init__(self, *_: List[str], **kwargs: Dict[str, Any]):
-        if self.id is None:
-            raise ValueError("id must be supplied")
+        if self._is_empty(self.id):
+            self.MissingRequiredField("id")
         if not isinstance(self.id, NewSynonymId):
             self.id = NewSynonymId(self.id)
 
@@ -1133,8 +1117,8 @@ class NameBecomesSynonym(NodeSynonymChange):
     change_description: Optional[str] = None
 
     def __post_init__(self, *_: List[str], **kwargs: Dict[str, Any]):
-        if self.id is None:
-            raise ValueError("id must be supplied")
+        if self._is_empty(self.id):
+            self.MissingRequiredField("id")
         if not isinstance(self.id, NameBecomesSynonymId):
             self.id = NameBecomesSynonymId(self.id)
 
@@ -1166,8 +1150,8 @@ class RemoveSynonym(NodeSynonymChange):
     old_value: Optional[str] = None
 
     def __post_init__(self, *_: List[str], **kwargs: Dict[str, Any]):
-        if self.id is None:
-            raise ValueError("id must be supplied")
+        if self._is_empty(self.id):
+            self.MissingRequiredField("id")
         if not isinstance(self.id, RemoveSynonymId):
             self.id = RemoveSynonymId(self.id)
 
@@ -1195,8 +1179,8 @@ class SynonymReplacement(NodeSynonymChange):
     has_textual_diff: Optional[Union[dict, "TextualDiff"]] = None
 
     def __post_init__(self, *_: List[str], **kwargs: Dict[str, Any]):
-        if self.id is None:
-            raise ValueError("id must be supplied")
+        if self._is_empty(self.id):
+            self.MissingRequiredField("id")
         if not isinstance(self.id, SynonymReplacementId):
             self.id = SynonymReplacementId(self.id)
 
@@ -1232,8 +1216,8 @@ class SynonymPredicateChange(NodeSynonymChange):
     has_textual_diff: Optional[Union[dict, "TextualDiff"]] = None
 
     def __post_init__(self, *_: List[str], **kwargs: Dict[str, Any]):
-        if self.id is None:
-            raise ValueError("id must be supplied")
+        if self._is_empty(self.id):
+            self.MissingRequiredField("id")
         if not isinstance(self.id, SynonymPredicateChangeId):
             self.id = SynonymPredicateChangeId(self.id)
 
@@ -1279,8 +1263,8 @@ class NewTextDefinition(NodeTextDefinitionChange):
     new_value: Optional[str] = None
 
     def __post_init__(self, *_: List[str], **kwargs: Dict[str, Any]):
-        if self.id is None:
-            raise ValueError("id must be supplied")
+        if self._is_empty(self.id):
+            self.MissingRequiredField("id")
         if not isinstance(self.id, NewTextDefinitionId):
             self.id = NewTextDefinitionId(self.id)
 
@@ -1306,8 +1290,8 @@ class RemoveTextDefinition(NodeTextDefinitionChange):
     old_value: Optional[str] = None
 
     def __post_init__(self, *_: List[str], **kwargs: Dict[str, Any]):
-        if self.id is None:
-            raise ValueError("id must be supplied")
+        if self._is_empty(self.id):
+            self.MissingRequiredField("id")
         if not isinstance(self.id, RemoveTextDefinitionId):
             self.id = RemoveTextDefinitionId(self.id)
 
@@ -1335,8 +1319,8 @@ class TextDefinitionReplacement(NodeTextDefinitionChange):
     has_textual_diff: Optional[Union[dict, "TextualDiff"]] = None
 
     def __post_init__(self, *_: List[str], **kwargs: Dict[str, Any]):
-        if self.id is None:
-            raise ValueError("id must be supplied")
+        if self._is_empty(self.id):
+            self.MissingRequiredField("id")
         if not isinstance(self.id, TextDefinitionReplacementId):
             self.id = TextDefinitionReplacementId(self.id)
 
@@ -1364,8 +1348,8 @@ class DatatypeChange(SimpleChange):
     id: Union[str, DatatypeChangeId] = None
 
     def __post_init__(self, *_: List[str], **kwargs: Dict[str, Any]):
-        if self.id is None:
-            raise ValueError("id must be supplied")
+        if self._is_empty(self.id):
+            self.MissingRequiredField("id")
         if not isinstance(self.id, DatatypeChangeId):
             self.id = DatatypeChangeId(self.id)
 
@@ -1388,8 +1372,8 @@ class AddNodeToSubset(NodeChange):
     in_subset: Optional[Union[dict, OntologySubset]] = None
 
     def __post_init__(self, *_: List[str], **kwargs: Dict[str, Any]):
-        if self.id is None:
-            raise ValueError("id must be supplied")
+        if self._is_empty(self.id):
+            self.MissingRequiredField("id")
         if not isinstance(self.id, AddNodeToSubsetId):
             self.id = AddNodeToSubsetId(self.id)
 
@@ -1418,8 +1402,8 @@ class RemovedNodeFromSubset(NodeChange):
     in_subset: Optional[Union[dict, OntologySubset]] = None
 
     def __post_init__(self, *_: List[str], **kwargs: Dict[str, Any]):
-        if self.id is None:
-            raise ValueError("id must be supplied")
+        if self._is_empty(self.id):
+            self.MissingRequiredField("id")
         if not isinstance(self.id, RemovedNodeFromSubsetId):
             self.id = RemovedNodeFromSubsetId(self.id)
 
@@ -1457,28 +1441,22 @@ class NodeObsoletion(NodeChange):
     associated_change_set: Optional[Union[Dict[Union[str, ChangeId], Union[dict, Change]], List[Union[dict, Change]]]] = empty_dict()
 
     def __post_init__(self, *_: List[str], **kwargs: Dict[str, Any]):
-        if self.id is None:
-            raise ValueError("id must be supplied")
+        if self._is_empty(self.id):
+            self.MissingRequiredField("id")
         if not isinstance(self.id, NodeObsoletionId):
             self.id = NodeObsoletionId(self.id)
 
         if self.has_direct_replacement is not None and not isinstance(self.has_direct_replacement, NodeId):
             self.has_direct_replacement = NodeId(self.has_direct_replacement)
 
-        if self.has_nondirect_replacement is None:
-            self.has_nondirect_replacement = []
         if not isinstance(self.has_nondirect_replacement, list):
-            self.has_nondirect_replacement = [self.has_nondirect_replacement]
+            self.has_nondirect_replacement = [self.has_nondirect_replacement] if self.has_nondirect_replacement is not None else []
         self.has_nondirect_replacement = [v if isinstance(v, NodeId) else NodeId(v) for v in self.has_nondirect_replacement]
 
         if self.change_description is not None and not isinstance(self.change_description, str):
             self.change_description = str(self.change_description)
 
-        if self.associated_change_set is None:
-            self.associated_change_set = []
-        if not isinstance(self.associated_change_set, (list, dict)):
-            self.associated_change_set = [self.associated_change_set]
-        self._normalize_inlined_slot(slot_name="associated_change_set", slot_type=Change, key_name="id", inlined_as_list=True, keyed=True)
+        self._normalize_inlined_as_list(slot_name="associated_change_set", slot_type=Change, key_name="id", keyed=True)
 
         super().__post_init__(**kwargs)
 
@@ -1501,8 +1479,8 @@ class NodeUnobsoletion(NodeChange):
     consider: Optional[Union[str, NodeId]] = None
 
     def __post_init__(self, *_: List[str], **kwargs: Dict[str, Any]):
-        if self.id is None:
-            raise ValueError("id must be supplied")
+        if self._is_empty(self.id):
+            self.MissingRequiredField("id")
         if not isinstance(self.id, NodeUnobsoletionId):
             self.id = NodeUnobsoletionId(self.id)
 
@@ -1538,8 +1516,8 @@ class NodeCreation(NodeChange):
     change_description: Optional[str] = None
 
     def __post_init__(self, *_: List[str], **kwargs: Dict[str, Any]):
-        if self.id is None:
-            raise ValueError("id must be supplied")
+        if self._is_empty(self.id):
+            self.MissingRequiredField("id")
         if not isinstance(self.id, NodeCreationId):
             self.id = NodeCreationId(self.id)
 
@@ -1575,15 +1553,19 @@ class ClassCreation(NodeCreation):
 
     id: Union[str, ClassCreationId] = None
     superclass: Optional[Union[str, NodeId]] = None
+    change_description: Optional[str] = None
 
     def __post_init__(self, *_: List[str], **kwargs: Dict[str, Any]):
-        if self.id is None:
-            raise ValueError("id must be supplied")
+        if self._is_empty(self.id):
+            self.MissingRequiredField("id")
         if not isinstance(self.id, ClassCreationId):
             self.id = ClassCreationId(self.id)
 
         if self.superclass is not None and not isinstance(self.superclass, NodeId):
             self.superclass = NodeId(self.superclass)
+
+        if self.change_description is not None and not isinstance(self.change_description, str):
+            self.change_description = str(self.change_description)
 
         super().__post_init__(**kwargs)
 
@@ -1605,8 +1587,8 @@ class NodeDeletion(NodeChange):
     change_description: Optional[str] = None
 
     def __post_init__(self, *_: List[str], **kwargs: Dict[str, Any]):
-        if self.id is None:
-            raise ValueError("id must be supplied")
+        if self._is_empty(self.id):
+            self.MissingRequiredField("id")
         if not isinstance(self.id, NodeDeletionId):
             self.id = NodeDeletionId(self.id)
 
@@ -1635,13 +1617,13 @@ class NodeDirectMerge(NodeObsoletion):
     change_description: Optional[str] = None
 
     def __post_init__(self, *_: List[str], **kwargs: Dict[str, Any]):
-        if self.id is None:
-            raise ValueError("id must be supplied")
+        if self._is_empty(self.id):
+            self.MissingRequiredField("id")
         if not isinstance(self.id, NodeDirectMergeId):
             self.id = NodeDirectMergeId(self.id)
 
-        if self.has_direct_replacement is None:
-            raise ValueError("has_direct_replacement must be supplied")
+        if self._is_empty(self.has_direct_replacement):
+            self.MissingRequiredField("has_direct_replacement")
         if not isinstance(self.has_direct_replacement, NodeId):
             self.has_direct_replacement = NodeId(self.has_direct_replacement)
 
@@ -1672,13 +1654,13 @@ class NodeObsoletionWithDirectReplacement(NodeObsoletion):
     change_description: Optional[str] = None
 
     def __post_init__(self, *_: List[str], **kwargs: Dict[str, Any]):
-        if self.id is None:
-            raise ValueError("id must be supplied")
+        if self._is_empty(self.id):
+            self.MissingRequiredField("id")
         if not isinstance(self.id, NodeObsoletionWithDirectReplacementId):
             self.id = NodeObsoletionWithDirectReplacementId(self.id)
 
-        if self.has_direct_replacement is None:
-            raise ValueError("has_direct_replacement must be supplied")
+        if self._is_empty(self.has_direct_replacement):
+            self.MissingRequiredField("has_direct_replacement")
         if not isinstance(self.has_direct_replacement, NodeId):
             self.has_direct_replacement = NodeId(self.has_direct_replacement)
 
@@ -1705,17 +1687,15 @@ class NodeObsoletionWithNoDirectReplacement(NodeObsoletion):
     change_description: Optional[str] = None
 
     def __post_init__(self, *_: List[str], **kwargs: Dict[str, Any]):
-        if self.id is None:
-            raise ValueError("id must be supplied")
+        if self._is_empty(self.id):
+            self.MissingRequiredField("id")
         if not isinstance(self.id, NodeObsoletionWithNoDirectReplacementId):
             self.id = NodeObsoletionWithNoDirectReplacementId(self.id)
 
-        if self.has_nondirect_replacement is None:
-            raise ValueError("has_nondirect_replacement must be supplied")
-        elif not isinstance(self.has_nondirect_replacement, list):
-            self.has_nondirect_replacement = [self.has_nondirect_replacement]
-        elif len(self.has_nondirect_replacement) == 0:
-            raise ValueError(f"has_nondirect_replacement must be a non-empty list")
+        if self._is_empty(self.has_nondirect_replacement):
+            self.MissingRequiredField("has_nondirect_replacement")
+        if not isinstance(self.has_nondirect_replacement, list):
+            self.has_nondirect_replacement = [self.has_nondirect_replacement] if self.has_nondirect_replacement is not None else []
         self.has_nondirect_replacement = [v if isinstance(v, NodeId) else NodeId(v) for v in self.has_nondirect_replacement]
 
         if self.change_description is not None and not isinstance(self.change_description, str):
@@ -1801,17 +1781,9 @@ class Session(YAMLRoot):
     activity_set: Optional[Union[Dict[Union[str, ActivityId], Union[dict, Activity]], List[Union[dict, Activity]]]] = empty_dict()
 
     def __post_init__(self, *_: List[str], **kwargs: Dict[str, Any]):
-        if self.change_set is None:
-            self.change_set = []
-        if not isinstance(self.change_set, (list, dict)):
-            self.change_set = [self.change_set]
-        self._normalize_inlined_slot(slot_name="change_set", slot_type=Change, key_name="id", inlined_as_list=True, keyed=True)
+        self._normalize_inlined_as_list(slot_name="change_set", slot_type=Change, key_name="id", keyed=True)
 
-        if self.activity_set is None:
-            self.activity_set = []
-        if not isinstance(self.activity_set, (list, dict)):
-            self.activity_set = [self.activity_set]
-        self._normalize_inlined_slot(slot_name="activity_set", slot_type=Activity, key_name="id", inlined_as_list=True, keyed=True)
+        self._normalize_inlined_as_list(slot_name="activity_set", slot_type=Activity, key_name="id", keyed=True)
 
         super().__post_init__(**kwargs)
 
@@ -2056,6 +2028,9 @@ slots.node_unobsoletion_consider = Slot(uri=KGCL.consider, name="node unobsoleti
 
 slots.node_creation_change_description = Slot(uri=KGCL.change_description, name="node creation_change description", curie=KGCL.curie('change_description'),
                    model_uri=KGCL.node_creation_change_description, domain=NodeCreation, range=Optional[str])
+
+slots.class_creation_change_description = Slot(uri=KGCL.change_description, name="class creation_change description", curie=KGCL.curie('change_description'),
+                   model_uri=KGCL.class_creation_change_description, domain=ClassCreation, range=Optional[str])
 
 slots.node_deletion_change_description = Slot(uri=KGCL.change_description, name="node deletion_change description", curie=KGCL.curie('change_description'),
                    model_uri=KGCL.node_deletion_change_description, domain=NodeDeletion, range=Optional[str])

@@ -134,7 +134,8 @@ om:Annotation CLOSED {
 <ClassCreation> CLOSED {
     (  $<ClassCreation_tes> (  &<NodeCreation_tes> ;
           rdf:type [ <NodeCreation> ] ? ;
-          <superclass> @om:Node ?
+          <superclass> @om:Node ? ;
+          <change_description> @linkml:String ?
        ) ;
        rdf:type [ <ClassCreation> ]
     )

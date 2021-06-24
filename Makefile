@@ -22,7 +22,10 @@ t:
 echo:
 	echo $(patsubst %,gen-%,$(TGTS))
 
-test: all
+test: all pytest
+
+pytest:
+	pytest
 
 install:
 	. environment.sh

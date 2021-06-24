@@ -12,6 +12,7 @@ prefixes:
   om: http://w3id.org/kgcl/om/
   dcterms: http://purl.org/dc/terms/
   linkml: https://w3id.org/linkml/
+  oio: http://www.geneontology.org/formats/oboInOwl#
   
 default_prefix: om
 default_range: string
@@ -132,13 +133,22 @@ slots:
 enums:
 
   owl_type_enum:
-    todos:
-      - make this complete
     permissible_values:
-      class:
+      CLASS:
         meaning: owl:Class
-      object property:
+      OBJECT_PROPERTY:
         meaning: owl:ObjectProperty
-      named individual:
+      NAMED_INDIVIDUAL:
         meaning: owl:NamedIndividual
+
+  synonym_scope_enum:
+    permissible_values:
+      related:
+        meaning: oio:hasNarrowSynonym
+      broad:
+        meaning: oio:hasBroadSynonym
+      narrow:
+        meaning: oio:hasNarrowSynonym
+      exact:
+        meaning: oio:hasExactSynonym
         

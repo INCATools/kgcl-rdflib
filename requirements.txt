@@ -1,2 +1,2 @@
-linkml>=0.1.1.dev2
+linkml >= 1.0.0
 mkdocs

@@ -1,5 +1,5 @@
 # Auto generated from kgcl.yaml by pythongen.py version: 0.9.0
-# Generation date: 2021-05-13 14:04
+# Generation date: 2021-05-15 16:30
 # Schema: kgcl
 #
 # id: https://w3id.org/kgcl
@@ -1552,6 +1552,7 @@ class ClassCreation(NodeCreation):
 
     id: Union[str, ClassCreationId] = None
     superclass: Optional[Union[str, NodeId]] = None
+    change_description: Optional[str] = None
 
     def __post_init__(self, *_: List[str], **kwargs: Dict[str, Any]):
         if self._is_empty(self.id):
@@ -1561,6 +1562,9 @@ class ClassCreation(NodeCreation):
 
         if self.superclass is not None and not isinstance(self.superclass, NodeId):
             self.superclass = NodeId(self.superclass)
+
+        if self.change_description is not None and not isinstance(self.change_description, str):
+            self.change_description = str(self.change_description)
 
         super().__post_init__(**kwargs)
 
@@ -2023,6 +2027,9 @@ slots.node_unobsoletion_consider = Slot(uri=KGCL.consider, name="node unobsoleti
 
 slots.node_creation_change_description = Slot(uri=KGCL.change_description, name="node creation_change description", curie=KGCL.curie('change_description'),
                    model_uri=KGCL.node_creation_change_description, domain=NodeCreation, range=Optional[str])
+
+slots.class_creation_change_description = Slot(uri=KGCL.change_description, name="class creation_change description", curie=KGCL.curie('change_description'),
+                   model_uri=KGCL.class_creation_change_description, domain=ClassCreation, range=Optional[str])
 
 slots.node_deletion_change_description = Slot(uri=KGCL.change_description, name="node deletion_change description", curie=KGCL.curie('change_description'),
                    model_uri=KGCL.node_deletion_change_description, domain=NodeDeletion, range=Optional[str])

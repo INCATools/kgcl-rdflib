@@ -90,8 +90,8 @@ type ClassCreation
     name: String
     owlType: OwlTypeEnum
     annotationSet: Annotation
-    changeDescription: String
     superclass: Node
+    changeDescription: String
   }
 
 type ClassNode
