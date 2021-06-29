@@ -25,11 +25,11 @@
     rdfs:subClassOf [ a owl:Restriction ;
             owl:maxQualifiedCardinality 1 ;
             owl:onClass linkml:String ;
-            owl:onProperty linkml:definition_predicate ],
+            owl:onProperty linkml:main_synonym_predicate ],
         [ a owl:Restriction ;
             owl:maxQualifiedCardinality 1 ;
             owl:onClass linkml:String ;
-            owl:onProperty linkml:main_synonym_predicate ],
+            owl:onProperty linkml:definition_predicate ],
         [ a owl:Restriction ;
             owl:maxQualifiedCardinality 1 ;
             owl:onClass linkml:String ;
@@ -37,7 +37,7 @@
         [ a owl:Restriction ;
             owl:maxQualifiedCardinality 1 ;
             owl:onClass linkml:String ;
-            owl:onProperty linkml:name_predicate ],
+            owl:onProperty linkml:synonym_predicates ],
         [ a owl:Restriction ;
             owl:maxQualifiedCardinality 1 ;
             owl:onClass linkml:String ;
@@ -45,7 +45,7 @@
         [ a owl:Restriction ;
             owl:maxQualifiedCardinality 1 ;
             owl:onClass linkml:String ;
-            owl:onProperty linkml:obsoletion_workflow ],
+            owl:onProperty linkml:name_predicate ],
         [ a owl:Restriction ;
             owl:maxQualifiedCardinality 1 ;
             owl:onClass linkml:String ;
@@ -53,7 +53,7 @@
         [ a owl:Restriction ;
             owl:maxQualifiedCardinality 1 ;
             owl:onClass linkml:String ;
-            owl:onProperty linkml:synonym_predicates ] ;
+            owl:onProperty linkml:obsoletion_workflow ] ;
     skos:definition "The meaning of operations can be configured" .
 
 <http://w3id.org/kgcl/DatatypeChange> a owl:Class,
@@ -116,11 +116,11 @@
         linkml:ClassDefinition ;
     rdfs:label "session" ;
     rdfs:subClassOf [ a owl:Restriction ;
-            owl:allValuesFrom <http://www.w3.org/ns/prov#Activity> ;
-            owl:onProperty <http://www.w3.org/ns/prov#activity_set> ],
-        [ a owl:Restriction ;
             owl:allValuesFrom <http://w3id.org/kgcl/Change> ;
-            owl:onProperty <http://w3id.org/kgcl/change_set> ] ;
+            owl:onProperty <http://w3id.org/kgcl/change_set> ],
+        [ a owl:Restriction ;
+            owl:allValuesFrom <http://www.w3.org/ns/prov#Activity> ;
+            owl:onProperty <http://www.w3.org/ns/prov#activity_set> ] ;
     skos:definition "A session consists of a set of change sets bundled with the activities that generated those change sets" .
 
 <http://w3id.org/kgcl/SynonymPredicateChange> a owl:Class,
@@ -185,16 +185,16 @@
     rdfs:label "edge" ;
     rdfs:subClassOf [ a owl:Restriction ;
             owl:maxQualifiedCardinality 1 ;
-            owl:onClass <http://w3id.org/kgcl/om/Annotation> ;
-            owl:onProperty <http://w3id.org/kgcl/om/annotation_set> ],
-        [ a owl:Restriction ;
-            owl:maxQualifiedCardinality 1 ;
             owl:onClass <http://w3id.org/kgcl/om/Node> ;
             owl:onProperty <http://w3id.org/kgcl/om/object> ],
         [ a owl:Restriction ;
             owl:maxQualifiedCardinality 1 ;
             owl:onClass <http://w3id.org/kgcl/om/Node> ;
             owl:onProperty <http://w3id.org/kgcl/om/predicate> ],
+        [ a owl:Restriction ;
+            owl:maxQualifiedCardinality 1 ;
+            owl:onClass <http://w3id.org/kgcl/om/Annotation> ;
+            owl:onProperty <http://w3id.org/kgcl/om/annotation_set> ],
         [ a owl:Restriction ;
             owl:maxQualifiedCardinality 1 ;
             owl:onClass <http://w3id.org/kgcl/om/Node> ;
@@ -233,10 +233,10 @@
 
 * [Browse Schema](https://cmungall.github.io/knowledge-graph-change-language/)
 * [GitHub](https://github.com/cmungall/knowledge-graph-change-language)""" ;
-    linkml:generation_date "2021-06-24 12:02" ;
+    linkml:generation_date "2021-06-25 07:49" ;
     linkml:metamodel_version "1.7.0" ;
     linkml:source_file "kgcl.yaml" ;
-    linkml:source_file_date "Thu Jun 24 12:02:45 2021" ;
+    linkml:source_file_date "Thu Jun 24 12:21:39 2021" ;
     linkml:source_file_size 24849 .
 
 linkml:Boolean a owl:Class,
@@ -743,12 +743,12 @@ linkml:unobsoletion_has_undo a owl:ObjectProperty,
     rdfs:label "class creation" ;
     rdfs:subClassOf [ a owl:Restriction ;
             owl:maxQualifiedCardinality 1 ;
-            owl:onClass <http://w3id.org/kgcl/om/Node> ;
-            owl:onProperty <http://w3id.org/kgcl/superclass> ],
-        [ a owl:Restriction ;
-            owl:maxQualifiedCardinality 1 ;
             owl:onClass linkml:String ;
             owl:onProperty <http://w3id.org/kgcl/change_description> ],
+        [ a owl:Restriction ;
+            owl:maxQualifiedCardinality 1 ;
+            owl:onClass <http://w3id.org/kgcl/om/Node> ;
+            owl:onProperty <http://w3id.org/kgcl/superclass> ],
         <http://w3id.org/kgcl/NodeCreation> ;
     skos:definition "A node creation where the owl type is 'class'" .
 
@@ -767,23 +767,23 @@ linkml:unobsoletion_has_undo a owl:ObjectProperty,
     rdfs:subClassOf [ a owl:Restriction ;
             owl:maxQualifiedCardinality 1 ;
             owl:onClass <http://w3id.org/kgcl/om/Node> ;
+            owl:onProperty <http://w3id.org/kgcl/om/predicate> ],
+        [ a owl:Restriction ;
+            owl:maxQualifiedCardinality 1 ;
+            owl:onClass <http://w3id.org/kgcl/om/Node> ;
             owl:onProperty <http://w3id.org/kgcl/om/subject> ],
+        [ a owl:Restriction ;
+            owl:maxQualifiedCardinality 1 ;
+            owl:onClass linkml:String ;
+            owl:onProperty <http://w3id.org/kgcl/change_description> ],
         [ a owl:Restriction ;
             owl:maxQualifiedCardinality 1 ;
             owl:onClass <http://w3id.org/kgcl/om/Node> ;
             owl:onProperty <http://w3id.org/kgcl/om/object> ],
         [ a owl:Restriction ;
             owl:maxQualifiedCardinality 1 ;
-            owl:onClass <http://w3id.org/kgcl/om/Node> ;
-            owl:onProperty <http://w3id.org/kgcl/om/predicate> ],
-        [ a owl:Restriction ;
-            owl:maxQualifiedCardinality 1 ;
             owl:onClass <http://w3id.org/kgcl/om/Annotation> ;
             owl:onProperty <http://w3id.org/kgcl/om/annotation_set> ],
-        [ a owl:Restriction ;
-            owl:maxQualifiedCardinality 1 ;
-            owl:onClass linkml:String ;
-            owl:onProperty <http://w3id.org/kgcl/change_description> ],
         <http://w3id.org/kgcl/Deletion>,
         <http://w3id.org/kgcl/EdgeChange> ;
     skos:altLabel "relationship deletion" ;
@@ -796,15 +796,7 @@ linkml:unobsoletion_has_undo a owl:ObjectProperty,
     rdfs:subClassOf [ a owl:Restriction ;
             owl:maxQualifiedCardinality 1 ;
             owl:onClass <http://w3id.org/kgcl/om/Node> ;
-            owl:onProperty <http://w3id.org/kgcl/om/object> ],
-        [ a owl:Restriction ;
-            owl:maxQualifiedCardinality 1 ;
-            owl:onClass <http://w3id.org/kgcl/om/Node> ;
             owl:onProperty <http://w3id.org/kgcl/om/subject> ],
-        [ a owl:Restriction ;
-            owl:maxQualifiedCardinality 1 ;
-            owl:onClass <http://w3id.org/kgcl/om/Annotation> ;
-            owl:onProperty <http://w3id.org/kgcl/om/annotation_set> ],
         [ a owl:Restriction ;
             owl:maxQualifiedCardinality 1 ;
             owl:onClass <http://w3id.org/kgcl/om/Node> ;
@@ -813,6 +805,14 @@ linkml:unobsoletion_has_undo a owl:ObjectProperty,
             owl:maxQualifiedCardinality 1 ;
             owl:onClass linkml:String ;
             owl:onProperty <http://w3id.org/kgcl/change_description> ],
+        [ a owl:Restriction ;
+            owl:maxQualifiedCardinality 1 ;
+            owl:onClass <http://w3id.org/kgcl/om/Node> ;
+            owl:onProperty <http://w3id.org/kgcl/om/object> ],
+        [ a owl:Restriction ;
+            owl:maxQualifiedCardinality 1 ;
+            owl:onClass <http://w3id.org/kgcl/om/Annotation> ;
+            owl:onProperty <http://w3id.org/kgcl/om/annotation_set> ],
         <http://w3id.org/kgcl/EdgeChange>,
         <http://w3id.org/kgcl/Obsoletion> ;
     skos:altLabel "relationship obsoletion" ;
@@ -966,24 +966,24 @@ linkml:node_creation_change_description a owl:ObjectProperty,
     rdfs:seeAlso "http://wiki.geneontology.org/index.php/Guidelines_for_creating_relationships_between_terms" ;
     rdfs:subClassOf [ a owl:Restriction ;
             owl:maxQualifiedCardinality 1 ;
-            owl:onClass <http://w3id.org/kgcl/om/Node> ;
-            owl:onProperty <http://w3id.org/kgcl/om/subject> ],
+            owl:onClass <http://w3id.org/kgcl/om/Annotation> ;
+            owl:onProperty <http://w3id.org/kgcl/om/annotation_set> ],
         [ a owl:Restriction ;
             owl:maxQualifiedCardinality 1 ;
             owl:onClass <http://w3id.org/kgcl/om/Node> ;
             owl:onProperty <http://w3id.org/kgcl/om/object> ],
         [ a owl:Restriction ;
             owl:maxQualifiedCardinality 1 ;
+            owl:onClass linkml:String ;
+            owl:onProperty <http://w3id.org/kgcl/change_description> ],
+        [ a owl:Restriction ;
+            owl:maxQualifiedCardinality 1 ;
             owl:onClass <http://w3id.org/kgcl/om/Node> ;
             owl:onProperty <http://w3id.org/kgcl/om/predicate> ],
         [ a owl:Restriction ;
             owl:maxQualifiedCardinality 1 ;
-            owl:onClass <http://w3id.org/kgcl/om/Annotation> ;
-            owl:onProperty <http://w3id.org/kgcl/om/annotation_set> ],
-        [ a owl:Restriction ;
-            owl:maxQualifiedCardinality 1 ;
-            owl:onClass linkml:String ;
-            owl:onProperty <http://w3id.org/kgcl/change_description> ],
+            owl:onClass <http://w3id.org/kgcl/om/Node> ;
+            owl:onProperty <http://w3id.org/kgcl/om/subject> ],
         <http://w3id.org/kgcl/Creation>,
         <http://w3id.org/kgcl/EdgeChange> ;
     skos:altLabel "relationship creation" ;
@@ -995,10 +995,6 @@ linkml:node_creation_change_description a owl:ObjectProperty,
     rdfs:seeAlso "http://wiki.geneontology.org/index.php/Guidelines_for_creating_a_GO_term" ;
     rdfs:subClassOf [ a owl:Restriction ;
             owl:maxQualifiedCardinality 1 ;
-            owl:onClass <http://UNKNOWN.org/owl_type_enum> ;
-            owl:onProperty <http://w3id.org/kgcl/om/owl_type> ],
-        [ a owl:Restriction ;
-            owl:maxQualifiedCardinality 1 ;
             owl:onClass <http://w3id.org/kgcl/om/Node> ;
             owl:onProperty <http://w3id.org/kgcl/node_id> ],
         [ a owl:Restriction ;
@@ -1007,12 +1003,16 @@ linkml:node_creation_change_description a owl:ObjectProperty,
             owl:onProperty <http://w3id.org/kgcl/om/annotation_set> ],
         [ a owl:Restriction ;
             owl:maxQualifiedCardinality 1 ;
-            owl:onClass linkml:String ;
-            owl:onProperty <http://w3id.org/kgcl/change_description> ],
+            owl:onClass <http://UNKNOWN.org/owl_type_enum> ;
+            owl:onProperty <http://w3id.org/kgcl/om/owl_type> ],
         [ a owl:Restriction ;
             owl:maxQualifiedCardinality 1 ;
             owl:onClass linkml:String ;
             owl:onProperty <http://w3id.org/kgcl/om/name> ],
+        [ a owl:Restriction ;
+            owl:maxQualifiedCardinality 1 ;
+            owl:onClass linkml:String ;
+            owl:onProperty <http://w3id.org/kgcl/change_description> ],
         <http://w3id.org/kgcl/Creation>,
         <http://w3id.org/kgcl/NodeChange> ;
     skos:definition "a node change in which a new node is created" .
@@ -1023,13 +1023,13 @@ linkml:node_creation_change_description a owl:ObjectProperty,
     rdfs:seeAlso "http://wiki.geneontology.org/index.php/Merging_Ontology_Terms",
         "http://wiki.geneontology.org/index.php/Principles_for_merging_terms" ;
     rdfs:subClassOf [ a owl:Restriction ;
-            owl:onClass <http://w3id.org/kgcl/om/Node> ;
-            owl:onProperty <http://w3id.org/kgcl/has_direct_replacement> ;
-            owl:qualifiedCardinality 1 ],
-        [ a owl:Restriction ;
             owl:maxQualifiedCardinality 1 ;
             owl:onClass linkml:String ;
             owl:onProperty <http://w3id.org/kgcl/change_description> ],
+        [ a owl:Restriction ;
+            owl:onClass <http://w3id.org/kgcl/om/Node> ;
+            owl:onProperty <http://w3id.org/kgcl/has_direct_replacement> ;
+            owl:qualifiedCardinality 1 ],
         <http://w3id.org/kgcl/AllowsAutomaticReplacementOfEdges>,
         <http://w3id.org/kgcl/NodeObsoletion> ;
     skos:definition "An obsoletion change in which information from the obsoleted node is selectively copied to a single target, and edges can automatically be rewired to point to the target node" .
@@ -1037,16 +1037,16 @@ linkml:node_creation_change_description a owl:ObjectProperty,
 <http://w3id.org/kgcl/NodeObsoletionWithNoDirectReplacement> a owl:Class,
         linkml:ClassDefinition ;
     rdfs:label "node obsoletion with no direct replacement" ;
-    rdfs:subClassOf [ a owl:Restriction ;
-            owl:maxQualifiedCardinality 1 ;
-            owl:onClass linkml:String ;
-            owl:onProperty <http://w3id.org/kgcl/change_description> ],
-        [ a owl:Class ;
+    rdfs:subClassOf [ a owl:Class ;
             owl:intersectionOf ( [ a owl:Restriction ;
                         owl:allValuesFrom <http://w3id.org/kgcl/om/Node> ;
                         owl:onProperty <http://w3id.org/kgcl/has_nondirect_replacement> ] [ a owl:Restriction ;
                         owl:onProperty <http://w3id.org/kgcl/has_nondirect_replacement> ;
                         owl:someValuesFrom <http://w3id.org/kgcl/om/Node> ] ) ],
+        [ a owl:Restriction ;
+            owl:maxQualifiedCardinality 1 ;
+            owl:onClass linkml:String ;
+            owl:onProperty <http://w3id.org/kgcl/change_description> ],
         <http://w3id.org/kgcl/NodeObsoletion> ;
     skos:definition "An obsoletion change in which there is no direct replacement" .
 
@@ -1192,12 +1192,12 @@ linkml:subset a owl:ObjectProperty,
             owl:onProperty <http://w3id.org/kgcl/om/property_value_set> ],
         [ a owl:Restriction ;
             owl:maxQualifiedCardinality 1 ;
-            owl:onClass linkml:Integer ;
-            owl:onProperty linkml:count ],
+            owl:onClass <http://w3id.org/kgcl/ChangeClassType> ;
+            owl:onProperty linkml:change_type ],
         [ a owl:Restriction ;
             owl:maxQualifiedCardinality 1 ;
-            owl:onClass <http://w3id.org/kgcl/ChangeClassType> ;
-            owl:onProperty linkml:change_type ] ;
+            owl:onClass linkml:Integer ;
+            owl:onProperty linkml:count ] ;
     skos:definition "A summary statistic for a set of changes of the same type, grouped by zero or more node properties" .
 
 <http://w3id.org/kgcl/Creation> a owl:Class,
@@ -1220,11 +1220,11 @@ linkml:subset a owl:ObjectProperty,
             owl:onClass linkml:String ;
             owl:onProperty <http://w3id.org/kgcl/change_description> ],
         [ a owl:Restriction ;
-            owl:allValuesFrom <http://w3id.org/kgcl/NodeObsoletion> ;
-            owl:onProperty <http://w3id.org/kgcl/change_set> ],
-        [ a owl:Restriction ;
             owl:allValuesFrom <http://w3id.org/kgcl/Change> ;
             owl:onProperty linkml:associated_change_set ],
+        [ a owl:Restriction ;
+            owl:allValuesFrom <http://w3id.org/kgcl/NodeObsoletion> ;
+            owl:onProperty <http://w3id.org/kgcl/change_set> ],
         <http://w3id.org/kgcl/ComplexChange> ;
     skos:altLabel "multi class obsoletion",
         "multi concept obsoletion",
@@ -1237,16 +1237,16 @@ linkml:subset a owl:ObjectProperty,
     rdfs:label "name becomes synonym" ;
     rdfs:subClassOf [ a owl:Restriction ;
             owl:maxQualifiedCardinality 1 ;
-            owl:onClass linkml:String ;
-            owl:onProperty <http://w3id.org/kgcl/change_description> ],
-        [ a owl:Restriction ;
-            owl:maxQualifiedCardinality 1 ;
             owl:onClass <http://w3id.org/kgcl/NodeRename> ;
             owl:onProperty linkml:change_1 ],
         [ a owl:Restriction ;
             owl:maxQualifiedCardinality 1 ;
             owl:onClass <http://w3id.org/kgcl/NewSynonym> ;
             owl:onProperty linkml:change_2 ],
+        [ a owl:Restriction ;
+            owl:maxQualifiedCardinality 1 ;
+            owl:onClass linkml:String ;
+            owl:onProperty <http://w3id.org/kgcl/change_description> ],
         <http://w3id.org/kgcl/NodeSynonymChange> ;
     skos:definition "A node synonym where the name NAME of an node NODE moves to a synonym, and NODE receives a new name. This change consists of compose of (1) a node rename where NAME is replaced by a different name (2) a new synonym" .
 
@@ -1262,13 +1262,13 @@ linkml:subset a owl:ObjectProperty,
     rdfs:seeAlso "http://wiki.geneontology.org/index.php/Merging_Ontology_Terms",
         "http://wiki.geneontology.org/index.php/Principles_for_merging_terms" ;
     rdfs:subClassOf [ a owl:Restriction ;
-            owl:maxQualifiedCardinality 1 ;
-            owl:onClass linkml:String ;
-            owl:onProperty <http://w3id.org/kgcl/about> ],
-        [ a owl:Restriction ;
             owl:onClass <http://w3id.org/kgcl/om/Node> ;
             owl:onProperty <http://w3id.org/kgcl/has_direct_replacement> ;
             owl:qualifiedCardinality 1 ],
+        [ a owl:Restriction ;
+            owl:maxQualifiedCardinality 1 ;
+            owl:onClass linkml:String ;
+            owl:onProperty <http://w3id.org/kgcl/about> ],
         [ a owl:Restriction ;
             owl:maxQualifiedCardinality 1 ;
             owl:onClass linkml:String ;
@@ -1301,16 +1301,16 @@ linkml:subset a owl:ObjectProperty,
     rdfs:seeAlso "http://wiki.geneontology.org/index.php/Restoring_an_Obsolete_Ontology_Term" ;
     rdfs:subClassOf [ a owl:Restriction ;
             owl:maxQualifiedCardinality 1 ;
-            owl:onClass linkml:String ;
-            owl:onProperty <http://w3id.org/kgcl/change_description> ],
-        [ a owl:Restriction ;
-            owl:maxQualifiedCardinality 1 ;
             owl:onClass <http://w3id.org/kgcl/om/Node> ;
             owl:onProperty linkml:consider ],
         [ a owl:Restriction ;
             owl:maxQualifiedCardinality 1 ;
             owl:onClass <http://w3id.org/kgcl/om/Node> ;
             owl:onProperty linkml:replaced_by ],
+        [ a owl:Restriction ;
+            owl:maxQualifiedCardinality 1 ;
+            owl:onClass linkml:String ;
+            owl:onProperty <http://w3id.org/kgcl/change_description> ],
         <http://w3id.org/kgcl/NodeChange>,
         <http://w3id.org/kgcl/Unobsoletion> ;
     skos:altLabel "class unobsoletion",
@@ -1324,12 +1324,12 @@ linkml:subset a owl:ObjectProperty,
     rdfs:label "remove from subset" ;
     rdfs:subClassOf [ a owl:Restriction ;
             owl:maxQualifiedCardinality 1 ;
-            owl:onClass <http://w3id.org/kgcl/om/OntologySubset> ;
-            owl:onProperty <http://w3id.org/kgcl/in_subset> ],
-        [ a owl:Restriction ;
-            owl:maxQualifiedCardinality 1 ;
             owl:onClass <http://w3id.org/kgcl/AddToSubset> ;
             owl:onProperty <http://w3id.org/kgcl/has_undo> ],
+        [ a owl:Restriction ;
+            owl:maxQualifiedCardinality 1 ;
+            owl:onClass <http://w3id.org/kgcl/om/OntologySubset> ;
+            owl:onProperty <http://w3id.org/kgcl/in_subset> ],
         <http://w3id.org/kgcl/SubsetMembershipChange>,
         linkml:mixin ;
     skos:definition "removing an element from a subset" .
@@ -1338,6 +1338,10 @@ linkml:subset a owl:ObjectProperty,
         linkml:ClassDefinition ;
     rdfs:label "removed node from subset" ;
     rdfs:subClassOf [ a owl:Restriction ;
+            owl:maxQualifiedCardinality 1 ;
+            owl:onClass linkml:String ;
+            owl:onProperty <http://w3id.org/kgcl/about> ],
+        [ a owl:Restriction ;
             owl:maxQualifiedCardinality 1 ;
             owl:onClass linkml:String ;
             owl:onProperty <http://w3id.org/kgcl/change_description> ],
@@ -1349,10 +1353,6 @@ linkml:subset a owl:ObjectProperty,
             owl:maxQualifiedCardinality 1 ;
             owl:onClass linkml:String ;
             owl:onProperty linkml:subset ],
-        [ a owl:Restriction ;
-            owl:maxQualifiedCardinality 1 ;
-            owl:onClass linkml:String ;
-            owl:onProperty <http://w3id.org/kgcl/about> ],
         <http://w3id.org/kgcl/NodeChange>,
         <http://w3id.org/kgcl/RemoveFromSubset> ;
     skos:altLabel "remove term from slim" ;
@@ -1415,11 +1415,11 @@ linkml:node_obsoletion_change_description a owl:ObjectProperty,
         [ a owl:Restriction ;
             owl:maxQualifiedCardinality 1 ;
             owl:onClass linkml:String ;
-            owl:onProperty <http://w3id.org/kgcl/old_value> ],
+            owl:onProperty <http://w3id.org/kgcl/new_value> ],
         [ a owl:Restriction ;
             owl:maxQualifiedCardinality 1 ;
             owl:onClass linkml:String ;
-            owl:onProperty <http://w3id.org/kgcl/new_value> ],
+            owl:onProperty <http://w3id.org/kgcl/old_value> ],
         <http://w3id.org/kgcl/Change> ;
     skos:altLabel "atomic change" ;
     skos:definition "A change that is about a single ontology element" .
@@ -1445,12 +1445,12 @@ linkml:node_obsoletion_change_description a owl:ObjectProperty,
     rdfs:label "property value" ;
     rdfs:subClassOf [ a owl:Restriction ;
             owl:maxQualifiedCardinality 1 ;
-            owl:onClass <http://w3id.org/kgcl/om/Node> ;
-            owl:onProperty <http://w3id.org/kgcl/om/property> ],
-        [ a owl:Restriction ;
-            owl:maxQualifiedCardinality 1 ;
             owl:onClass linkml:String ;
             owl:onProperty <http://w3id.org/kgcl/om/filler> ],
+        [ a owl:Restriction ;
+            owl:maxQualifiedCardinality 1 ;
+            owl:onClass <http://w3id.org/kgcl/om/Node> ;
+            owl:onProperty <http://w3id.org/kgcl/om/property> ],
         <http://w3id.org/kgcl/om/OntologyElement> ;
     skos:definition "a property-value pair" .
 
@@ -1505,7 +1505,7 @@ linkml:node_obsoletion_change_description a owl:ObjectProperty,
     rdfs:subClassOf [ a owl:Restriction ;
             owl:maxQualifiedCardinality 1 ;
             owl:onClass linkml:String ;
-            owl:onProperty <http://w3id.org/kgcl/old_value> ],
+            owl:onProperty <http://w3id.org/kgcl/new_value> ],
         [ a owl:Restriction ;
             owl:maxQualifiedCardinality 1 ;
             owl:onClass <http://w3id.org/kgcl/TextualDiff> ;
@@ -1513,11 +1513,11 @@ linkml:node_obsoletion_change_description a owl:ObjectProperty,
         [ a owl:Restriction ;
             owl:maxQualifiedCardinality 1 ;
             owl:onClass linkml:String ;
-            owl:onProperty <http://w3id.org/kgcl/new_value> ],
+            owl:onProperty <http://w3id.org/kgcl/change_description> ],
         [ a owl:Restriction ;
             owl:maxQualifiedCardinality 1 ;
             owl:onClass linkml:String ;
-            owl:onProperty <http://w3id.org/kgcl/change_description> ],
+            owl:onProperty <http://w3id.org/kgcl/old_value> ],
         <http://w3id.org/kgcl/NodeChange> ;
     skos:definition "A node change where the name (aka rdfs:label) of the node changes" ;
     linkml:examples "Example(value=\"rename UBERON:0002398 from 'manus' to 'hand'\", description=\"replacing the rdfs:label of 'manus' on an uberon class with the rdfs:label 'hand'\")" .
@@ -1531,17 +1531,17 @@ linkml:node_obsoletion_change_description a owl:ObjectProperty,
         linkml:ClassDefinition ;
     rdfs:label "agent" ;
     rdfs:subClassOf [ a owl:Restriction ;
+            owl:onClass linkml:String ;
+            owl:onProperty <https://w3id.org/kgcl/basics/id> ;
+            owl:qualifiedCardinality 1 ],
+        [ a owl:Restriction ;
             owl:maxQualifiedCardinality 1 ;
             owl:onClass <http://www.w3.org/ns/prov#Activity> ;
             owl:onProperty <http://www.w3.org/ns/prov#was_informed_by> ],
         [ a owl:Restriction ;
             owl:maxQualifiedCardinality 1 ;
             owl:onClass <http://www.w3.org/ns/prov#Agent> ;
-            owl:onProperty <http://www.w3.org/ns/prov#acted_on_behalf_of> ],
-        [ a owl:Restriction ;
-            owl:onClass linkml:String ;
-            owl:onProperty <https://w3id.org/kgcl/basics/id> ;
-            owl:qualifiedCardinality 1 ] ;
+            owl:onProperty <http://www.w3.org/ns/prov#acted_on_behalf_of> ] ;
     skos:definition "a provence-generating agent" ;
     skos:exactMatch <http://www.w3.org/ns/prov#Agent> .
 
@@ -1561,19 +1561,19 @@ linkml:node_obsoletion_change_description a owl:ObjectProperty,
     rdfs:label "node obsoletion" ;
     rdfs:seeAlso "http://wiki.geneontology.org/index.php/Obsoleting_an_Existing_Ontology_Term" ;
     rdfs:subClassOf [ a owl:Restriction ;
-            owl:allValuesFrom <http://w3id.org/kgcl/om/Node> ;
-            owl:onProperty <http://w3id.org/kgcl/has_nondirect_replacement> ],
+            owl:maxQualifiedCardinality 1 ;
+            owl:onClass <http://w3id.org/kgcl/om/Node> ;
+            owl:onProperty <http://w3id.org/kgcl/has_direct_replacement> ],
         [ a owl:Restriction ;
             owl:maxQualifiedCardinality 1 ;
             owl:onClass linkml:String ;
             owl:onProperty <http://w3id.org/kgcl/change_description> ],
         [ a owl:Restriction ;
-            owl:maxQualifiedCardinality 1 ;
-            owl:onClass <http://w3id.org/kgcl/om/Node> ;
-            owl:onProperty <http://w3id.org/kgcl/has_direct_replacement> ],
-        [ a owl:Restriction ;
             owl:allValuesFrom <http://w3id.org/kgcl/Change> ;
             owl:onProperty linkml:associated_change_set ],
+        [ a owl:Restriction ;
+            owl:allValuesFrom <http://w3id.org/kgcl/om/Node> ;
+            owl:onProperty <http://w3id.org/kgcl/has_nondirect_replacement> ],
         <http://w3id.org/kgcl/NodeChange>,
         <http://w3id.org/kgcl/Obsoletion> ;
     skos:altLabel "class obsoletion",
@@ -1627,12 +1627,12 @@ linkml:node_obsoletion_change_description a owl:ObjectProperty,
         "https://mondo.readthedocs.io/en/latest/editors-guide/merging-and-obsoleting/" ;
     rdfs:subClassOf [ a owl:Restriction ;
             owl:maxQualifiedCardinality 1 ;
-            owl:onClass <http://w3id.org/kgcl/Obsoletion> ;
-            owl:onProperty <http://w3id.org/kgcl/has_undo> ],
-        [ a owl:Restriction ;
-            owl:maxQualifiedCardinality 1 ;
             owl:onClass linkml:String ;
             owl:onProperty <http://w3id.org/kgcl/about> ],
+        [ a owl:Restriction ;
+            owl:maxQualifiedCardinality 1 ;
+            owl:onClass <http://w3id.org/kgcl/Obsoletion> ;
+            owl:onProperty <http://w3id.org/kgcl/has_undo> ],
         <http://w3id.org/kgcl/ChangeMixin>,
         linkml:mixin ;
     skos:altLabel "deprecation",
@@ -1657,21 +1657,21 @@ linkml:node_obsoletion_change_description a owl:ObjectProperty,
         linkml:ClassDefinition ;
     rdfs:label "activity" ;
     rdfs:subClassOf [ a owl:Restriction ;
+            owl:maxQualifiedCardinality 1 ;
+            owl:onClass linkml:String ;
+            owl:onProperty <http://www.w3.org/ns/prov#ended_at_time> ],
+        [ a owl:Restriction ;
             owl:onClass linkml:String ;
             owl:onProperty <https://w3id.org/kgcl/basics/id> ;
             owl:qualifiedCardinality 1 ],
         [ a owl:Restriction ;
             owl:maxQualifiedCardinality 1 ;
-            owl:onClass linkml:String ;
-            owl:onProperty <http://www.w3.org/ns/prov#started_at_time> ],
+            owl:onClass <http://www.w3.org/ns/prov#Activity> ;
+            owl:onProperty <http://www.w3.org/ns/prov#was_informed_by> ],
         [ a owl:Restriction ;
             owl:maxQualifiedCardinality 1 ;
             owl:onClass linkml:String ;
-            owl:onProperty <http://www.w3.org/ns/prov#ended_at_time> ],
-        [ a owl:Restriction ;
-            owl:maxQualifiedCardinality 1 ;
-            owl:onClass linkml:String ;
-            owl:onProperty <http://www.w3.org/ns/prov#used> ],
+            owl:onProperty <https://w3id.org/kgcl/basics/description> ],
         [ a owl:Restriction ;
             owl:maxQualifiedCardinality 1 ;
             owl:onClass <http://www.w3.org/ns/prov#Agent> ;
@@ -1679,11 +1679,11 @@ linkml:node_obsoletion_change_description a owl:ObjectProperty,
         [ a owl:Restriction ;
             owl:maxQualifiedCardinality 1 ;
             owl:onClass linkml:String ;
-            owl:onProperty <https://w3id.org/kgcl/basics/description> ],
+            owl:onProperty <http://www.w3.org/ns/prov#used> ],
         [ a owl:Restriction ;
             owl:maxQualifiedCardinality 1 ;
-            owl:onClass <http://www.w3.org/ns/prov#Activity> ;
-            owl:onProperty <http://www.w3.org/ns/prov#was_informed_by> ] ;
+            owl:onClass linkml:String ;
+            owl:onProperty <http://www.w3.org/ns/prov#started_at_time> ] ;
     skos:definition "a provence-generating activity" ;
     skos:exactMatch <http://www.w3.org/ns/prov#Activity> .
 
@@ -1708,17 +1708,21 @@ linkml:TypeDefinition a owl:Class ;
         linkml:ClassDefinition ;
     rdfs:label "change" ;
     rdfs:subClassOf [ a owl:Restriction ;
+            owl:maxQualifiedCardinality 1 ;
+            owl:onClass linkml:String ;
+            owl:onProperty <http://w3id.org/kgcl/change_date> ],
+        [ a owl:Restriction ;
+            owl:maxQualifiedCardinality 1 ;
+            owl:onClass linkml:String ;
+            owl:onProperty <http://w3id.org/kgcl/creator> ],
+        [ a owl:Restriction ;
             owl:onClass linkml:String ;
             owl:onProperty <https://w3id.org/kgcl/basics/id> ;
             owl:qualifiedCardinality 1 ],
         [ a owl:Restriction ;
             owl:maxQualifiedCardinality 1 ;
-            owl:onClass <http://www.w3.org/ns/prov#Activity> ;
-            owl:onProperty <http://www.w3.org/ns/prov#was_generated_by> ],
-        [ a owl:Restriction ;
-            owl:maxQualifiedCardinality 1 ;
             owl:onClass linkml:String ;
-            owl:onProperty <http://w3id.org/kgcl/contributor> ],
+            owl:onProperty <http://w3id.org/kgcl/see_also> ],
         [ a owl:Restriction ;
             owl:maxQualifiedCardinality 1 ;
             owl:onClass linkml:String ;
@@ -1730,15 +1734,11 @@ linkml:TypeDefinition a owl:Class ;
         [ a owl:Restriction ;
             owl:maxQualifiedCardinality 1 ;
             owl:onClass linkml:String ;
-            owl:onProperty <http://w3id.org/kgcl/see_also> ],
+            owl:onProperty <http://w3id.org/kgcl/contributor> ],
         [ a owl:Restriction ;
             owl:maxQualifiedCardinality 1 ;
-            owl:onClass linkml:String ;
-            owl:onProperty <http://w3id.org/kgcl/creator> ],
-        [ a owl:Restriction ;
-            owl:maxQualifiedCardinality 1 ;
-            owl:onClass linkml:String ;
-            owl:onProperty <http://w3id.org/kgcl/change_date> ] ;
+            owl:onClass <http://www.w3.org/ns/prov#Activity> ;
+            owl:onProperty <http://www.w3.org/ns/prov#was_generated_by> ] ;
     skos:definition "Any change perform on an ontology or knowledge graph" .
 
 <http://w3id.org/kgcl/change_description> a owl:ObjectProperty,
@@ -1758,21 +1758,21 @@ linkml:TypeDefinition a owl:Class ;
         linkml:ClassDefinition ;
     rdfs:label "node" ;
     rdfs:subClassOf [ a owl:Restriction ;
-            owl:maxQualifiedCardinality 1 ;
-            owl:onClass <http://UNKNOWN.org/owl_type_enum> ;
-            owl:onProperty <http://w3id.org/kgcl/om/owl_type> ],
-        [ a owl:Restriction ;
             owl:onClass linkml:String ;
             owl:onProperty <https://w3id.org/kgcl/basics/id> ;
             owl:qualifiedCardinality 1 ],
+        [ a owl:Restriction ;
+            owl:maxQualifiedCardinality 1 ;
+            owl:onClass <http://w3id.org/kgcl/om/Annotation> ;
+            owl:onProperty <http://w3id.org/kgcl/om/annotation_set> ],
         [ a owl:Restriction ;
             owl:maxQualifiedCardinality 1 ;
             owl:onClass linkml:String ;
             owl:onProperty <http://w3id.org/kgcl/om/name> ],
         [ a owl:Restriction ;
             owl:maxQualifiedCardinality 1 ;
-            owl:onClass <http://w3id.org/kgcl/om/Annotation> ;
-            owl:onProperty <http://w3id.org/kgcl/om/annotation_set> ],
+            owl:onClass <http://UNKNOWN.org/owl_type_enum> ;
+            owl:onProperty <http://w3id.org/kgcl/om/owl_type> ],
         <http://w3id.org/kgcl/om/OntologyElement> ;
     skos:altLabel "entity",
         "term" ;

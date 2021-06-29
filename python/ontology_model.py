@@ -1,5 +1,5 @@
 # Auto generated from ontology_model.yaml by pythongen.py version: 0.9.0
-# Generation date: 2021-06-24 12:00
+# Generation date: 2021-06-25 07:49
 # Schema: kgcl-ontology-model
 #
 # id: https://w3id.org/kgcl/ontology
