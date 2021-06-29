@@ -26,6 +26,10 @@ An example of a NodeMove instance, correcting an incorrect placement from being 
 ]
 ```
 
+## Examples
+
+See the [examples/](https://github.com/cmungall/knowledge-graph-change-language/tree/master/examples) folder
+
 ## Apply and Diff operations
 
 Change objects can be used in two directions:
