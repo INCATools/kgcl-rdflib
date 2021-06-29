@@ -43,6 +43,9 @@ classes:
     class_uri: prov:Agent
       
 slots:
+
+  description:
+    slot_uri: dcterms:description
   
   started at time:
     slot_uri: prov:startedAtTime
