@@ -44,9 +44,6 @@ classes:
       
 slots:
 
-  description:
-    slot_uri: dcterms:description
-  
   started at time:
     slot_uri: prov:startedAtTime
 
