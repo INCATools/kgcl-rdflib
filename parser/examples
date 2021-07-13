@@ -1,0 +1,37 @@
+
+
+    ###
+    ### EXAMPLE collection
+    ###
+
+    #example2 = "rename UBERON:0002398 from 'manus' to 'hand'"
+    #UBERON would be encoded in the field 'about'
+
+    #mondo template:
+    # name, about, title, labels, assignees (TODO: what is this table?)
+    #an issue is made by specifying the following:
+    #1. Mondo term (ID and Label): 
+    #2. Suggested new label: 
+    #3. Your nano-attribution (ORCID) If you don't have an ORCID, you can sign up for one here
+    #4. Optional: Any additional information (like supporting evidence, PubMed ID, etc.)
+    #
+    #so, 1. corresponds to old_value,
+    #    2. corresponds to new_value,
+    #    3. corresponds to creator or contributor(?),
+    #    4. corresponds to change_description
+ 
+
+
+#examples for OBSOLETE 
+#Obsolete bad with replacement new
+#Obsolete foo
+#Obsolete foo and add relplaced_by bar (TODO: ask about connective 'and')
+
+
+#examples for MOVE (allowing for all kinds of variants...)
+#is this really desirable? Doesn't this lead to confusion?
+
+#Move bar from under baz to under fred
+#move ‘abnormal hindlimb’ -> ‘abnormal limb’
+#Move ‘abnormal hindlimb’ from under ‘abnormal ear’ -> under ‘abnormal limb’
+#Move finger from hand -> part of some hand
