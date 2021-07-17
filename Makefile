@@ -10,7 +10,7 @@ TGTS = graphql jsonschema ldcontext docs  owl csv graphql python shex
 #GEN_OPTS = --no-mergeimports
 GEN_OPTS = 
 
-all: gen stage
+all: gen stage deploy-python
 gen: $(patsubst %,gen-%,$(TGTS))
 clean:
 	rm -rf target/

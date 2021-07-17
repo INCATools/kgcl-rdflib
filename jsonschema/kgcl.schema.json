@@ -38,8 +38,8 @@
          "additionalProperties": false,
          "description": "Places a node inside a subset, by annotating that node",
          "properties": {
-            "about": {
-               "$ref": "#/definitions/OntologyElement"
+            "about_node": {
+               "type": "string"
             },
             "change_date": {
                "type": "string"
@@ -149,8 +149,8 @@
          "additionalProperties": false,
          "description": "A node creation where the owl type is 'class'",
          "properties": {
-            "about": {
-               "$ref": "#/definitions/OntologyElement"
+            "about_node": {
+               "type": "string"
             },
             "annotation_set": {
                "$ref": "#/definitions/Annotation"
@@ -271,10 +271,6 @@
          "additionalProperties": false,
          "description": "",
          "properties": {
-            "about": {
-               "$ref": "#/definitions/OntologyElement",
-               "description": "The 'focus' entity on which the change operates"
-            },
             "change_date": {
                "type": "string"
             },
@@ -340,7 +336,7 @@
          "additionalProperties": false,
          "description": "An edge change in which a de-novo edge is created. The edge is potentially annotated in the same action.",
          "properties": {
-            "about": {
+            "about_edge": {
                "$ref": "#/definitions/Edge"
             },
             "annotation_set": {
@@ -402,7 +398,7 @@
          "additionalProperties": false,
          "description": "An edge change in which an edge is removed. All edge annotations/properies are removed in the same action.",
          "properties": {
-            "about": {
+            "about_edge": {
                "$ref": "#/definitions/Edge"
             },
             "annotation_set": {
@@ -464,7 +460,7 @@
          "additionalProperties": false,
          "description": "An edge change where the subjet, object, and predicate are unchanged, but the logical interpretation changes",
          "properties": {
-            "about": {
+            "about_edge": {
                "$ref": "#/definitions/Edge"
             },
             "change_date": {
@@ -515,6 +511,10 @@
          "description": "An edge change in which an edge is obsoleted.",
          "properties": {
             "about": {
+               "$ref": "#/definitions/OntologyElement",
+               "description": "The element that is obsoleted by this change."
+            },
+            "about_edge": {
                "$ref": "#/definitions/Edge"
             },
             "annotation_set": {
@@ -576,7 +576,7 @@
          "additionalProperties": false,
          "description": "An edge change where one node is replaced with another, as in the case of obsoletion with replacement",
          "properties": {
-            "about": {
+            "about_edge": {
                "$ref": "#/definitions/Edge"
             },
             "change_date": {
@@ -649,10 +649,6 @@
          "additionalProperties": false,
          "description": "A simple change where a logical axiom is changed, where the logical axiom cannot be represented as an edge",
          "properties": {
-            "about": {
-               "$ref": "#/definitions/OntologyElement",
-               "description": "The 'focus' entity on which the change operates"
-            },
             "change_date": {
                "type": "string"
             },
@@ -757,8 +753,8 @@
          "additionalProperties": false,
          "description": "A node synonym where the name NAME of an node NODE moves to a synonym, and NODE receives a new name. This change consists of compose of (1) a node rename where NAME is replaced by a different name (2) a new synonym",
          "properties": {
-            "about": {
-               "$ref": "#/definitions/OntologyElement"
+            "about_node": {
+               "type": "string"
             },
             "change_1": {
                "type": "string"
@@ -813,8 +809,8 @@
          "additionalProperties": false,
          "description": "A node synonym change where a de-novo synonym is created",
          "properties": {
-            "about": {
-               "$ref": "#/definitions/OntologyElement"
+            "about_node": {
+               "type": "string"
             },
             "change_date": {
                "type": "string"
@@ -860,8 +856,8 @@
          "additionalProperties": false,
          "description": "A node change where a de-novo text definition is created",
          "properties": {
-            "about": {
-               "$ref": "#/definitions/OntologyElement"
+            "about_node": {
+               "type": "string"
             },
             "change_date": {
                "type": "string"
@@ -930,8 +926,8 @@
          "additionalProperties": false,
          "description": "A node change where the change alters node properties/annotations. TODO",
          "properties": {
-            "about": {
-               "$ref": "#/definitions/OntologyElement"
+            "about_node": {
+               "type": "string"
             },
             "change_date": {
                "type": "string"
@@ -977,8 +973,8 @@
          "additionalProperties": false,
          "description": "A node annotation change where the change replaces a particular property value. TODO",
          "properties": {
-            "about": {
-               "$ref": "#/definitions/OntologyElement"
+            "about_node": {
+               "type": "string"
             },
             "change_date": {
                "type": "string"
@@ -1024,8 +1020,8 @@
          "additionalProperties": false,
          "description": "a node change in which a new node is created",
          "properties": {
-            "about": {
-               "$ref": "#/definitions/OntologyElement"
+            "about_node": {
+               "type": "string"
             },
             "annotation_set": {
                "$ref": "#/definitions/Annotation"
@@ -1087,7 +1083,7 @@
          "additionalProperties": false,
          "description": "A node move in which a node where the destination is a proper descendant of the original location. Note that here descendant applied not just to subclass, but edges of any predicate in the relational graph",
          "properties": {
-            "about": {
+            "about_edge": {
                "$ref": "#/definitions/Edge"
             },
             "change_date": {
@@ -1140,8 +1136,8 @@
          "additionalProperties": false,
          "description": "Deletion of a node from the graph. Note it is recommended nodes are obsoleted and never merged, but this operation exists to represent deletions in ontologies, accidental or otherwise",
          "properties": {
-            "about": {
-               "$ref": "#/definitions/OntologyElement"
+            "about_node": {
+               "type": "string"
             },
             "change_date": {
                "type": "string"
@@ -1191,7 +1187,11 @@
          "description": "An obsoletion change in which all metadata (including name/label) from the source node is deleted and added to the target node, and edges can automatically be rewired to point to the target node",
          "properties": {
             "about": {
-               "$ref": "#/definitions/OntologyElement"
+               "$ref": "#/definitions/OntologyElement",
+               "description": "The element that is obsoleted by this change."
+            },
+            "about_node": {
+               "type": "string"
             },
             "associated_change_set": {
                "description": "All changes forced as a result of this obsoletion. For example, starting with `A subClassOf B subClassOf C`, if we obsolete node B, then we may decide to bundle in a node move change of A from B to C. Note: this change set is not considered a part of the obsoletion, as obsoletion is considered atomic/simple. Instead this is a reference to a change set that may exist elsewhere",
@@ -1258,7 +1258,7 @@
          "additionalProperties": false,
          "description": "A node move is a combination of deleting a parent edge and adding a parent edge, where the predicate is preserved and the object/parent node changes",
          "properties": {
-            "about": {
+            "about_edge": {
                "$ref": "#/definitions/Edge"
             },
             "change_date": {
@@ -1312,7 +1312,11 @@
          "description": "Obsoletion of a node deprecates usage of that node, but does not delete it.",
          "properties": {
             "about": {
-               "$ref": "#/definitions/OntologyElement"
+               "$ref": "#/definitions/OntologyElement",
+               "description": "The element that is obsoleted by this change."
+            },
+            "about_node": {
+               "type": "string"
             },
             "associated_change_set": {
                "description": "All changes forced as a result of this obsoletion. For example, starting with `A subClassOf B subClassOf C`, if we obsolete node B, then we may decide to bundle in a node move change of A from B to C. Note: this change set is not considered a part of the obsoletion, as obsoletion is considered atomic/simple. Instead this is a reference to a change set that may exist elsewhere",
@@ -1380,7 +1384,11 @@
          "description": "An obsoletion change in which information from the obsoleted node is selectively copied to a single target, and edges can automatically be rewired to point to the target node",
          "properties": {
             "about": {
-               "$ref": "#/definitions/OntologyElement"
+               "$ref": "#/definitions/OntologyElement",
+               "description": "The element that is obsoleted by this change."
+            },
+            "about_node": {
+               "type": "string"
             },
             "associated_change_set": {
                "description": "All changes forced as a result of this obsoletion. For example, starting with `A subClassOf B subClassOf C`, if we obsolete node B, then we may decide to bundle in a node move change of A from B to C. Note: this change set is not considered a part of the obsoletion, as obsoletion is considered atomic/simple. Instead this is a reference to a change set that may exist elsewhere",
@@ -1448,7 +1456,11 @@
          "description": "An obsoletion change in which there is no direct replacement",
          "properties": {
             "about": {
-               "$ref": "#/definitions/OntologyElement"
+               "$ref": "#/definitions/OntologyElement",
+               "description": "The element that is obsoleted by this change."
+            },
+            "about_node": {
+               "type": "string"
             },
             "associated_change_set": {
                "description": "All changes forced as a result of this obsoletion. For example, starting with `A subClassOf B subClassOf C`, if we obsolete node B, then we may decide to bundle in a node move change of A from B to C. Note: this change set is not considered a part of the obsoletion, as obsoletion is considered atomic/simple. Instead this is a reference to a change set that may exist elsewhere",
@@ -1515,8 +1527,8 @@
          "additionalProperties": false,
          "description": "A node change where the name (aka rdfs:label) of the node changes",
          "properties": {
-            "about": {
-               "$ref": "#/definitions/OntologyElement"
+            "about_node": {
+               "type": "string"
             },
             "change_date": {
                "type": "string"
@@ -1567,7 +1579,7 @@
          "additionalProperties": false,
          "description": "The opposite of node deepening",
          "properties": {
-            "about": {
+            "about_edge": {
                "$ref": "#/definitions/Edge"
             },
             "change_date": {
@@ -1620,8 +1632,8 @@
          "additionalProperties": false,
          "description": "",
          "properties": {
-            "about": {
-               "$ref": "#/definitions/OntologyElement"
+            "about_node": {
+               "type": "string"
             },
             "change_date": {
                "type": "string"
@@ -1667,8 +1679,8 @@
          "additionalProperties": false,
          "description": "unobsoletion of a node deprecates usage of that node. Rarely applied.",
          "properties": {
-            "about": {
-               "$ref": "#/definitions/OntologyElement"
+            "about_node": {
+               "type": "string"
             },
             "change_date": {
                "type": "string"
@@ -1739,7 +1751,7 @@
          "additionalProperties": false,
          "description": "An edge creation where the predicate is owl:subClassOf",
          "properties": {
-            "about": {
+            "about_edge": {
                "$ref": "#/definitions/Edge"
             },
             "annotation_set": {
@@ -1801,7 +1813,7 @@
          "additionalProperties": false,
          "description": "An edge change where the predicate (relationship type) is modified.",
          "properties": {
-            "about": {
+            "about_edge": {
                "$ref": "#/definitions/Edge"
             },
             "change_date": {
@@ -1869,8 +1881,8 @@
          "additionalProperties": false,
          "description": "A node synonym change where a synonym is deleted",
          "properties": {
-            "about": {
-               "$ref": "#/definitions/OntologyElement"
+            "about_node": {
+               "type": "string"
             },
             "change_date": {
                "type": "string"
@@ -1916,8 +1928,8 @@
          "additionalProperties": false,
          "description": "A node change where a text definition is deleted",
          "properties": {
-            "about": {
-               "$ref": "#/definitions/OntologyElement"
+            "about_node": {
+               "type": "string"
             },
             "change_date": {
                "type": "string"
@@ -1963,9 +1975,9 @@
          "additionalProperties": false,
          "description": "Removes a node from a subset, by removing an annotation",
          "properties": {
-            "about": {
-               "$ref": "#/definitions/OntologyElement",
-               "description": "The node that is removed from the subset"
+            "about_node": {
+               "description": "The node that is removed from the subset",
+               "type": "string"
             },
             "change_date": {
                "type": "string"
@@ -2044,8 +2056,8 @@
          "additionalProperties": false,
          "description": "A node synonym change where the predicate of a synonym is changed. Background: synonyms can be represented by a variety of predicates. For example, many OBO ontologies make use of predicates such as oio:hasExactSynonym, oio:hasRelatedSynonym, etc",
          "properties": {
-            "about": {
-               "$ref": "#/definitions/OntologyElement"
+            "about_node": {
+               "type": "string"
             },
             "change_date": {
                "type": "string"
@@ -2095,8 +2107,8 @@
          "additionalProperties": false,
          "description": "A node synonym change where the text of a synonym is changed",
          "properties": {
-            "about": {
-               "$ref": "#/definitions/OntologyElement"
+            "about_node": {
+               "type": "string"
             },
             "change_date": {
                "type": "string"
@@ -2146,8 +2158,8 @@
          "additionalProperties": false,
          "description": "A node change where a text definition is modified",
          "properties": {
-            "about": {
-               "$ref": "#/definitions/OntologyElement"
+            "about_node": {
+               "type": "string"
             },
             "change_date": {
                "type": "string"
