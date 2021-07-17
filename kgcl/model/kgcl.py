@@ -1,11 +1,12 @@
 # Auto generated from kgcl.yaml by pythongen.py version: 0.9.0
-# Generation date: 2021-05-15 16:30
+# Generation date: 2021-07-16 19:13
 # Schema: kgcl
 #
 # id: https://w3id.org/kgcl
 # description: A data model for describing change operations at a high level on an ontology or ontology-like
-#              artefact, such as a Knowledge Graph. See
-#              [https://github.com/cmungall/knowledge-graph-change-language](https://github.com/cmungall/knowledge-graph-change-language)
+#              artefact, such as a Knowledge Graph. * [Browse
+#              Schema](https://cmungall.github.io/knowledge-graph-change-language/) *
+#              [GitHub](https://github.com/cmungall/knowledge-graph-change-language)
 # license: https://creativecommons.org/publicdomain/zero/1.0/
 
 import dataclasses
@@ -24,7 +25,7 @@ from linkml_runtime.utils.formatutils import camelcase, underscore, sfx
 from linkml_runtime.utils.enumerations import EnumDefinitionImpl
 from rdflib import Namespace, URIRef
 from linkml_runtime.utils.curienamespace import CurieNamespace
-from . ontology_model import Annotation, NodeId, OntologySubset, OwlTypeEnum, PropertyValue
+from . ontology_model import Annotation, Edge, NodeId, OntologyElement, OntologySubset, OwlTypeEnum, PropertyValue
 from . prov import Activity, ActivityId
 from linkml_runtime.linkml_model.types import Integer, String, Uriorcurie
 from linkml_runtime.utils.metamodelcore import URIorCURIE
@@ -246,7 +247,7 @@ class Change(YAMLRoot):
 
     def __post_init__(self, *_: List[str], **kwargs: Dict[str, Any]):
         if self._is_empty(self.id):
-            raise ValueError("id must be supplied")
+            self.MissingRequiredField("id")
         if not isinstance(self.id, ChangeId):
             self.id = ChangeId(self.id)
 
@@ -287,13 +288,13 @@ class SimpleChange(Change):
     class_model_uri: ClassVar[URIRef] = KGCL.SimpleChange
 
     id: Union[str, SimpleChangeId] = None
-    about: Optional[str] = None
+    about: Optional[Union[dict, OntologyElement]] = None
     old_value: Optional[str] = None
     new_value: Optional[str] = None
 
     def __post_init__(self, *_: List[str], **kwargs: Dict[str, Any]):
-        if self.about is not None and not isinstance(self.about, str):
-            self.about = str(self.about)
+        if self.about is not None and not isinstance(self.about, OntologyElement):
+            self.about = OntologyElement()
 
         if self.old_value is not None and not isinstance(self.old_value, str):
             self.old_value = str(self.old_value)
@@ -344,7 +345,7 @@ class MultiNodeObsoletion(ComplexChange):
 
     def __post_init__(self, *_: List[str], **kwargs: Dict[str, Any]):
         if self._is_empty(self.id):
-            raise ValueError("id must be supplied")
+            self.MissingRequiredField("id")
         if not isinstance(self.id, MultiNodeObsoletionId):
             self.id = MultiNodeObsoletionId(self.id)
 
@@ -376,7 +377,7 @@ class Transaction(Change):
 
     def __post_init__(self, *_: List[str], **kwargs: Dict[str, Any]):
         if self._is_empty(self.id):
-            raise ValueError("id must be supplied")
+            self.MissingRequiredField("id")
         if not isinstance(self.id, TransactionId):
             self.id = TransactionId(self.id)
 
@@ -409,7 +410,7 @@ class ChangeSetSummaryStatistic(YAMLRoot):
             self.count = int(self.count)
 
         if not isinstance(self.property_value_set, list):
-            self.property_value_set = [self.property_value_set]
+            self.property_value_set = [self.property_value_set] if self.property_value_set is not None else []
         self.property_value_set = [v if isinstance(v, PropertyValue) else PropertyValue(**v) for v in self.property_value_set]
 
         super().__post_init__(**kwargs)
@@ -439,12 +440,12 @@ class Obsoletion(ChangeMixin):
     class_name: ClassVar[str] = "obsoletion"
     class_model_uri: ClassVar[URIRef] = KGCL.Obsoletion
 
-    about: Optional[str] = None
+    about: Optional[Union[dict, OntologyElement]] = None
     has_undo: Optional[Union[dict, "Obsoletion"]] = None
 
     def __post_init__(self, *_: List[str], **kwargs: Dict[str, Any]):
-        if self.about is not None and not isinstance(self.about, str):
-            self.about = str(self.about)
+        if self.about is not None and not isinstance(self.about, OntologyElement):
+            self.about = OntologyElement()
 
         if self.has_undo is not None and not isinstance(self.has_undo, Obsoletion):
             self.has_undo = Obsoletion(**self.has_undo)
@@ -599,12 +600,12 @@ class EdgeChange(SimpleChange):
     class_model_uri: ClassVar[URIRef] = KGCL.EdgeChange
 
     id: Union[str, EdgeChangeId] = None
-    about: Optional[str] = None
+    about: Optional[Union[dict, Edge]] = None
     subject: Optional[Union[str, NodeId]] = None
 
     def __post_init__(self, *_: List[str], **kwargs: Dict[str, Any]):
-        if self.about is not None and not isinstance(self.about, str):
-            self.about = str(self.about)
+        if self.about is not None and not isinstance(self.about, Edge):
+            self.about = Edge(**self.about)
 
         if self.subject is not None and not isinstance(self.subject, NodeId):
             self.subject = NodeId(self.subject)
@@ -633,7 +634,7 @@ class EdgeCreation(EdgeChange):
 
     def __post_init__(self, *_: List[str], **kwargs: Dict[str, Any]):
         if self._is_empty(self.id):
-            raise ValueError("id must be supplied")
+            self.MissingRequiredField("id")
         if not isinstance(self.id, EdgeCreationId):
             self.id = EdgeCreationId(self.id)
 
@@ -671,7 +672,7 @@ class PlaceUnder(EdgeCreation):
 
     def __post_init__(self, *_: List[str], **kwargs: Dict[str, Any]):
         if self._is_empty(self.id):
-            raise ValueError("id must be supplied")
+            self.MissingRequiredField("id")
         if not isinstance(self.id, PlaceUnderId):
             self.id = PlaceUnderId(self.id)
 
@@ -699,7 +700,7 @@ class EdgeDeletion(EdgeChange):
 
     def __post_init__(self, *_: List[str], **kwargs: Dict[str, Any]):
         if self._is_empty(self.id):
-            raise ValueError("id must be supplied")
+            self.MissingRequiredField("id")
         if not isinstance(self.id, EdgeDeletionId):
             self.id = EdgeDeletionId(self.id)
 
@@ -742,7 +743,7 @@ class EdgeObsoletion(EdgeChange):
 
     def __post_init__(self, *_: List[str], **kwargs: Dict[str, Any]):
         if self._is_empty(self.id):
-            raise ValueError("id must be supplied")
+            self.MissingRequiredField("id")
         if not isinstance(self.id, EdgeObsoletionId):
             self.id = EdgeObsoletionId(self.id)
 
@@ -780,7 +781,7 @@ class EdgeRewiring(EdgeChange):
 
     def __post_init__(self, *_: List[str], **kwargs: Dict[str, Any]):
         if self._is_empty(self.id):
-            raise ValueError("id must be supplied")
+            self.MissingRequiredField("id")
         if not isinstance(self.id, EdgeRewiringId):
             self.id = EdgeRewiringId(self.id)
 
@@ -805,7 +806,7 @@ class NodeMove(EdgeChange):
 
     def __post_init__(self, *_: List[str], **kwargs: Dict[str, Any]):
         if self._is_empty(self.id):
-            raise ValueError("id must be supplied")
+            self.MissingRequiredField("id")
         if not isinstance(self.id, NodeMoveId):
             self.id = NodeMoveId(self.id)
 
@@ -833,7 +834,7 @@ class NodeDeepening(NodeMove):
 
     def __post_init__(self, *_: List[str], **kwargs: Dict[str, Any]):
         if self._is_empty(self.id):
-            raise ValueError("id must be supplied")
+            self.MissingRequiredField("id")
         if not isinstance(self.id, NodeDeepeningId):
             self.id = NodeDeepeningId(self.id)
 
@@ -860,7 +861,7 @@ class NodeShallowing(NodeMove):
 
     def __post_init__(self, *_: List[str], **kwargs: Dict[str, Any]):
         if self._is_empty(self.id):
-            raise ValueError("id must be supplied")
+            self.MissingRequiredField("id")
         if not isinstance(self.id, NodeShallowingId):
             self.id = NodeShallowingId(self.id)
 
@@ -887,7 +888,7 @@ class PredicateChange(EdgeChange):
 
     def __post_init__(self, *_: List[str], **kwargs: Dict[str, Any]):
         if self._is_empty(self.id):
-            raise ValueError("id must be supplied")
+            self.MissingRequiredField("id")
         if not isinstance(self.id, PredicateChangeId):
             self.id = PredicateChangeId(self.id)
 
@@ -913,7 +914,7 @@ class EdgeLogicalInterpretationChange(EdgeChange):
 
     def __post_init__(self, *_: List[str], **kwargs: Dict[str, Any]):
         if self._is_empty(self.id):
-            raise ValueError("id must be supplied")
+            self.MissingRequiredField("id")
         if not isinstance(self.id, EdgeLogicalInterpretationChangeId):
             self.id = EdgeLogicalInterpretationChangeId(self.id)
 
@@ -936,7 +937,7 @@ class LogicalAxiomChange(SimpleChange):
 
     def __post_init__(self, *_: List[str], **kwargs: Dict[str, Any]):
         if self._is_empty(self.id):
-            raise ValueError("id must be supplied")
+            self.MissingRequiredField("id")
         if not isinstance(self.id, LogicalAxiomChangeId):
             self.id = LogicalAxiomChangeId(self.id)
 
@@ -956,11 +957,11 @@ class NodeChange(SimpleChange):
     class_model_uri: ClassVar[URIRef] = KGCL.NodeChange
 
     id: Union[str, NodeChangeId] = None
-    about: Optional[str] = None
+    about: Optional[Union[dict, OntologyElement]] = None
 
     def __post_init__(self, *_: List[str], **kwargs: Dict[str, Any]):
-        if self.about is not None and not isinstance(self.about, str):
-            self.about = str(self.about)
+        if self.about is not None and not isinstance(self.about, OntologyElement):
+            self.about = OntologyElement()
 
         super().__post_init__(**kwargs)
 
@@ -985,7 +986,7 @@ class NodeRename(NodeChange):
 
     def __post_init__(self, *_: List[str], **kwargs: Dict[str, Any]):
         if self._is_empty(self.id):
-            raise ValueError("id must be supplied")
+            self.MissingRequiredField("id")
         if not isinstance(self.id, NodeRenameId):
             self.id = NodeRenameId(self.id)
 
@@ -1020,7 +1021,7 @@ class NodeAnnotationChange(NodeChange):
 
     def __post_init__(self, *_: List[str], **kwargs: Dict[str, Any]):
         if self._is_empty(self.id):
-            raise ValueError("id must be supplied")
+            self.MissingRequiredField("id")
         if not isinstance(self.id, NodeAnnotationChangeId):
             self.id = NodeAnnotationChangeId(self.id)
 
@@ -1043,7 +1044,7 @@ class NodeAnnotationReplacement(NodeAnnotationChange):
 
     def __post_init__(self, *_: List[str], **kwargs: Dict[str, Any]):
         if self._is_empty(self.id):
-            raise ValueError("id must be supplied")
+            self.MissingRequiredField("id")
         if not isinstance(self.id, NodeAnnotationReplacementId):
             self.id = NodeAnnotationReplacementId(self.id)
 
@@ -1063,7 +1064,7 @@ class NodeSynonymChange(NodeChange):
 
     def __post_init__(self, *_: List[str], **kwargs: Dict[str, Any]):
         if self._is_empty(self.id):
-            raise ValueError("id must be supplied")
+            self.MissingRequiredField("id")
         if not isinstance(self.id, NodeSynonymChangeId):
             self.id = NodeSynonymChangeId(self.id)
 
@@ -1087,7 +1088,7 @@ class NewSynonym(NodeSynonymChange):
 
     def __post_init__(self, *_: List[str], **kwargs: Dict[str, Any]):
         if self._is_empty(self.id):
-            raise ValueError("id must be supplied")
+            self.MissingRequiredField("id")
         if not isinstance(self.id, NewSynonymId):
             self.id = NewSynonymId(self.id)
 
@@ -1117,7 +1118,7 @@ class NameBecomesSynonym(NodeSynonymChange):
 
     def __post_init__(self, *_: List[str], **kwargs: Dict[str, Any]):
         if self._is_empty(self.id):
-            raise ValueError("id must be supplied")
+            self.MissingRequiredField("id")
         if not isinstance(self.id, NameBecomesSynonymId):
             self.id = NameBecomesSynonymId(self.id)
 
@@ -1150,7 +1151,7 @@ class RemoveSynonym(NodeSynonymChange):
 
     def __post_init__(self, *_: List[str], **kwargs: Dict[str, Any]):
         if self._is_empty(self.id):
-            raise ValueError("id must be supplied")
+            self.MissingRequiredField("id")
         if not isinstance(self.id, RemoveSynonymId):
             self.id = RemoveSynonymId(self.id)
 
@@ -1179,7 +1180,7 @@ class SynonymReplacement(NodeSynonymChange):
 
     def __post_init__(self, *_: List[str], **kwargs: Dict[str, Any]):
         if self._is_empty(self.id):
-            raise ValueError("id must be supplied")
+            self.MissingRequiredField("id")
         if not isinstance(self.id, SynonymReplacementId):
             self.id = SynonymReplacementId(self.id)
 
@@ -1216,7 +1217,7 @@ class SynonymPredicateChange(NodeSynonymChange):
 
     def __post_init__(self, *_: List[str], **kwargs: Dict[str, Any]):
         if self._is_empty(self.id):
-            raise ValueError("id must be supplied")
+            self.MissingRequiredField("id")
         if not isinstance(self.id, SynonymPredicateChangeId):
             self.id = SynonymPredicateChangeId(self.id)
 
@@ -1263,7 +1264,7 @@ class NewTextDefinition(NodeTextDefinitionChange):
 
     def __post_init__(self, *_: List[str], **kwargs: Dict[str, Any]):
         if self._is_empty(self.id):
-            raise ValueError("id must be supplied")
+            self.MissingRequiredField("id")
         if not isinstance(self.id, NewTextDefinitionId):
             self.id = NewTextDefinitionId(self.id)
 
@@ -1290,7 +1291,7 @@ class RemoveTextDefinition(NodeTextDefinitionChange):
 
     def __post_init__(self, *_: List[str], **kwargs: Dict[str, Any]):
         if self._is_empty(self.id):
-            raise ValueError("id must be supplied")
+            self.MissingRequiredField("id")
         if not isinstance(self.id, RemoveTextDefinitionId):
             self.id = RemoveTextDefinitionId(self.id)
 
@@ -1319,7 +1320,7 @@ class TextDefinitionReplacement(NodeTextDefinitionChange):
 
     def __post_init__(self, *_: List[str], **kwargs: Dict[str, Any]):
         if self._is_empty(self.id):
-            raise ValueError("id must be supplied")
+            self.MissingRequiredField("id")
         if not isinstance(self.id, TextDefinitionReplacementId):
             self.id = TextDefinitionReplacementId(self.id)
 
@@ -1348,7 +1349,7 @@ class DatatypeChange(SimpleChange):
 
     def __post_init__(self, *_: List[str], **kwargs: Dict[str, Any]):
         if self._is_empty(self.id):
-            raise ValueError("id must be supplied")
+            self.MissingRequiredField("id")
         if not isinstance(self.id, DatatypeChangeId):
             self.id = DatatypeChangeId(self.id)
 
@@ -1372,7 +1373,7 @@ class AddNodeToSubset(NodeChange):
 
     def __post_init__(self, *_: List[str], **kwargs: Dict[str, Any]):
         if self._is_empty(self.id):
-            raise ValueError("id must be supplied")
+            self.MissingRequiredField("id")
         if not isinstance(self.id, AddNodeToSubsetId):
             self.id = AddNodeToSubsetId(self.id)
 
@@ -1396,21 +1397,21 @@ class RemovedNodeFromSubset(NodeChange):
 
     id: Union[str, RemovedNodeFromSubsetId] = None
     change_description: Optional[str] = None
-    about: Optional[str] = None
+    about: Optional[Union[dict, OntologyElement]] = None
     subset: Optional[str] = None
     in_subset: Optional[Union[dict, OntologySubset]] = None
 
     def __post_init__(self, *_: List[str], **kwargs: Dict[str, Any]):
         if self._is_empty(self.id):
-            raise ValueError("id must be supplied")
+            self.MissingRequiredField("id")
         if not isinstance(self.id, RemovedNodeFromSubsetId):
             self.id = RemovedNodeFromSubsetId(self.id)
 
         if self.change_description is not None and not isinstance(self.change_description, str):
             self.change_description = str(self.change_description)
 
-        if self.about is not None and not isinstance(self.about, str):
-            self.about = str(self.about)
+        if self.about is not None and not isinstance(self.about, OntologyElement):
+            self.about = OntologyElement()
 
         if self.subset is not None and not isinstance(self.subset, str):
             self.subset = str(self.subset)
@@ -1441,7 +1442,7 @@ class NodeObsoletion(NodeChange):
 
     def __post_init__(self, *_: List[str], **kwargs: Dict[str, Any]):
         if self._is_empty(self.id):
-            raise ValueError("id must be supplied")
+            self.MissingRequiredField("id")
         if not isinstance(self.id, NodeObsoletionId):
             self.id = NodeObsoletionId(self.id)
 
@@ -1449,7 +1450,7 @@ class NodeObsoletion(NodeChange):
             self.has_direct_replacement = NodeId(self.has_direct_replacement)
 
         if not isinstance(self.has_nondirect_replacement, list):
-            self.has_nondirect_replacement = [self.has_nondirect_replacement]
+            self.has_nondirect_replacement = [self.has_nondirect_replacement] if self.has_nondirect_replacement is not None else []
         self.has_nondirect_replacement = [v if isinstance(v, NodeId) else NodeId(v) for v in self.has_nondirect_replacement]
 
         if self.change_description is not None and not isinstance(self.change_description, str):
@@ -1479,7 +1480,7 @@ class NodeUnobsoletion(NodeChange):
 
     def __post_init__(self, *_: List[str], **kwargs: Dict[str, Any]):
         if self._is_empty(self.id):
-            raise ValueError("id must be supplied")
+            self.MissingRequiredField("id")
         if not isinstance(self.id, NodeUnobsoletionId):
             self.id = NodeUnobsoletionId(self.id)
 
@@ -1516,7 +1517,7 @@ class NodeCreation(NodeChange):
 
     def __post_init__(self, *_: List[str], **kwargs: Dict[str, Any]):
         if self._is_empty(self.id):
-            raise ValueError("id must be supplied")
+            self.MissingRequiredField("id")
         if not isinstance(self.id, NodeCreationId):
             self.id = NodeCreationId(self.id)
 
@@ -1556,7 +1557,7 @@ class ClassCreation(NodeCreation):
 
     def __post_init__(self, *_: List[str], **kwargs: Dict[str, Any]):
         if self._is_empty(self.id):
-            raise ValueError("id must be supplied")
+            self.MissingRequiredField("id")
         if not isinstance(self.id, ClassCreationId):
             self.id = ClassCreationId(self.id)
 
@@ -1587,7 +1588,7 @@ class NodeDeletion(NodeChange):
 
     def __post_init__(self, *_: List[str], **kwargs: Dict[str, Any]):
         if self._is_empty(self.id):
-            raise ValueError("id must be supplied")
+            self.MissingRequiredField("id")
         if not isinstance(self.id, NodeDeletionId):
             self.id = NodeDeletionId(self.id)
 
@@ -1612,22 +1613,22 @@ class NodeDirectMerge(NodeObsoletion):
 
     id: Union[str, NodeDirectMergeId] = None
     has_direct_replacement: Union[str, NodeId] = None
-    about: Optional[str] = None
+    about: Optional[Union[dict, OntologyElement]] = None
     change_description: Optional[str] = None
 
     def __post_init__(self, *_: List[str], **kwargs: Dict[str, Any]):
         if self._is_empty(self.id):
-            raise ValueError("id must be supplied")
+            self.MissingRequiredField("id")
         if not isinstance(self.id, NodeDirectMergeId):
             self.id = NodeDirectMergeId(self.id)
 
         if self._is_empty(self.has_direct_replacement):
-            raise ValueError("has_direct_replacement must be supplied")
+            self.MissingRequiredField("has_direct_replacement")
         if not isinstance(self.has_direct_replacement, NodeId):
             self.has_direct_replacement = NodeId(self.has_direct_replacement)
 
-        if self.about is not None and not isinstance(self.about, str):
-            self.about = str(self.about)
+        if self.about is not None and not isinstance(self.about, OntologyElement):
+            self.about = OntologyElement()
 
         if self.change_description is not None and not isinstance(self.change_description, str):
             self.change_description = str(self.change_description)
@@ -1654,12 +1655,12 @@ class NodeObsoletionWithDirectReplacement(NodeObsoletion):
 
     def __post_init__(self, *_: List[str], **kwargs: Dict[str, Any]):
         if self._is_empty(self.id):
-            raise ValueError("id must be supplied")
+            self.MissingRequiredField("id")
         if not isinstance(self.id, NodeObsoletionWithDirectReplacementId):
             self.id = NodeObsoletionWithDirectReplacementId(self.id)
 
         if self._is_empty(self.has_direct_replacement):
-            raise ValueError("has_direct_replacement must be supplied")
+            self.MissingRequiredField("has_direct_replacement")
         if not isinstance(self.has_direct_replacement, NodeId):
             self.has_direct_replacement = NodeId(self.has_direct_replacement)
 
@@ -1687,14 +1688,14 @@ class NodeObsoletionWithNoDirectReplacement(NodeObsoletion):
 
     def __post_init__(self, *_: List[str], **kwargs: Dict[str, Any]):
         if self._is_empty(self.id):
-            raise ValueError("id must be supplied")
+            self.MissingRequiredField("id")
         if not isinstance(self.id, NodeObsoletionWithNoDirectReplacementId):
             self.id = NodeObsoletionWithNoDirectReplacementId(self.id)
 
         if self._is_empty(self.has_nondirect_replacement):
-            raise ValueError("has_nondirect_replacement must be supplied")
+            self.MissingRequiredField("has_nondirect_replacement")
         if not isinstance(self.has_nondirect_replacement, list):
-            self.has_nondirect_replacement = [self.has_nondirect_replacement]
+            self.has_nondirect_replacement = [self.has_nondirect_replacement] if self.has_nondirect_replacement is not None else []
         self.has_nondirect_replacement = [v if isinstance(v, NodeId) else NodeId(v) for v in self.has_nondirect_replacement]
 
         if self.change_description is not None and not isinstance(self.change_description, str):
@@ -1819,7 +1820,10 @@ slots.superclass = Slot(uri=KGCL.superclass, name="superclass", curie=KGCL.curie
                    model_uri=KGCL.superclass, domain=None, range=Optional[Union[str, NodeId]])
 
 slots.about = Slot(uri=KGCL.about, name="about", curie=KGCL.curie('about'),
-                   model_uri=KGCL.about, domain=None, range=Optional[str])
+                   model_uri=KGCL.about, domain=None, range=Optional[Union[dict, OntologyElement]])
+
+slots.about_edge = Slot(uri=KGCL.about_edge, name="about edge", curie=KGCL.curie('about_edge'),
+                   model_uri=KGCL.about_edge, domain=None, range=Optional[Union[dict, Edge]])
 
 slots.target = Slot(uri=KGCL.target, name="target", curie=KGCL.curie('target'),
                    model_uri=KGCL.target, domain=None, range=Optional[str])
@@ -1933,7 +1937,7 @@ slots.change_set_summary_statistic_property_value_set = Slot(uri=KGCL.property_v
                    model_uri=KGCL.change_set_summary_statistic_property_value_set, domain=ChangeSetSummaryStatistic, range=Optional[Union[Union[dict, PropertyValue], List[Union[dict, PropertyValue]]]])
 
 slots.obsoletion_about = Slot(uri=KGCL.about, name="obsoletion_about", curie=KGCL.curie('about'),
-                   model_uri=KGCL.obsoletion_about, domain=None, range=Optional[str])
+                   model_uri=KGCL.obsoletion_about, domain=None, range=Optional[Union[dict, OntologyElement]])
 
 slots.obsoletion_has_undo = Slot(uri=KGCL.has_undo, name="obsoletion_has undo", curie=KGCL.curie('has_undo'),
                    model_uri=KGCL.obsoletion_has_undo, domain=None, range=Optional[Union[dict, "Obsoletion"]])
@@ -1954,7 +1958,7 @@ slots.remove_from_subset_has_undo = Slot(uri=KGCL.has_undo, name="remove from su
                    model_uri=KGCL.remove_from_subset_has_undo, domain=None, range=Optional[Union[dict, AddToSubset]])
 
 slots.edge_change_about = Slot(uri=KGCL.about, name="edge change_about", curie=KGCL.curie('about'),
-                   model_uri=KGCL.edge_change_about, domain=EdgeChange, range=Optional[str])
+                   model_uri=KGCL.edge_change_about, domain=EdgeChange, range=Optional[Union[dict, Edge]])
 
 slots.edge_change_subject = Slot(uri=KGCL.subject, name="edge change_subject", curie=KGCL.curie('subject'),
                    model_uri=KGCL.edge_change_subject, domain=EdgeChange, range=Optional[Union[str, NodeId]])
@@ -1981,7 +1985,7 @@ slots.predicate_change_change_description = Slot(uri=KGCL.change_description, na
                    model_uri=KGCL.predicate_change_change_description, domain=PredicateChange, range=Optional[str])
 
 slots.node_change_about = Slot(uri=KGCL.about, name="node change_about", curie=KGCL.curie('about'),
-                   model_uri=KGCL.node_change_about, domain=NodeChange, range=Optional[str])
+                   model_uri=KGCL.node_change_about, domain=NodeChange, range=Optional[Union[dict, OntologyElement]])
 
 slots.node_rename_old_value = Slot(uri=KGCL.old_value, name="node rename_old value", curie=KGCL.curie('old_value'),
                    model_uri=KGCL.node_rename_old_value, domain=NodeRename, range=Optional[str])
@@ -2005,7 +2009,7 @@ slots.removed_node_from_subset_change_description = Slot(uri=KGCL.change_descrip
                    model_uri=KGCL.removed_node_from_subset_change_description, domain=RemovedNodeFromSubset, range=Optional[str])
 
 slots.removed_node_from_subset_about = Slot(uri=KGCL.about, name="removed node from subset_about", curie=KGCL.curie('about'),
-                   model_uri=KGCL.removed_node_from_subset_about, domain=RemovedNodeFromSubset, range=Optional[str])
+                   model_uri=KGCL.removed_node_from_subset_about, domain=RemovedNodeFromSubset, range=Optional[Union[dict, OntologyElement]])
 
 slots.removed_node_from_subset_subset = Slot(uri=KGCL.subset, name="removed node from subset_subset", curie=KGCL.curie('subset'),
                    model_uri=KGCL.removed_node_from_subset_subset, domain=RemovedNodeFromSubset, range=Optional[str])
@@ -2038,7 +2042,7 @@ slots.node_direct_merge_has_direct_replacement = Slot(uri=KGCL.has_direct_replac
                    model_uri=KGCL.node_direct_merge_has_direct_replacement, domain=NodeDirectMerge, range=Union[str, NodeId])
 
 slots.node_direct_merge_about = Slot(uri=KGCL.about, name="node direct merge_about", curie=KGCL.curie('about'),
-                   model_uri=KGCL.node_direct_merge_about, domain=NodeDirectMerge, range=Optional[str])
+                   model_uri=KGCL.node_direct_merge_about, domain=NodeDirectMerge, range=Optional[Union[dict, OntologyElement]])
 
 slots.node_direct_merge_change_description = Slot(uri=KGCL.change_description, name="node direct merge_change description", curie=KGCL.curie('change_description'),
                    model_uri=KGCL.node_direct_merge_change_description, domain=NodeDirectMerge, range=Optional[str])

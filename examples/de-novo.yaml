@@ -14,3 +14,4 @@ change_set:
 #- {type: ClassCreation, node_id: ANAT:Foot, name: "foot", superclass: ANAT:BodyPart, relationship: {predicate: ANAT:part-of, filler: ANAT:Hindlimb}}
 #- {type: ClassCreation, node_id: ANAT:Hand, name: "hand", superclass: ANAT:BodyPart, relationship: {predicate: ANAT:part-of, filler: ANAT:Hindlimb}, was_generated_by: uuid:e887d3aac33f} ## deliberate mistake
 #- {type: NodeMove, about: ANAT:Hand, old_predicate: ANAT:part-of, new_predicate: ANAT:Hindlimb, new_parent: ANAT:Forelimb}
+#- {type: PredicateChange, about: {subject: ANAT:Hindlimb, object: ANAT:Limb}, new_value: "subClassOf"}

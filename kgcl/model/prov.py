@@ -1,5 +1,5 @@
 # Auto generated from prov.yaml by pythongen.py version: 0.9.0
-# Generation date: 2021-05-15 16:35
+# Generation date: 2021-07-16 19:00
 # Schema: KGCL-PROV
 #
 # id: https://w3id.org/kgcl/prov
@@ -68,7 +68,7 @@ class Activity(YAMLRoot):
 
     def __post_init__(self, *_: List[str], **kwargs: Dict[str, Any]):
         if self._is_empty(self.id):
-            raise ValueError("id must be supplied")
+            self.MissingRequiredField("id")
         if not isinstance(self.id, ActivityId):
             self.id = ActivityId(self.id)
 
@@ -111,7 +111,7 @@ class Agent(YAMLRoot):
 
     def __post_init__(self, *_: List[str], **kwargs: Dict[str, Any]):
         if self._is_empty(self.id):
-            raise ValueError("id must be supplied")
+            self.MissingRequiredField("id")
         if not isinstance(self.id, AgentId):
             self.id = AgentId(self.id)
 

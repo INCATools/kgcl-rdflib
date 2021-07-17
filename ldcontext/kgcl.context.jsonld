@@ -1,5 +1,5 @@
 {
-   "_comments": "Auto generated from kgcl.yaml by jsonldcontextgen.py version: 0.1.1\n    Generation date: 2021-06-25 07:49\n    Schema: kgcl\n    \n    id: https://w3id.org/kgcl\n    description: A data model for describing change operations at a high level on an ontology or ontology-like artefact, such as a Knowledge Graph.\n\n* [Browse Schema](https://cmungall.github.io/knowledge-graph-change-language/)\n* [GitHub](https://github.com/cmungall/knowledge-graph-change-language)\n    license: https://creativecommons.org/publicdomain/zero/1.0/\n    ",
+   "_comments": "Auto generated from kgcl.yaml by jsonldcontextgen.py version: 0.1.1\n    Generation date: 2021-07-16 19:17\n    Schema: kgcl\n    \n    id: https://w3id.org/kgcl\n    description: A data model for describing change operations at a high level on an ontology or ontology-like artefact, such as a Knowledge Graph.\n\n* [Browse Schema](https://cmungall.github.io/knowledge-graph-change-language/)\n* [GitHub](https://github.com/cmungall/knowledge-graph-change-language)\n    license: https://creativecommons.org/publicdomain/zero/1.0/\n    ",
    "@context": {
       "IAO": {
          "@id": "http://purl.obolibrary.org/obo/IAO_",
@@ -16,6 +16,12 @@
       "rdfs": "http://www.w3.org/2000/01/rdf-schema#",
       "skos": "http://www.w3.org/2004/02/skos/core#",
       "@vocab": "http://w3id.org/kgcl/",
+      "about": {
+         "@type": "@id"
+      },
+      "about_edge": {
+         "@type": "@id"
+      },
       "acted_on_behalf_of": {
          "@type": "@id",
          "@id": "prov:actedOnBehalfOf"

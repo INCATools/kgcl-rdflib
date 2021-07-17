@@ -235,7 +235,8 @@ classes:
       A change in which the element that is the focus of the change is an edge.
     slot_usage:
       about:
-        domain: edge
+        range: edge
+        inlined: true
       subject:
         comments:
           - if subject is empty, use the about field of the last node change
@@ -718,6 +719,13 @@ slots:
     description: >-
       The 'focus' entity on which the change operates
     multivalued: false
+    range: ontology element
+
+  about edge:
+    description: >-
+      The 'focus' entity on which the change operates
+    multivalued: false
+    range: edge
 
   target:
     description: >-
