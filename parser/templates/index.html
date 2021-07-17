@@ -1,0 +1,17 @@
+{% extends 'base.html' %}
+
+{% block head %}
+{% endblock %}
+
+{% block body %} 
+<div class="content">
+    <form action="/" method="POST">
+        <!-- <input type="text" name="content" id="content"> -->
+        <textarea name="content" id="content" rows="10" cols="30"></textarea>
+        <input type="submit" value="Parse"> 
+    </form> 
+
+    <p><b>Input:</b> <br>{{ input }}</p>
+    <p><b>Output:</b> <br>{{ output }}</p>
+</div>
+{% endblock %}

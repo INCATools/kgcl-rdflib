@@ -1,0 +1,31 @@
+?expression: rename
+           | obsolete 
+           | merge
+           | move
+
+rename : "rename" old ["from" from] ("to"|"as"|"->") new 
+
+obsolete : "obsolete" old
+
+move : "move" old [ "from" from ] ("to"|"as"|"->") new 
+
+merge :  "merge" _entity "into" _entity MERGE_OPT*
+
+old : _entity
+new : _entity
+from : _entity 
+
+_entity : QUOTED_LABEL
+        | ID
+
+QUOTED_LABEL : "'" INNER_LABEL "'" 
+ID : /\S+/
+
+MERGE_OPT : STRING
+
+INNER_LABEL: /\S.+?/ 
+
+STRING: /.+?/
+
+%import common.WS
+%ignore WS

@@ -1,0 +1,3 @@
+linkml >= 1.0.0
+flask
+lark 
