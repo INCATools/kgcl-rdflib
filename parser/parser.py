@@ -4,14 +4,14 @@ import sys
 sys.path.append("../")
 import python.kgcl
 
-def idGenerator():
+def id_generator():
     id = 0
     while True:
         yield id
         id += 1
 
 kgcl_parser = Lark.open('kgcl.lark', start='expression')
-id_gen = idGenerator()
+id_gen = id_generator()
 
 #input may be a set of KGCL statements separated by \n
 def parse(input):
@@ -19,69 +19,165 @@ def parse(input):
     parsed = []
 
     for s in statements:
-        parsed.append(parseStatement(s))
-        #parsed.append((s,parseStatement(s))) 
+        parsed.append(parse_statement(s))
+        #parsed.append((s,parse_statement(s))) 
     return parsed 
 
-def parseStatement(input): 
+def parse_statement(input): 
 
-    try: 
-        tree = kgcl_parser.parse(input); 
+    tree = kgcl_parser.parse(input)
 
-        id = "test_id_" + str(next(id_gen))
+    id = "test_id_" + str(next(id_gen))
 
-        command = tree.data
+    command = tree.data
+    #print("Command: " + command)
 
-        if(command == "rename"): 
-            old = next(tree.find_data('old'))#node with data 'old' is unique
-            old_token = next(getTokens(old))#node only as one token
+    if(command == "rename"): 
+        old = next(tree.find_data('old_label')) #node with data 'old_label' is unique
+        old_token = next(get_tokens(old))       #and this node only has one token
 
-            new = next(tree.find_data('new'))
-            new_token = next(getTokens(new))
+        new = next(tree.find_data('new_label'))
+        new_token = next(get_tokens(new)) 
 
+        term_id = tree.find_data('id')
+
+        term_id_list = list(tree.find_data('id'))
+        if(term_id_list):#test whether there is an element in the generator
+            t = next(term_id)
+            term_id_token = next(get_tokens(t)) 
+            return python.kgcl.NodeRename(id=id, about=term_id_token, old_value=old_token, new_value=new_token) 
+        else: 
             return python.kgcl.NodeRename(id=id, old_value=old_token, new_value=new_token)
 
-        if(command == "obsolete"):
-            label = next(tree.find_data('old'))
-            label_token = next(getTokens(label))
-            return python.kgcl.NodeObsoletion(id=id, about=label_token)
+    if(command == "obsolete"):
+        label = next(tree.find_data('entity'))
+        label_token = next(get_tokens(label))
+        return python.kgcl.NodeObsoletion(id=id, about=label_token)
 
-        if(command == "move"):
-            old = next(tree.find_data('old'))
-            old_token = next(getTokens(old))
+    if(command == "unobsolete"):
+        term_id = next(tree.find_data('id'))
+        term_id_token = next(get_tokens(term_id))
 
-            new = next(tree.find_data('new'))
-            new_token = next(getTokens(new))
-            return python.kgcl.NodeMove(id=id, old_value=old_token, new_value=new_token)
+        return python.kgcl.NodeUnobsoletion(id=id, about=term_id_token) 
+
+    if(command == "delete"):
+        label = next(tree.find_data('entity'))
+        label_token = next(get_tokens(label))
+
+        return python.kgcl.NodeDeletion(id=id, about=label_token)
+
+    if(command == "move"): 
+        term_id = next(tree.find_data('id'))
+        term_id_token = next(get_tokens(term_id))
+
+        old = next(tree.find_data('old_id'))
+        old_token = next(get_tokens(old))
+
+        new = next(tree.find_data('new_id'))
+        new_token = next(get_tokens(new))
+        return python.kgcl.NodeMove(id=id, about=term_id_token, old_value=old_token, new_value=new_token)
+
+    if(command == "deepen"): 
+        term_id = next(tree.find_data('id'))
+        term_id_token = next(get_tokens(term_id))
+
+        old = next(tree.find_data('old_id'))
+        old_token = next(get_tokens(old))
+
+        new = next(tree.find_data('new_id'))
+        new_token = next(get_tokens(new))
+
+        return python.kgcl.NodeDeepening(id=id, about=term_id_token, old_value=old_token, new_value=new_token)
+
+    if(command == "shallow"): 
+        term_id = next(tree.find_data('id'))
+        term_id_token = next(get_tokens(term_id))
+
+        old = next(tree.find_data('old_id'))
+        old_token = next(get_tokens(old))
+
+        new = next(tree.find_data('new_id'))
+        new_token = next(get_tokens(new))
+
+        return python.kgcl.NodeShallowing(id=id, about=term_id_token, old_value=old_token, new_value=new_token)
+
+    if(command == "create_edge"): 
+        subject = next(tree.find_data('subject'))
+        subject_token = next(get_tokens(subject))
+
+        predicate = next(tree.find_data('predicate'))
+        predicate_token = next(get_tokens(predicate))
+
+        object = next(tree.find_data('object'))
+        object_token = next(get_tokens(object))
+
+        return python.kgcl.EdgeCreation(id=id, subject=subject_token, predicate=predicate_token, object=object_token)
+
+    if(command == "delete_edge"): 
+        subject = next(tree.find_data('subject'))
+        subject_token = next(get_tokens(subject))
+
+        predicate = next(tree.find_data('predicate'))
+        predicate_token = next(get_tokens(predicate))
+
+        object = next(tree.find_data('object'))
+        object_token = next(get_tokens(object))
+
+        return python.kgcl.EdgeDeletion(id=id, subject=subject_token, predicate=predicate_token, object=object_token)
+
+    #if(command == "change_relationship"): #TODO:: there is no field for 'object' in the data model
+    #    subject = next(tree.find_data('subject'))
+    #    subject_token = next(get_tokens(subject))
+
+    #    object = next(tree.find_data('object'))
+    #    object_token = next(get_tokens(object))
+
+    #    old = next(tree.find_data('old'))
+    #    old_token = next(get_tokens(old))
+
+    #    new = next(tree.find_data('new'))
+    #    new_token = next(get_tokens(new))
+    #    return python.kgcl.NodeMove(id=id, about=term_id_token, old_value=old_token, new_value=new_token)
+
+    #the KGCL model suggests the command
+    #'create node {id} {label} with {annotation set}'
+    #TODO: handling of {annotation set}
+    if(command == "create"):
+        term_id = next(tree.find_data('id'))
+        term_id_token = next(get_tokens(term_id))
+
+        label = next(tree.find_data('label'))
+        label_token = next(get_tokens(label)) 
+        return python.kgcl.NodeCreation(id=id, node_id=term_id_token, name=label_token) 
+
+    if(command == "create_class"): 
+        term_id = next(tree.find_data('id'))
+        term_id_token = next(get_tokens(term_id))
+        return python.kgcl.ClassCreation(id=id, node_id=term_id_token)
 
 
-        #TODO: more cases
-        #if(command == "merge"):
-        #if(command == "add"):
-        #if(command == "add_parent"):
-        #if(command == "add_annotation"):
-        #if(command == "add_synonym"):
-        #if(command == "add_axiom"): (in Manchester Syntax?)
-        #if(command == "add_class"):
-        #if(command == "add_text_definition"):
-        #if(command == "merge"):
-        #if(command == "create"): 
+    #TODO: more cases
+    #if(command == "merge"):
+    #if(command == "add"):
+    #if(command == "add_parent"):
+    #if(command == "add_annotation"):
+    #if(command == "add_synonym"):
+    #if(command == "add_axiom"): (in Manchester Syntax?)
+    #if(command == "add_class"):
+    #if(command == "add_text_definition"):
+    #if(command == "merge"): 
 
-    except:
-        print("Failed to parse expression:")
-        print(input)
-
-def getTokens(tree):
+def get_tokens(tree):
     return tree.scan_values(lambda v: isinstance(v, Token))
 
 if __name__ == "__main__":
     ###
     ### MANUAL TESTING
     ### 
-    example1 = "rename 'abnormal ear' to 'abnormal ear morphology'"
+    example1 = "renamea 'abnormal ear' to 'abnormal ear morphology'"
     tree = kgcl_parser.parse(example1); 
     print(tree)
-    old = next(tree.find_data('old')) 
+    old = next(tree.find_data('old_label')) 
     print(old)
-    old_token = next(getTokens(old))
+    old_token = next(get_tokens(old))
     print(old_token) 

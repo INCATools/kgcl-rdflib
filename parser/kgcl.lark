@@ -1,31 +1,60 @@
-?expression: rename
+?expression: rename 
+           | create
            | obsolete 
-           | merge
+           | delete 
            | move
+           | create_class 
+           | unobsolete
+           | deepen
+           | shallow
+           | change_relationship
+           | create_edge
+           | delete_edge 
 
-rename : "rename" old ["from" from] ("to"|"as"|"->") new 
+rename : "rename" old_label ["from" id] ("to"|"as"|"->") new_label 
 
-obsolete : "obsolete" old
+create : "create node" id label
+create_class: "create" id
 
-move : "move" old [ "from" from ] ("to"|"as"|"->") new 
+delete : "delete" entity
+obsolete : "obsolete" entity
+unobsolete: "unobsolete" id 
 
-merge :  "merge" _entity "into" _entity MERGE_OPT*
+deepen : "deepen" id "from" old_id ("to"|"->") new_id
+shallow : "shallow" id "from" old_id ("to"|"->") new_id 
+move : "move" id "from" old_id ("to"|"as"|"->") new_id 
+
+create_edge : "create edge" predicate "from" subject "to" object 
+delete_edge : "delete edge" predicate "from" subject "to" object 
+
+change_relationship: "change relationship between" subject "and" object "from" old "to" new 
+
+id : ID 
+subject: ID
+predicate: ID
+object: _entity
+
+label : QUOTED_LABEL
+old_label : QUOTED_LABEL
+new_label : QUOTED_LABEL
+
+old_id : ID
+new_id : ID
 
 old : _entity
 new : _entity
 from : _entity 
 
+entity: _entity
+
 _entity : QUOTED_LABEL
-        | ID
+        | INNER_ID
 
 QUOTED_LABEL : "'" INNER_LABEL "'" 
-ID : /\S+/
+ID :  "<" INNER_ID ">"
 
-MERGE_OPT : STRING
-
-INNER_LABEL: /\S.+?/ 
-
-STRING: /.+?/
+INNER_LABEL: /[^ \s\'].*?/ 
+INNER_ID: /\S+/
 
 %import common.WS
 %ignore WS
