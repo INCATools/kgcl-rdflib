@@ -1,7 +1,7 @@
 from flask import Flask, render_template, url_for, render_template_string, request, redirect 
 import parser
-#import kgcl2sparql
-#import graph_transformer
+import kgcl_2_sparql
+import graph_transformer
 
 import sys
 sys.path.append("../")
