@@ -10,7 +10,7 @@ TGTS = graphql jsonschema ldcontext docs  owl csv graphql python shex
 #GEN_OPTS = --no-mergeimports
 GEN_OPTS = 
 
-all: gen stage
+all: gen stage deploy-python
 gen: $(patsubst %,gen-%,$(TGTS))
 clean:
 	rm -rf target/
@@ -120,6 +120,7 @@ target/linkml/%.yaml: $(SCHEMA_DIR)/%.yaml tdir-limkml
 docserve:
 	mkdocs serve
 
+# remember to run this to update the datamodel in kgcl/
 deploy-python: stage-python
 	cp python/* kgcl/model/
 

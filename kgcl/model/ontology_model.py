@@ -1,5 +1,5 @@
 # Auto generated from ontology_model.yaml by pythongen.py version: 0.9.0
-# Generation date: 2021-05-15 17:00
+# Generation date: 2021-06-25 07:49
 # Schema: kgcl-ontology-model
 #
 # id: https://w3id.org/kgcl/ontology
@@ -140,7 +140,7 @@ class Node(OntologyElement):
 
     def __post_init__(self, *_: List[str], **kwargs: Dict[str, Any]):
         if self._is_empty(self.id):
-            raise ValueError("id must be supplied")
+            self.MissingRequiredField("id")
         if not isinstance(self.id, NodeId):
             self.id = NodeId(self.id)
 
@@ -172,7 +172,7 @@ class ClassNode(Node):
 
     def __post_init__(self, *_: List[str], **kwargs: Dict[str, Any]):
         if self._is_empty(self.id):
-            raise ValueError("id must be supplied")
+            self.MissingRequiredField("id")
         if not isinstance(self.id, ClassNodeId):
             self.id = ClassNodeId(self.id)
 
@@ -195,7 +195,7 @@ class InstanceNode(Node):
 
     def __post_init__(self, *_: List[str], **kwargs: Dict[str, Any]):
         if self._is_empty(self.id):
-            raise ValueError("id must be supplied")
+            self.MissingRequiredField("id")
         if not isinstance(self.id, InstanceNodeId):
             self.id = InstanceNodeId(self.id)
 
@@ -269,9 +269,12 @@ class OwlTypeEnum(EnumDefinitionImpl):
 
 class SynonymScopeEnum(EnumDefinitionImpl):
 
-    related = PermissibleValue(text="related")
-    broad = PermissibleValue(text="broad")
-    narrow = PermissibleValue(text="narrow")
+    related = PermissibleValue(text="related",
+                                     meaning=OIO.hasNarrowSynonym)
+    broad = PermissibleValue(text="broad",
+                                 meaning=OIO.hasBroadSynonym)
+    narrow = PermissibleValue(text="narrow",
+                                   meaning=OIO.hasNarrowSynonym)
     exact = PermissibleValue(text="exact",
                                  meaning=OIO.hasExactSynonym)
 

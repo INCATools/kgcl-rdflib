@@ -21,7 +21,7 @@ type AddNodeToSubset implements AddToSubset
     hasUndo: Change
     oldValue: String
     newValue: String
-    about: String
+    aboutNode: Node
     inSubset: OntologySubset
   }
 
@@ -39,7 +39,7 @@ type Agent
 
 interface AllowsAutomaticReplacementOfEdges
   {
-    about: String
+    about: OntologyElement
     hasUndo: Obsoletion
   }
 
@@ -85,7 +85,7 @@ type ClassCreation
     hasUndo: Change
     oldValue: String
     newValue: String
-    about: String
+    aboutNode: Node
     nodeId: Node
     name: String
     owlType: OwlTypeEnum
@@ -142,7 +142,6 @@ type DatatypeChange
     changeDate: String
     contributor: String
     hasUndo: Change
-    about: String
     oldValue: String
     newValue: String
   }
@@ -171,7 +170,7 @@ interface EdgeChange
     hasUndo: Change
     oldValue: String
     newValue: String
-    about: String
+    aboutEdge: Edge
     subject: Node
   }
 
@@ -187,7 +186,7 @@ type EdgeCreation implements Creation
     hasUndo: Change
     oldValue: String
     newValue: String
-    about: String
+    aboutEdge: Edge
     subject: Node
     predicate: Node
     object: Node
@@ -207,7 +206,7 @@ type EdgeDeletion implements Deletion
     hasUndo: Change
     oldValue: String
     newValue: String
-    about: String
+    aboutEdge: Edge
     subject: Node
     predicate: Node
     object: Node
@@ -227,7 +226,7 @@ type EdgeLogicalInterpretationChange
     hasUndo: Change
     oldValue: String
     newValue: String
-    about: String
+    aboutEdge: Edge
     subject: Node
   }
 
@@ -243,12 +242,13 @@ type EdgeObsoletion implements Obsoletion
     hasUndo: Change
     oldValue: String
     newValue: String
-    about: String
+    aboutEdge: Edge
     subject: Node
     predicate: Node
     object: Node
     annotationSet: Annotation
     changeDescription: String
+    about: OntologyElement
   }
 
 type EdgeRewiring
@@ -263,7 +263,7 @@ type EdgeRewiring
     hasUndo: Change
     oldValue: String
     newValue: String
-    about: String
+    aboutEdge: Edge
     subject: Node
   }
 
@@ -285,7 +285,6 @@ type LogicalAxiomChange
     changeDate: String
     contributor: String
     hasUndo: Change
-    about: String
     oldValue: String
     newValue: String
   }
@@ -321,7 +320,7 @@ type NameBecomesSynonym
     hasUndo: Change
     oldValue: String
     newValue: String
-    about: String
+    aboutNode: Node
     change1: NodeRename
     change2: NewSynonym
     changeDescription: String
@@ -338,7 +337,7 @@ type NewSynonym
     contributor: String
     hasUndo: Change
     oldValue: String
-    about: String
+    aboutNode: Node
     newValue: String
   }
 
@@ -353,7 +352,7 @@ type NewTextDefinition
     contributor: String
     hasUndo: Change
     oldValue: String
-    about: String
+    aboutNode: Node
     newValue: String
   }
 
@@ -377,7 +376,7 @@ type NodeAnnotationChange
     hasUndo: Change
     oldValue: String
     newValue: String
-    about: String
+    aboutNode: Node
   }
 
 type NodeAnnotationReplacement
@@ -392,7 +391,7 @@ type NodeAnnotationReplacement
     hasUndo: Change
     oldValue: String
     newValue: String
-    about: String
+    aboutNode: Node
   }
 
 interface NodeChange
@@ -407,7 +406,7 @@ interface NodeChange
     hasUndo: Change
     oldValue: String
     newValue: String
-    about: String
+    aboutNode: Node
   }
 
 type NodeCreation implements Creation
@@ -422,7 +421,7 @@ type NodeCreation implements Creation
     hasUndo: Change
     oldValue: String
     newValue: String
-    about: String
+    aboutNode: Node
     nodeId: Node
     name: String
     owlType: OwlTypeEnum
@@ -442,7 +441,7 @@ type NodeDeepening
     hasUndo: Change
     oldValue: String
     newValue: String
-    about: String
+    aboutEdge: Edge
     subject: Node
     changeDescription: String
   }
@@ -459,7 +458,7 @@ type NodeDeletion implements Deletion
     hasUndo: Change
     oldValue: String
     newValue: String
-    about: String
+    aboutNode: Node
     changeDescription: String
   }
 
@@ -477,8 +476,9 @@ type NodeDirectMerge implements AllowsAutomaticReplacementOfEdges
     newValue: String
     hasNondirectReplacement: [Node]
     associatedChangeSet: [Change]
+    about: OntologyElement
     hasDirectReplacement: Node!
-    about: String
+    aboutNode: Node
     changeDescription: String
   }
 
@@ -494,7 +494,7 @@ type NodeMove
     hasUndo: Change
     oldValue: String
     newValue: String
-    about: String
+    aboutEdge: Edge
     subject: Node
     changeDescription: String
   }
@@ -511,11 +511,12 @@ type NodeObsoletion implements Obsoletion
     hasUndo: Change
     oldValue: String
     newValue: String
-    about: String
+    aboutNode: Node
     hasDirectReplacement: Node
     hasNondirectReplacement: [Node]
     changeDescription: String
     associatedChangeSet: [Change]
+    about: OntologyElement
   }
 
 type NodeObsoletionWithDirectReplacement implements AllowsAutomaticReplacementOfEdges
@@ -530,9 +531,10 @@ type NodeObsoletionWithDirectReplacement implements AllowsAutomaticReplacementOf
     hasUndo: Change
     oldValue: String
     newValue: String
-    about: String
+    aboutNode: Node
     hasNondirectReplacement: [Node]
     associatedChangeSet: [Change]
+    about: OntologyElement
     hasDirectReplacement: Node!
     changeDescription: String
   }
@@ -549,9 +551,10 @@ type NodeObsoletionWithNoDirectReplacement
     hasUndo: Change
     oldValue: String
     newValue: String
-    about: String
+    aboutNode: Node
     hasDirectReplacement: Node
     associatedChangeSet: [Change]
+    about: OntologyElement
     hasNondirectReplacement: [Node]!
     changeDescription: String
   }
@@ -566,7 +569,7 @@ type NodeRename
     changeDate: String
     contributor: String
     hasUndo: Change
-    about: String
+    aboutNode: Node
     oldValue: String
     newValue: String
     hasTextualDiff: TextualDiff
@@ -585,7 +588,7 @@ type NodeShallowing
     hasUndo: Change
     oldValue: String
     newValue: String
-    about: String
+    aboutEdge: Edge
     subject: Node
     changeDescription: String
   }
@@ -602,7 +605,7 @@ type NodeSynonymChange
     hasUndo: Change
     oldValue: String
     newValue: String
-    about: String
+    aboutNode: Node
   }
 
 interface NodeTextDefinitionChange
@@ -617,7 +620,7 @@ interface NodeTextDefinitionChange
     hasUndo: Change
     oldValue: String
     newValue: String
-    about: String
+    aboutNode: Node
   }
 
 type NodeUnobsoletion implements Unobsoletion
@@ -632,7 +635,7 @@ type NodeUnobsoletion implements Unobsoletion
     hasUndo: Change
     oldValue: String
     newValue: String
-    about: String
+    aboutNode: Node
     changeDescription: String
     replacedBy: Node
     consider: Node
@@ -640,7 +643,7 @@ type NodeUnobsoletion implements Unobsoletion
 
 interface Obsoletion
   {
-    about: String
+    about: OntologyElement
     hasUndo: Obsoletion
   }
 
@@ -664,7 +667,7 @@ type PlaceUnder
     hasUndo: Change
     oldValue: String
     newValue: String
-    about: String
+    aboutEdge: Edge
     subject: Node
     predicate: Node
     object: Node
@@ -684,7 +687,7 @@ type PredicateChange
     hasUndo: Change
     oldValue: String
     newValue: String
-    about: String
+    aboutEdge: Edge
     subject: Node
     changeDescription: String
   }
@@ -712,7 +715,7 @@ type RemoveSynonym
     contributor: String
     hasUndo: Change
     newValue: String
-    about: String
+    aboutNode: Node
     oldValue: String
   }
 
@@ -727,7 +730,7 @@ type RemoveTextDefinition
     contributor: String
     hasUndo: Change
     newValue: String
-    about: String
+    aboutNode: Node
     oldValue: String
   }
 
@@ -744,7 +747,7 @@ type RemovedNodeFromSubset implements RemoveFromSubset
     oldValue: String
     newValue: String
     changeDescription: String
-    about: String
+    aboutNode: Node
     subset: String
     inSubset: OntologySubset
   }
@@ -765,7 +768,6 @@ interface SimpleChange
     changeDate: String
     contributor: String
     hasUndo: Change
-    about: String
     oldValue: String
     newValue: String
   }
@@ -785,7 +787,7 @@ type SynonymPredicateChange
     changeDate: String
     contributor: String
     hasUndo: Change
-    about: String
+    aboutNode: Node
     oldValue: String
     newValue: String
     hasTextualDiff: TextualDiff
@@ -801,7 +803,7 @@ type SynonymReplacement
     changeDate: String
     contributor: String
     hasUndo: Change
-    about: String
+    aboutNode: Node
     oldValue: String
     newValue: String
     hasTextualDiff: TextualDiff
@@ -817,7 +819,7 @@ type TextDefinitionReplacement
     changeDate: String
     contributor: String
     hasUndo: Change
-    about: String
+    aboutNode: Node
     oldValue: String
     newValue: String
     hasTextualDiff: TextualDiff

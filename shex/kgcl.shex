@@ -219,7 +219,7 @@ om:Edge CLOSED {
 <EdgeChange_struct> {
     (  $<EdgeChange_tes> (  &<SimpleChange_tes> ;
           rdf:type [ <SimpleChange> ] ? ;
-          <about> @linkml:String ? ;
+          <about_edge> @om:Edge ? ;
           <subject> @om:Node ?
        ) ;
        rdf:type [ <EdgeChange> ]
@@ -275,7 +275,8 @@ om:Edge CLOSED {
           om:predicate @om:Node ? ;
           om:object @om:Node ? ;
           om:annotation_set @om:Annotation ? ;
-          <change_description> @linkml:String ?
+          <change_description> @linkml:String ? ;
+          <about> @om:OntologyElement ?
        ) ;
        rdf:type [ <EdgeObsoletion> ]
     )
@@ -390,7 +391,7 @@ om:Node  (
 <NodeChange_struct> {
     (  $<NodeChange_tes> (  &<SimpleChange_tes> ;
           rdf:type [ <SimpleChange> ] ? ;
-          <about> @linkml:String ?
+          <about_node> @om:Node ?
        ) ;
        rdf:type [ <NodeChange> ]
     )
@@ -439,7 +440,7 @@ om:Node  (
           &<AllowsAutomaticReplacementOfEdges_tes> ;
           rdf:type [ <AllowsAutomaticReplacementOfEdges> ] ? ;
           <has_direct_replacement> @om:Node ;
-          <about> @linkml:String ? ;
+          <about_node> @om:Node ? ;
           <change_description> @linkml:String ?
        ) ;
        rdf:type [ <NodeDirectMerge> ]
@@ -466,7 +467,8 @@ om:Node  (
              <has_direct_replacement> @om:Node ? ;
              <has_nondirect_replacement> @om:Node * ;
              <change_description> @linkml:String ? ;
-             <associated_change_set> @<Change> *
+             <associated_change_set> @<Change> * ;
+             <about> @om:OntologyElement ?
           ) ;
           rdf:type [ <NodeObsoletion> ]
        )
@@ -555,7 +557,7 @@ om:Node  (
     {
        (  $<Obsoletion_tes> (  &<ChangeMixin_tes> ;
              rdf:type [ <ChangeMixin> ] ? ;
-             <about> @linkml:String ? ;
+             <about> @om:OntologyElement ? ;
              <has_undo> @<Obsoletion> ?
           ) ;
           rdf:type [ <Obsoletion> ] ?
@@ -640,7 +642,7 @@ om:PropertyValue  (
           &<RemoveFromSubset_tes> ;
           rdf:type [ <RemoveFromSubset> ] ? ;
           <change_description> @linkml:String ? ;
-          <about> @linkml:String ? ;
+          <about_node> @om:Node ? ;
           <subset> @linkml:String ? ;
           <in_subset> @om:OntologySubset ?
        ) ;
@@ -663,7 +665,6 @@ om:PropertyValue  (
 <SimpleChange_struct> {
     (  $<SimpleChange_tes> (  &<Change_tes> ;
           rdf:type [ <Change> ] ? ;
-          <about> @linkml:String ? ;
           <old_value> @linkml:String ? ;
           <new_value> @linkml:String ?
        ) ;
