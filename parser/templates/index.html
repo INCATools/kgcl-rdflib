@@ -8,10 +8,16 @@
     <form action="/" method="POST">
         <!-- <input type="text" name="content" id="content"> -->
         <textarea name="content" id="content" rows="10" cols="30"></textarea>
-        <input type="submit" value="Parse"> 
+        <input type="submit" name="load_data" value="Load Data"> 
+        <input type="submit" name="load_kgcl" value="Load KGCL"> 
+        <!-- <input type="submit" name="parse_kgcl" value="Parse KGCL"> -->
+        <input type="submit" name="apply_changes" value="Apply Changes"> 
+        <input type="submit" name="load_example" value="Load Example"> 
     </form> 
 
-    <p><b>Input:</b> <br>{{ input }}</p>
-    <p><b>Output:</b> <br>{{ output }}</p>
+    <p><b>Input Graph:</b> <br>{{ inputGraph }}</p>
+    <p><b>Input KGCL:</b> <br>{{ inputKGCL }}</p>
+    <p><b>KGCL Model:</b> <br>{{ parsedKGCL }}</p>
+    <p><b>Output Graph:</b> <br>{{ outputGraph }}</p>
 </div>
 {% endblock %}

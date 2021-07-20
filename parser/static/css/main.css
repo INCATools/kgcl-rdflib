@@ -5,7 +5,7 @@ body, html {
 
 .content {
     margin: 0 auto;
-    width: 600px;
+    width: 1000px;
 }
 
 p { 
@@ -22,5 +22,5 @@ h1 {
 }
 
 #content {
-    width: 80%;
+    width: 100%;
 }

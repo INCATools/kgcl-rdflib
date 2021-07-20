@@ -2,6 +2,7 @@ from flask import Flask, render_template, url_for, render_template_string, reque
 import parser
 import kgcl_2_sparql
 import graph_transformer
+import rdflib
 
 import sys
 sys.path.append("../")
@@ -13,16 +14,94 @@ app = Flask(__name__)
 @app.route('/', methods=['POST', 'GET'])
 def index():
     if request.method == 'POST':
-        input = request.form['content']  #get input from web app
-        output = parse(input)            #parse input string into data model
 
-        #graph_transformer.transform_set(output)
+        if "load_data" in request.form:
+            #expect input RDF graph as triples
+            input = request.form['content']
+            f = open("testData/graph.nt", "w")
+            f.write(input)
+            f.close()
 
-        output_rendering =  ""           #render output
+        if "load_kgcl" in request.form:
+            input = request.form['content']
+            f = open("testData/kgcl", "w")
+            f.write(input)
+            f.close() 
+
+        #if "parse_kgcl" in request.form: 
+        #    f = open("testData/kgcl", "r") 
+        #    kgcl = f.read()
+        #    f.close()
+        #    #read kgcl file and parse from there
+        #    output = parse(kgcl)            #parse input string into data model 
+        #    output_rendering =  ""           #render output
+        #    for o in output: 
+        #        output_rendering += render(o) + "\n" 
+        #    return render_template('index.html', inputKGCL=kgcl, parsedKGCL=output_rendering)
+
+        if "apply_changes" in request.form:
+
+            #load KGCL input
+            f = open("testData/kgcl", "r") 
+            kgcl = f.read()
+            f.close() 
+
+            #parse KGCL input
+            parsed_statements = parse(kgcl) 
+
+            #load graph
+            g = rdflib.Graph()
+            g.load("testData/graph.nt", format="nt") 
+
+            #transform graph 
+            graph_transformer.transform_graph(parsed_statements, g)
+
+            #save graph
+            g.serialize(destination="testData/transformation.nt", format='nt') 
+
+        if "load_example" in request.form:
+
+            f = open("testData/example/graph.nt", "r") 
+            graph = f.read()
+            f.close() 
+
+            f = open("testData/graph.nt", "w")
+            f.write(graph)
+            f.close()
+
+            f = open("testData/example/kgcl", "r") 
+            kgcl = f.read()
+            f.close()
+
+            f = open("testData/kgcl", "w")
+            f.write(kgcl)
+            f.close()
+
+        #load graph
+        f = open("testData/graph.nt", "r") 
+        graph = f.read()
+        f.close() 
+
+        #load KGCL input
+        f = open("testData/kgcl", "r") 
+        kgcl = f.read()
+        f.close() 
+
+        #parse KGCL input
+        output = parse(kgcl)
+
+        #prepare parsed 
+        output_rendering = "" 
         for o in output: 
             output_rendering += render(o) + "\n" 
 
-        return render_template('index.html', input=input, output=output_rendering)
+        #load transformed graph
+        f = open("testData/transformation.nt", "r") 
+        transformation = f.read()
+        f.close() 
+
+        return render_template('index.html', inputGraph=graph, inputKGCL=kgcl, parsedKGCL=output_rendering, outputGraph=transformation) 
+
     else: 
         return render_template('index.html')
 
