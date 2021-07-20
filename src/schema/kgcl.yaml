@@ -313,6 +313,31 @@ classes:
     examples:
       - value: changing G1 annotated-to T1 to G1 annotated-to T2, after obsoletion of T1 and replacement with T2
 
+  mapping creation:
+    aliases:
+      - xref creation
+    is_a: edge creation
+    description: >-
+      A specific kind of edge creation in which the created edge is a mapping.
+    mixins:
+      - creation
+    slots:
+      - subject
+      - predicate
+      - object
+      - annotation set
+    slot_usage:
+      change description:
+        string_serialization: "creating mapping {edge}"
+      subject:
+        description: This corresponds to subject_id in SSSOM
+      predicate:
+        description: This corresponds to predicate_id in SSSOM. The value of this is typically a predicate from SKOS
+      object:
+        description: This corresponds to object_id in SSSOM
+    todos:
+      - decide whether to make a corresponding change to the datamodel
+
   node move:
     is_a: edge change
     description: >-
