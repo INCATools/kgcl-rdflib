@@ -119,12 +119,12 @@ def render(kgclInstance):
     if(type(kgclInstance) is python.kgcl.NodeObsoletion):
         render = render + "NodeObsoletion(" \
                 + "ID=" + kgclInstance.id + ", " \
-                + "About=" + kgclInstance.about + ")"  
+                + "About=" + kgclInstance.about_node + ")"  
 
     if(type(kgclInstance) is python.kgcl.NodeDeletion):
         render = render + "NodeDeletion(" \
                 + "ID=" + kgclInstance.id + ", " \
-                + "About=" + kgclInstance.about + ")"  
+                + "About=" + kgclInstance.about_node + ")"  
 
     if(type(kgclInstance) is python.kgcl.ClassCreation):
         render = render + "ClassCreation(" \
@@ -146,19 +146,19 @@ def render(kgclInstance):
     if(type(kgclInstance) is python.kgcl.NodeUnobsoletion):
         render = render + "NodeUnobsoletion(" \
                 + "ID=" + kgclInstance.id + ", " \
-                + "Term id=" + kgclInstance.about + ")" 
+                + "Term id=" + kgclInstance.about_node + ")" 
 
     if(type(kgclInstance) is python.kgcl.NodeDeepening):
         render = render + "NodeDeepening(" \
                 + "ID=" + kgclInstance.id + ", " \
-                + "Term ID=" + kgclInstance.about + ", " \
+                + "Term ID=" + kgclInstance.about_edge.subject + ", " \
                 + "Old Value=" + kgclInstance.old_value + ", " \
                 + "New Value=" + kgclInstance.new_value + ")"
 
     if(type(kgclInstance) is python.kgcl.NodeShallowing):
         render = render + "NodeShallowing(" \
                 + "ID=" + kgclInstance.id + ", " \
-                + "Term ID=" + kgclInstance.about + ", " \
+                + "Term ID=" + kgclInstance.about_edge.suject + ", " \
                 + "Old Value=" + kgclInstance.old_value + ", " \
                 + "New Value=" + kgclInstance.new_value + ")"
 

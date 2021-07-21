@@ -3,6 +3,7 @@ from lark import Lark, Tree, Token
 import sys
 sys.path.append("../")
 import python.kgcl
+import python.ontology_model
 
 def id_generator():
     id = 0
@@ -45,26 +46,26 @@ def parse_statement(input):
         if(term_id_list):#test whether there is an element in the generator
             t = next(term_id)
             term_id_token = next(get_tokens(t)) 
-            return python.kgcl.NodeRename(id=id, about=term_id_token, old_value=old_token, new_value=new_token) 
+            return python.kgcl.NodeRename(id=id, about_node=term_id_token, old_value=old_token, new_value=new_token) 
         else: 
             return python.kgcl.NodeRename(id=id, old_value=old_token, new_value=new_token)
 
     if(command == "obsolete"):
         label = next(tree.find_data('entity'))
         label_token = next(get_tokens(label))
-        return python.kgcl.NodeObsoletion(id=id, about=label_token)
+        return python.kgcl.NodeObsoletion(id=id, about_node=label_token)
 
     if(command == "unobsolete"):
         term_id = next(tree.find_data('id'))
         term_id_token = next(get_tokens(term_id))
 
-        return python.kgcl.NodeUnobsoletion(id=id, about=term_id_token) 
+        return python.kgcl.NodeUnobsoletion(id=id, about_node=term_id_token) 
 
     if(command == "delete"):
-        label = next(tree.find_data('entity'))
+        label = next(tree.find_data('entity'))#TODO check whether we want to delete nodes by label 
         label_token = next(get_tokens(label))
 
-        return python.kgcl.NodeDeletion(id=id, about=label_token)
+        return python.kgcl.NodeDeletion(id=id, about_node=label_token)
 
     if(command == "move"): 
         term_id = next(tree.find_data('id'))
@@ -75,8 +76,10 @@ def parse_statement(input):
 
         new = next(tree.find_data('new_id'))
         new_token = next(get_tokens(new))
-        return python.kgcl.NodeMove(id=id, about=term_id_token, old_value=old_token, new_value=new_token)
 
+        edge = python.ontology_model.Edge(subject=term_id_token, object=old_token)
+
+        return python.kgcl.NodeMove(id=id, about_edge=edge, old_value=old_token, new_value=new_token) 
     if(command == "deepen"): 
         term_id = next(tree.find_data('id'))
         term_id_token = next(get_tokens(term_id))
@@ -87,7 +90,9 @@ def parse_statement(input):
         new = next(tree.find_data('new_id'))
         new_token = next(get_tokens(new))
 
-        return python.kgcl.NodeDeepening(id=id, about=term_id_token, old_value=old_token, new_value=new_token)
+        edge = python.ontology_model.Edge(subject=term_id_token, object=old_token)
+
+        return python.kgcl.NodeDeepening(id=id, about_edge=edge, old_value=old_token, new_value=new_token)
 
     if(command == "shallow"): 
         term_id = next(tree.find_data('id'))
@@ -99,7 +104,9 @@ def parse_statement(input):
         new = next(tree.find_data('new_id'))
         new_token = next(get_tokens(new))
 
-        return python.kgcl.NodeShallowing(id=id, about=term_id_token, old_value=old_token, new_value=new_token)
+        edge = python.ontology_model.Edge(subject=term_id_token, object=old_token)
+
+        return python.kgcl.NodeShallowing(id=id, about_edge=edge, old_value=old_token, new_value=new_token)
 
     if(command == "create_edge"): 
         subject = next(tree.find_data('subject'))
@@ -148,7 +155,10 @@ def parse_statement(input):
 
         label = next(tree.find_data('label'))
         label_token = next(get_tokens(label)) 
-        return python.kgcl.NodeCreation(id=id, node_id=term_id_token, name=label_token) 
+        #TODO: where is the difference between
+        #a 'node_id' provided by 'NodeCreation'
+        #and 'about_node' inherited by 'NodeChange'?
+        return python.kgcl.NodeCreation(id=id, about_node=term_id_token, node_id=term_id_token, name=label_token) 
 
     if(command == "create_class"): 
         term_id = next(tree.find_data('id'))

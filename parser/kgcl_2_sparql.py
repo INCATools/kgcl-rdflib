@@ -12,30 +12,32 @@ def is_id(input):
 def convert(kgclInstance):
 
     #label renaming
+    #TODO: case for "rename 'old' from 'id' to 'new'
     if(type(kgclInstance) is python.kgcl.NodeRename):
         if(is_label(kgclInstance.old_value) and is_label(kgclInstance.new_value)): 
             return rename(kgclInstance)
         #TODO: error handling
 
     #node obsoletion
+    #TODO: new model only allows to obsolete a node (which is an 'id' and not a 'label'
     if(type(kgclInstance) is python.kgcl.NodeObsoletion):
-        if(is_label(kgclInstance.about)):
+        if(is_label(kgclInstance.about_node)):
             return obsolete_by_label(kgclInstance)
-        if(is_id(kgclInstance.about)):
+        if(is_id(kgclInstance.about_node)):
             return obsolete_by_id(kgclInstance)
         #TODO: error handling
 
     #node obsoletion
     if(type(kgclInstance) is python.kgcl.NodeUnobsoletion):
-        if(is_id(kgclInstance.about)):
+        if(is_id(kgclInstance.about_node)):
             return unobsolete(kgclInstance)
         #TODO: error handling
 
     #node deletion
     if(type(kgclInstance) is python.kgcl.NodeDeletion):
-        if(is_id(kgclInstance.about)):
+        if(is_id(kgclInstance.about_node)):
             return delete_by_id(kgclInstance)
-        if(is_label(kgclInstance.about)):
+        if(is_label(kgclInstance.about_node)):
             return delete_by_label(kgclInstance)
         #TODO: error handling
 
@@ -51,12 +53,12 @@ def convert(kgclInstance):
 
     #node deepending
     if(type(kgclInstance) is python.kgcl.NodeDeepening):
-        if(is_id(kgclInstance.about) and is_id(kgclInstance.old_value) and is_id(kgclInstance.new_value)):
+        if(is_id(kgclInstance.about_edge.subject) and is_id(kgclInstance.old_value) and is_id(kgclInstance.new_value)):
             return node_deepening(kgclInstance)
 
     #node shallowing
     if(type(kgclInstance) is python.kgcl.NodeShallowing):
-        if(is_id(kgclInstance.about) and is_id(kgclInstance.old_value) and is_id(kgclInstance.new_value)):
+        if(is_id(kgclInstance.about_edge.subject) and is_id(kgclInstance.old_value) and is_id(kgclInstance.new_value)):
             return node_shallowing(kgclInstance)
 
     #edge creation
@@ -71,12 +73,12 @@ def convert(kgclInstance):
 
     #node move
     if(type(kgclInstance) is python.kgcl.NodeMove): 
-        if(is_id(kgclInstance.about) and is_id(kgclInstance.old_value) and is_id(kgclInstance.new_value)):
+        if(is_id(kgclInstance.about_edge.subject) and is_id(kgclInstance.old_value) and is_id(kgclInstance.new_value)):
             return node_move(kgclInstance)
 
 
 def node_move(kgclInstance):
-    term_id = kgclInstance.about
+    term_id = kgclInstance.about_edge.subject
     old_value = kgclInstance.old_value
     new_value = kgclInstance.new_value
 
@@ -104,7 +106,7 @@ def node_move(kgclInstance):
 
 def node_deepening(kgclInstance):
     
-    term_id = kgclInstance.about
+    term_id = kgclInstance.about_edge.subject
     old_value = kgclInstance.old_value
     new_value = kgclInstance.new_value
 
@@ -133,7 +135,7 @@ def node_deepening(kgclInstance):
 
 def node_shallowing(kgclInstance):
     
-    term_id = kgclInstance.about
+    term_id = kgclInstance.about_edge.subject
     old_value = kgclInstance.old_value
     new_value = kgclInstance.new_value
 
@@ -162,7 +164,7 @@ def node_shallowing(kgclInstance):
 
 
 def unobsolete(kgclInstance):
-    about =  kgclInstance.about
+    about =  kgclInstance.about_node
     #http://wiki.geneontology.org/index.php/Restoring_an_Obsolete_Ontology_Term
     #1. remove 'obsolete' from label
     #2. remove 'OBSOLETE' from definition TODO
@@ -221,10 +223,10 @@ def rename(kgclInstance):
     newValue = kgclInstance.new_value
 
     #initialise subject
-    if(kgclInstance.about is None):
+    if(kgclInstance.about_node is None):
         subject = "?entity"
     else:
-        subject = kgclInstance.about
+        subject = kgclInstance.about_node
 
     #this chances only the label of an entity
     prefix = "PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>"
@@ -246,7 +248,7 @@ def rename(kgclInstance):
     return updateQuery 
 
 def delete_by_id(kgclInstance):
-    about = kgclInstance.about #this needs to be an ID - not a label
+    about = kgclInstance.about_node #this needs to be an ID - not a label
 
     deleteQuery = "?s1 ?p1 " + about + " . " #this does not delete triples with blank nodes
     deleteQuery += "?s2 " + about + " ?o1 . "
@@ -269,7 +271,7 @@ def delete_by_id(kgclInstance):
     return updateQuery
 
 def delete_by_label(kgclInstance):
-    about = kgclInstance.about 
+    about = kgclInstance.about_node
 
     deleteQuery = "?s1 ?p1 " + about + " . "
     deleteQuery += "?s1 ?p2 ?o1 . "
@@ -340,7 +342,7 @@ def edge_deletion(kgclInstance):
     return updateQuery 
 
 def obsolete_by_id(kgclInstance):
-    about = kgclInstance.about
+    about = kgclInstance.about_node
 
     prefix = "PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>  "
     prefix += "PREFIX owl: <http://www.w3.org/2002/07/owl#>  "
@@ -381,7 +383,7 @@ def obsolete_by_id(kgclInstance):
 #TODO: This doesn't handle language tags
 #since, I canont query for any language tag, 
 def obsolete_by_label(kgclInstance): 
-    about = kgclInstance.about 
+    about = kgclInstance.about_node
 
     prefix = "PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>  "
     prefix += "PREFIX owl: <http://www.w3.org/2002/07/owl#>  "
