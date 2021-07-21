@@ -72,7 +72,6 @@ classes:
     description: >-
       A change that is about a single ontology element
     slots:
-      - about
       - old value
       - new value
 
@@ -233,12 +232,14 @@ classes:
     is_a: simple change
     description: >-
       A change in which the element that is the focus of the change is an edge.
+    slots:
+      - about edge
     slot_usage:
-      about:
-        domain: edge
       subject:
         comments:
           - if subject is empty, use the about field of the last node change
+    todos:
+      - decide on flat serialization, see https://github.com/cmungall/knowledge-graph-change-language/issues/7
 
   edge creation:
     aliases:
@@ -312,6 +313,31 @@ classes:
     examples:
       - value: changing G1 annotated-to T1 to G1 annotated-to T2, after obsoletion of T1 and replacement with T2
 
+  mapping creation:
+    aliases:
+      - xref creation
+    is_a: edge creation
+    description: >-
+      A specific kind of edge creation in which the created edge is a mapping.
+    mixins:
+      - creation
+    slots:
+      - subject
+      - predicate
+      - object
+      - annotation set
+    slot_usage:
+      change description:
+        string_serialization: "creating mapping {edge}"
+      subject:
+        description: This corresponds to subject_id in SSSOM
+      predicate:
+        description: This corresponds to predicate_id in SSSOM. The value of this is typically a predicate from SKOS
+      object:
+        description: This corresponds to object_id in SSSOM
+    todos:
+      - decide whether to make a corresponding change to the datamodel
+
   node move:
     is_a: edge change
     description: >-
@@ -320,7 +346,7 @@ classes:
       - value: changing a is-a b to a is-a c
     slot_usage:
       change description:
-        string_serialization: "move {about} from {old value} to {new value}"
+        string_serialization: "move {about edge} from {old value} to {new value}"
 
   node deepening:
     is_a: node move
@@ -331,7 +357,7 @@ classes:
       - value: changing a is-a b to a is-a c, where c is a subclass of b
     slot_usage:
       change description:
-        string_serialization: "deepened {about} from {old value} to {new value}"
+        string_serialization: "deepened {about edge} from {old value} to {new value}"
 
   node shallowing:
     is_a: node move
@@ -371,10 +397,7 @@ classes:
     description: >-
       A simple change where the change is about a node
     slots:
-      - about
-    slot_usage:
-      about:
-        domain: node
+      - about node
 
   node rename:
     is_a: node change
@@ -513,7 +536,7 @@ classes:
     slot_usage:
       change description:
         string_serialization: "removing {about} from {subset}"
-      about:
+      about node:
         description: >-
           The node that is removed from the subset
       subset:
@@ -624,7 +647,7 @@ classes:
     slot_usage:
       has direct replacement:
         required: true
-      about:
+      about node:
         aliases:
           - alt_id
       change description:
@@ -718,6 +741,17 @@ slots:
     description: >-
       The 'focus' entity on which the change operates
     multivalued: false
+    range: ontology element
+
+  about node:
+    is_a: about
+    multivalued: false
+    range: node
+
+  about edge:
+    is_a: about
+    multivalued: false
+    range: edge
 
   target:
     description: >-
