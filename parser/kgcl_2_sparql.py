@@ -162,33 +162,50 @@ def node_shallowing(kgclInstance):
 
     return updateQuery 
 
-
+#look things up at https://www.ebi.ac.uk/ols/ontologies/iao
 def unobsolete(kgclInstance):
     about =  kgclInstance.about_node
     #http://wiki.geneontology.org/index.php/Restoring_an_Obsolete_Ontology_Term
     #1. remove 'obsolete' from label
-    #2. remove 'OBSOLETE' from definition TODO
-    #3. update comment to "Note that this term was reinstated from obsolete" TODO
-    #4. Remove any replaced_by and consider tags TODO
+    #2. remove 'OBSOLETE' from definition 
+    #3. update comment to "Note that this term was reinstated from obsolete"
+    #   TODO: no we remove the previous comment? 
+    #4. Remove any replaced_by and consider tags 
     #5. Remove the owl:deprecated: true tag
-    #6. slims TODO
-    #7. obsoletion comment TODO
 
     prefix = "PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>  "
     prefix += "PREFIX owl: <http://www.w3.org/2002/07/owl#>  "
-    prefix += "PREFIX xsd:  <http://www.w3.org/2001/XMLSchema#> " 
+    prefix += "PREFIX xsd: <http://www.w3.org/2001/XMLSchema#> " 
+    prefix += "PREFIX obo: <http://purl.obolibrary.org/obo/> "
+    prefix += "PREFIX oboInOwl: <http://www.geneontology.org/formats/oboInOwl#> " 
 
     deleteQuery = about + " rdfs:label ?label . "
     deleteQuery += about + " owl:deprecated \"true\"^^xsd:boolean . " 
+    deleteQuery += about + " obo:IAO_0000115 ?unobsolete_definition . " 
+    deleteQuery += about + " obo:IAO_0100001 ?replacedBy .  " 
+    deleteQuery += about + " oboInOwl:consider ?consider . " 
 
     delete = "DELETE {" + deleteQuery + "}"
 
     insertQuery = about + " rdfs:label ?unobsolete_label . " 
+    insertQuery += about + " obo:IAO_0000115 ?unobsolete_definition . " 
+    insertQuery += "?entity rdfs:comment \"Note that this term was reinstated from obsolete.\" . "
 
     insert = "INSERT {" + insertQuery + "}" 
 
     whereQuery = "{ " + about + " rdfs:label ?label . " 
     whereQuery += "BIND(IF(STRSTARTS(?label, \"obsolete \"),SUBSTR(?label,10),?label) AS ?unobsolete_label ) } " 
+    whereQuery += " UNION "
+    whereQuery += "{ " + about + " rdfs:label ?label . " 
+    whereQuery +=        about + " obo:IAO_0000115 ?definition . " 
+    whereQuery += "BIND(IF(STRSTARTS(?definition, \"OBSOLETE \"),SUBSTR(?definition,10),?definition) AS ?unobsolete_definition ) } " 
+    whereQuery += " UNION "
+    whereQuery += "{ " + about + " rdfs:label ?label . " 
+    whereQuery +=        about + " obo:IAO_0100001 ?replacedBy . } " 
+    whereQuery += " UNION "
+    whereQuery += "{ " + about + " rdfs:label ?label . " 
+    whereQuery +=        about + " oboInOwl:consider ?consider . } " 
+
 
     where = "WHERE {" + whereQuery + "}"
 
@@ -199,22 +216,6 @@ def unobsolete(kgclInstance):
 
     return updateQuery 
 
-def create_class(kgclInstance):
-    termId =  kgclInstance.node_id
-
-    prefix = "PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>  "
-    prefix += "PREFIX owl: <http://www.w3.org/2002/07/owl#>  "
-
-    insertQuery = termId + " rdf:type owl:Class . " 
-    insert = "INSERT {" + insertQuery + "}"
-
-    where = "WHERE {}"
-
-    updateQuery =  prefix + " " + \
-                   insert + " " + \
-                   where
-
-    return updateQuery 
 
 def rename(kgclInstance):
     #TODO: do we require the user to specify both the label and an ID?
