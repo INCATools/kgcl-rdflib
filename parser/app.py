@@ -116,9 +116,10 @@ def render(kgclInstance):
                 + "Old Value=" + kgclInstance.old_value + ", " \
                 + "New Value=" + kgclInstance.new_value + ")"
 
-    if(type(kgclInstance) is python.kgcl.NodeObsoletion):
+    if(type(kgclInstance) is python.kgcl.NodeObsoletion): 
         render = render + "NodeObsoletion(" \
                 + "ID=" + kgclInstance.id + ", " \
+                + "Repacelement=" + str(kgclInstance.has_direct_replacement) + ", " \
                 + "About=" + kgclInstance.about_node + ")"  
 
     if(type(kgclInstance) is python.kgcl.NodeDeletion):

@@ -344,20 +344,24 @@ def edge_deletion(kgclInstance):
 
 def obsolete_by_id(kgclInstance):
     about = kgclInstance.about_node
+    replacement = kgclInstance.has_direct_replacement 
 
     prefix = "PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>  "
     prefix += "PREFIX owl: <http://www.w3.org/2002/07/owl#>  "
     prefix += "PREFIX xsd:  <http://www.w3.org/2001/XMLSchema#> " 
+    prefix += "PREFIX obo: <http://purl.obolibrary.org/obo/> "
 
     deleteQuery = about + "rdfs:label ?label . "
     deleteQuery += about +" rdfs:subClassOf ?superclass . "
     deleteQuery += about +" owl:equivalentClass ?rhs . "
-    deleteQuery += "?lhs owl:equivalentClass " + about + " ."
+    deleteQuery += "?lhs owl:equivalentClass " + about + " ." 
 
     delete = "DELETE {" + deleteQuery + "}"
 
     insertQuery = "?entity rdfs:label ?obsolete_label . " 
     insertQuery += about + " owl:deprecated \"true\"^^xsd:boolean . " 
+    if(not kgclInstance.has_direct_replacement is None): 
+        insertQuery += about + " obo:IAO_0100001 " + replacement +  "  .  " 
 
     insert = "INSERT {" + insertQuery + "}" 
 

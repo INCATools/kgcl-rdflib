@@ -16,8 +16,11 @@ rename : "rename" old_label ["from" id] ("to"|"as"|"->") new_label
 create : "create node" id label
 create_class: "create" id
 
+
 delete : "delete" entity
 obsolete : "obsolete" entity
+         | "obsolete" entity "with replacement" replacement
+
 unobsolete: "unobsolete" id 
 
 deepen : "deepen" id "from" old_id ("to"|"->") new_id
@@ -29,6 +32,7 @@ delete_edge : "delete edge" predicate "from" subject "to" object
 
 change_relationship: "change relationship between" subject "and" object "from" old "to" new 
 
+replacement : ID
 id : ID 
 subject: ID
 predicate: ID

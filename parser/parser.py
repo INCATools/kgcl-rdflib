@@ -53,7 +53,17 @@ def parse_statement(input):
     if(command == "obsolete"):
         label = next(tree.find_data('entity'))
         label_token = next(get_tokens(label))
-        return python.kgcl.NodeObsoletion(id=id, about_node=label_token)
+
+
+        replacement_id = tree.find_data('replacement')
+
+        replacement_id_list = list(tree.find_data('replacement'))
+        if(replacement_id_list):
+            t = next(replacement_id)
+            replacement_token = next(get_tokens(t))
+            return python.kgcl.NodeObsoletion(id=id, about_node=label_token, has_direct_replacement=replacement_token) 
+        else: 
+            return python.kgcl.NodeObsoletion(id=id, about_node=label_token)
 
     if(command == "unobsolete"):
         term_id = next(tree.find_data('id'))
