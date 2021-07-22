@@ -80,6 +80,10 @@ def convert(kgclInstance):
         if(is_id(kgclInstance.about_node) and is_label(kgclInstance.new_value)):
             return new_synonym(kgclInstance)
 
+    if(type(kgclInstance) is python.kgcl.PredicateChange): 
+        if(is_id(kgclInstance.about_edge.subject) and is_id(kgclInstance.about_edge.object) and is_id(kgclInstance.old_value) and is_id(kgclInstance.new_value)):
+            return change_predicate(kgclInstance)
+
 
 def node_move(kgclInstance):
     term_id = kgclInstance.about_edge.subject
@@ -100,6 +104,33 @@ def node_move(kgclInstance):
 
     whereQuery =  term_id + " ?relation " + old_value + " . " 
     where = "WHERE {" + whereQuery + "}"
+
+    updateQuery =  prefix + " " + \
+                   delete + " " + \
+                   insert + " " + \
+                   where
+
+    return updateQuery 
+
+def change_predicate(kgclInstance):
+
+    subject = kgclInstance.about_edge.subject
+    object = kgclInstance.about_edge.object
+
+    old_value = kgclInstance.old_value
+    new_value = kgclInstance.new_value
+
+    prefix = "PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>  "
+
+    deleteQuery = subject + " " + old_value + " " + object + " . " 
+
+    delete = "DELETE {" + deleteQuery + "}"
+
+    insertQuery = subject + " " + new_value + " " + object + " . " 
+
+    insert = "INSERT {" + insertQuery + "}" 
+
+    where = "WHERE {}"
 
     updateQuery =  prefix + " " + \
                    delete + " " + \

@@ -183,6 +183,14 @@ def render(kgclInstance):
                 + "About Node=" + kgclInstance.about_node + ", " \
                 + "Synonym=" + kgclInstance.new_value + ")"
 
+    if(type(kgclInstance) is python.kgcl.PredicateChange):
+        render = render + "NewSynonym(" \
+                + "ID=" + kgclInstance.id + ", " \
+                + "Subject=" + kgclInstance.about_edge.subject + ", " \
+                + "Subject=" + kgclInstance.about_edge.object + ", " \
+                + "Old Value=" + kgclInstance.old_value + ", " \
+                + "New Value" + kgclInstance.new_value + ")"
+
     return render 
 
 if __name__ == "__main__":

@@ -142,19 +142,21 @@ def parse_statement(input):
 
         return python.kgcl.EdgeDeletion(id=id, subject=subject_token, predicate=predicate_token, object=object_token)
 
-    #if(command == "change_relationship"): #TODO:: there is no field for 'object' in the data model
-    #    subject = next(tree.find_data('subject'))
-    #    subject_token = next(get_tokens(subject))
+    if(command == "change_relationship"): 
+        subject = next(tree.find_data('subject'))
+        subject_token = next(get_tokens(subject))
 
-    #    object = next(tree.find_data('object'))
-    #    object_token = next(get_tokens(object))
+        object = next(tree.find_data('object'))
+        object_token = next(get_tokens(object))
 
-    #    old = next(tree.find_data('old'))
-    #    old_token = next(get_tokens(old))
+        edge = python.ontology_model.Edge(subject=subject_token, object=object_token) 
 
-    #    new = next(tree.find_data('new'))
-    #    new_token = next(get_tokens(new))
-    #    return python.kgcl.NodeMove(id=id, about=term_id_token, old_value=old_token, new_value=new_token)
+        old = next(tree.find_data('old'))
+        old_token = next(get_tokens(old))
+
+        new = next(tree.find_data('new'))
+        new_token = next(get_tokens(new))
+        return python.kgcl.PredicateChange(id=id, about_edge=edge, old_value=old_token, new_value=new_token)
 
     #the KGCL model suggests the command
     #'create node {id} {label} with {annotation set}'
