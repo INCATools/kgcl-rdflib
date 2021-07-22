@@ -84,6 +84,10 @@ def convert(kgclInstance):
         if(is_id(kgclInstance.about_edge.subject) and is_id(kgclInstance.about_edge.object) and is_id(kgclInstance.old_value) and is_id(kgclInstance.new_value)):
             return change_predicate(kgclInstance)
 
+    if(type(kgclInstance) is python.kgcl.RemovedNodeFromSubset): 
+        if(is_id(kgclInstance.about_node) and is_id(kgclInstance.subset)):
+            return remove_node_from_subset(kgclInstance)
+
 
 def node_move(kgclInstance):
     term_id = kgclInstance.about_edge.subject
@@ -108,6 +112,28 @@ def node_move(kgclInstance):
     updateQuery =  prefix + " " + \
                    delete + " " + \
                    insert + " " + \
+                   where
+
+    return updateQuery 
+
+def remove_node_from_subset(kgclInstance):
+
+    about = kgclInstance.about_node
+    subset = kgclInstance.subset
+
+    prefix = "PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>  " 
+    prefix += "PREFIX obo: <http://purl.obolibrary.org/obo/> "
+
+    deleteQuery = about + " obo:inSubset " + subset + " . " 
+
+    delete = "DELETE {" + deleteQuery + "}"
+
+    whereQuery = about + " obo:inSubset " + subset + " . " 
+
+    where = "WHERE { " + whereQuery + " }"
+
+    updateQuery =  prefix + " " + \
+                   delete + " " + \
                    where
 
     return updateQuery 

@@ -184,12 +184,25 @@ def render(kgclInstance):
                 + "Synonym=" + kgclInstance.new_value + ")"
 
     if(type(kgclInstance) is python.kgcl.PredicateChange):
-        render = render + "NewSynonym(" \
+        render = render + "PredicateChange(" \
                 + "ID=" + kgclInstance.id + ", " \
                 + "Subject=" + kgclInstance.about_edge.subject + ", " \
                 + "Subject=" + kgclInstance.about_edge.object + ", " \
                 + "Old Value=" + kgclInstance.old_value + ", " \
                 + "New Value" + kgclInstance.new_value + ")"
+
+    #if(type(kgclInstance) is python.kgcl.AddNodeToSubset):
+    #    render = render + "AddNodeToSubset(" \
+    #            + "ID=" + kgclInstance.id + ", " \
+    #            + "Subset=" + kgclInstance.in_subset + ", " \
+    #            + "About Node" + kgclInstance.about_node + ")"
+
+    if(type(kgclInstance) is python.kgcl.RemovedNodeFromSubset):
+        render = render + "RemovedNodeFromSubset(" \
+                + "ID=" + kgclInstance.id + ", " \
+                + "Subset=" + kgclInstance.subset + ", " \
+                + "About Node" + kgclInstance.about_node + ")"
+
 
     return render 
 

@@ -188,6 +188,26 @@ def parse_statement(input):
         synonym_string_token = next(get_tokens(synonym_string)) 
 
         return python.kgcl.NewSynonym(id=id, about_node=term_id_token, new_value=synonym_string_token)
+    #TODO: does not have a field for subsets
+    #if(command == "add_to_subset"):
+
+    #    term_id = next(tree.find_data('id'))
+    #    term_id_token = next(get_tokens(term_id))
+
+    #    subset_id = next(tree.find_data('subset'))
+    #    subset_id_token = next(get_tokens(subset_id)) 
+
+    #    return python.kgcl.AddNodeToSubset(id=id, in_subset=subset_id_token, about_node=term_id_token) 
+
+    if(command == "remove_from_subset"):
+
+        term_id = next(tree.find_data('id'))
+        term_id_token = next(get_tokens(term_id))
+
+        subset_id = next(tree.find_data('subset'))
+        subset_id_token = next(get_tokens(subset_id)) 
+
+        return python.kgcl.RemovedNodeFromSubset(id=id, subset=subset_id_token, about_node=term_id_token) 
 
     #TODO: more cases
     #if(command == "merge"):
