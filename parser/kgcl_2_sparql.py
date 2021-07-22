@@ -76,6 +76,10 @@ def convert(kgclInstance):
         if(is_id(kgclInstance.about_edge.subject) and is_id(kgclInstance.old_value) and is_id(kgclInstance.new_value)):
             return node_move(kgclInstance)
 
+    if(type(kgclInstance) is python.kgcl.NewSynonym): 
+        if(is_id(kgclInstance.about_node) and is_label(kgclInstance.new_value)):
+            return new_synonym(kgclInstance)
+
 
 def node_move(kgclInstance):
     term_id = kgclInstance.about_edge.subject
@@ -431,3 +435,30 @@ def obsolete_by_label(kgclInstance):
                    where 
 
     return updateQuery 
+
+def new_synonym(kgclInstance): 
+    about = kgclInstance.about_node
+    synonym = kgclInstance.new_value
+
+    prefix = "PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>  "
+    prefix += "PREFIX owl: <http://www.w3.org/2002/07/owl#>  "
+    prefix += "PREFIX xsd:  <http://www.w3.org/2001/XMLSchema#> " 
+    prefix += "PREFIX oboInOwl: <http://www.geneontology.org/formats/oboInOwl#> " 
+
+    #TODO: check whether this way of creating synonyms is OK
+    #or whether we want to include qualifiers, e.g. broader, exact, related, narrower
+    insertQuery = about + " oboInOwl:Synonym " + synonym + " . " 
+
+    #"<oboInOwl:hasExactSynonym rdf:datatype=\"http://www.w3.org/2001/XMLSchema#string\">reproductive physiological process</oboInOwl:hasExactSynonym>"
+
+    insert = "INSERT {" + insertQuery + "}"
+
+    where = "WHERE {}"
+
+    updateQuery =  prefix + " " + \
+                   insert + " " + \
+                   where 
+
+    return updateQuery 
+
+

@@ -177,6 +177,12 @@ def render(kgclInstance):
                 + "Predicate=" + kgclInstance.predicate + ", " \
                 + "Object=" + kgclInstance.object + ")"
 
+    if(type(kgclInstance) is python.kgcl.NewSynonym):
+        render = render + "NewSynonym(" \
+                + "ID=" + kgclInstance.id + ", " \
+                + "About Node=" + kgclInstance.about_node + ", " \
+                + "Synonym=" + kgclInstance.new_value + ")"
+
     return render 
 
 if __name__ == "__main__":

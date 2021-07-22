@@ -10,12 +10,14 @@
            | change_relationship
            | create_edge
            | delete_edge 
+           | create_synonym
 
 rename : "rename" old_label ["from" id] ("to"|"as"|"->") new_label 
 
 create : "create node" id label
 create_class: "create" id
 
+create_synonym: "create synonym" synonym "for" id
 
 delete : "delete" entity
 obsolete : "obsolete" entity
@@ -37,6 +39,7 @@ id : ID
 subject: ID
 predicate: ID
 object: _entity
+synonym : QUOTED_LABEL
 
 label : QUOTED_LABEL
 old_label : QUOTED_LABEL

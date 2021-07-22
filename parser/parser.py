@@ -175,6 +175,17 @@ def parse_statement(input):
         term_id_token = next(get_tokens(term_id))
         return python.kgcl.ClassCreation(id=id, node_id=term_id_token)
 
+    if(command == "create_synonym"):
+        term_id = next(tree.find_data('id'))
+        term_id_token = next(get_tokens(term_id))
+
+        #synonym_type = next(tree.find_data('synonym_type'))
+        #synonym_type_token = next(get_tokens(synonym_type))
+
+        synonym_string = next(tree.find_data('synonym'))
+        synonym_string_token = next(get_tokens(synonym_string)) 
+
+        return python.kgcl.NewSynonym(id=id, about_node=term_id_token, new_value=synonym_string_token)
 
     #TODO: more cases
     #if(command == "merge"):
