@@ -223,6 +223,7 @@ def node_shallowing(kgclInstance):
 
     return updateQuery 
 
+#TODO: handling of language tags
 #look things up at https://www.ebi.ac.uk/ols/ontologies/iao
 def unobsolete(kgclInstance):
     about =  kgclInstance.about_node
@@ -281,6 +282,7 @@ def unobsolete(kgclInstance):
 def rename(kgclInstance):
     oldValue = kgclInstance.old_value
     newValue = kgclInstance.new_value
+    oldValue = oldValue.replace("'","")
 
     #initialise subject
     if(kgclInstance.about_node is None):
@@ -288,17 +290,19 @@ def rename(kgclInstance):
     else:
         subject = kgclInstance.about_node
 
-    #this chances only the label of an entity
+    #this changes only the label of an entity
     prefix = "PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>"
-    #deleteQuery = "?entity rdfs:label " + oldValue + " ."
-    deleteQuery = subject + " rdfs:label " + oldValue + " ."
+    deleteQuery = subject + " rdfs:label ?label ."
     delete = "DELETE {" + deleteQuery + "}"
 
-    #insertQuery = "?entity rdfs:label " + newValue + " ."
     insertQuery = subject + " rdfs:label " + newValue + " ."
     insert = "INSERT {" + insertQuery + "}"
 
-    where = "WHERE {" + deleteQuery + "}"
+    whereQuery = subject + " rdfs:label ?label .  "
+    whereQuery += " BIND( LANG(?label) AS ?language)  "
+    whereQuery += " FILTER(STR(?label)=\"" + oldValue + "\") "
+
+    where = "WHERE {" + whereQuery + "}"
 
     updateQuery =  prefix + " " + \
                    delete + " " + \
@@ -332,14 +336,16 @@ def delete_by_id(kgclInstance):
 
 def delete_by_label(kgclInstance):
     about = kgclInstance.about_node
+    about = about.replace("'","") #remove single quotes from label input
 
-    deleteQuery = "?s1 ?p1 " + about + " . "
+    deleteQuery = "?s1 ?p1 ?label . "
     deleteQuery += "?s1 ?p2 ?o1 . "
 
     delete = "DELETE {" + deleteQuery + "}"
 
-    whereQuery = "?s1 ?p1 " + about + " . "
+    whereQuery = "?s1 ?p1 ?label . "
     whereQuery += "?s1 ?p2 ?o1 . "
+    whereQuery += " FILTER(STR(?label)=\"" + about + "\") " #ignore language tags
 
     where = "WHERE {" + whereQuery + "}"
 
