@@ -7,6 +7,7 @@ on:
   push:
     branches:
       - main
+      - parser
   repository_dispatch:
     types: trigger-check-pull-request
 
