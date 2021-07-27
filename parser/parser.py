@@ -4,6 +4,7 @@ import sys
 sys.path.append("../")
 import python.kgcl
 import python.ontology_model
+from pathlib import Path
 
 def id_generator():
     id = 0
@@ -11,7 +12,8 @@ def id_generator():
         yield id
         id += 1
 
-kgcl_parser = Lark.open('kgcl.lark', start='expression')
+path = Path(__file__).parent
+kgcl_parser = Lark.open(str(path) + "/kgcl.lark", start='expression')
 id_gen = id_generator()
 
 #input may be a set of KGCL statements separated by \n
