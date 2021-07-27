@@ -10,7 +10,9 @@
            | change_relationship
            | create_edge
            | delete_edge 
-           | create_synonym
+           | create_synonym 
+           | remove_from_subset
+           | add_to_subset
 
 rename : "rename" old_label ["from" id] ("to"|"as"|"->") new_label 
 
@@ -20,6 +22,7 @@ create_class: "create" id
 create_synonym: "create synonym" synonym "for" id
 
 delete : "delete" entity
+
 obsolete : "obsolete" entity
          | "obsolete" entity "with replacement" replacement
 
@@ -34,11 +37,15 @@ delete_edge : "delete edge" predicate "from" subject "to" object
 
 change_relationship: "change relationship between" subject "and" object "from" old "to" new 
 
+remove_from_subset :  "remove" id "from subset" subset
+add_to_subset :  "add" id "to subset" subset
+
 replacement : ID
 id : ID 
 subject: ID
 predicate: ID
 object: _entity
+subset: ID
 synonym : QUOTED_LABEL
 
 label : QUOTED_LABEL
