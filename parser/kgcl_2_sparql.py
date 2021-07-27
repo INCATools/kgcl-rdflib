@@ -4,10 +4,10 @@ import python.kgcl
 import re
 
 def is_label(input):
-    return re.match('\'[^ \s\'].*\'', input)
+    return re.match(r'\'[^ \s\'].*\'', input)
 
 def is_id(input):
-    return re.match('<\S+>', input)
+    return re.match(r'<\S+>', input)
 
 def convert(kgclInstance):
 
