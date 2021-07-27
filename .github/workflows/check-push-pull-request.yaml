@@ -1,0 +1,35 @@
+name: Check Push and Pull Request
+
+on:
+  pull_request:
+    branches:
+      - main
+  push:
+    branches:
+      - main
+  repository_dispatch:
+    types: trigger-check-pull-request
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v2
+
+    - name: Install Dependencies
+      run: |
+        pip install --upgrade pip
+        pip install mkdocs
+        pip install linkml
+        pip install Flask
+        pip install lark
+        pip install click  #used for CLI later on 
+        pip install pytest
+
+    - name: Test with pytest
+      run: |
+          python -m pytest
+
+
