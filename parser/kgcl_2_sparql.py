@@ -350,6 +350,21 @@ def delete_by_label(kgclInstance):
 
     return updateQuery
 
+def create_class(kgclInstance):
+    termId =  kgclInstance.node_id;
+
+    prefix = "PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>  "
+    prefix += "PREFIX owl: <http://www.w3.org/2002/07/owl#>  "
+    insertQuery = termId + " rdf:type owl:Class  . " 
+    insert = "INSERT {" + insertQuery + "}"
+    where = "WHERE {}"
+
+    updateQuery =  prefix + " " + \
+                   insert + " " + \
+                   where
+
+    return updateQuery 
+
 def create_node(kgclInstance):
     termId =  kgclInstance.node_id;
     label = kgclInstance.name;
