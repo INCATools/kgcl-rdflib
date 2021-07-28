@@ -13,43 +13,72 @@ app = Flask(__name__)
 #we could store changes in a data base - do we want to
 @app.route('/', methods=['POST', 'GET'])
 def index():
+
+    #TODO: get examples from folder structure
+    examples=['rename', 'nodeCreation', 'nodeDeletionByLabel', 'nodeDeletionById', 'obsoleteByLabel', 'obsoleteById', 'unobsoleteById', 'nodeDeepening', 'nodeShallowing', 'move', 'edgeCreation', 'edgeDeletion'] 
+
     if request.method == 'POST':
-
-        if "load_data" in request.form:
-            #expect input RDF graph as triples
-            input = request.form['content']
-            f = open("testData/graph.nt", "w")
-            f.write(input)
-            f.close()
-
-        if "load_kgcl" in request.form:
-            input = request.form['content']
-            f = open("testData/kgcl", "w")
-            f.write(input)
-            f.close() 
-
-        #if "parse_kgcl" in request.form: 
-        #    f = open("testData/kgcl", "r") 
-        #    kgcl = f.read()
-        #    f.close()
-        #    #read kgcl file and parse from there
-        #    output = parse(kgcl)            #parse input string into data model 
-        #    output_rendering =  ""           #render output
-        #    for o in output: 
-        #        output_rendering += render(o) + "\n" 
-        #    return render_template('index.html', inputKGCL=kgcl, parsedKGCL=output_rendering)
 
         if "apply_changes" in request.form:
 
-            #load KGCL input
-            f = open("testData/kgcl", "r") 
-            kgcl = f.read()
-            f.close() 
+            #get input graph from form
+            graphInput = request.form['graph']
+
+            #get input kgcl statements from form
+            kgcl = request.form['kgcl'] 
+
+            #TODO:
+            #1. load triples without writing to a file first
+            #2. handle kgcl input without writing to a file
+
+            #store kgcl statements
+            f = open("testData/kgcl", "w")
+            f.write(kgcl)
+            f.close()
 
             #parse KGCL input
             parsed_statements = parse(kgcl) 
 
-            #load graph
+            #store graph as file
+            f = open("testData/graph.nt", "w")
+            f.write(graphInput)
+            f.close()
+
+            #load input graph from file
+            g = rdflib.Graph()
+            g.load("testData/graph.nt", format="nt") 
+
+            #transform graph 
+            graph_transformer.transform_graph(parsed_statements, g)
+
+            #save graph
+            #TODO: get text representation of graph without writing to a file
+            g.serialize(destination="testData/transformation.nt", format='nt') 
+
+        if "load_example" in request.form:
+            select = request.form.get('comp_select')
+            example = str(select) 
+
+            f = open("testData/example/" + example + "/graph.nt", "r") 
+            graph = f.read()
+            f.close() 
+
+            f = open("testData/graph.nt", "w")
+            f.write(graph)
+            f.close()
+
+            f = open("testData/example/" + example + "/kgcl", "r") 
+            kgcl = f.read()
+            f.close()
+
+            f = open("testData/kgcl", "w")
+            f.write(kgcl)
+            f.close()
+
+            #parse KGCL input
+            parsed_statements = parse(kgcl) 
+
+            #load input graph from file
             g = rdflib.Graph()
             g.load("testData/graph.nt", format="nt") 
 
@@ -59,30 +88,12 @@ def index():
             #save graph
             g.serialize(destination="testData/transformation.nt", format='nt') 
 
-        if "load_example" in request.form:
-
-            f = open("testData/example/graph.nt", "r") 
-            graph = f.read()
-            f.close() 
-
-            f = open("testData/graph.nt", "w")
-            f.write(graph)
-            f.close()
-
-            f = open("testData/example/kgcl", "r") 
-            kgcl = f.read()
-            f.close()
-
-            f = open("testData/kgcl", "w")
-            f.write(kgcl)
-            f.close()
-
         #load graph
         f = open("testData/graph.nt", "r") 
         graph = f.read()
         f.close() 
 
-        #load KGCL input
+        #load kgcl
         f = open("testData/kgcl", "r") 
         kgcl = f.read()
         f.close() 
@@ -100,10 +111,10 @@ def index():
         transformation = f.read()
         f.close() 
 
-        return render_template('index.html', inputGraph=graph, inputKGCL=kgcl, parsedKGCL=output_rendering, outputGraph=transformation) 
+        return render_template('index.html', inputGraph=graph, inputKGCL=kgcl, parsedKGCL=output_rendering, outputGraph=transformation, examples=examples) 
 
     else: 
-        return render_template('index.html')
+        return render_template('index.html', examples=examples)
 
 def parse(input):
     return parser.parse(input)
@@ -159,7 +170,7 @@ def render(kgclInstance):
     if(type(kgclInstance) is python.kgcl.NodeShallowing):
         render = render + "NodeShallowing(" \
                 + "ID=" + kgclInstance.id + ", " \
-                + "Term ID=" + kgclInstance.about_edge.suject + ", " \
+                + "Term ID=" + kgclInstance.about_edge.subject + ", " \
                 + "Old Value=" + kgclInstance.old_value + ", " \
                 + "New Value=" + kgclInstance.new_value + ")"
 
