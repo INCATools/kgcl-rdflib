@@ -1,4 +1,4 @@
-from lark import Lark, Tree, Token
+from lark import Lark, Token
 from kgcl import (
     NodeRename,
     NodeObsoletion,
@@ -30,6 +30,7 @@ path = Path(__file__).parent
 kgcl_parser = Lark.open(str(path) + "/kgcl.lark", start="expression")
 id_gen = id_generator()
 
+
 # input may be a set of KGCL statements separated by \n
 def parse(input):
     statements = input.splitlines()
@@ -51,8 +52,10 @@ def parse_statement(input):
     # print("Command: " + command)
 
     if command == "rename":
-        old = next(tree.find_data("old_label"))  # node with data 'old_label' is unique
-        old_token = next(get_tokens(old))  # and this node only has one token
+        # node with data 'old_label' is unique
+        old = next(tree.find_data("old_label"))
+        # and this node only has one token
+        old_token = next(get_tokens(old))
 
         new = next(tree.find_data("new_label"))
         new_token = next(get_tokens(new))
@@ -60,7 +63,8 @@ def parse_statement(input):
         term_id = tree.find_data("id")
 
         term_id_list = list(tree.find_data("id"))
-        if term_id_list:  # test whether there is an element in the generator
+        # test whether there is an element in the generator
+        if term_id_list:
             t = next(term_id)
             term_id_token = next(get_tokens(t))
             return NodeRename(
@@ -81,9 +85,9 @@ def parse_statement(input):
         replacement_id_list = list(tree.find_data("replacement"))
         if replacement_id_list:
             t = next(replacement_id)
-            replacement_token = next(get_tokens(t))
+            replace = next(get_tokens(t))
             return NodeObsoletion(
-                id=id, about_node=label_token, has_direct_replacement=replacement_token
+                id=id, about_node=label_token, has_direct_replacement=replace
             )
         else:
             return NodeObsoletion(id=id, about_node=label_token)
@@ -196,7 +200,7 @@ def parse_statement(input):
         )
 
     # the KGCL model suggests the command
-    #'create node {id} {label} with {annotation set}'
+    # 'create node {id} {label} with {annotation set}'
     # TODO: handling of {annotation set}
     if command == "create":
         term_id = next(tree.find_data("id"))
@@ -238,7 +242,9 @@ def parse_statement(input):
     #    subset_id = next(tree.find_data('subset'))
     #    subset_id_token = next(get_tokens(subset_id))
 
-    #    return AddNodeToSubset(id=id, in_subset=subset_id_token, about_node=term_id_token)
+    #    return AddNodeToSubset(
+    #        id=id, in_subset=subset_id_token, about_node=term_id_token
+    #     )
 
     if command == "remove_from_subset":
 
@@ -269,9 +275,9 @@ def get_tokens(tree):
 
 
 if __name__ == "__main__":
-    ###
-    ### MANUAL TESTING
-    ###
+    #
+    # MANUAL TESTING
+    #
     example1 = "renamea 'abnormal ear' to 'abnormal ear morphology'"
     tree = kgcl_parser.parse(example1)
     print(tree)

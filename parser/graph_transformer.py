@@ -1,6 +1,6 @@
-import parser
 import kgcl_2_sparql
 import rdflib
+
 
 # used for local testing
 def transform(kgclInstance):

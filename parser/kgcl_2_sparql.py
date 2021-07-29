@@ -35,7 +35,7 @@ def convert(kgclInstance):
         # TODO: error handling
 
     # node obsoletion
-    # TODO: new model only allows to obsolete a node (which is an 'id' and not a 'label'
+    # TODO: new model only allows to obsolete a node
     if type(kgclInstance) is NodeObsoletion:
         if is_label(kgclInstance.about_node):
             return obsolete_by_label(kgclInstance)
@@ -290,11 +290,13 @@ def unobsolete(kgclInstance):
     insert = "INSERT {" + insertQuery + "}"
 
     whereQuery = "{ " + about + " rdfs:label ?label . "
-    whereQuery += 'BIND(IF(STRSTARTS(?label, "obsolete "),SUBSTR(?label,10),?label) AS ?unobsolete_label ) } '
+    whereQuery += 'BIND(IF(STRSTARTS(?label, "obsolete "),'
+    whereQuery += 'SUBSTR(?label,10),?label) AS ?unobsolete_label ) } '
     whereQuery += " UNION "
     whereQuery += "{ " + about + " rdfs:label ?label . "
     whereQuery += about + " obo:IAO_0000115 ?definition . "
-    whereQuery += 'BIND(IF(STRSTARTS(?definition, "OBSOLETE "),SUBSTR(?definition,10),?definition) AS ?unobsolete_definition ) } '
+    whereQuery += 'BIND(IF(STRSTARTS(?definition, "OBSOLETE "),'
+    whereQuery += 'SUBSTR(?definition,10),?definition) AS ?unobsolete_definition ) } '
     whereQuery += " UNION "
     whereQuery += "{ " + about + " rdfs:label ?label . "
     whereQuery += about + " obo:IAO_0100001 ?replacedBy . } "
@@ -466,7 +468,7 @@ def obsolete_by_id(kgclInstance):
 
     insertQuery = "?entity rdfs:label ?tag . "
     insertQuery += about + ' owl:deprecated "true"^^xsd:boolean . '
-    if not kgclInstance.has_direct_replacement is None:
+    if kgclInstance.has_direct_replacement is not None:
         insertQuery += about + " obo:IAO_0100001 " + replacement + "  .  "
 
     insert = "INSERT {" + insertQuery + "}"
@@ -562,8 +564,6 @@ def new_synonym(kgclInstance):
     # TODO: check whether this way of creating synonyms is OK
     # or whether we want to include qualifiers, e.g. broader, exact, related, narrower
     insertQuery = about + " oboInOwl:Synonym " + synonym + " . "
-
-    # "<oboInOwl:hasExactSynonym rdf:datatype=\"http://www.w3.org/2001/XMLSchema#string\">reproductive physiological process</oboInOwl:hasExactSynonym>"
 
     insert = "INSERT {" + insertQuery + "}"
 
