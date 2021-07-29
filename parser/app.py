@@ -1,27 +1,34 @@
 from flask import (
     Flask,
     render_template,
-    url_for,
-    render_template_string,
     request,
-    redirect,
+)
+from kgcl import (
+    NodeRename,
+    NodeObsoletion,
+    NodeUnobsoletion,
+    NodeDeletion,
+    NodeMove,
+    NodeDeepening,
+    NodeShallowing,
+    EdgeCreation,
+    EdgeDeletion,
+    PredicateChange,
+    NodeCreation,
+    ClassCreation,
+    NewSynonym,
+    RemovedNodeFromSubset,
 )
 import parser
-import kgcl_2_sparql
 import graph_transformer
 import rdflib
 
-import sys
-
-sys.path.append("../")
-import python.kgcl
-
 app = Flask(__name__)
+
 
 # we could store changes in a data base - do we want to
 @app.route("/", methods=["POST", "GET"])
 def index():
-
     # TODO: get examples from folder structure
     examples = [
         "rename",
@@ -151,7 +158,7 @@ def parse(input):
 
 def render(kgclInstance):
     render = ""
-    if type(kgclInstance) is python.kgcl.NodeRename:
+    if type(kgclInstance) is NodeRename:
         render = (
             render
             + "NodeRename("
@@ -166,7 +173,7 @@ def render(kgclInstance):
             + ")"
         )
 
-    if type(kgclInstance) is python.kgcl.NodeObsoletion:
+    if type(kgclInstance) is NodeObsoletion:
         render = (
             render
             + "NodeObsoletion("
@@ -181,7 +188,7 @@ def render(kgclInstance):
             + ")"
         )
 
-    if type(kgclInstance) is python.kgcl.NodeDeletion:
+    if type(kgclInstance) is NodeDeletion:
         render = (
             render
             + "NodeDeletion("
@@ -193,7 +200,7 @@ def render(kgclInstance):
             + ")"
         )
 
-    if type(kgclInstance) is python.kgcl.ClassCreation:
+    if type(kgclInstance) is ClassCreation:
         render = (
             render
             + "ClassCreation("
@@ -205,7 +212,7 @@ def render(kgclInstance):
             + ")"
         )
 
-    if type(kgclInstance) is python.kgcl.NodeCreation:
+    if type(kgclInstance) is NodeCreation:
         render = (
             render
             + "NodeCreation("
@@ -220,7 +227,7 @@ def render(kgclInstance):
             + ")"
         )
 
-    if type(kgclInstance) is python.kgcl.NodeMove:
+    if type(kgclInstance) is NodeMove:
         render = (
             render
             + "NodeMove("
@@ -235,7 +242,7 @@ def render(kgclInstance):
             + ")"
         )
 
-    if type(kgclInstance) is python.kgcl.NodeUnobsoletion:
+    if type(kgclInstance) is NodeUnobsoletion:
         render = (
             render
             + "NodeUnobsoletion("
@@ -247,7 +254,7 @@ def render(kgclInstance):
             + ")"
         )
 
-    if type(kgclInstance) is python.kgcl.NodeDeepening:
+    if type(kgclInstance) is NodeDeepening:
         render = (
             render
             + "NodeDeepening("
@@ -265,7 +272,7 @@ def render(kgclInstance):
             + ")"
         )
 
-    if type(kgclInstance) is python.kgcl.NodeShallowing:
+    if type(kgclInstance) is NodeShallowing:
         render = (
             render
             + "NodeShallowing("
@@ -283,7 +290,7 @@ def render(kgclInstance):
             + ")"
         )
 
-    if type(kgclInstance) is python.kgcl.EdgeCreation:
+    if type(kgclInstance) is EdgeCreation:
         render = (
             render
             + "EdgeCreation("
@@ -301,7 +308,7 @@ def render(kgclInstance):
             + ")"
         )
 
-    if type(kgclInstance) is python.kgcl.EdgeDeletion:
+    if type(kgclInstance) is EdgeDeletion:
         render = (
             render
             + "EdgeDeletion("
@@ -319,7 +326,7 @@ def render(kgclInstance):
             + ")"
         )
 
-    if type(kgclInstance) is python.kgcl.NewSynonym:
+    if type(kgclInstance) is NewSynonym:
         render = (
             render
             + "NewSynonym("
@@ -334,7 +341,7 @@ def render(kgclInstance):
             + ")"
         )
 
-    if type(kgclInstance) is python.kgcl.PredicateChange:
+    if type(kgclInstance) is PredicateChange:
         render = (
             render
             + "PredicateChange("
@@ -355,13 +362,13 @@ def render(kgclInstance):
             + ")"
         )
 
-    # if(type(kgclInstance) is python.kgcl.AddNodeToSubset):
+    # if(type(kgclInstance) is AddNodeToSubset):
     #    render = render + "AddNodeToSubset(" \
     #            + "ID=" + kgclInstance.id + ", " \
     #            + "Subset=" + kgclInstance.in_subset + ", " \
     #            + "About Node" + kgclInstance.about_node + ")"
 
-    if type(kgclInstance) is python.kgcl.RemovedNodeFromSubset:
+    if type(kgclInstance) is RemovedNodeFromSubset:
         render = (
             render
             + "RemovedNodeFromSubset("
