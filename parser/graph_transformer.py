@@ -1,9 +1,5 @@
 import parser
 import kgcl_2_sparql
-
-import sys
-sys.path.append("../")
-import python.kgcl 
 import rdflib
 
 #used for local testing

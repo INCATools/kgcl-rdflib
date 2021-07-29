@@ -1,7 +1,8 @@
-import sys
-sys.path.append("../")
-import python.kgcl
 import re
+from kgcl import NodeRename, NodeObsoletion, NodeUnobsoletion, NodeDeletion, \
+                 NodeMove, NodeDeepening, NodeShallowing, EdgeCreation, \
+                 EdgeDeletion, PredicateChange, NodeCreation, ClassCreation, \
+                 NewSynonym, RemovedNodeFromSubset
 
 def is_label(input):
     return re.match(r'\'[^ \s\'].*\'', input)
@@ -13,14 +14,14 @@ def convert(kgclInstance):
 
     #label renaming
     #TODO: case for "rename 'old' from 'id' to 'new'
-    if(type(kgclInstance) is python.kgcl.NodeRename):
+    if(type(kgclInstance) is NodeRename):
         if(is_label(kgclInstance.old_value) and is_label(kgclInstance.new_value)): 
             return rename(kgclInstance)
         #TODO: error handling
 
     #node obsoletion
     #TODO: new model only allows to obsolete a node (which is an 'id' and not a 'label'
-    if(type(kgclInstance) is python.kgcl.NodeObsoletion):
+    if(type(kgclInstance) is NodeObsoletion):
         if(is_label(kgclInstance.about_node)):
             return obsolete_by_label(kgclInstance)
         if(is_id(kgclInstance.about_node)):
@@ -28,13 +29,13 @@ def convert(kgclInstance):
         #TODO: error handling
 
     #node obsoletion
-    if(type(kgclInstance) is python.kgcl.NodeUnobsoletion):
+    if(type(kgclInstance) is NodeUnobsoletion):
         if(is_id(kgclInstance.about_node)):
             return unobsolete(kgclInstance)
         #TODO: error handling
 
     #node deletion
-    if(type(kgclInstance) is python.kgcl.NodeDeletion):
+    if(type(kgclInstance) is NodeDeletion):
         if(is_id(kgclInstance.about_node)):
             return delete_by_id(kgclInstance)
         if(is_label(kgclInstance.about_node)):
@@ -42,49 +43,49 @@ def convert(kgclInstance):
         #TODO: error handling
 
     #node creation
-    if(type(kgclInstance) is python.kgcl.NodeCreation):
+    if(type(kgclInstance) is NodeCreation):
         if(is_id(kgclInstance.node_id) and is_label(kgclInstance.name)):
             return create_node(kgclInstance)
 
     #class creation
-    if(type(kgclInstance) is python.kgcl.ClassCreation):
+    if(type(kgclInstance) is ClassCreation):
         if(is_id(kgclInstance.node_id)):
             return create_class(kgclInstance)
 
     #node deepending
-    if(type(kgclInstance) is python.kgcl.NodeDeepening):
+    if(type(kgclInstance) is NodeDeepening):
         if(is_id(kgclInstance.about_edge.subject) and is_id(kgclInstance.old_value) and is_id(kgclInstance.new_value)):
             return node_deepening(kgclInstance)
 
     #node shallowing
-    if(type(kgclInstance) is python.kgcl.NodeShallowing):
+    if(type(kgclInstance) is NodeShallowing):
         if(is_id(kgclInstance.about_edge.subject) and is_id(kgclInstance.old_value) and is_id(kgclInstance.new_value)):
             return node_shallowing(kgclInstance)
 
     #edge creation
-    if(type(kgclInstance) is python.kgcl.EdgeCreation):
+    if(type(kgclInstance) is EdgeCreation):
         if(is_id(kgclInstance.subject) and is_id(kgclInstance.predicate) and (is_id(kgclInstance.object) or is_label(kgclInstance.object))):
             return edge_creation(kgclInstance)
 
     #edge deletion
-    if(type(kgclInstance) is python.kgcl.EdgeDeletion):
+    if(type(kgclInstance) is EdgeDeletion):
         if(is_id(kgclInstance.subject) and is_id(kgclInstance.predicate) and (is_id(kgclInstance.object) or is_label(kgclInstance.object))):
             return edge_deletion(kgclInstance)
 
     #node move
-    if(type(kgclInstance) is python.kgcl.NodeMove): 
+    if(type(kgclInstance) is NodeMove): 
         if(is_id(kgclInstance.about_edge.subject) and is_id(kgclInstance.old_value) and is_id(kgclInstance.new_value)):
             return node_move(kgclInstance)
 
-    if(type(kgclInstance) is python.kgcl.NewSynonym): 
+    if(type(kgclInstance) is NewSynonym): 
         if(is_id(kgclInstance.about_node) and is_label(kgclInstance.new_value)):
             return new_synonym(kgclInstance)
 
-    if(type(kgclInstance) is python.kgcl.PredicateChange): 
+    if(type(kgclInstance) is PredicateChange): 
         if(is_id(kgclInstance.about_edge.subject) and is_id(kgclInstance.about_edge.object) and is_id(kgclInstance.old_value) and is_id(kgclInstance.new_value)):
             return change_predicate(kgclInstance)
 
-    if(type(kgclInstance) is python.kgcl.RemovedNodeFromSubset): 
+    if(type(kgclInstance) is RemovedNodeFromSubset): 
         if(is_id(kgclInstance.about_node) and is_id(kgclInstance.subset)):
             return remove_node_from_subset(kgclInstance)
 
