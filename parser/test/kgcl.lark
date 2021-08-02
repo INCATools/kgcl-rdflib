@@ -1,0 +1,10 @@
+
+?expression: rename
+
+rename : "rename" STRING "to" STRING
+
+STRING: /\S+/
+
+%import common.WS
+%ignore WS
+

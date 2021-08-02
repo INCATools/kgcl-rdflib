@@ -1,0 +1,1 @@
+delete edge <http://example.org/predicate> from <http://example.org/subject> to <http://example.org/object>
