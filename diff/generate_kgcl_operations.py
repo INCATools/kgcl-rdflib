@@ -27,16 +27,14 @@ import time
 # 1. load both 'added' and 'deleted' from temp folder
 # 2. check for possible transformations wrt each KGCL operation
 
-# done: rename, change relationship, obsolete, unobsolete, create synonym
+# done:
+# rename, change relationship, obsolete, unobsolete, create synonym
+# move, create, create edge, delete edge
 # (these all operate on iri's and not blank nodes)
 
-# reason over ontoolgy, spit out classifiaction, converft to triples
-# read triples as
-# move (done)
+# TODO:
 # deepen,shallow (requires reasoning - later)
-
-# delete, create,
-# create edge, delete edge
+# delete (more work since we'd need check whether ALL triples with a class have been deleted)
 
 
 def id_generator():
@@ -47,6 +45,52 @@ def id_generator():
 
 
 id_gen = id_generator()
+
+
+def identify_edge_deletion(added, deleted):
+
+    # added + deleted are cases of renamings
+    diff = deleted - added
+
+    kgcl = []
+    for s, p, o in diff:
+        id = "test_id_" + str(next(id_gen))
+
+        node = EdgeDeletion(id=id, subject=str(s), predicate=str(p), object=str(o))
+        kgcl.add(node)
+
+    return kgcl
+
+
+def identify_edge_creation(added, deleted):
+
+    # added + deleted are cases of renamings
+    diff = added - deleted
+
+    kgcl = []
+    for s, p, o in diff:
+        id = "test_id_" + str(next(id_gen))
+
+        node = EdgeCreation(id=id, subject=str(s), predicate=str(p), object=str(o))
+        kgcl.add(node)
+
+    return kgcl
+
+
+# TODO: check that ALL triples with a class are deleted from a graph
+# def identify_class_deletion(added, deleted):
+#     covered = rdflib.Graph()
+#
+#     added_classes = set()
+#     for s, p, o in added.triples((None, RDFS.label, None)):
+#         added_classes.add(s)
+#
+#     deleted_classes = set()
+#     for s, p, o in deleted.triples((None, RDFS.label, None)):
+#         deleted_classes.add(s)
+#
+#     # added + deleted are cases of renamings
+#     deleted_classes = deleted_classes - added_classes
 
 
 def identify_label_creation(added, deleted):
@@ -60,6 +104,7 @@ def identify_label_creation(added, deleted):
     for s, p, o in deleted.triples((None, RDFS.label, None)):
         deleted_classes.add(s)
 
+    # added + deleted are cases of renamings
     created_classes = added_classes - deleted_classes
 
     kgcl = []
