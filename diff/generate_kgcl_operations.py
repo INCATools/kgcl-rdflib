@@ -25,12 +25,16 @@ import time
 
 # 1. load both 'added' and 'deleted' from temp folder
 # 2. check for possible transformations wrt each KGCL operation
-# obsolete,  unobsolete, create synonym
 
-# done: rename, change relationship,
-# move deepen,shallow
+# done: rename, change relationship, obsolete, unobsolete, create synonym
 
-# -delete, create, create edge, delete edge
+# reason over ontoolgy, spit out classifiaction, converft to triples
+# read triples as
+# move (done)
+# deepen,shallow (requires reasoning - later)
+
+# delete, create,
+# create edge, delete edge
 
 
 def id_generator():
@@ -41,6 +45,107 @@ def id_generator():
 
 
 id_gen = id_generator()
+
+
+def identify_node_moves(added, deleted):
+    covered = rdflib.Graph()
+
+    s2p_added = {}
+    for s, p, o in added.triples():
+        if s not in s2p_added:
+            s2p_added[s] = set()
+        s2p_added[s].add(o)
+
+    s2p_deleted = {}
+    for s, p, o in deleted.triples():
+        if s not in s2p_deleted:
+            s2p_deleted[s] = set()
+        s2p_deleted[s].add(o)
+
+    # identify triples that only differ wrt their object
+    s2p_shared = {}
+    for s in s2p_added:
+        s2p_shared[s] = s2p_added[s] & s2p_deleted[s]
+
+    # get triples
+    add_moves = set()
+    delete_moves = set()
+    for subject in s2p_shared:
+        for predicate in s2p_shared[s]:
+            for s, p, o in added.triples((subject, predicate, None)):
+                add_moves.add((s, p, o))
+            for s, p, o in deleted.triples((subject, predicate, None)):
+                delete_moves.add((s, p, o))
+
+    kgcl = []
+    for s in s2p_shared:
+        shared = len(s2p_shared[s])
+        for x in range(shared):
+            id = "test_id_" + str(next(id_gen))
+            new = add_moves.pop()
+            old = delete_moves.pop()
+            covered.add(new)
+            covered.add(old)
+            edge = Edge(subject=str(old[0]), object=str(old[2]))
+            node = NodeMove(
+                id=id, about_edge=edge, old_value=str(old[2]), new_value=str(new[2])
+            )
+            kgcl.append(node)
+
+    return kgcl, covered
+
+
+def identify_synonym_creation(added, deleted):
+    covered = rdflib.Graph()
+    OBOINOWL = rdflib.Namespace("http://www.geneontology.org/formats/oboInOwl#")
+
+    synonyms = {}
+    for s, p, o in added.triples((None, OBOINOWL.Synonym, None)):
+        synonyms[s] = o
+        covered.add((s, p, o))
+
+    kgcl = []
+    for subject, synonym in synonyms.items():
+        id = "test_id_" + str(next(id_gen))
+        node = NewSynonym(id=id, about_node=str(subject), new_value=str(synonym))
+        kgcl.append(node)
+
+    return kgcl, covered
+
+
+def identify_unobsoletions(added, deleted):
+    covered = rdflib.Graph()
+    # look for subjects that were originally owl:deprecated
+    deprecated = []
+    OBO = rdflib.Namespace("http://purl.obolibrary.org/obo/")
+    OBOINOWL = rdflib.Namespace("http://www.geneontology.org/formats/oboInOwl#")
+    for s, p, o in deleted.triples((None, OWL.deprecated, None)):
+        deprecated.append(s)
+
+    for d in deprecated:
+        for s, p, o in deleted.triples((d, RDFS.label, None)):
+            covered.add((s, p, o))
+        for s, p, o in deleted.triples((d, OWL.deprecated, None)):
+            covered.add((s, p, o))
+        for s, p, o in deleted.triples((d, OBO.IAO_0000115, None)):
+            covered.add((s, p, o))
+        for s, p, o in deleted.triples((d, OBO.IAO_0100001, None)):
+            covered.add((s, p, o))
+        for s, p, o in deleted.triples((d, OBOINOWL.consider, None)):
+            covered.add((s, p, o))
+
+        for s, p, o in added.triples((d, RDFS.label, None)):
+            covered.add((s, p, o))
+        for s, p, o in added.triples((d, OBO.IAO_0000115, None)):
+            covered.add((s, p, o))
+
+    kgcl = []
+    for s in deprecated:
+        id = "test_id_" + str(next(id_gen))
+        node = NodeUnobsoletion(id=id, about_node=str(s))
+        kgcl.append(node)
+
+    return kgcl, covered
 
 
 def identify_obsoletions(added, deleted):
@@ -200,7 +305,8 @@ if __name__ == "__main__":
     renamings, changeGraph = identify_renamings(added, deleted)
     predicateChanges, changeGraph = identify_predicate_changes(added, deleted)
     obsoletions, changeGraph = identify_obsoletions(added, deleted)
-    print(obsoletions)
+    synonyms, changeGraph = identify_synonym_creation(added, deleted)
+    print(synonyms)
 
     # print(renamingGraph.serialize(format="n3"))
 
