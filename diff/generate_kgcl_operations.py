@@ -57,7 +57,7 @@ def identify_edge_deletion(added, deleted):
         id = "test_id_" + str(next(id_gen))
 
         node = EdgeDeletion(id=id, subject=str(s), predicate=str(p), object=str(o))
-        kgcl.add(node)
+        kgcl.append(node)
 
     return kgcl
 
@@ -72,7 +72,7 @@ def identify_edge_creation(added, deleted):
         id = "test_id_" + str(next(id_gen))
 
         node = EdgeCreation(id=id, subject=str(s), predicate=str(p), object=str(o))
-        kgcl.add(node)
+        kgcl.append(node)
 
     return kgcl
 
@@ -409,13 +409,14 @@ if __name__ == "__main__":
         if not isinstance(s, BNode) and not isinstance(o, BNode):
             deleted.add((s, p, o))
 
+    print(len(added))
+    print(len(deleted))
+
     renamings, changeGraph = identify_renamings(added, deleted)
-    predicateChanges, changeGraph = identify_predicate_changes(added, deleted)
-    obsoletions, changeGraph = identify_obsoletions(added, deleted)
-    synonyms, changeGraph = identify_synonym_creation(added, deleted)
-    print(synonyms)
-
-    # print(renamingGraph.serialize(format="n3"))
-
-    # for s, p, o in added:
-    # print(s + " " + p + " " + o)
+    # print(renamings)
+    # predicateChanges, changeGraph = identify_predicate_changes(added, deleted)
+    # print(predicateChanges)
+    # obsoletions, changeGraph = identify_obsoletions(added, deleted)
+    # print(len(obsoletions))
+    # synonyms, changeGraph = identify_synonym_creation(added, deleted)
+    # print(synonyms)
