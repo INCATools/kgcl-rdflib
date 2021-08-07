@@ -49,6 +49,54 @@ def id_generator():
 id_gen = id_generator()
 
 
+def identify_label_creation(added, deleted):
+    covered = rdflib.Graph()
+
+    added_classes = set()
+    for s, p, o in added.triples((None, RDFS.label, None)):
+        added_classes.add(s)
+
+    deleted_classes = set()
+    for s, p, o in deleted.triples((None, RDFS.label, None)):
+        deleted_classes.add(s)
+
+    created_classes = added_classes - deleted_classes
+
+    kgcl = []
+    for s, p, o in added.triples((None, RDFS.label, None)):
+        if s in created_classes:
+            id = "test_id_" + str(next(id_gen))
+            covered.add((s, p, o))
+            node = NodeCreation(id=id, about_node=str(s), node_id=str(s), name=str(o))
+            kgcl.append(node)
+
+    return kgcl, covered
+
+
+def identify_class_creation(added, deleted):
+    covered = rdflib.Graph()
+
+    added_classes = set()
+    for s, p, o in added.triples((None, RDF.type, None)):
+        added_classes.add(s)
+
+    deleted_classes = set()
+    for s, p, o in deleted.triples((None, RDF.type, None)):
+        deleted_classes.add(s)
+
+    created_classes = added_classes - deleted_classes
+
+    kgcl = []
+    for s, p, o in added.triples((None, RDF.type, None)):
+        if s in created_classes:
+            id = "test_id_" + str(next(id_gen))
+            covered.add((s, p, o))
+            node = NodeCreation(id=id, about_node=str(s), node_id=str(s))
+            kgcl.append(node)
+
+    return kgcl, covered
+
+
 def identify_node_moves(added, deleted):
     covered = rdflib.Graph()
 
