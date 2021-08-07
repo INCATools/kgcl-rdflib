@@ -4,6 +4,7 @@ from rdflib.namespace import (
     RDF,
     OWL,
 )
+from rdflib import BNode
 from kgcl import (
     NodeRename,
     NodeObsoletion,
@@ -27,6 +28,7 @@ import time
 # 2. check for possible transformations wrt each KGCL operation
 
 # done: rename, change relationship, obsolete, unobsolete, create synonym
+# (these all operate on iri's and not blank nodes)
 
 # reason over ontoolgy, spit out classifiaction, converft to triples
 # read triples as
@@ -296,11 +298,23 @@ def identify_renamings(added, deleted):
 
 
 if __name__ == "__main__":
+
+    a = rdflib.Graph()
+    a.load("tmp/added", format="nt")
+
+    # filter out triples with blank nodes
     added = rdflib.Graph()
-    added.load("tmp/added", format="nt")
+    for s, p, o in a.triples((None, None, None)):
+        if not isinstance(s, BNode) and not isinstance(o, BNode):
+            added.add((s, p, o))
+
+    d = rdflib.Graph()
+    d.load("tmp/deleted", format="nt")
 
     deleted = rdflib.Graph()
-    deleted.load("tmp/deleted", format="nt")
+    for s, p, o in d.triples((None, None, None)):
+        if not isinstance(s, BNode) and not isinstance(o, BNode):
+            deleted.add((s, p, o))
 
     renamings, changeGraph = identify_renamings(added, deleted)
     predicateChanges, changeGraph = identify_predicate_changes(added, deleted)
