@@ -146,13 +146,13 @@ def identify_node_moves(added, deleted):
     covered = rdflib.Graph()
 
     s2p_added = {}
-    for s, p, o in added.triples():
+    for s, p, o in added:
         if s not in s2p_added:
             s2p_added[s] = set()
         s2p_added[s].add(o)
 
     s2p_deleted = {}
-    for s, p, o in deleted.triples():
+    for s, p, o in deleted:
         if s not in s2p_deleted:
             s2p_deleted[s] = set()
         s2p_deleted[s].add(o)
@@ -160,13 +160,14 @@ def identify_node_moves(added, deleted):
     # identify triples that only differ wrt their object
     s2p_shared = {}
     for s in s2p_added:
-        s2p_shared[s] = s2p_added[s] & s2p_deleted[s]
+        if s in s2p_added and s in s2p_deleted:
+            s2p_shared[s] = s2p_added[s] & s2p_deleted[s]
 
     # get triples
     add_moves = set()
     delete_moves = set()
     for subject in s2p_shared:
-        for predicate in s2p_shared[s]:
+        for predicate in s2p_shared[subject]:
             for s, p, o in added.triples((subject, predicate, None)):
                 add_moves.add((s, p, o))
             for s, p, o in deleted.triples((subject, predicate, None)):
@@ -420,3 +421,17 @@ if __name__ == "__main__":
     # print(len(obsoletions))
     # synonyms, changeGraph = identify_synonym_creation(added, deleted)
     # print(synonyms)
+
+    classcreations, changeGraph = identify_class_creation(added, deleted)
+    print(len(classcreations))
+
+    labelCreation, changeGraph = identify_label_creation(added, deleted)
+    print(len(labelCreation))
+
+    edgeCreation = identify_edge_creation(added, deleted)
+    print(len(edgeCreation))
+
+    edgeDeletion = identify_edge_deletion(added, deleted)
+    print(len(edgeDeletion))
+
+    # print(renamingGraph.serialize(format="n3"))
