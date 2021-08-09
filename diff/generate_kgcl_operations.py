@@ -48,6 +48,7 @@ id_gen = id_generator()
 
 
 def identify_edge_deletion(added, deleted):
+    covered = rdflib.Graph()
 
     # added + deleted are cases of renamings
     diff = deleted - added
@@ -59,10 +60,13 @@ def identify_edge_deletion(added, deleted):
         node = EdgeDeletion(id=id, subject=str(s), predicate=str(p), object=str(o))
         kgcl.append(node)
 
-    return kgcl
+        covered.add((s, p, o))
+
+    return kgcl, covered
 
 
 def identify_edge_creation(added, deleted):
+    covered = rdflib.Graph()
 
     # added + deleted are cases of renamings
     diff = added - deleted
@@ -74,7 +78,9 @@ def identify_edge_creation(added, deleted):
         node = EdgeCreation(id=id, subject=str(s), predicate=str(p), object=str(o))
         kgcl.append(node)
 
-    return kgcl
+        covered.add((s, p, o))
+
+    return kgcl, covered
 
 
 # TODO: check that ALL triples with a class are deleted from a graph
@@ -175,7 +181,8 @@ def identify_node_moves(added, deleted):
 
     kgcl = []
     for s in s2p_shared:
-        shared = len(s2p_shared[s])
+        # shared = len(s2p_shared[s])
+        shared = min(len(add_moves), len(delete_moves))
         for x in range(shared):
             id = "test_id_" + str(next(id_gen))
             new = add_moves.pop()
