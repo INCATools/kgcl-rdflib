@@ -22,6 +22,9 @@ from kgcl import (
 import parser
 import graph_transformer
 import rdflib
+import os
+import sys
+from example_kgcl_operations import generate_diff
 
 app = Flask(__name__)
 
@@ -150,6 +153,76 @@ def index():
 
     else:
         return render_template("index.html", examples=examples)
+
+
+@app.route("/diff", methods=["POST", "GET"])
+def diff():
+
+    examples = [
+        "rename",
+        "obsolete",
+    ]
+
+    # initialise variables
+    inputGraph1 = ""
+    inputGraph2 = ""
+    kgcl = ""
+
+    if request.method == "POST":
+
+        if "generate_diff" in request.form:
+            inputGraph1 = request.form["graph1"]
+            inputGraph2 = request.form["graph2"]
+
+            # store graph as file
+            f = open("testData/graph1.nt", "w")
+            f.write(inputGraph1)
+            f.close()
+
+            f = open("testData/graph2.nt", "w")
+            f.write(inputGraph2)
+            f.close()
+
+            os.system("sh kgcl_diff.sh testData/graph1.nt testData/graph2.nt")
+            generate_diff()
+
+        if "load_example" in request.form:
+            select = request.form.get("comp_select")
+            example = str(select)
+
+            f = open("testData/diffExample/" + example + "/graph1.nt", "r")
+            graph1 = f.read()
+            f.close()
+
+            f = open("testData/diffExample/" + example + "/graph2.nt", "r")
+            graph2 = f.read()
+            f.close()
+
+            inputGraph1 = graph1
+            inputGraph2 = graph2
+
+            f = open("testData/graph1.nt", "w")
+            f.write(graph1)
+            f.close()
+
+            f = open("testData/graph1.nt", "w")
+            f.write(graph2)
+            f.close()
+
+            os.system("sh kgcl_diff.sh testData/graph1.nt testData/graph2.nt")
+            generate_diff()
+
+        f = open("stats/all", "r")
+        kgcl = f.read()
+        f.close()
+
+    return render_template(
+        "diff.html",
+        examples=examples,
+        kgclDiff=kgcl,
+        inputGraph1=inputGraph1,
+        inputGraph2=inputGraph2,
+    )
 
 
 def parse(input):
