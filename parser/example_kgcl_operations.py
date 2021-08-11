@@ -44,8 +44,8 @@ def update_statements(kgclInstances, class_2_statements):
 def run(identify, class_2_statements, added, deleted):
     kgcl, changeGraph = identify(added, deleted)
     update_statements(kgcl, class_2_statements)
-    added = added - changeGraph
-    deleted = deleted - changeGraph
+    added -= changeGraph
+    deleted -= changeGraph
     return kgcl
 
 
@@ -71,59 +71,22 @@ def generate_diff():
     # map from classes to corresponding KGCL statements
     class_2_statements = {}
 
-    renamings, changeGraph = identify_renamings(added, deleted)
-    update_statements(renamings, class_2_statements)
-    added = added - changeGraph
-    deleted = deleted - changeGraph
-
     obsoletions = run(identify_obsoletions, class_2_statements, added, deleted)
-    # obsoletions, changeGraph = identify_obsoletions(added, deleted)
-    # update_statements(obsoletions, class_2_statements)
-    # added = added - changeGraph
-    # deleted = deleted - changeGraph
-
-    unobsoletions, changeGraph = identify_unobsoletions(added, deleted)
-    update_statements(unobsoletions, class_2_statements)
-    added = added - changeGraph
-    deleted = deleted - changeGraph
-
-    labels, changeGraph = identify_label_creation(added, deleted)
-    update_statements(labels, class_2_statements)
-    added = added - changeGraph
-    deleted = deleted - changeGraph
-
-    synonyms, changeGraph = identify_synonym_creation(added, deleted)
-    update_statements(synonyms, class_2_statements)
-    added = added - changeGraph
-    deleted = deleted - changeGraph
-
-    nodeMoves, changeGraph = identify_node_moves(added, deleted)
-    update_statements(nodeMoves, class_2_statements)
-    added = added - changeGraph
-    deleted = deleted - changeGraph
-
-    classCreations, changeGraph = identify_class_creation(added, deleted)
-    update_statements(classCreations, class_2_statements)
-    added = added - changeGraph
-    deleted = deleted - changeGraph
-
-    predicateChanges, changeGraph = identify_predicate_changes(added, deleted)
-    update_statements(predicateChanges, class_2_statements)
-    added = added - changeGraph
-    deleted = deleted - changeGraph
-
-    edgeCreations, changeGraph = identify_edge_creation(added, deleted)
-    update_statements(edgeCreations, class_2_statements)
-    added = added - changeGraph
-    deleted = deleted - changeGraph
-
-    edgeDeletions, changeGraph = identify_edge_deletion(added, deleted)
-    update_statements(edgeDeletions, class_2_statements)
-    added = added - changeGraph
-    deleted = deleted - changeGraph
+    unobsoletions = run(identify_unobsoletions, class_2_statements, added, deleted)
+    renamings = run(identify_renamings, class_2_statements, added, deleted)
+    labels = run(identify_label_creation, class_2_statements, added, deleted)
+    synonyms = run(identify_synonym_creation, class_2_statements, added, deleted)
+    nodeMoves = run(identify_node_moves, class_2_statements, added, deleted)
+    classCreations = run(identify_class_creation, class_2_statements, added, deleted)
+    predicateChanges = run(
+        identify_predicate_changes, class_2_statements, added, deleted
+    )
+    edgeCreations = run(identify_edge_creation, class_2_statements, added, deleted)
+    edgeDeletions = run(identify_edge_deletion, class_2_statements, added, deleted)
 
     # write summary stats
     f = open("stats/summary", "a")
+    f.write("Renamings: " + str(len(renamings)) + "\n")
     f.write("Obsoletions: " + str(len(obsoletions)) + "\n")
     f.write("Unobsoletions: " + str(len(unobsoletions)) + "\n")
     f.write("Label Creations: " + str(len(labels)) + "\n")
