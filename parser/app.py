@@ -160,7 +160,12 @@ def diff():
 
     examples = [
         "rename",
-        "obsolete",
+        "classCreation",
+        "obsoletion",
+        "unobsoletion",
+        "move",
+        "edgeCreation",
+        "edgeDeletion",
     ]
 
     # initialise variables
@@ -186,7 +191,7 @@ def diff():
             os.system("sh kgcl_diff.sh testData/graph1.nt testData/graph2.nt")
             generate_diff()
 
-        if "load_example" in request.form:
+        if "load_example_diff" in request.form:
             select = request.form.get("comp_select")
             example = str(select)
 
@@ -205,7 +210,7 @@ def diff():
             f.write(graph1)
             f.close()
 
-            f = open("testData/graph1.nt", "w")
+            f = open("testData/graph2.nt", "w")
             f.write(graph2)
             f.close()
 
