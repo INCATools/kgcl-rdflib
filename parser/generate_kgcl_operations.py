@@ -156,13 +156,13 @@ def identify_node_moves(added, deleted):
     for s, p, o in added:
         if s not in s2p_added:
             s2p_added[s] = set()
-        s2p_added[s].add(o)
+        s2p_added[s].add(p)
 
     s2p_deleted = {}
     for s, p, o in deleted:
         if s not in s2p_deleted:
             s2p_deleted[s] = set()
-        s2p_deleted[s].add(o)
+        s2p_deleted[s].add(p)
 
     # identify triples that only differ wrt their object
     s2p_shared = {}
