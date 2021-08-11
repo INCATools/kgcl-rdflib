@@ -24,7 +24,7 @@ import graph_transformer
 import rdflib
 import os
 import sys
-from example_kgcl_operations import generate_diff
+from diff.example_kgcl_operations import generate_diff
 
 app = Flask(__name__)
 
@@ -188,7 +188,7 @@ def diff():
             f.write(inputGraph2)
             f.close()
 
-            os.system("sh kgcl_diff.sh testData/graph1.nt testData/graph2.nt")
+            os.system("sh diff/kgcl_diff.sh testData/graph1.nt testData/graph2.nt")
             generate_diff()
 
         if "load_example_diff" in request.form:
@@ -214,10 +214,10 @@ def diff():
             f.write(graph2)
             f.close()
 
-            os.system("sh kgcl_diff.sh testData/graph1.nt testData/graph2.nt")
+            os.system("sh diff/kgcl_diff.sh testData/graph1.nt testData/graph2.nt")
             generate_diff()
 
-        f = open("stats/all", "r")
+        f = open("diff/stats/all", "r")
         kgcl = f.read()
         f.close()
 

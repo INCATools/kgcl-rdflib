@@ -1,4 +1,4 @@
-from generate_kgcl_operations import (
+from diff.generate_kgcl_operations import (
     identify_renamings,
     identify_label_creation,
     identify_obsoletions,
@@ -11,8 +11,8 @@ from generate_kgcl_operations import (
     identify_edge_deletion,
 )
 import rdflib
-from render_operations import render
-from get_class_entity import get_class_entity
+from diff.render_operations import render
+from diff.get_class_entity import get_class_entity
 from rdflib import BNode
 from kgcl import (
     NodeRename,
@@ -52,7 +52,7 @@ def run(identify, class_2_statements, added, deleted):
 # if __name__ == "__main__":
 def generate_diff():
     a = rdflib.Graph()
-    a.load("tmp/added", format="nt")
+    a.load("diff/tmp/added", format="nt")
 
     # filter out triples with blank nodes
     added = rdflib.Graph()
@@ -61,7 +61,7 @@ def generate_diff():
             added.add((s, p, o))
 
     d = rdflib.Graph()
-    d.load("tmp/deleted", format="nt")
+    d.load("diff/tmp/deleted", format="nt")
 
     deleted = rdflib.Graph()
     for s, p, o in d.triples((None, None, None)):
@@ -85,7 +85,7 @@ def generate_diff():
     edgeDeletions = run(identify_edge_deletion, class_2_statements, added, deleted)
 
     # write summary stats
-    f = open("stats/summary", "a")
+    f = open("diff/stats/summary", "a")
     f.write("Renamings: " + str(len(renamings)) + "\n")
     f.write("Obsoletions: " + str(len(obsoletions)) + "\n")
     f.write("Unobsoletions: " + str(len(unobsoletions)) + "\n")
@@ -99,12 +99,12 @@ def generate_diff():
     f.close()
 
     # write KGCL statements
-    f = open("stats/all", "a")
+    f = open("diff/stats/all", "a")
     all = []
     id = 0
     for k in class_2_statements:
         id += 1
-        ff = open("stats/" + str(id), "a")
+        ff = open("diff/stats/" + str(id), "a")
         for s in class_2_statements[k]:
             ff.write(s)
             ff.write("\n")
