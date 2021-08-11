@@ -94,7 +94,7 @@ def render(kgclInstance):
     if type(kgclInstance) is NodeCreation:
         subject = render_entity(kgclInstance.about_node)
         label = render_entity(kgclInstance.name)
-        if label is not None:
+        if kgclInstance.name is not None:
             return "create node " + subject + " " + label
         else:
             return "create " + subject
