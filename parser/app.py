@@ -152,7 +152,58 @@ def index():
         )
 
     else:
-        return render_template("index.html", examples=examples)
+        # load rename example by default
+
+        # load graph
+        f = open("testData/example/rename/graph.nt", "r")
+        graph = f.read()
+        f.close()
+
+        f = open("testData/graph.nt", "w")
+        f.write(graph)
+        f.close()
+
+        # load kgcl
+        f = open("testData/example/rename/kgcl", "r")
+        kgcl = f.read()
+        f.close()
+
+        f = open("testData/kgcl", "w")
+        f.write(kgcl)
+        f.close()
+
+        # parse KGCL input
+        output = parse(kgcl)
+
+        # prepare parsed
+        output_rendering = ""
+        for o in output:
+            output_rendering += render(o) + "\n"
+
+        # load input graph from file
+        g = rdflib.Graph()
+        g.load("testData/graph.nt", format="nt")
+
+        # transform graph
+        graph_transformer.transform_graph(output, g)
+
+        # save graph
+        g.serialize(destination="testData/transformation.nt", format="nt")
+
+        # load transformed graph
+        f = open("testData/transformation.nt", "r")
+        transformation = f.read()
+        f.close()
+
+        # return render_template("index.html", examples=examples)
+        return render_template(
+            "index.html",
+            inputGraph=graph,
+            inputKGCL=kgcl,
+            parsedKGCL=output_rendering,
+            outputGraph=transformation,
+            examples=examples,
+        )
 
 
 @app.route("/diff", methods=["POST", "GET"])
