@@ -54,38 +54,12 @@ def index():
         if "apply_changes" in request.form:
 
             # get input graph from form
-            graphInput = request.form["graph"]
+            graph = request.form["graph"]
 
             # get input kgcl statements from form
             kgcl = request.form["kgcl"]
 
-            # TODO:
-            # 1. load triples without writing to a file first
-            # 2. handle kgcl input without writing to a file
-
-            # store kgcl statements
-            f = open("testData/kgcl", "w")
-            f.write(kgcl)
-            f.close()
-
-            # parse KGCL input
-            parsed_statements = parse(kgcl)
-
-            # store graph as file
-            f = open("testData/graph.nt", "w")
-            f.write(graphInput)
-            f.close()
-
-            # load input graph from file
-            g = rdflib.Graph()
-            g.load("testData/graph.nt", format="nt")
-
-            # transform graph
-            graph_transformer.transform_graph(parsed_statements, g)
-
-            # save graph
-            # TODO: get text representation of graph without writing to a file
-            g.serialize(destination="testData/transformation.nt", format="nt")
+            kgcl_transformation(graph, kgcl)
 
         if "load_example" in request.form:
             select = request.form.get("comp_select")
@@ -95,48 +69,19 @@ def index():
             graph = f.read()
             f.close()
 
-            f = open("testData/graph.nt", "w")
-            f.write(graph)
-            f.close()
-
             f = open("testData/example/" + example + "/kgcl", "r")
             kgcl = f.read()
             f.close()
 
-            f = open("testData/kgcl", "w")
-            f.write(kgcl)
-            f.close()
-
-            # parse KGCL input
-            parsed_statements = parse(kgcl)
-
-            # load input graph from file
-            g = rdflib.Graph()
-            g.load("testData/graph.nt", format="nt")
-
-            # transform graph
-            graph_transformer.transform_graph(parsed_statements, g)
-
-            # save graph
-            g.serialize(destination="testData/transformation.nt", format="nt")
-
-        # load graph
-        f = open("testData/graph.nt", "r")
-        graph = f.read()
-        f.close()
-
-        # load kgcl
-        f = open("testData/kgcl", "r")
-        kgcl = f.read()
-        f.close()
+            kgcl_transformation(graph, kgcl)
 
         # parse KGCL input
-        output = parse(kgcl)
+        kgcl_model = parse(kgcl)
 
         # prepare parsed
-        output_rendering = ""
-        for o in output:
-            output_rendering += render(o) + "\n"
+        kgcl_model_rendering = ""
+        for o in kgcl_model:
+            kgcl_model_rendering += render(o) + "\n"
 
         # load transformed graph
         f = open("testData/transformation.nt", "r")
@@ -147,7 +92,7 @@ def index():
             "index.html",
             inputGraph=graph,
             inputKGCL=kgcl,
-            parsedKGCL=output_rendering,
+            parsedKGCL=kgcl_model_rendering,
             outputGraph=transformation,
             examples=examples,
         )
@@ -321,6 +266,32 @@ def diff():
 
 def parse(input):
     return parser.parse(input)
+
+
+def kgcl_transformation(graph, kgcl):
+    # store graph as file
+    f = open("testData/graph.nt", "w")
+    f.write(graph)
+    f.close()
+
+    # store kgcl statements
+    f = open("testData/kgcl", "w")
+    f.write(kgcl)
+    f.close()
+
+    # parse KGCL input
+    parsed_statements = parse(kgcl)
+
+    # load input graph from file
+    g = rdflib.Graph()
+    g.load("testData/graph.nt", format="nt")
+
+    # transform graph
+    graph_transformer.transform_graph(parsed_statements, g)
+
+    # save graph
+    # TODO: get text representation of graph without writing to a file
+    g.serialize(destination="testData/transformation.nt", format="nt")
 
 
 if __name__ == "__main__":
