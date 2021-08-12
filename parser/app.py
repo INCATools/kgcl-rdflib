@@ -272,13 +272,50 @@ def diff():
         kgcl = f.read()
         f.close()
 
-    return render_template(
-        "diff.html",
-        examples=examples,
-        kgclDiff=kgcl,
-        inputGraph1=inputGraph1,
-        inputGraph2=inputGraph2,
-    )
+        return render_template(
+            "diff.html",
+            examples=examples,
+            kgclDiff=kgcl,
+            inputGraph1=inputGraph1,
+            inputGraph2=inputGraph2,
+        )
+    else:
+        # load rename by default
+        example = "rename"
+
+        f = open("testData/diffExample/" + example + "/graph1.nt", "r")
+        graph1 = f.read()
+        f.close()
+
+        f = open("testData/diffExample/" + example + "/graph2.nt", "r")
+        graph2 = f.read()
+        f.close()
+
+        inputGraph1 = graph1
+        inputGraph2 = graph2
+
+        f = open("testData/graph1.nt", "w")
+        f.write(graph1)
+        f.close()
+
+        f = open("testData/graph2.nt", "w")
+        f.write(graph2)
+        f.close()
+
+        os.system("sh diff/kgcl_diff.sh testData/graph1.nt testData/graph2.nt")
+        generate_diff()
+
+        f = open("diff/stats/all", "r")
+        kgcl = f.read()
+        f.close()
+
+        return render_template(
+            "diff.html",
+            examples=examples,
+            kgclDiff=kgcl,
+            inputGraph1=inputGraph1,
+            inputGraph2=inputGraph2,
+        )
 
 
 def parse(input):
