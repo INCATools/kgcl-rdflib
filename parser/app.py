@@ -105,36 +105,20 @@ def index():
         graph = f.read()
         f.close()
 
-        f = open("testData/graph.nt", "w")
-        f.write(graph)
-        f.close()
-
         # load kgcl
         f = open("testData/example/rename/kgcl", "r")
         kgcl = f.read()
         f.close()
 
-        f = open("testData/kgcl", "w")
-        f.write(kgcl)
-        f.close()
+        kgcl_transformation(graph, kgcl)
 
         # parse KGCL input
-        output = parse(kgcl)
+        kgcl_model = parse(kgcl)
 
         # prepare parsed
-        output_rendering = ""
-        for o in output:
-            output_rendering += render(o) + "\n"
-
-        # load input graph from file
-        g = rdflib.Graph()
-        g.load("testData/graph.nt", format="nt")
-
-        # transform graph
-        graph_transformer.transform_graph(output, g)
-
-        # save graph
-        g.serialize(destination="testData/transformation.nt", format="nt")
+        kgcl_model_rendering = ""
+        for o in kgcl_model:
+            kgcl_model_rendering += render(o) + "\n"
 
         # load transformed graph
         f = open("testData/transformation.nt", "r")
@@ -146,7 +130,7 @@ def index():
             "index.html",
             inputGraph=graph,
             inputKGCL=kgcl,
-            parsedKGCL=output_rendering,
+            parsedKGCL=kgcl_model_rendering,
             outputGraph=transformation,
             examples=examples,
         )
@@ -166,27 +150,17 @@ def diff():
     ]
 
     # initialise variables
-    inputGraph1 = ""
-    inputGraph2 = ""
+    graph1 = ""
+    graph2 = ""
     kgcl = ""
 
     if request.method == "POST":
 
         if "generate_diff" in request.form:
-            inputGraph1 = request.form["graph1"]
-            inputGraph2 = request.form["graph2"]
+            graph1 = request.form["graph1"]
+            graph2 = request.form["graph2"]
 
-            # store graph as file
-            f = open("testData/graph1.nt", "w")
-            f.write(inputGraph1)
-            f.close()
-
-            f = open("testData/graph2.nt", "w")
-            f.write(inputGraph2)
-            f.close()
-
-            os.system("sh diff/kgcl_diff.sh testData/graph1.nt testData/graph2.nt")
-            generate_diff()
+            kgcl_diff(graph1, graph2)
 
         if "load_example_diff" in request.form:
             select = request.form.get("comp_select")
@@ -200,19 +174,7 @@ def diff():
             graph2 = f.read()
             f.close()
 
-            inputGraph1 = graph1
-            inputGraph2 = graph2
-
-            f = open("testData/graph1.nt", "w")
-            f.write(graph1)
-            f.close()
-
-            f = open("testData/graph2.nt", "w")
-            f.write(graph2)
-            f.close()
-
-            os.system("sh diff/kgcl_diff.sh testData/graph1.nt testData/graph2.nt")
-            generate_diff()
+            kgcl_diff(graph1, graph2)
 
         f = open("diff/stats/all", "r")
         kgcl = f.read()
@@ -222,8 +184,8 @@ def diff():
             "diff.html",
             examples=examples,
             kgclDiff=kgcl,
-            inputGraph1=inputGraph1,
-            inputGraph2=inputGraph2,
+            inputGraph1=graph1,
+            inputGraph2=graph2,
         )
     else:
         # load rename by default
@@ -237,19 +199,7 @@ def diff():
         graph2 = f.read()
         f.close()
 
-        inputGraph1 = graph1
-        inputGraph2 = graph2
-
-        f = open("testData/graph1.nt", "w")
-        f.write(graph1)
-        f.close()
-
-        f = open("testData/graph2.nt", "w")
-        f.write(graph2)
-        f.close()
-
-        os.system("sh diff/kgcl_diff.sh testData/graph1.nt testData/graph2.nt")
-        generate_diff()
+        kgcl_diff(graph1, graph2)
 
         f = open("diff/stats/all", "r")
         kgcl = f.read()
@@ -259,8 +209,8 @@ def diff():
             "diff.html",
             examples=examples,
             kgclDiff=kgcl,
-            inputGraph1=inputGraph1,
-            inputGraph2=inputGraph2,
+            inputGraph1=graph1,
+            inputGraph2=graph2,
         )
 
 
@@ -292,6 +242,20 @@ def kgcl_transformation(graph, kgcl):
     # save graph
     # TODO: get text representation of graph without writing to a file
     g.serialize(destination="testData/transformation.nt", format="nt")
+
+
+def kgcl_diff(graph1, graph2):
+    # store graph as file
+    f = open("testData/graph1.nt", "w")
+    f.write(graph1)
+    f.close()
+
+    f = open("testData/graph2.nt", "w")
+    f.write(graph2)
+    f.close()
+
+    os.system("sh diff/kgcl_diff.sh testData/graph1.nt testData/graph2.nt")
+    generate_diff()
 
 
 if __name__ == "__main__":
