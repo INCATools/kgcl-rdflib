@@ -1,5 +1,5 @@
 # Auto generated from kgcl.yaml by pythongen.py version: 0.9.0
-# Generation date: 2021-07-16 20:38
+# Generation date: 2021-08-19 14:44
 # Schema: kgcl
 #
 # id: https://w3id.org/kgcl
@@ -12,7 +12,7 @@
 import dataclasses
 import sys
 import re
-from jsonasobj2 import JsonObj
+from jsonasobj2 import JsonObj, as_dict
 from typing import Optional, List, Union, Dict, ClassVar, Any
 from dataclasses import dataclass
 from linkml_runtime.linkml_model.meta import EnumDefinition, PermissibleValue, PvFormulaOptions
@@ -97,6 +97,10 @@ class EdgeObsoletionId(EdgeChangeId):
 
 
 class EdgeRewiringId(EdgeChangeId):
+    pass
+
+
+class MappingCreationId(EdgeCreationId):
     pass
 
 
@@ -407,7 +411,7 @@ class ChangeSetSummaryStatistic(YAMLRoot):
 
         if not isinstance(self.property_value_set, list):
             self.property_value_set = [self.property_value_set] if self.property_value_set is not None else []
-        self.property_value_set = [v if isinstance(v, PropertyValue) else PropertyValue(**v) for v in self.property_value_set]
+        self.property_value_set = [v if isinstance(v, PropertyValue) else PropertyValue(**as_dict(v)) for v in self.property_value_set]
 
         super().__post_init__(**kwargs)
 
@@ -444,7 +448,7 @@ class Obsoletion(ChangeMixin):
             self.about = OntologyElement()
 
         if self.has_undo is not None and not isinstance(self.has_undo, Obsoletion):
-            self.has_undo = Obsoletion(**self.has_undo)
+            self.has_undo = Obsoletion(**as_dict(self.has_undo))
 
         super().__post_init__(**kwargs)
 
@@ -478,7 +482,7 @@ class Unobsoletion(ChangeMixin):
 
     def __post_init__(self, *_: List[str], **kwargs: Dict[str, Any]):
         if self.has_undo is not None and not isinstance(self.has_undo, Obsoletion):
-            self.has_undo = Obsoletion(**self.has_undo)
+            self.has_undo = Obsoletion(**as_dict(self.has_undo))
 
         super().__post_init__(**kwargs)
 
@@ -578,7 +582,7 @@ class RemoveFromSubset(SubsetMembershipChange):
             self.in_subset = OntologySubset()
 
         if self.has_undo is not None and not isinstance(self.has_undo, AddToSubset):
-            self.has_undo = AddToSubset(**self.has_undo)
+            self.has_undo = AddToSubset(**as_dict(self.has_undo))
 
         super().__post_init__(**kwargs)
 
@@ -601,7 +605,7 @@ class EdgeChange(SimpleChange):
 
     def __post_init__(self, *_: List[str], **kwargs: Dict[str, Any]):
         if self.about_edge is not None and not isinstance(self.about_edge, Edge):
-            self.about_edge = Edge(**self.about_edge)
+            self.about_edge = Edge(**as_dict(self.about_edge))
 
         if self.subject is not None and not isinstance(self.subject, NodeId):
             self.subject = NodeId(self.subject)
@@ -644,7 +648,7 @@ class EdgeCreation(EdgeChange):
             self.object = NodeId(self.object)
 
         if self.annotation_set is not None and not isinstance(self.annotation_set, Annotation):
-            self.annotation_set = Annotation(**self.annotation_set)
+            self.annotation_set = Annotation(**as_dict(self.annotation_set))
 
         if self.change_description is not None and not isinstance(self.change_description, str):
             self.change_description = str(self.change_description)
@@ -710,7 +714,7 @@ class EdgeDeletion(EdgeChange):
             self.object = NodeId(self.object)
 
         if self.annotation_set is not None and not isinstance(self.annotation_set, Annotation):
-            self.annotation_set = Annotation(**self.annotation_set)
+            self.annotation_set = Annotation(**as_dict(self.annotation_set))
 
         if self.change_description is not None and not isinstance(self.change_description, str):
             self.change_description = str(self.change_description)
@@ -754,7 +758,7 @@ class EdgeObsoletion(EdgeChange):
             self.object = NodeId(self.object)
 
         if self.annotation_set is not None and not isinstance(self.annotation_set, Annotation):
-            self.annotation_set = Annotation(**self.annotation_set)
+            self.annotation_set = Annotation(**as_dict(self.annotation_set))
 
         if self.change_description is not None and not isinstance(self.change_description, str):
             self.change_description = str(self.change_description)
@@ -784,6 +788,49 @@ class EdgeRewiring(EdgeChange):
             self.MissingRequiredField("id")
         if not isinstance(self.id, EdgeRewiringId):
             self.id = EdgeRewiringId(self.id)
+
+        super().__post_init__(**kwargs)
+
+
+@dataclass
+class MappingCreation(EdgeCreation):
+    """
+    A specific kind of edge creation in which the created edge is a mapping.
+    """
+    _inherited_slots: ClassVar[List[str]] = []
+
+    class_class_uri: ClassVar[URIRef] = KGCL.MappingCreation
+    class_class_curie: ClassVar[str] = "kgcl:MappingCreation"
+    class_name: ClassVar[str] = "mapping creation"
+    class_model_uri: ClassVar[URIRef] = KGCL.MappingCreation
+
+    id: Union[str, MappingCreationId] = None
+    subject: Optional[Union[str, NodeId]] = None
+    predicate: Optional[Union[str, NodeId]] = None
+    object: Optional[Union[str, NodeId]] = None
+    annotation_set: Optional[Union[dict, Annotation]] = None
+    change_description: Optional[str] = None
+
+    def __post_init__(self, *_: List[str], **kwargs: Dict[str, Any]):
+        if self._is_empty(self.id):
+            self.MissingRequiredField("id")
+        if not isinstance(self.id, MappingCreationId):
+            self.id = MappingCreationId(self.id)
+
+        if self.subject is not None and not isinstance(self.subject, NodeId):
+            self.subject = NodeId(self.subject)
+
+        if self.predicate is not None and not isinstance(self.predicate, NodeId):
+            self.predicate = NodeId(self.predicate)
+
+        if self.object is not None and not isinstance(self.object, NodeId):
+            self.object = NodeId(self.object)
+
+        if self.annotation_set is not None and not isinstance(self.annotation_set, Annotation):
+            self.annotation_set = Annotation(**as_dict(self.annotation_set))
+
+        if self.change_description is not None and not isinstance(self.change_description, str):
+            self.change_description = str(self.change_description)
 
         super().__post_init__(**kwargs)
 
@@ -1535,7 +1582,7 @@ class NodeCreation(NodeChange):
             self.owl_type = OwlTypeEnum(self.owl_type)
 
         if self.annotation_set is not None and not isinstance(self.annotation_set, Annotation):
-            self.annotation_set = Annotation(**self.annotation_set)
+            self.annotation_set = Annotation(**as_dict(self.annotation_set))
 
         if self.change_description is not None and not isinstance(self.change_description, str):
             self.change_description = str(self.change_description)
@@ -1975,6 +2022,18 @@ slots.edge_deletion_change_description = Slot(uri=KGCL.change_description, name=
 
 slots.edge_obsoletion_change_description = Slot(uri=KGCL.change_description, name="edge obsoletion_change description", curie=KGCL.curie('change_description'),
                    model_uri=KGCL.edge_obsoletion_change_description, domain=EdgeObsoletion, range=Optional[str])
+
+slots.mapping_creation_change_description = Slot(uri=KGCL.change_description, name="mapping creation_change description", curie=KGCL.curie('change_description'),
+                   model_uri=KGCL.mapping_creation_change_description, domain=MappingCreation, range=Optional[str])
+
+slots.mapping_creation_subject = Slot(uri=KGCL.subject, name="mapping creation_subject", curie=KGCL.curie('subject'),
+                   model_uri=KGCL.mapping_creation_subject, domain=MappingCreation, range=Optional[Union[str, NodeId]])
+
+slots.mapping_creation_predicate = Slot(uri=KGCL.predicate, name="mapping creation_predicate", curie=KGCL.curie('predicate'),
+                   model_uri=KGCL.mapping_creation_predicate, domain=MappingCreation, range=Optional[Union[str, NodeId]])
+
+slots.mapping_creation_object = Slot(uri=KGCL.object, name="mapping creation_object", curie=KGCL.curie('object'),
+                   model_uri=KGCL.mapping_creation_object, domain=MappingCreation, range=Optional[Union[str, NodeId]])
 
 slots.node_move_change_description = Slot(uri=KGCL.change_description, name="node move_change description", curie=KGCL.curie('change_description'),
                    model_uri=KGCL.node_move_change_description, domain=NodeMove, range=Optional[str])

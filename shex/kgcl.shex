@@ -240,7 +240,7 @@ om:Edge CLOSED {
           ) ;
           rdf:type [ <EdgeCreation> ]
        )
-    } OR @<PlaceUnder>
+    } OR @<MappingCreation> OR @<PlaceUnder>
 )
 
 <EdgeDeletion> CLOSED {
@@ -311,6 +311,20 @@ om:LogicalDefinition CLOSED {
           rdf:type [ om:OntologyElement ] ?
        ) ;
        rdf:type [ om:LogicalDefinition ] ?
+    )
+}
+
+<MappingCreation> CLOSED {
+    (  $<MappingCreation_tes> (  &<EdgeCreation_tes> ;
+          rdf:type [ <EdgeCreation> ] ? ;
+          &<Creation_tes> ;
+          rdf:type [ <Creation> ] ? ;
+          <subject> @om:Node ? ;
+          <predicate> @om:Node ? ;
+          <object> @om:Node ? ;
+          <change_description> @linkml:String ?
+       ) ;
+       rdf:type [ <MappingCreation> ]
     )
 }
 

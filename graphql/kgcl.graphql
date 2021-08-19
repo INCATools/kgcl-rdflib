@@ -293,6 +293,26 @@ type LogicalDefinition
   {
   }
 
+type MappingCreation implements Creation
+  {
+    id: String!
+    wasGeneratedBy: Activity
+    seeAlso: String
+    pullRequest: String
+    creator: String
+    changeDate: String
+    contributor: String
+    hasUndo: Change
+    oldValue: String
+    newValue: String
+    aboutEdge: Edge
+    subject: Node
+    predicate: Node
+    object: Node
+    annotationSet: Annotation
+    changeDescription: String
+  }
+
 type MultiNodeObsoletion
   {
     id: String!

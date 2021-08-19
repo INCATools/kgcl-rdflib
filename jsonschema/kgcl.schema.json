@@ -1,6 +1,7 @@
 {
    "$id": "https://w3id.org/kgcl",
    "$schema": "http://json-schema.org/draft-07/schema#",
+   "additionalProperties": true,
    "definitions": {
       "Activity": {
          "additionalProperties": false,
@@ -190,7 +191,7 @@
                "type": "string"
             },
             "owl_type": {
-               "type": "string"
+               "$ref": "#/definitions/OwlTypeEnum"
             },
             "pull_request": {
                "type": "string"
@@ -225,7 +226,7 @@
                "type": "string"
             },
             "owl_type": {
-               "type": "string"
+               "$ref": "#/definitions/OwlTypeEnum"
             }
          },
          "required": [
@@ -260,7 +261,7 @@
                "type": "string"
             },
             "synonym_predicates": {
-               "$ref": "string"
+               "$ref": null
             }
          },
          "required": [],
@@ -636,7 +637,7 @@
                "type": "string"
             },
             "owl_type": {
-               "type": "string"
+               "$ref": "#/definitions/OwlTypeEnum"
             }
          },
          "required": [
@@ -695,6 +696,71 @@
          "properties": {},
          "required": [],
          "title": "LogicalDefinition",
+         "type": "object"
+      },
+      "MappingCreation": {
+         "additionalProperties": false,
+         "description": "A specific kind of edge creation in which the created edge is a mapping.",
+         "properties": {
+            "about_edge": {
+               "$ref": "#/definitions/Edge"
+            },
+            "annotation_set": {
+               "$ref": "#/definitions/Annotation"
+            },
+            "change_date": {
+               "type": "string"
+            },
+            "change_description": {
+               "type": "string"
+            },
+            "contributor": {
+               "type": "string"
+            },
+            "creator": {
+               "type": "string"
+            },
+            "has_undo": {
+               "description": "A change that reverses this change",
+               "type": "string"
+            },
+            "id": {
+               "type": "string"
+            },
+            "new_value": {
+               "description": "The value of a property held in the new instance of the ontology",
+               "type": "string"
+            },
+            "object": {
+               "description": "This corresponds to object_id in SSSOM",
+               "type": "string"
+            },
+            "old_value": {
+               "description": "The value of a property held in the old instance of the ontology",
+               "type": "string"
+            },
+            "predicate": {
+               "description": "This corresponds to predicate_id in SSSOM. The value of this is typically a predicate from SKOS",
+               "type": "string"
+            },
+            "pull_request": {
+               "type": "string"
+            },
+            "see_also": {
+               "type": "string"
+            },
+            "subject": {
+               "description": "This corresponds to subject_id in SSSOM",
+               "type": "string"
+            },
+            "was_generated_by": {
+               "type": "string"
+            }
+         },
+         "required": [
+            "id"
+         ],
+         "title": "MappingCreation",
          "type": "object"
       },
       "MultiNodeObsoletion": {
@@ -913,7 +979,7 @@
                "type": "string"
             },
             "owl_type": {
-               "type": "string"
+               "$ref": "#/definitions/OwlTypeEnum"
             }
          },
          "required": [
@@ -1061,7 +1127,7 @@
                "type": "string"
             },
             "owl_type": {
-               "type": "string"
+               "$ref": "#/definitions/OwlTypeEnum"
             },
             "pull_request": {
                "type": "string"
@@ -1747,6 +1813,16 @@
          "title": "OntologySubset",
          "type": "object"
       },
+      "OwlTypeEnum": {
+         "description": "",
+         "enum": [
+            "CLASS",
+            "OBJECT_PROPERTY",
+            "NAMED_INDIVIDUAL"
+         ],
+         "title": "OwlTypeEnum",
+         "type": "string"
+      },
       "PlaceUnder": {
          "additionalProperties": false,
          "description": "An edge creation where the predicate is owl:subClassOf",
@@ -2153,6 +2229,17 @@
          ],
          "title": "SynonymReplacement",
          "type": "object"
+      },
+      "SynonymScopeEnum": {
+         "description": "",
+         "enum": [
+            "related",
+            "broad",
+            "narrow",
+            "exact"
+         ],
+         "title": "SynonymScopeEnum",
+         "type": "string"
       },
       "TextDefinitionReplacement": {
          "additionalProperties": false,
