@@ -14,7 +14,7 @@
            | remove_from_subset
            | add_to_subset
 
-rename : "rename" old_label ["from" id] ("to"|"as"|"->") new_label 
+rename : "rename" [id "from"] old_label ("to"|"as"|"->") new_label 
 
 create : "create node" id label
 create_class: "create" id
