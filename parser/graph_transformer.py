@@ -33,3 +33,8 @@ def transform_graph(kgclInstance, graph):
     for i in kgclInstance:
         query = kgcl_2_sparql.convert(i)
         graph.update(query)
+
+
+def transform_single(kgclInstance, graph):
+    query = kgcl_2_sparql.convert(kgclInstance)
+    graph.update(query)

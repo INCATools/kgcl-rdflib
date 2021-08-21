@@ -5,7 +5,7 @@ from rdflib.namespace import (
     OWL,
 )
 from rdflib import BNode
-from kgcl import (
+from model.kgcl import (
     NodeRename,
     NodeObsoletion,
     NodeUnobsoletion,
@@ -21,7 +21,7 @@ from kgcl import (
     NewSynonym,
     RemovedNodeFromSubset,
 )
-from ontology_model import Edge
+from model.ontology_model import Edge
 import time
 
 # 1. load both 'added' and 'deleted' from temp folder

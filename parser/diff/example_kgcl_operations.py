@@ -14,7 +14,7 @@ import rdflib
 from diff.render_operations import render
 from diff.get_class_entity import get_class_entity
 from rdflib import BNode
-from kgcl import (
+from model.kgcl import (
     NodeRename,
     NodeObsoletion,
     NodeUnobsoletion,
@@ -30,7 +30,7 @@ from kgcl import (
     NewSynonym,
     RemovedNodeFromSubset,
 )
-from ontology_model import Edge
+from model.ontology_model import Edge
 
 
 def update_statements(kgclInstances, class_2_statements):

@@ -1,4 +1,4 @@
-from kgcl import (
+from model.kgcl import (
     NodeRename,
     NodeObsoletion,
     NodeUnobsoletion,
@@ -14,7 +14,7 @@ from kgcl import (
     NewSynonym,
     RemovedNodeFromSubset,
 )
-from ontology_model import Edge
+from model.ontology_model import Edge
 import re
 
 

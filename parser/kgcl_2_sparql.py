@@ -1,5 +1,5 @@
 import re
-from kgcl import (
+from model.kgcl import (
     NodeRename,
     NodeObsoletion,
     NodeUnobsoletion,
@@ -291,12 +291,12 @@ def unobsolete(kgclInstance):
 
     whereQuery = "{ " + about + " rdfs:label ?label . "
     whereQuery += 'BIND(IF(STRSTARTS(?label, "obsolete "),'
-    whereQuery += 'SUBSTR(?label,10),?label) AS ?unobsolete_label ) } '
+    whereQuery += "SUBSTR(?label,10),?label) AS ?unobsolete_label ) } "
     whereQuery += " UNION "
     whereQuery += "{ " + about + " rdfs:label ?label . "
     whereQuery += about + " obo:IAO_0000115 ?definition . "
     whereQuery += 'BIND(IF(STRSTARTS(?definition, "OBSOLETE "),'
-    whereQuery += 'SUBSTR(?definition,10),?definition) AS ?unobsolete_definition ) } '
+    whereQuery += "SUBSTR(?definition,10),?definition) AS ?unobsolete_definition ) } "
     whereQuery += " UNION "
     whereQuery += "{ " + about + " rdfs:label ?label . "
     whereQuery += about + " obo:IAO_0100001 ?replacedBy . } "

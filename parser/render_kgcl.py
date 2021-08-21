@@ -1,4 +1,4 @@
-from kgcl import (
+from model.kgcl import (
     NodeRename,
     NodeObsoletion,
     NodeUnobsoletion,

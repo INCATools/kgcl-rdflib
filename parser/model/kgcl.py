@@ -25,8 +25,8 @@ from linkml_runtime.utils.formatutils import camelcase, underscore, sfx
 from linkml_runtime.utils.enumerations import EnumDefinitionImpl
 from rdflib import Namespace, URIRef
 from linkml_runtime.utils.curienamespace import CurieNamespace
-from ontology_model import Annotation, Edge, NodeId, OntologyElement, OntologySubset, OwlTypeEnum, PropertyValue
-from prov import Activity, ActivityId
+from .ontology_model import Annotation, Edge, NodeId, OntologyElement, OntologySubset, OwlTypeEnum, PropertyValue
+from .prov import Activity, ActivityId
 from linkml_runtime.linkml_model.types import Integer, String, Uriorcurie
 from linkml_runtime.utils.metamodelcore import URIorCURIE
 

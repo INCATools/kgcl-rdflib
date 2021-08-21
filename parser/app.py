@@ -3,7 +3,7 @@ from flask import (
     render_template,
     request,
 )
-from kgcl import (
+from model.kgcl import (
     NodeRename,
     NodeObsoletion,
     NodeUnobsoletion,
