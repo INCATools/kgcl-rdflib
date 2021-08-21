@@ -65,11 +65,11 @@ def index():
             select = request.form.get("comp_select")
             example = str(select)
 
-            f = open("testData/example/" + example + "/graph.nt", "r")
+            f = open("examples/kgcl/" + example + "/graph.nt", "r")
             graph = f.read()
             f.close()
 
-            f = open("testData/example/" + example + "/kgcl", "r")
+            f = open("examples/kgcl/" + example + "/kgcl", "r")
             kgcl = f.read()
             f.close()
 
@@ -101,12 +101,12 @@ def index():
         # load rename example by default
 
         # load graph
-        f = open("testData/example/rename/graph.nt", "r")
+        f = open("examples/kgcl/rename/graph.nt", "r")
         graph = f.read()
         f.close()
 
         # load kgcl
-        f = open("testData/example/rename/kgcl", "r")
+        f = open("examples/kgcl/rename/kgcl", "r")
         kgcl = f.read()
         f.close()
 
@@ -166,11 +166,11 @@ def diff():
             select = request.form.get("comp_select")
             example = str(select)
 
-            f = open("testData/diffExample/" + example + "/graph1.nt", "r")
+            f = open("examples/diff/" + example + "/graph1.nt", "r")
             graph1 = f.read()
             f.close()
 
-            f = open("testData/diffExample/" + example + "/graph2.nt", "r")
+            f = open("examples/diff/" + example + "/graph2.nt", "r")
             graph2 = f.read()
             f.close()
 
@@ -191,11 +191,11 @@ def diff():
         # load rename by default
         example = "rename"
 
-        f = open("testData/diffExample/" + example + "/graph1.nt", "r")
+        f = open("examples/diff/" + example + "/graph1.nt", "r")
         graph1 = f.read()
         f.close()
 
-        f = open("testData/diffExample/" + example + "/graph2.nt", "r")
+        f = open("examples/diff/" + example + "/graph2.nt", "r")
         graph2 = f.read()
         f.close()
 
