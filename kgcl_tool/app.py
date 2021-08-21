@@ -19,7 +19,7 @@ from model.kgcl import (
     NewSynonym,
     RemovedNodeFromSubset,
 )
-import parsing
+from grammar.parser import parse
 import graph_transformer
 import rdflib
 import os
@@ -212,10 +212,6 @@ def diff():
             inputGraph1=graph1,
             inputGraph2=graph2,
         )
-
-
-def parse(input):
-    return parsing.parse(input)
 
 
 def kgcl_transformation(graph, kgcl):
