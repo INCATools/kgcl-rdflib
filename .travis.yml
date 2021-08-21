@@ -14,5 +14,5 @@ install:
 
 # command to run tests
 script: 
-  - touch src/schema/ocl.yaml && make test
+  - touch src/schema/kgcl.yaml && make test
 
