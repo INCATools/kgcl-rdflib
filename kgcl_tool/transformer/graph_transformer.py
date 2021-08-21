@@ -1,4 +1,4 @@
-import kgcl_2_sparql
+from .kgcl_2_sparql import convert
 import rdflib
 
 
@@ -9,7 +9,7 @@ def transform(kgclInstance):
     g = rdflib.Graph()
     g.load("testData/obi_core.nt", format="nt")
 
-    query = kgcl_2_sparql.convert(kgclInstance)
+    query = convert(kgclInstance)
     g.update(query)
     g.serialize(destination="testData/output.nt", format="nt")
 
@@ -22,7 +22,7 @@ def transform_set(kgclInstance):
     g.load("testData/obi_core.nt", format="nt")
 
     for i in kgclInstance:
-        query = kgcl_2_sparql.convert(i)
+        query = convert(i)
         g.update(query)
 
     g.serialize(destination="testData/output.nt", format="nt")
@@ -31,10 +31,10 @@ def transform_set(kgclInstance):
 def transform_graph(kgclInstance, graph):
 
     for i in kgclInstance:
-        query = kgcl_2_sparql.convert(i)
+        query = convert(i)
         graph.update(query)
 
 
 def transform_single(kgclInstance, graph):
-    query = kgcl_2_sparql.convert(kgclInstance)
+    query = convert(kgclInstance)
     graph.update(query)

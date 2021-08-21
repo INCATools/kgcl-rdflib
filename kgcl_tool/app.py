@@ -20,7 +20,7 @@ from model.kgcl import (
     RemovedNodeFromSubset,
 )
 from grammar.parser import parse
-import graph_transformer
+from transformer.graph_transformer import transform_graph
 import rdflib
 import os
 import sys
@@ -233,7 +233,7 @@ def kgcl_transformation(graph, kgcl):
     g.load("testData/graph.nt", format="nt")
 
     # transform graph
-    graph_transformer.transform_graph(parsed_statements, g)
+    transform_graph(parsed_statements, g)
 
     # save graph
     # TODO: get text representation of graph without writing to a file
