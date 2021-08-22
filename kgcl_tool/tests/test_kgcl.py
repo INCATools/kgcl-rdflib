@@ -8,8 +8,8 @@ from rdflib import URIRef, Literal
 from rdflib.compare import to_isomorphic, graph_diff
 
 import rdflib
-import parsing
-import graph_transformer
+from grammar.parser import parse
+from transformer.graph_transformer import transform_graph
 import os
 
 
@@ -34,10 +34,6 @@ def compare_graphs(actual, expected):
     return comp, error
 
 
-def parse(input):
-    return parsing.parse(input)
-
-
 def kgcl_transformation(graphPath, kgclPath):
 
     f = open(kgclPath, "r")
@@ -52,13 +48,13 @@ def kgcl_transformation(graphPath, kgclPath):
     g.load(graphPath, format="nt")
 
     # transform graph
-    graph_transformer.transform_graph(parsed_statements, g)
+    transform_graph(parsed_statements, g)
 
     return g
 
 
 def test_examples():
-    directory = os.path.join(os.getcwd(), "testData/test_kgcl")
+    directory = os.path.join(os.getcwd(), "tests/data/kgcl")
     for filename in os.listdir(directory):
         path = directory + "/" + filename
         inputGraphPath = path + "/inputGraph.nt"

@@ -9,8 +9,8 @@ from rdflib import URIRef, Literal
 from rdflib.compare import to_isomorphic, graph_diff
 
 import rdflib
-import parsing
-import graph_transformer
+from grammar.parser import parse
+from transformer.graph_transformer import transform_graph
 
 
 def compare_graphs(actual, expected):
@@ -47,9 +47,9 @@ class TestRenaming(unittest.TestCase):
         expectedGraph.add((taxon, RDFS.label, renamedBacteriaLabel))
 
         # parse KGCL statement into data model
-        kgclModel = parsing.parse(command)
+        kgclModel = parse(command)
 
-        graph_transformer.transform_graph(kgclModel, g)
+        transform_graph(kgclModel, g)
 
         compare_graphs(g, expectedGraph)
 
@@ -68,9 +68,9 @@ class TestNodeCreation(unittest.TestCase):
         expectedGraph.add((taxon, RDFS.label, label))
 
         # parse KGCL statement into data model
-        kgclModel = parsing.parse(command)
+        kgclModel = parse(command)
 
-        graph_transformer.transform_graph(kgclModel, g)
+        transform_graph(kgclModel, g)
 
         compare_graphs(g, expectedGraph)
 
@@ -86,9 +86,9 @@ class TestNodeCreation(unittest.TestCase):
         expectedGraph.add((taxon, RDF.type, OWL.Class))
 
         # parse KGCL statement into data model
-        kgclModel = parsing.parse(command)
+        kgclModel = parse(command)
 
-        graph_transformer.transform_graph(kgclModel, g)
+        transform_graph(kgclModel, g)
 
         compare_graphs(g, expectedGraph)
 
@@ -112,9 +112,9 @@ class TestNodeDeletion(unittest.TestCase):
         expectedGraph.add((obiClass, RDF.type, OWL.Class))
 
         # parse KGCL statement into data model
-        kgclModel = parsing.parse(command)
+        kgclModel = parse(command)
 
-        graph_transformer.transform_graph(kgclModel, g)
+        transform_graph(kgclModel, g)
 
         compare_graphs(g, expectedGraph)
 
@@ -136,9 +136,9 @@ class TestNodeDeletion(unittest.TestCase):
         expectedGraph.add((obiClass, RDF.type, OWL.Class))
 
         # parse KGCL statement into data model
-        kgclModel = parsing.parse(command)
+        kgclModel = parse(command)
 
-        graph_transformer.transform_graph(kgclModel, g)
+        transform_graph(kgclModel, g)
 
         compare_graphs(g, expectedGraph)
 
@@ -164,9 +164,9 @@ class TestNodeObsoletion(unittest.TestCase):
         expectedGraph.add((taxon, OWL.deprecated, true_bool))
 
         # parse KGCL statement into data model
-        kgclModel = parsing.parse(command)
+        kgclModel = parse(command)
 
-        graph_transformer.transform_graph(kgclModel, g)
+        transform_graph(kgclModel, g)
 
         compare_graphs(g, expectedGraph)
 
@@ -190,9 +190,9 @@ class TestNodeObsoletion(unittest.TestCase):
         expectedGraph.add((taxon, OWL.deprecated, true_bool))
 
         # parse KGCL statement into data model
-        kgclModel = parsing.parse(command)
+        kgclModel = parse(command)
 
-        graph_transformer.transform_graph(kgclModel, g)
+        transform_graph(kgclModel, g)
 
         compare_graphs(g, expectedGraph)
 
@@ -217,9 +217,9 @@ class TestNodeUnobsoletion(unittest.TestCase):
         expectedGraph.add((taxon, RDF.type, OWL.Class))
 
         # parse KGCL statement into data model
-        kgclModel = parsing.parse(command)
+        kgclModel = parse(command)
 
-        graph_transformer.transform_graph(kgclModel, g)
+        transform_graph(kgclModel, g)
 
         compare_graphs(g, expectedGraph)
 
@@ -244,9 +244,9 @@ class TestNodeDeepening(unittest.TestCase):
         expectedGraph.add((subClass, RDFS.subClassOf, superClass))
 
         # parse KGCL statement into data model
-        kgclModel = parsing.parse(command)
+        kgclModel = parse(command)
 
-        graph_transformer.transform_graph(kgclModel, g)
+        transform_graph(kgclModel, g)
 
         compare_graphs(g, expectedGraph)
 
@@ -271,9 +271,9 @@ class TestNodeShallowing(unittest.TestCase):
         expectedGraph.add((subClass, RDFS.subClassOf, superClass))
 
         # parse KGCL statement into data model
-        kgclModel = parsing.parse(command)
+        kgclModel = parse(command)
 
-        graph_transformer.transform_graph(kgclModel, g)
+        transform_graph(kgclModel, g)
 
         compare_graphs(g, expectedGraph)
 
@@ -297,9 +297,9 @@ class TestNodeMove(unittest.TestCase):
         expectedGraph.add((targetClass, RDFS.subClassOf, B))
 
         # parse KGCL statement into data model
-        kgclModel = parsing.parse(command)
+        kgclModel = parse(command)
 
-        graph_transformer.transform_graph(kgclModel, g)
+        transform_graph(kgclModel, g)
 
         compare_graphs(g, expectedGraph)
 
@@ -320,9 +320,9 @@ class TestEdgeCreation(unittest.TestCase):
         expectedGraph.add((subject, predicate, object))
 
         # parse KGCL statement into data model
-        kgclModel = parsing.parse(command)
+        kgclModel = parse(command)
 
-        graph_transformer.transform_graph(kgclModel, g)
+        transform_graph(kgclModel, g)
 
         compare_graphs(g, expectedGraph)
 
@@ -344,9 +344,9 @@ class TestEdgeDeletion(unittest.TestCase):
         expectedGraph = rdflib.Graph()
 
         # parse KGCL statement into data model
-        kgclModel = parsing.parse(command)
+        kgclModel = parse(command)
 
-        graph_transformer.transform_graph(kgclModel, g)
+        transform_graph(kgclModel, g)
 
         compare_graphs(g, expectedGraph)
 
