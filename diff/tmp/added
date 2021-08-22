@@ -1,4 +1,0 @@
-<http://purl.obolibrary.org/obo/NCBITaxon_2> <http://purl.obolibrary.org/obo/axonChanged> <http://purl.obolibrary.org/obo/NCBITaxon_3> .
-<http://purl.obolibrary.org/obo/NCBITaxon_2> <http://www.w3.org/2000/01/rdf-schema#label> "Cacteria" .
-<http://purl.obolibrary.org/obo/NCBITaxon_2> <http://www.w3.org/2000/01/rdf-schema#label> "obsolete Bacteria" .
-<http://purl.obolibrary.org/obo/NCBITaxon_2> <http://www.w3.org/2002/07/owl#deprecated> "true"^^<http://www.w3.org/2001/XMLSchema#boolean> .
