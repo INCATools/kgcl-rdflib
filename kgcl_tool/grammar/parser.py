@@ -52,84 +52,47 @@ def parse_statement(input):
     # print("Command: " + command)
 
     if command == "rename":
-        # node with data 'old_label' is unique
-        old = next(tree.find_data("old_label"))
-        # and this node only has one token
-        old_token = next(get_tokens(old))
+        old_token = extract(tree, "old_label")
+        new_token = extract(tree, "new_label")
+        term_id_token = extract(tree, "id")
 
-        new = next(tree.find_data("new_label"))
-        new_token = next(get_tokens(new))
-
-        term_id = tree.find_data("id")
-
-        term_id_list = list(tree.find_data("id"))
-        # test whether there is an element in the generator
-        if term_id_list:
-            t = next(term_id)
-            term_id_token = next(get_tokens(t))
-            return NodeRename(
-                id=id,
-                about_node=term_id_token,
-                old_value=old_token,
-                new_value=new_token,
-            )
-        else:
-            return NodeRename(id=id, old_value=old_token, new_value=new_token)
+        return NodeRename(
+            id=id,
+            about_node=term_id_token,
+            old_value=old_token,
+            new_value=new_token,
+        )
 
     if command == "obsolete":
-        label = next(tree.find_data("entity"))
-        label_token = next(get_tokens(label))
-
-        replacement_id = tree.find_data("replacement")
-
-        replacement_id_list = list(tree.find_data("replacement"))
-        if replacement_id_list:
-            t = next(replacement_id)
-            replace = next(get_tokens(t))
-            return NodeObsoletion(
-                id=id, about_node=label_token, has_direct_replacement=replace
-            )
-        else:
-            return NodeObsoletion(id=id, about_node=label_token)
+        label_token = extract(tree, "entity")
+        replacement_token = extract(tree, "replacement")
+        return NodeObsoletion(
+            id=id, about_node=label_token, has_direct_replacement=replacement_token
+        )
 
     if command == "unobsolete":
-        term_id = next(tree.find_data("id"))
-        term_id_token = next(get_tokens(term_id))
-
+        term_id_token = extract(tree, "id")
         return NodeUnobsoletion(id=id, about_node=term_id_token)
 
     if command == "delete":
-        label = next(
-            tree.find_data("entity")
-        )  # TODO check whether we want to delete nodes by label
-        label_token = next(get_tokens(label))
-
+        label_token = extract(tree, "entity")
         return NodeDeletion(id=id, about_node=label_token)
 
     if command == "move":
-        term_id = next(tree.find_data("id"))
-        term_id_token = next(get_tokens(term_id))
-
-        old = next(tree.find_data("old_id"))
-        old_token = next(get_tokens(old))
-
-        new = next(tree.find_data("new_id"))
-        new_token = next(get_tokens(new))
+        term_id_token = extract(tree, "id")
+        old_token = extract(tree, "old_id")
+        new_token = extract(tree, "new_id")
 
         edge = Edge(subject=term_id_token, object=old_token)
 
         return NodeMove(
             id=id, about_edge=edge, old_value=old_token, new_value=new_token
         )
+
     if command == "deepen":
-        term_id = next(tree.find_data("id"))
-        term_id_token = next(get_tokens(term_id))
-
-        old = next(tree.find_data("old_id"))
-        old_token = next(get_tokens(old))
-
-        new = next(tree.find_data("new_id"))
-        new_token = next(get_tokens(new))
+        term_id_token = extract(tree, "id")
+        old_token = extract(tree, "old_id")
+        new_token = extract(tree, "new_id")
 
         edge = Edge(subject=term_id_token, object=old_token)
 
@@ -138,14 +101,9 @@ def parse_statement(input):
         )
 
     if command == "shallow":
-        term_id = next(tree.find_data("id"))
-        term_id_token = next(get_tokens(term_id))
-
-        old = next(tree.find_data("old_id"))
-        old_token = next(get_tokens(old))
-
-        new = next(tree.find_data("new_id"))
-        new_token = next(get_tokens(new))
+        term_id_token = extract(tree, "id")
+        old_token = extract(tree, "old_id")
+        new_token = extract(tree, "new_id")
 
         edge = Edge(subject=term_id_token, object=old_token)
 
@@ -154,47 +112,31 @@ def parse_statement(input):
         )
 
     if command == "create_edge":
-        subject = next(tree.find_data("subject"))
-        subject_token = next(get_tokens(subject))
-
-        predicate = next(tree.find_data("predicate"))
-        predicate_token = next(get_tokens(predicate))
-
-        object = next(tree.find_data("object"))
-        object_token = next(get_tokens(object))
+        subject_token = extract(tree, "subject")
+        predicate_token = extract(tree, "predicate")
+        object_token = extract(tree, "object")
 
         return EdgeCreation(
             id=id, subject=subject_token, predicate=predicate_token, object=object_token
         )
 
     if command == "delete_edge":
-        subject = next(tree.find_data("subject"))
-        subject_token = next(get_tokens(subject))
-
-        predicate = next(tree.find_data("predicate"))
-        predicate_token = next(get_tokens(predicate))
-
-        object = next(tree.find_data("object"))
-        object_token = next(get_tokens(object))
+        subject_token = extract(tree, "subject")
+        predicate_token = extract(tree, "predicate")
+        object_token = extract(tree, "object")
 
         return EdgeDeletion(
             id=id, subject=subject_token, predicate=predicate_token, object=object_token
         )
 
     if command == "change_relationship":
-        subject = next(tree.find_data("subject"))
-        subject_token = next(get_tokens(subject))
-
-        object = next(tree.find_data("object"))
-        object_token = next(get_tokens(object))
+        subject_token = extract(tree, "subject")
+        object_token = extract(tree, "object")
 
         edge = Edge(subject=subject_token, object=object_token)
 
-        old = next(tree.find_data("old"))
-        old_token = next(get_tokens(old))
-
-        new = next(tree.find_data("new"))
-        new_token = next(get_tokens(new))
+        old_token = extract(tree, "old")
+        new_token = extract(tree, "new")
         return PredicateChange(
             id=id, about_edge=edge, old_value=old_token, new_value=new_token
         )
@@ -203,11 +145,8 @@ def parse_statement(input):
     # 'create node {id} {label} with {annotation set}'
     # TODO: handling of {annotation set}
     if command == "create":
-        term_id = next(tree.find_data("id"))
-        term_id_token = next(get_tokens(term_id))
-
-        label = next(tree.find_data("label"))
-        label_token = next(get_tokens(label))
+        term_id_token = extract(tree, "id")
+        label_token = extract(tree, "label")
         # TODO: where is the difference between
         # a 'node_id' provided by 'NodeCreation'
         # and 'about_node' inherited by 'NodeChange'?
@@ -216,19 +155,12 @@ def parse_statement(input):
         )
 
     if command == "create_class":
-        term_id = next(tree.find_data("id"))
-        term_id_token = next(get_tokens(term_id))
+        term_id_token = extract(tree, "id")
         return ClassCreation(id=id, node_id=term_id_token)
 
     if command == "create_synonym":
-        term_id = next(tree.find_data("id"))
-        term_id_token = next(get_tokens(term_id))
-
-        # synonym_type = next(tree.find_data('synonym_type'))
-        # synonym_type_token = next(get_tokens(synonym_type))
-
-        synonym_string = next(tree.find_data("synonym"))
-        synonym_string_token = next(get_tokens(synonym_string))
+        term_id_token = extract(tree, "id")
+        synonym_string_token = extract(tree, "synonym")
 
         return NewSynonym(
             id=id, about_node=term_id_token, new_value=synonym_string_token
@@ -248,11 +180,8 @@ def parse_statement(input):
 
     if command == "remove_from_subset":
 
-        term_id = next(tree.find_data("id"))
-        term_id_token = next(get_tokens(term_id))
-
-        subset_id = next(tree.find_data("subset"))
-        subset_id_token = next(get_tokens(subset_id))
+        term_id_token = extract(tree, "id")
+        subset_id_token = extract(tree, "subset")
 
         return RemovedNodeFromSubset(
             id=id, subset=subset_id_token, about_node=term_id_token
@@ -270,8 +199,25 @@ def parse_statement(input):
     # if(command == "merge"):
 
 
+def extract(tree, data):
+    node = get_next(tree.find_data(data))
+    if node is not None:
+        node_token = next(get_tokens(node))
+        return node_token
+    else:
+        return None
+
+
 def get_tokens(tree):
     return tree.scan_values(lambda v: isinstance(v, Token))
+
+
+def get_next(generator):
+    try:
+        res = next(generator)
+        return res
+    except StopIteration:
+        return None
 
 
 if __name__ == "__main__":
