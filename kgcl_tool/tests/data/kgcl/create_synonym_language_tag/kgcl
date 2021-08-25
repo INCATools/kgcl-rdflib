@@ -1,0 +1,1 @@
+create synonym 'Virus' en for <http://purl.obolibrary.org/obo/NCBITaxon_2>
