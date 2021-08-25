@@ -33,8 +33,8 @@ deepen : "deepen" id "from" old_id ("to"|"->") new_id
 shallow : "shallow" id "from" old_id ("to"|"->") new_id 
 move : "move" subject predicate object "from" old_id ("to"|"as"|"->") new_id 
 
-create_edge : "create edge" predicate "from" subject "to" object 
-delete_edge : "delete edge" predicate "from" subject "to" object 
+create_edge : "create edge" subject predicate object
+delete_edge : "delete edge" subject predicate object
 
 change_relationship: "change relationship between" subject "and" object "from" old "to" new 
 
