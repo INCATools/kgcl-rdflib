@@ -16,10 +16,11 @@
 
 rename : "rename" [id "from"] old_label [old_language] ("to"|"as"|"->") new_label [new_language]
 
-create : "create node" id label [new_language]
+create : "create node" id label [language]
 create_class: "create" id
 
-create_synonym: "create synonym" synonym "for" id
+create_synonym: "create" [synonym_qualifier] "synonym" synonym [language] "for" id 
+synonym_qualifier : /exact|narrow|broad|related/
 
 delete : "delete" entity
 
@@ -51,9 +52,10 @@ synonym : QUOTED_LABEL
 label : QUOTED_LABEL
 old_label : QUOTED_LABEL
 new_label : QUOTED_LABEL
-old_language : _language
-new_language : _language
-_language :  /[a-zA-Z]+(?:-[a-zA-Z0-9]+)*/
+language: _language_tag
+old_language : _language_tag
+new_language : _language_tag
+_language_tag :  /[a-zA-Z]+(?:-[a-zA-Z0-9]+)*/
 
 old_id : ID
 new_id : ID

@@ -151,7 +151,7 @@ def parse_statement(input):
     if command == "create":
         term_id_token = extract(tree, "id")
         label_token = extract(tree, "label")
-        language_token = extract(tree, "new_language")
+        language_token = extract(tree, "language")
 
         return NodeCreation(
             id=id,
@@ -168,9 +168,16 @@ def parse_statement(input):
     if command == "create_synonym":
         term_id_token = extract(tree, "id")
         synonym_string_token = extract(tree, "synonym")
+        language_token = extract(tree, "language")
+        qualifier_token = extract(tree, "synonym_qualifier")
+        print(qualifier_token)
 
         return NewSynonym(
-            id=id, about_node=term_id_token, new_value=synonym_string_token
+            id=id,
+            about_node=term_id_token,
+            new_value=synonym_string_token,
+            qualifier=qualifier_token,
+            language=language_token,
         )
     # TODO: does not have a field for subsets
     # if(command == "add_to_subset"):

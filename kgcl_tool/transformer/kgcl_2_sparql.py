@@ -580,6 +580,8 @@ def obsolete_by_label(kgclInstance):
 def new_synonym(kgclInstance):
     about = kgclInstance.about_node
     synonym = kgclInstance.new_value
+    language = kgclInstance.language
+    qualifier = kgclInstance.qualifier
 
     prefix = "PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>  "
     prefix += "PREFIX owl: <http://www.w3.org/2002/07/owl#>  "
@@ -588,11 +590,33 @@ def new_synonym(kgclInstance):
 
     # TODO: check whether this way of creating synonyms is OK
     # or whether we want to include qualifiers, e.g. broader, exact, related, narrower
-    insertQuery = about + " oboInOwl:Synonym " + synonym + " . "
+    # "oboInOwl:hasSynonym"
+    # "oboInOwl:hasExactSynonym"
+    # "oboInOwl:hasNarrowSynonym"
+    # "oboInOwl:hasBroadSynonym"
+    # "oboInOwl:hasRelatedSynonym"
+
+    if qualifier is None:
+        insertQuery = about + " oboInOwl:hasSynonym "  # + synonym + " . "
+        # insertQuery = about + " oboInOwl:hasSynonym " + synonym + " . "
+    if qualifier == "exact":
+        insertQuery = about + " oboInOwl:hasExactSynonym "  # + synonym + " . "
+    if qualifier == "narrow":
+        insertQuery = about + " oboInOwl:hasNarrowSynonym "  # + synonym + " . "
+    if qualifier == "broad":
+        insertQuery = about + " oboInOwl:hasBroadSynonym "  # + synonym + " . "
+    if qualifier == "related":
+        insertQuery = about + " oboInOwl:hasRelatedSynonym "  # + synonym + " . "
+
+    if language is None:
+        whereQuery = ""
+        insertQuery += synonym + " ."
+    else:
+        insertQuery += "?tag ."
+        whereQuery = ' BIND( STRLANG("' + synonym + '","' + language + '") AS ?tag) '
 
     insert = "INSERT {" + insertQuery + "}"
-
-    where = "WHERE {}"
+    where = "WHERE {" + whereQuery + "}"
 
     updateQuery = prefix + " " + insert + " " + where
 
