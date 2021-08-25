@@ -151,11 +151,14 @@ def parse_statement(input):
     if command == "create":
         term_id_token = extract(tree, "id")
         label_token = extract(tree, "label")
-        # TODO: where is the difference between
-        # a 'node_id' provided by 'NodeCreation'
-        # and 'about_node' inherited by 'NodeChange'?
+        language_token = extract(tree, "new_language")
+
         return NodeCreation(
-            id=id, about_node=term_id_token, node_id=term_id_token, name=label_token
+            id=id,
+            about_node=term_id_token,
+            node_id=term_id_token,
+            name=label_token,
+            language=language_token,
         )
 
     if command == "create_class":

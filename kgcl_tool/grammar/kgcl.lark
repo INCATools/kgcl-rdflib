@@ -16,7 +16,7 @@
 
 rename : "rename" [id "from"] old_label [old_language] ("to"|"as"|"->") new_label [new_language]
 
-create : "create node" id label
+create : "create node" id label [new_language]
 create_class: "create" id
 
 create_synonym: "create synonym" synonym "for" id

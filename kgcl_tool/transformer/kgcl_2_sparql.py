@@ -417,11 +417,22 @@ def create_class(kgclInstance):
 def create_node(kgclInstance):
     termId = kgclInstance.node_id
     label = kgclInstance.name
+    language = kgclInstance.language
 
     prefix = "PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>  "
-    insertQuery = termId + " rdfs:label " + label + "  . "
+
+    if language is None:
+        insertQuery = termId + " rdfs:label " + label + "  . "
+    else:
+        insertQuery = termId + " rdfs:label ?tag  . "
+
     insert = "INSERT {" + insertQuery + "}"
-    where = "WHERE {}"
+
+    if language is None:
+        where = "WHERE {}"
+    else:
+        whereQuery = " BIND( STRLANG(" + label + ',"' + language + '") AS ?tag) '
+        where = "WHERE {" + whereQuery + "}"
 
     updateQuery = prefix + " " + insert + " " + where
 
