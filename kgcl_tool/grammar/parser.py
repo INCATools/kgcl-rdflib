@@ -54,6 +54,8 @@ def parse_statement(input):
     if command == "rename":
         old_token = extract(tree, "old_label")
         new_token = extract(tree, "new_label")
+        old_language = extract(tree, "old_language")
+        new_language = extract(tree, "new_language")
         term_id_token = extract(tree, "id")
 
         return NodeRename(
@@ -61,6 +63,8 @@ def parse_statement(input):
             about_node=term_id_token,
             old_value=old_token,
             new_value=new_token,
+            old_language=old_language,
+            new_language=new_language,
         )
 
     if command == "obsolete":

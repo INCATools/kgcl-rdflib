@@ -12,9 +12,9 @@
            | delete_edge 
            | create_synonym 
            | remove_from_subset
-           | add_to_subset
+           | add_to_subset 
 
-rename : "rename" [id "from"] old_label ("to"|"as"|"->") new_label 
+rename : "rename" [id "from"] old_label [old_language] ("to"|"as"|"->") new_label [new_language]
 
 create : "create node" id label
 create_class: "create" id
@@ -30,7 +30,7 @@ unobsolete: "unobsolete" id
 
 deepen : "deepen" id "from" old_id ("to"|"->") new_id
 shallow : "shallow" id "from" old_id ("to"|"->") new_id 
-move : "move" id "from" old_id ("to"|"as"|"->") new_id 
+move : "move" subject predicate object "from" old_id ("to"|"as"|"->") new_id 
 
 create_edge : "create edge" predicate "from" subject "to" object 
 delete_edge : "delete edge" predicate "from" subject "to" object 
@@ -51,6 +51,9 @@ synonym : QUOTED_LABEL
 label : QUOTED_LABEL
 old_label : QUOTED_LABEL
 new_label : QUOTED_LABEL
+old_language : _language
+new_language : _language
+_language :  /[a-zA-Z]+(?:-[a-zA-Z0-9]+)*/
 
 old_id : ID
 new_id : ID
@@ -69,6 +72,7 @@ ID :  "<" INNER_ID ">"
 
 INNER_LABEL: /[^ \s\'].*?/ 
 INNER_ID: /\S+/
+STRING: /\S+/
 
 %import common.WS
 %ignore WS

@@ -28,11 +28,9 @@ def is_id(input):
 def convert(kgclInstance):
 
     # label renaming
-    # TODO: case for "rename 'old' from 'id' to 'new'
     if type(kgclInstance) is NodeRename:
         if is_label(kgclInstance.old_value) and is_label(kgclInstance.new_value):
             return rename(kgclInstance)
-        # TODO: error handling
 
     # node obsoletion
     # TODO: new model only allows to obsolete a node
@@ -315,6 +313,8 @@ def rename(kgclInstance):
     oldValue = kgclInstance.old_value
     newValue = kgclInstance.new_value
     oldValue = oldValue.replace("'", "")
+    old_language = kgclInstance.old_language
+    new_language = kgclInstance.new_language
 
     # initialise subject
     if kgclInstance.about_node is None:
@@ -327,12 +327,26 @@ def rename(kgclInstance):
     deleteQuery = subject + " rdfs:label ?label ."
     delete = "DELETE {" + deleteQuery + "}"
 
-    insertQuery = subject + " rdfs:label " + newValue + " ."
+    insertQuery = subject + " rdfs:label ?tag ."
     insert = "INSERT {" + insertQuery + "}"
 
     whereQuery = subject + " rdfs:label ?label .  "
     whereQuery += " BIND( LANG(?label) AS ?language)  "
     whereQuery += ' FILTER(STR(?label)="' + oldValue + '") '
+
+    # if old_Language tag is specified
+    # then, we need to filter results according to the specified language tag
+    if old_language is not None:
+        whereQuery += ' FILTER(LANG(?label) ="' + old_language + '")'
+
+    # if new_language tag is specifed, then
+    # we need to add this tag to insert query
+    if new_language is None:
+        whereQuery += " BIND( STRLANG(" + newValue + ",?language) AS ?tag) "
+    else:
+        whereQuery += (
+            " BIND( STRLANG(" + newValue + ',"' + new_language + '") AS ?tag) '
+        )
 
     where = "WHERE {" + whereQuery + "}"
 
