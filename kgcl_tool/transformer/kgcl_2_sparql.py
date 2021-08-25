@@ -588,17 +588,8 @@ def new_synonym(kgclInstance):
     prefix += "PREFIX xsd:  <http://www.w3.org/2001/XMLSchema#> "
     prefix += "PREFIX oboInOwl: <http://www.geneontology.org/formats/oboInOwl#> "
 
-    # TODO: check whether this way of creating synonyms is OK
-    # or whether we want to include qualifiers, e.g. broader, exact, related, narrower
-    # "oboInOwl:hasSynonym"
-    # "oboInOwl:hasExactSynonym"
-    # "oboInOwl:hasNarrowSynonym"
-    # "oboInOwl:hasBroadSynonym"
-    # "oboInOwl:hasRelatedSynonym"
-
     if qualifier is None:
         insertQuery = about + " oboInOwl:hasSynonym "  # + synonym + " . "
-        # insertQuery = about + " oboInOwl:hasSynonym " + synonym + " . "
     if qualifier == "exact":
         insertQuery = about + " oboInOwl:hasExactSynonym "  # + synonym + " . "
     if qualifier == "narrow":
