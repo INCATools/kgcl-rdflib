@@ -613,7 +613,7 @@ def new_synonym(kgclInstance):
         insertQuery += synonym + " ."
     else:
         insertQuery += "?tag ."
-        whereQuery = ' BIND( STRLANG("' + synonym + '","' + language + '") AS ?tag) '
+        whereQuery = " BIND( STRLANG(" + synonym + ',"' + language + '") AS ?tag) '
 
     insert = "INSERT {" + insertQuery + "}"
     where = "WHERE {" + whereQuery + "}"
