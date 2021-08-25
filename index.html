@@ -37,7 +37,7 @@
     <nav data-toggle="wy-nav-shift" class="wy-nav-side stickynav">
     <div class="wy-side-scroll">
       <div class="wy-side-nav-search">
-        <a href="index.html" class="icon icon-home"> Knowledge Graph Change Language</a>
+        <a href="." class="icon icon-home"> Knowledge Graph Change Language</a>
         <div role="search">
   <form id ="rtd-search-form" class="wy-form" action="./search.html" method="get">
       <input type="text" name="q" placeholder="Search docs" title="Type search term here" />
@@ -47,11 +47,11 @@
 
       <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
                 <ul>
-                    <li class="toctree-l1"><a class="reference internal" href="home.html">Home</a>
+                    <li class="toctree-l1"><a class="reference internal" href="home/">Home</a>
                     </li>
                 </ul>
                 <ul class="current">
-                    <li class="toctree-l1 current"><a class="reference internal current" href="index.html">Index</a>
+                    <li class="toctree-l1 current"><a class="reference internal current" href=".">Index</a>
     <ul class="current">
     <li class="toctree-l2"><a class="reference internal" href="#classes">Classes</a>
     </li>
@@ -60,6 +60,8 @@
     <li class="toctree-l2"><a class="reference internal" href="#slots">Slots</a>
     </li>
     <li class="toctree-l2"><a class="reference internal" href="#enums">Enums</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#subsets">Subsets</a>
     </li>
     <li class="toctree-l2"><a class="reference internal" href="#types">Types</a>
         <ul>
@@ -73,7 +75,7 @@
                     </li>
                 </ul>
                 <ul>
-                    <li class="toctree-l1"><a class="reference internal" href="credits.html">Credits</a>
+                    <li class="toctree-l1"><a class="reference internal" href="credits/">Credits</a>
                     </li>
                 </ul>
       </div>
@@ -85,7 +87,7 @@
       
       <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
         <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
-        <a href="index.html">Knowledge Graph Change Language</a>
+        <a href=".">Knowledge Graph Change Language</a>
       </nav>
 
       
@@ -93,7 +95,7 @@
         <div class="rst-content">
           <div role="navigation" aria-label="breadcrumbs navigation">
   <ul class="wy-breadcrumbs">
-    <li><a href="index.html">Docs</a> &raquo;</li>
+    <li><a href=".">Docs</a> &raquo;</li>
     
       
     
@@ -120,298 +122,310 @@
 </ul>
 <h3 id="classes">Classes</h3>
 <ul>
-<li><a href="Activity.html">Activity</a> - a provence-generating activity</li>
-<li><a href="Agent.html">Agent</a> - a provence-generating agent</li>
-<li><a href="Change.html">Change</a> - Any change perform on an ontology or knowledge graph<ul>
-<li><a href="ComplexChange.html">ComplexChange</a> - A change that is is a composition of other changes<ul>
-<li><a href="MultiNodeObsoletion.html">MultiNodeObsoletion</a> - A complex change consisting of multiple obsoletions.</li>
+<li><a href="Activity/">Activity</a> - a provence-generating activity</li>
+<li><a href="Agent/">Agent</a> - a provence-generating agent</li>
+<li><a href="Change/">Change</a> - Any change perform on an ontology or knowledge graph<ul>
+<li><a href="ComplexChange/">ComplexChange</a> - A change that is is a composition of other changes<ul>
+<li><a href="MultiNodeObsoletion/">MultiNodeObsoletion</a> - A complex change consisting of multiple obsoletions.</li>
 </ul>
 </li>
-<li><a href="SimpleChange.html">SimpleChange</a> - A change that is about a single ontology element<ul>
-<li><a href="DatatypeChange.html">DatatypeChange</a></li>
-<li><a href="EdgeChange.html">EdgeChange</a> - A change in which the element that is the focus of the change is an edge.<ul>
-<li><a href="EdgeCreation.html">EdgeCreation</a> - An edge change in which a de-novo edge is created. The edge is potentially annotated in the same action.<ul>
-<li><a href="PlaceUnder.html">PlaceUnder</a> - An edge creation where the predicate is owl:subClassOf</li>
+<li><a href="SimpleChange/">SimpleChange</a> - A change that is about a single ontology element<ul>
+<li><a href="DatatypeChange/">DatatypeChange</a></li>
+<li><a href="EdgeChange/">EdgeChange</a> - A change in which the element that is the focus of the change is an edge.<ul>
+<li><a href="EdgeCreation/">EdgeCreation</a> - An edge change in which a de-novo edge is created. The edge is potentially annotated in the same action.<ul>
+<li><a href="MappingCreation/">MappingCreation</a> - A specific kind of edge creation in which the created edge is a mapping.</li>
+<li><a href="PlaceUnder/">PlaceUnder</a> - An edge creation where the predicate is owl:subClassOf</li>
 </ul>
 </li>
-<li><a href="EdgeDeletion.html">EdgeDeletion</a> - An edge change in which an edge is removed. All edge annotations/properies are removed in the same action.</li>
-<li><a href="EdgeLogicalInterpretationChange.html">EdgeLogicalInterpretationChange</a> - An edge change where the subjet, object, and predicate are unchanged, but the logical interpretation changes</li>
-<li><a href="EdgeObsoletion.html">EdgeObsoletion</a> - An edge change in which an edge is obsoleted.</li>
-<li><a href="EdgeRewiring.html">EdgeRewiring</a> - An edge change where one node is replaced with another, as in the case of obsoletion with replacement</li>
-<li><a href="NodeMove.html">NodeMove</a> - A node move is a combination of deleting a parent edge and adding a parent edge, where the predicate is preserved and the object/parent node changes<ul>
-<li><a href="NodeDeepening.html">NodeDeepening</a> - A node move in which a node where the destination is a proper descendant of the original location. Note that here descendant applied not just to subclass, but edges of any predicate in the relational graph</li>
-<li><a href="NodeShallowing.html">NodeShallowing</a> - The opposite of node deepening</li>
+<li><a href="EdgeDeletion/">EdgeDeletion</a> - An edge change in which an edge is removed. All edge annotations/properies are removed in the same action.</li>
+<li><a href="EdgeLogicalInterpretationChange/">EdgeLogicalInterpretationChange</a> - An edge change where the subjet, object, and predicate are unchanged, but the logical interpretation changes</li>
+<li><a href="EdgeObsoletion/">EdgeObsoletion</a> - An edge change in which an edge is obsoleted.</li>
+<li><a href="EdgeRewiring/">EdgeRewiring</a> - An edge change where one node is replaced with another, as in the case of obsoletion with replacement</li>
+<li><a href="NodeMove/">NodeMove</a> - A node move is a combination of deleting a parent edge and adding a parent edge, where the predicate is preserved and the object/parent node changes<ul>
+<li><a href="NodeDeepening/">NodeDeepening</a> - A node move in which a node where the destination is a proper descendant of the original location. Note that here descendant applied not just to subclass, but edges of any predicate in the relational graph</li>
+<li><a href="NodeShallowing/">NodeShallowing</a> - The opposite of node deepening</li>
 </ul>
 </li>
-<li><a href="PredicateChange.html">PredicateChange</a> - An edge change where the predicate (relationship type) is modified.</li>
+<li><a href="PredicateChange/">PredicateChange</a> - An edge change where the predicate (relationship type) is modified.</li>
 </ul>
 </li>
-<li><a href="LogicalAxiomChange.html">LogicalAxiomChange</a> - A simple change where a logical axiom is changed, where the logical axiom cannot be represented as an edge</li>
-<li><a href="NodeChange.html">NodeChange</a> - A simple change where the change is about a node<ul>
-<li><a href="AddNodeToSubset.html">AddNodeToSubset</a> - Places a node inside a subset, by annotating that node</li>
-<li><a href="NodeAnnotationChange.html">NodeAnnotationChange</a> - A node change where the change alters node properties/annotations. TODO<ul>
-<li><a href="NodeAnnotationReplacement.html">NodeAnnotationReplacement</a> - A node annotation change where the change replaces a particular property value. TODO</li>
+<li><a href="LogicalAxiomChange/">LogicalAxiomChange</a> - A simple change where a logical axiom is changed, where the logical axiom cannot be represented as an edge</li>
+<li><a href="NodeChange/">NodeChange</a> - A simple change where the change is about a node<ul>
+<li><a href="AddNodeToSubset/">AddNodeToSubset</a> - Places a node inside a subset, by annotating that node</li>
+<li><a href="NodeAnnotationChange/">NodeAnnotationChange</a> - A node change where the change alters node properties/annotations. TODO<ul>
+<li><a href="NodeAnnotationReplacement/">NodeAnnotationReplacement</a> - A node annotation change where the change replaces a particular property value. TODO</li>
 </ul>
 </li>
-<li><a href="NodeCreation.html">NodeCreation</a> - a node change in which a new node is created<ul>
-<li><a href="ClassCreation.html">ClassCreation</a> - A node creation where the owl type is 'class'</li>
+<li><a href="NodeCreation/">NodeCreation</a> - a node change in which a new node is created<ul>
+<li><a href="ClassCreation/">ClassCreation</a> - A node creation where the owl type is 'class'</li>
 </ul>
 </li>
-<li><a href="NodeDeletion.html">NodeDeletion</a> - Deletion of a node from the graph. Note it is recommended nodes are obsoleted and never merged, but this operation exists to represent deletions in ontologies, accidental or otherwise</li>
-<li><a href="NodeObsoletion.html">NodeObsoletion</a> - Obsoletion of a node deprecates usage of that node, but does not delete it.<ul>
-<li><a href="NodeDirectMerge.html">NodeDirectMerge</a> - An obsoletion change in which all metadata (including name/label) from the source node is deleted and added to the target node, and edges can automatically be rewired to point to the target node</li>
-<li><a href="NodeObsoletionWithDirectReplacement.html">NodeObsoletionWithDirectReplacement</a> - An obsoletion change in which information from the obsoleted node is selectively copied to a single target, and edges can automatically be rewired to point to the target node</li>
-<li><a href="NodeObsoletionWithNoDirectReplacement.html">NodeObsoletionWithNoDirectReplacement</a> - An obsoletion change in which there is no direct replacement</li>
+<li><a href="NodeDeletion/">NodeDeletion</a> - Deletion of a node from the graph. Note it is recommended nodes are obsoleted and never merged, but this operation exists to represent deletions in ontologies, accidental or otherwise</li>
+<li><a href="NodeObsoletion/">NodeObsoletion</a> - Obsoletion of a node deprecates usage of that node, but does not delete it.<ul>
+<li><a href="NodeDirectMerge/">NodeDirectMerge</a> - An obsoletion change in which all metadata (including name/label) from the source node is deleted and added to the target node, and edges can automatically be rewired to point to the target node</li>
+<li><a href="NodeObsoletionWithDirectReplacement/">NodeObsoletionWithDirectReplacement</a> - An obsoletion change in which information from the obsoleted node is selectively copied to a single target, and edges can automatically be rewired to point to the target node</li>
+<li><a href="NodeObsoletionWithNoDirectReplacement/">NodeObsoletionWithNoDirectReplacement</a> - An obsoletion change in which there is no direct replacement</li>
 </ul>
 </li>
-<li><a href="NodeRename.html">NodeRename</a> - A node change where the name (aka rdfs:label) of the node changes</li>
-<li><a href="NodeSynonymChange.html">NodeSynonymChange</a><ul>
-<li><a href="NameBecomesSynonym.html">NameBecomesSynonym</a> - A node synonym where the name NAME of an node NODE moves to a synonym, and NODE receives a new name. This change consists of compose of (1) a node rename where NAME is replaced by a different name (2) a new synonym</li>
-<li><a href="NewSynonym.html">NewSynonym</a> - A node synonym change where a de-novo synonym is created</li>
-<li><a href="RemoveSynonym.html">RemoveSynonym</a> - A node synonym change where a synonym is deleted</li>
-<li><a href="SynonymPredicateChange.html">SynonymPredicateChange</a> - A node synonym change where the predicate of a synonym is changed. Background: synonyms can be represented by a variety of predicates. For example, many OBO ontologies make use of predicates such as oio:hasExactSynonym, oio:hasRelatedSynonym, etc</li>
-<li><a href="SynonymReplacement.html">SynonymReplacement</a> - A node synonym change where the text of a synonym is changed</li>
+<li><a href="NodeRename/">NodeRename</a> - A node change where the name (aka rdfs:label) of the node changes</li>
+<li><a href="NodeSynonymChange/">NodeSynonymChange</a><ul>
+<li><a href="NameBecomesSynonym/">NameBecomesSynonym</a> - A node synonym where the name NAME of an node NODE moves to a synonym, and NODE receives a new name. This change consists of compose of (1) a node rename where NAME is replaced by a different name (2) a new synonym</li>
+<li><a href="NewSynonym/">NewSynonym</a> - A node synonym change where a de-novo synonym is created</li>
+<li><a href="RemoveSynonym/">RemoveSynonym</a> - A node synonym change where a synonym is deleted</li>
+<li><a href="SynonymPredicateChange/">SynonymPredicateChange</a> - A node synonym change where the predicate of a synonym is changed. Background: synonyms can be represented by a variety of predicates. For example, many OBO ontologies make use of predicates such as oio:hasExactSynonym, oio:hasRelatedSynonym, etc</li>
+<li><a href="SynonymReplacement/">SynonymReplacement</a> - A node synonym change where the text of a synonym is changed</li>
 </ul>
 </li>
-<li><a href="NodeTextDefinitionChange.html">NodeTextDefinitionChange</a> - A node change where the text definition is changed<ul>
-<li><a href="NewTextDefinition.html">NewTextDefinition</a> - A node change where a de-novo text definition is created</li>
-<li><a href="RemoveTextDefinition.html">RemoveTextDefinition</a> - A node change where a text definition is deleted</li>
-<li><a href="TextDefinitionReplacement.html">TextDefinitionReplacement</a> - A node change where a text definition is modified</li>
+<li><a href="NodeTextDefinitionChange/">NodeTextDefinitionChange</a> - A node change where the text definition is changed<ul>
+<li><a href="NewTextDefinition/">NewTextDefinition</a> - A node change where a de-novo text definition is created</li>
+<li><a href="RemoveTextDefinition/">RemoveTextDefinition</a> - A node change where a text definition is deleted</li>
+<li><a href="TextDefinitionReplacement/">TextDefinitionReplacement</a> - A node change where a text definition is modified</li>
 </ul>
 </li>
-<li><a href="NodeUnobsoletion.html">NodeUnobsoletion</a> - unobsoletion of a node deprecates usage of that node. Rarely applied.</li>
-<li><a href="RemovedNodeFromSubset.html">RemovedNodeFromSubset</a> - Removes a node from a subset, by removing an annotation</li>
-</ul>
-</li>
-</ul>
-</li>
-<li><a href="Transaction.html">Transaction</a> - A change that is a composition of a set of changes, where those changes are treated as a single unit. Could be a single change, or the results of an ontology diff</li>
-</ul>
-</li>
-<li><a href="ChangeSetSummaryStatistic.html">ChangeSetSummaryStatistic</a> - A summary statistic for a set of changes of the same type, grouped by zero or more node properties</li>
-<li><a href="Configuration.html">Configuration</a> - The meaning of operations can be configured</li>
-<li><a href="OntologyElement.html">OntologyElement</a> - Any component of an ontology or knowledge graph<ul>
-<li><a href="Edge.html">Edge</a> - A relationship between two nodes. We assume owlstar or similar for existential restrictions</li>
-<li><a href="LogicalDefinition.html">LogicalDefinition</a></li>
-<li><a href="Node.html">Node</a> - Any named entity in an ontology. May be a class, individual, property<ul>
-<li><a href="ClassNode.html">ClassNode</a> - A node that is a class</li>
-<li><a href="InstanceNode.html">InstanceNode</a> - A node that is an individual</li>
-</ul>
-</li>
-<li><a href="OntologySubset.html">OntologySubset</a></li>
-<li><a href="PropertyValue.html">PropertyValue</a> - a property-value pair<ul>
-<li><a href="Annotation.html">Annotation</a> - owl annotations. Not to be confused with annotations sensu GO</li>
+<li><a href="NodeUnobsoletion/">NodeUnobsoletion</a> - unobsoletion of a node deprecates usage of that node. Rarely applied.</li>
+<li><a href="RemovedNodeFromSubset/">RemovedNodeFromSubset</a> - Removes a node from a subset, by removing an annotation</li>
 </ul>
 </li>
 </ul>
 </li>
-<li><a href="Session.html">Session</a> - A session consists of a set of change sets bundled with the activities that generated those change sets</li>
-<li><a href="TextualDiff.html">TextualDiff</a> - A summarizing of a change on a piece of text. This could be rendered in a number of different ways</li>
+<li><a href="Transaction/">Transaction</a> - A change that is a composition of a set of changes, where those changes are treated as a single unit. Could be a single change, or the results of an ontology diff</li>
+</ul>
+</li>
+<li><a href="ChangeSetSummaryStatistic/">ChangeSetSummaryStatistic</a> - A summary statistic for a set of changes of the same type, grouped by zero or more node properties</li>
+<li><a href="Configuration/">Configuration</a> - The meaning of operations can be configured</li>
+<li><a href="OntologyElement/">OntologyElement</a> - Any component of an ontology or knowledge graph<ul>
+<li><a href="Edge/">Edge</a> - A relationship between two nodes. We assume owlstar or similar for existential restrictions</li>
+<li><a href="LogicalDefinition/">LogicalDefinition</a></li>
+<li><a href="Node/">Node</a> - Any named entity in an ontology. May be a class, individual, property<ul>
+<li><a href="ClassNode/">ClassNode</a> - A node that is a class</li>
+<li><a href="InstanceNode/">InstanceNode</a> - A node that is an individual</li>
+</ul>
+</li>
+<li><a href="OntologySubset/">OntologySubset</a></li>
+<li><a href="PropertyValue/">PropertyValue</a> - a property-value pair<ul>
+<li><a href="Annotation/">Annotation</a> - owl annotations. Not to be confused with annotations sensu GO</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a href="Session/">Session</a> - A session consists of a set of change sets bundled with the activities that generated those change sets</li>
+<li><a href="TextualDiff/">TextualDiff</a> - A summarizing of a change on a piece of text. This could be rendered in a number of different ways</li>
 </ul>
 <h3 id="mixins">Mixins</h3>
 <ul>
-<li><a href="AddToSubset.html">AddToSubset</a> - placing an element inside a subset</li>
-<li><a href="AllowsAutomaticReplacementOfEdges.html">AllowsAutomaticReplacementOfEdges</a> - Applies to an obsoletion in which annotations or edges pointing at the obsoleted node can be automatically rewired to point to a target</li>
-<li><a href="ChangeMixin.html">ChangeMixin</a> - root class for all change mixins<ul>
-<li><a href="Creation.html">Creation</a> - Creation of an element.</li>
-<li><a href="Deletion.html">Deletion</a> - Removal of an element.</li>
-<li><a href="Obsoletion.html">Obsoletion</a> - Obsoletion of an element deprecates usage of that element, but does not delete that element.<ul>
-<li><a href="AllowsAutomaticReplacementOfEdges.html">AllowsAutomaticReplacementOfEdges</a> - Applies to an obsoletion in which annotations or edges pointing at the obsoleted node can be automatically rewired to point to a target</li>
+<li><a href="AddToSubset/">AddToSubset</a> - placing an element inside a subset</li>
+<li><a href="AllowsAutomaticReplacementOfEdges/">AllowsAutomaticReplacementOfEdges</a> - Applies to an obsoletion in which annotations or edges pointing at the obsoleted node can be automatically rewired to point to a target</li>
+<li><a href="ChangeMixin/">ChangeMixin</a> - root class for all change mixins<ul>
+<li><a href="Creation/">Creation</a> - Creation of an element.</li>
+<li><a href="Deletion/">Deletion</a> - Removal of an element.</li>
+<li><a href="Obsoletion/">Obsoletion</a> - Obsoletion of an element deprecates usage of that element, but does not delete that element.<ul>
+<li><a href="AllowsAutomaticReplacementOfEdges/">AllowsAutomaticReplacementOfEdges</a> - Applies to an obsoletion in which annotations or edges pointing at the obsoleted node can be automatically rewired to point to a target</li>
 </ul>
 </li>
-<li><a href="SubsetMembershipChange.html">SubsetMembershipChange</a> - A change in the membership status of a node with respect to a subset (view)<ul>
-<li><a href="AddToSubset.html">AddToSubset</a> - placing an element inside a subset</li>
-<li><a href="RemoveFromSubset.html">RemoveFromSubset</a> - removing an element from a subset</li>
+<li><a href="SubsetMembershipChange/">SubsetMembershipChange</a> - A change in the membership status of a node with respect to a subset (view)<ul>
+<li><a href="AddToSubset/">AddToSubset</a> - placing an element inside a subset</li>
+<li><a href="RemoveFromSubset/">RemoveFromSubset</a> - removing an element from a subset</li>
 </ul>
 </li>
-<li><a href="Unobsoletion.html">Unobsoletion</a> - Opposite operation of obsoletion. Rarely performed.</li>
+<li><a href="Unobsoletion/">Unobsoletion</a> - Opposite operation of obsoletion. Rarely performed.</li>
 </ul>
 </li>
-<li><a href="Creation.html">Creation</a> - Creation of an element.</li>
-<li><a href="Deletion.html">Deletion</a> - Removal of an element.</li>
-<li><a href="Obsoletion.html">Obsoletion</a> - Obsoletion of an element deprecates usage of that element, but does not delete that element.<ul>
-<li><a href="AllowsAutomaticReplacementOfEdges.html">AllowsAutomaticReplacementOfEdges</a> - Applies to an obsoletion in which annotations or edges pointing at the obsoleted node can be automatically rewired to point to a target</li>
+<li><a href="Creation/">Creation</a> - Creation of an element.</li>
+<li><a href="Deletion/">Deletion</a> - Removal of an element.</li>
+<li><a href="Obsoletion/">Obsoletion</a> - Obsoletion of an element deprecates usage of that element, but does not delete that element.<ul>
+<li><a href="AllowsAutomaticReplacementOfEdges/">AllowsAutomaticReplacementOfEdges</a> - Applies to an obsoletion in which annotations or edges pointing at the obsoleted node can be automatically rewired to point to a target</li>
 </ul>
 </li>
-<li><a href="RemoveFromSubset.html">RemoveFromSubset</a> - removing an element from a subset</li>
-<li><a href="SubsetMembershipChange.html">SubsetMembershipChange</a> - A change in the membership status of a node with respect to a subset (view)<ul>
-<li><a href="AddToSubset.html">AddToSubset</a> - placing an element inside a subset</li>
-<li><a href="RemoveFromSubset.html">RemoveFromSubset</a> - removing an element from a subset</li>
+<li><a href="RemoveFromSubset/">RemoveFromSubset</a> - removing an element from a subset</li>
+<li><a href="SubsetMembershipChange/">SubsetMembershipChange</a> - A change in the membership status of a node with respect to a subset (view)<ul>
+<li><a href="AddToSubset/">AddToSubset</a> - placing an element inside a subset</li>
+<li><a href="RemoveFromSubset/">RemoveFromSubset</a> - removing an element from a subset</li>
 </ul>
 </li>
-<li><a href="Unobsoletion.html">Unobsoletion</a> - Opposite operation of obsoletion. Rarely performed.</li>
+<li><a href="Unobsoletion/">Unobsoletion</a> - Opposite operation of obsoletion. Rarely performed.</li>
 </ul>
 <h3 id="slots">Slots</h3>
 <ul>
-<li><a href="about.html">about</a> - The 'focus' entity on which the change operates<ul>
-<li><a href="edge_change_about.html">edge change➞about</a></li>
-<li><a href="node_change_about.html">node change➞about</a><ul>
-<li><a href="node_direct_merge_about.html">node direct merge➞about</a></li>
-<li><a href="removed_node_from_subset_about.html">removed node from subset➞about</a> - The node that is removed from the subset</li>
+<li><a href="about/">about</a> - The 'focus' entity on which the change operates<ul>
+<li><a href="about_edge/">about edge</a></li>
+<li><a href="about_node/">about node</a><ul>
+<li><a href="node_direct_merge_about_node/">node direct merge➞about node</a></li>
+<li><a href="removed_node_from_subset_about_node/">removed node from subset➞about node</a> - The node that is removed from the subset</li>
 </ul>
 </li>
-<li><a href="obsoletion_about.html">obsoletion➞about</a> - The element that is obsoleted by this change.</li>
+<li><a href="obsoletion_about/">obsoletion➞about</a> - The element that is obsoleted by this change.</li>
 </ul>
 </li>
-<li><a href="acted_on_behalf_of.html">acted on behalf of</a></li>
-<li><a href="activity_set.html">activity set</a></li>
-<li><a href="agent_set.html">agent set</a></li>
-<li><a href="annotation_set.html">annotation set</a></li>
-<li><a href="change_1.html">change 1</a><ul>
-<li><a href="name_becomes_synonym_change_1.html">name becomes synonym➞change 1</a></li>
+<li><a href="acted_on_behalf_of/">acted on behalf of</a></li>
+<li><a href="activity_set/">activity set</a></li>
+<li><a href="agent_set/">agent set</a></li>
+<li><a href="annotation_set/">annotation set</a></li>
+<li><a href="change_1/">change 1</a><ul>
+<li><a href="name_becomes_synonym_change_1/">name becomes synonym➞change 1</a></li>
 </ul>
 </li>
-<li><a href="change_2.html">change 2</a><ul>
-<li><a href="name_becomes_synonym_change_2.html">name becomes synonym➞change 2</a></li>
+<li><a href="change_2/">change 2</a><ul>
+<li><a href="name_becomes_synonym_change_2/">name becomes synonym➞change 2</a></li>
 </ul>
 </li>
-<li><a href="change_date.html">change date</a><ul>
-<li><a href="change_change_date.html">change➞change date</a></li>
+<li><a href="change_date/">change date</a><ul>
+<li><a href="change_change_date/">change➞change date</a></li>
 </ul>
 </li>
-<li><a href="change_description.html">change description</a> - A string serialization of the change. This should be both human-readable, and parseable.<ul>
-<li><a href="edge_creation_change_description.html">edge creation➞change description</a></li>
-<li><a href="edge_deletion_change_description.html">edge deletion➞change description</a></li>
-<li><a href="edge_obsoletion_change_description.html">edge obsoletion➞change description</a></li>
-<li><a href="multi_node_obsoletion_change_description.html">multi node obsoletion➞change description</a></li>
-<li><a href="name_becomes_synonym_change_description.html">name becomes synonym➞change description</a></li>
-<li><a href="node_creation_change_description.html">node creation➞change description</a><ul>
-<li><a href="class_creation_change_description.html">class creation➞change description</a></li>
+<li><a href="change_description/">change description</a> - A string serialization of the change. This should be both human-readable, and parseable.<ul>
+<li><a href="edge_creation_change_description/">edge creation➞change description</a><ul>
+<li><a href="mapping_creation_change_description/">mapping creation➞change description</a></li>
 </ul>
 </li>
-<li><a href="node_deletion_change_description.html">node deletion➞change description</a></li>
-<li><a href="node_move_change_description.html">node move➞change description</a><ul>
-<li><a href="node_deepening_change_description.html">node deepening➞change description</a></li>
-<li><a href="node_shallowing_change_description.html">node shallowing➞change description</a></li>
+<li><a href="edge_deletion_change_description/">edge deletion➞change description</a></li>
+<li><a href="edge_obsoletion_change_description/">edge obsoletion➞change description</a></li>
+<li><a href="multi_node_obsoletion_change_description/">multi node obsoletion➞change description</a></li>
+<li><a href="name_becomes_synonym_change_description/">name becomes synonym➞change description</a></li>
+<li><a href="node_creation_change_description/">node creation➞change description</a><ul>
+<li><a href="class_creation_change_description/">class creation➞change description</a></li>
 </ul>
 </li>
-<li><a href="node_obsoletion_change_description.html">node obsoletion➞change description</a><ul>
-<li><a href="node_direct_merge_change_description.html">node direct merge➞change description</a></li>
-<li><a href="node_obsoletion_with_direct_replacement_change_description.html">node obsoletion with direct replacement➞change description</a></li>
-<li><a href="node_obsoletion_with_no_direct_replacement_change_description.html">node obsoletion with no direct replacement➞change description</a></li>
+<li><a href="node_deletion_change_description/">node deletion➞change description</a></li>
+<li><a href="node_move_change_description/">node move➞change description</a><ul>
+<li><a href="node_deepening_change_description/">node deepening➞change description</a></li>
+<li><a href="node_shallowing_change_description/">node shallowing➞change description</a></li>
 </ul>
 </li>
-<li><a href="node_rename_change_description.html">node rename➞change description</a></li>
-<li><a href="node_unobsoletion_change_description.html">node unobsoletion➞change description</a></li>
-<li><a href="predicate_change_change_description.html">predicate change➞change description</a></li>
-<li><a href="removed_node_from_subset_change_description.html">removed node from subset➞change description</a></li>
+<li><a href="node_obsoletion_change_description/">node obsoletion➞change description</a><ul>
+<li><a href="node_direct_merge_change_description/">node direct merge➞change description</a></li>
+<li><a href="node_obsoletion_with_direct_replacement_change_description/">node obsoletion with direct replacement➞change description</a></li>
+<li><a href="node_obsoletion_with_no_direct_replacement_change_description/">node obsoletion with no direct replacement➞change description</a></li>
 </ul>
 </li>
-<li><a href="change_set.html">change set</a> - A collection of changes<ul>
-<li><a href="associated_change_set.html">associated change set</a> - All changes associated with a set of obsoletions. This change set is the composed change set rather than the set of individual changes. For example, if previous state is:</li>
-<li><a href="multi_node_obsoletion_associated_change_set.html">multi node obsoletion➞associated change set</a> - All changes associated with a set of obsoletions. This change set is the composed change set rather than the set of individual changes. For example, if previous state is:</li>
-<li><a href="multi_node_obsoletion_change_set.html">multi node obsoletion➞change set</a></li>
-<li><a href="node_obsoletion_associated_change_set.html">node obsoletion➞associated change set</a> - All changes forced as a result of this obsoletion. For example, starting with <code>A subClassOf B subClassOf C</code>, if we obsolete node B, then we may decide to bundle in a node move change of A from B to C. Note: this change set is not considered a part of the obsoletion, as obsoletion is considered atomic/simple. Instead this is a reference to a change set that may exist elsewhere</li>
+<li><a href="node_rename_change_description/">node rename➞change description</a></li>
+<li><a href="node_unobsoletion_change_description/">node unobsoletion➞change description</a></li>
+<li><a href="predicate_change_change_description/">predicate change➞change description</a></li>
+<li><a href="removed_node_from_subset_change_description/">removed node from subset➞change description</a></li>
 </ul>
 </li>
-<li><a href="change_type.html">change type</a><ul>
-<li><a href="change_set_summary_statistic_change_type.html">change set summary statistic➞change type</a></li>
+<li><a href="change_set/">change set</a> - A collection of changes<ul>
+<li><a href="associated_change_set/">associated change set</a> - All changes associated with a set of obsoletions. This change set is the composed change set rather than the set of individual changes. For example, if previous state is:</li>
+<li><a href="multi_node_obsoletion_associated_change_set/">multi node obsoletion➞associated change set</a> - All changes associated with a set of obsoletions. This change set is the composed change set rather than the set of individual changes. For example, if previous state is:</li>
+<li><a href="multi_node_obsoletion_change_set/">multi node obsoletion➞change set</a></li>
+<li><a href="node_obsoletion_associated_change_set/">node obsoletion➞associated change set</a> - All changes forced as a result of this obsoletion. For example, starting with <code>A subClassOf B subClassOf C</code>, if we obsolete node B, then we may decide to bundle in a node move change of A from B to C. Note: this change set is not considered a part of the obsoletion, as obsoletion is considered atomic/simple. Instead this is a reference to a change set that may exist elsewhere</li>
 </ul>
 </li>
-<li><a href="configuration__contributor_predicate.html">➞contributor predicate</a></li>
-<li><a href="configuration__creator_predicate.html">➞creator predicate</a></li>
-<li><a href="configuration__definition_predicate.html">➞definition predicate</a></li>
-<li><a href="configuration__main_synonym_predicate.html">➞main synonym predicate</a></li>
-<li><a href="configuration__name_predicate.html">➞name predicate</a></li>
-<li><a href="configuration__obsoletion_policy.html">➞obsoletion policy</a></li>
-<li><a href="configuration__obsoletion_workflow.html">➞obsoletion workflow</a></li>
-<li><a href="configuration__synonym_predicates.html">➞synonym predicates</a></li>
-<li><a href="consider.html">consider</a><ul>
-<li><a href="node_unobsoletion_consider.html">node unobsoletion➞consider</a></li>
+<li><a href="change_type/">change type</a><ul>
+<li><a href="change_set_summary_statistic_change_type/">change set summary statistic➞change type</a></li>
 </ul>
 </li>
-<li><a href="contributor.html">contributor</a></li>
-<li><a href="count.html">count</a><ul>
-<li><a href="change_set_summary_statistic_count.html">change set summary statistic➞count</a></li>
+<li><a href="configuration__contributor_predicate/">➞contributor predicate</a></li>
+<li><a href="configuration__creator_predicate/">➞creator predicate</a></li>
+<li><a href="configuration__definition_predicate/">➞definition predicate</a></li>
+<li><a href="configuration__main_synonym_predicate/">➞main synonym predicate</a></li>
+<li><a href="configuration__name_predicate/">➞name predicate</a></li>
+<li><a href="configuration__obsoletion_policy/">➞obsoletion policy</a></li>
+<li><a href="configuration__obsoletion_workflow/">➞obsoletion workflow</a></li>
+<li><a href="configuration__synonym_predicates/">➞synonym predicates</a></li>
+<li><a href="consider/">consider</a><ul>
+<li><a href="node_unobsoletion_consider/">node unobsoletion➞consider</a></li>
 </ul>
 </li>
-<li><a href="creator.html">creator</a><ul>
-<li><a href="change_creator.html">change➞creator</a></li>
+<li><a href="contributor/">contributor</a></li>
+<li><a href="count/">count</a><ul>
+<li><a href="change_set_summary_statistic_count/">change set summary statistic➞count</a></li>
 </ul>
 </li>
-<li><a href="description.html">description</a></li>
-<li><a href="ended_at_time.html">ended at time</a></li>
-<li><a href="filler.html">filler</a></li>
-<li><a href="has_direct_replacement.html">has direct replacement</a> - An obsoletion replacement where it IS valid to automatically update annotations/edges pointing at the node with its direct replacement<ul>
-<li><a href="node_direct_merge_has_direct_replacement.html">node direct merge➞has direct replacement</a></li>
-<li><a href="node_obsoletion_with_direct_replacement_has_direct_replacement.html">node obsoletion with direct replacement➞has direct replacement</a></li>
+<li><a href="creator/">creator</a><ul>
+<li><a href="change_creator/">change➞creator</a></li>
 </ul>
 </li>
-<li><a href="has_nondirect_replacement.html">has nondirect replacement</a> - An obsoletion replacement where it is NOT valid to automatically update annotations/edges pointing at the node with its direct replacement<ul>
-<li><a href="node_obsoletion_with_no_direct_replacement_has_nondirect_replacement.html">node obsoletion with no direct replacement➞has nondirect replacement</a></li>
+<li><a href="description/">description</a></li>
+<li><a href="ended_at_time/">ended at time</a></li>
+<li><a href="filler/">filler</a></li>
+<li><a href="has_direct_replacement/">has direct replacement</a> - An obsoletion replacement where it IS valid to automatically update annotations/edges pointing at the node with its direct replacement<ul>
+<li><a href="node_direct_merge_has_direct_replacement/">node direct merge➞has direct replacement</a></li>
+<li><a href="node_obsoletion_with_direct_replacement_has_direct_replacement/">node obsoletion with direct replacement➞has direct replacement</a></li>
 </ul>
 </li>
-<li><a href="has_textual_diff.html">has textual diff</a> - A representation of character-level changes on a textual literal property. For example, if a text definition may change by only a single character such as addition of a period, it is useful to be able to see this visually.</li>
-<li><a href="has_undo.html">has undo</a> - A change that reverses this change<ul>
-<li><a href="creation_has_undo.html">creation➞has undo</a></li>
-<li><a href="obsoletion_has_undo.html">obsoletion➞has undo</a></li>
-<li><a href="remove_from_subset_has_undo.html">remove from subset➞has undo</a></li>
-<li><a href="unobsoletion_has_undo.html">unobsoletion➞has undo</a></li>
+<li><a href="has_nondirect_replacement/">has nondirect replacement</a> - An obsoletion replacement where it is NOT valid to automatically update annotations/edges pointing at the node with its direct replacement<ul>
+<li><a href="node_obsoletion_with_no_direct_replacement_has_nondirect_replacement/">node obsoletion with no direct replacement➞has nondirect replacement</a></li>
 </ul>
 </li>
-<li><a href="id.html">id</a></li>
-<li><a href="in_subset.html">in subset</a> - The subset that pertains to this change<ul>
-<li><a href="add_to_subset_in_subset.html">add to subset➞in subset</a> - subset that the element is being placed inside.</li>
-<li><a href="remove_from_subset_in_subset.html">remove from subset➞in subset</a> - subset that the element is being removed from</li>
+<li><a href="has_textual_diff/">has textual diff</a> - A representation of character-level changes on a textual literal property. For example, if a text definition may change by only a single character such as addition of a period, it is useful to be able to see this visually.</li>
+<li><a href="has_undo/">has undo</a> - A change that reverses this change<ul>
+<li><a href="creation_has_undo/">creation➞has undo</a></li>
+<li><a href="obsoletion_has_undo/">obsoletion➞has undo</a></li>
+<li><a href="remove_from_subset_has_undo/">remove from subset➞has undo</a></li>
+<li><a href="unobsoletion_has_undo/">unobsoletion➞has undo</a></li>
 </ul>
 </li>
-<li><a href="name.html">name</a></li>
-<li><a href="new_value.html">new value</a> - The value of a property held in the new instance of the ontology<ul>
-<li><a href="node_rename_new_value.html">node rename➞new value</a></li>
+<li><a href="id/">id</a></li>
+<li><a href="in_subset/">in subset</a> - The subset that pertains to this change<ul>
+<li><a href="add_to_subset_in_subset/">add to subset➞in subset</a> - subset that the element is being placed inside.</li>
+<li><a href="remove_from_subset_in_subset/">remove from subset➞in subset</a> - subset that the element is being removed from</li>
 </ul>
 </li>
-<li><a href="node_id.html">node id</a> - id of a node to be created</li>
-<li><a href="object.html">object</a></li>
-<li><a href="old_value.html">old value</a> - The value of a property held in the old instance of the ontology<ul>
-<li><a href="node_rename_old_value.html">node rename➞old value</a></li>
+<li><a href="name/">name</a></li>
+<li><a href="new_value/">new value</a> - The value of a property held in the new instance of the ontology<ul>
+<li><a href="node_rename_new_value/">node rename➞new value</a></li>
 </ul>
 </li>
-<li><a href="owl_type.html">owl type</a></li>
-<li><a href="predicate.html">predicate</a></li>
-<li><a href="property.html">property</a></li>
-<li><a href="property_value_set.html">property value set</a><ul>
-<li><a href="change_set_summary_statistic_property_value_set.html">change set summary statistic➞property value set</a> - Summary statistic is grouped by these constraints</li>
+<li><a href="node_id/">node id</a> - id of a node to be created</li>
+<li><a href="object/">object</a><ul>
+<li><a href="mapping_creation_object/">mapping creation➞object</a> - This corresponds to object_id in SSSOM</li>
 </ul>
 </li>
-<li><a href="pull_request.html">pull request</a><ul>
-<li><a href="change_pull_request.html">change➞pull request</a></li>
+<li><a href="old_value/">old value</a> - The value of a property held in the old instance of the ontology<ul>
+<li><a href="node_rename_old_value/">node rename➞old value</a></li>
 </ul>
 </li>
-<li><a href="replaced_by.html">replaced by</a><ul>
-<li><a href="node_unobsoletion_replaced_by.html">node unobsoletion➞replaced by</a></li>
+<li><a href="owl_type/">owl type</a></li>
+<li><a href="predicate/">predicate</a><ul>
+<li><a href="mapping_creation_predicate/">mapping creation➞predicate</a> - This corresponds to predicate_id in SSSOM. The value of this is typically a predicate from SKOS</li>
 </ul>
 </li>
-<li><a href="see_also.html">see also</a><ul>
-<li><a href="change_see_also.html">change➞see also</a></li>
+<li><a href="property/">property</a></li>
+<li><a href="property_value_set/">property value set</a><ul>
+<li><a href="change_set_summary_statistic_property_value_set/">change set summary statistic➞property value set</a> - Summary statistic is grouped by these constraints</li>
 </ul>
 </li>
-<li><a href="started_at_time.html">started at time</a></li>
-<li><a href="subject.html">subject</a><ul>
-<li><a href="edge_change_subject.html">edge change➞subject</a></li>
+<li><a href="pull_request/">pull request</a><ul>
+<li><a href="change_pull_request/">change➞pull request</a></li>
+</ul>
+</li>
+<li><a href="replaced_by/">replaced by</a><ul>
+<li><a href="node_unobsoletion_replaced_by/">node unobsoletion➞replaced by</a></li>
+</ul>
+</li>
+<li><a href="see_also/">see also</a><ul>
+<li><a href="change_see_also/">change➞see also</a></li>
+</ul>
+</li>
+<li><a href="started_at_time/">started at time</a></li>
+<li><a href="subject/">subject</a><ul>
+<li><a href="edge_change_subject/">edge change➞subject</a></li>
+<li><a href="mapping_creation_subject/">mapping creation➞subject</a> - This corresponds to subject_id in SSSOM</li>
 </ul>
 </li>
 <li><a href="subset.md">subset</a> - The subset from which the node is to be removed<ul>
-<li><a href="removed_node_from_subset_subset.html">removed node from subset➞subset</a></li>
+<li><a href="removed_node_from_subset_subset/">removed node from subset➞subset</a></li>
 </ul>
 </li>
-<li><a href="superclass.html">superclass</a></li>
-<li><a href="target.html">target</a> - The secondary entity on which the change operates<ul>
-<li><a href="has_replacement.html">has replacement</a> - A single node obsoletion event may be accompanied by one or more suggested replacement nodes</li>
+<li><a href="superclass/">superclass</a></li>
+<li><a href="target/">target</a> - The secondary entity on which the change operates<ul>
+<li><a href="has_replacement/">has replacement</a> - A single node obsoletion event may be accompanied by one or more suggested replacement nodes</li>
 </ul>
 </li>
-<li><a href="used.html">used</a></li>
-<li><a href="was_associated_with.html">was associated with</a></li>
-<li><a href="was_generated_by.html">was generated by</a><ul>
-<li><a href="change_was_generated_by.html">change➞was generated by</a></li>
+<li><a href="used/">used</a></li>
+<li><a href="was_associated_with/">was associated with</a></li>
+<li><a href="was_generated_by/">was generated by</a><ul>
+<li><a href="change_was_generated_by/">change➞was generated by</a></li>
 </ul>
 </li>
-<li><a href="was_informed_by.html">was informed by</a></li>
+<li><a href="was_informed_by/">was informed by</a></li>
 </ul>
 <h3 id="enums">Enums</h3>
 <ul>
-<li><a href="owl_type_enum.html">owl_type_enum</a></li>
-<li><a href="synonym_scope_enum.html">synonym_scope_enum</a></li>
+<li><a href="owl_type_enum/">owl_type_enum</a></li>
+<li><a href="synonym_scope_enum/">synonym_scope_enum</a></li>
 </ul>
+<h3 id="subsets">Subsets</h3>
 <h3 id="types">Types</h3>
 <h4 id="built-in">Built in</h4>
 <ul>
@@ -431,21 +445,21 @@
 </ul>
 <h4 id="defined">Defined</h4>
 <ul>
-<li><a href="types/Boolean.html">Boolean</a>  (<strong>Bool</strong>)  - A binary (true or false) value</li>
-<li><a href="types/ChangeClassType.html">ChangeClassType</a>  (<a href="types/Uriorcurie.html">Uriorcurie</a>)  - CURIE for a class within this datamodel. E.g. kgcl:NodeObsoletion</li>
-<li><a href="types/Date.html">Date</a>  (<strong>XSDDate</strong>)  - a date (year, month and day) in an idealized calendar</li>
-<li><a href="types/Datetime.html">Datetime</a>  (<strong>XSDDateTime</strong>)  - The combination of a date and time</li>
-<li><a href="types/Decimal.html">Decimal</a>  (<strong>Decimal</strong>)  - A real number with arbitrary precision that conforms to the xsd:decimal specification</li>
-<li><a href="types/Double.html">Double</a>  (<strong>float</strong>)  - A real number that conforms to the xsd:double specification</li>
-<li><a href="types/Float.html">Float</a>  (<strong>float</strong>)  - A real number that conforms to the xsd:float specification</li>
-<li><a href="types/Integer.html">Integer</a>  (<strong>int</strong>)  - An integer</li>
-<li><a href="types/Ncname.html">Ncname</a>  (<strong>NCName</strong>)  - Prefix part of CURIE</li>
-<li><a href="types/Nodeidentifier.html">Nodeidentifier</a>  (<strong>NodeIdentifier</strong>)  - A URI, CURIE or BNODE that represents a node in a model.</li>
-<li><a href="types/Objectidentifier.html">Objectidentifier</a>  (<strong>ElementIdentifier</strong>)  - A URI or CURIE that represents an object in the model.</li>
-<li><a href="types/String.html">String</a>  (<strong>str</strong>)  - A character string</li>
-<li><a href="types/Time.html">Time</a>  (<strong>XSDTime</strong>)  - A time object represents a (local) time of day, independent of any particular day</li>
-<li><a href="types/Uri.html">Uri</a>  (<strong>URI</strong>)  - a complete URI</li>
-<li><a href="types/Uriorcurie.html">Uriorcurie</a>  (<strong>URIorCURIE</strong>)  - a URI or a CURIE</li>
+<li><a href="types/Boolean/">Boolean</a>  (<strong>Bool</strong>)  - A binary (true or false) value</li>
+<li><a href="types/ChangeClassType/">ChangeClassType</a>  (<a href="types/Uriorcurie/">Uriorcurie</a>)  - CURIE for a class within this datamodel. E.g. kgcl:NodeObsoletion</li>
+<li><a href="types/Date/">Date</a>  (<strong>XSDDate</strong>)  - a date (year, month and day) in an idealized calendar</li>
+<li><a href="types/Datetime/">Datetime</a>  (<strong>XSDDateTime</strong>)  - The combination of a date and time</li>
+<li><a href="types/Decimal/">Decimal</a>  (<strong>Decimal</strong>)  - A real number with arbitrary precision that conforms to the xsd:decimal specification</li>
+<li><a href="types/Double/">Double</a>  (<strong>float</strong>)  - A real number that conforms to the xsd:double specification</li>
+<li><a href="types/Float/">Float</a>  (<strong>float</strong>)  - A real number that conforms to the xsd:float specification</li>
+<li><a href="types/Integer/">Integer</a>  (<strong>int</strong>)  - An integer</li>
+<li><a href="types/Ncname/">Ncname</a>  (<strong>NCName</strong>)  - Prefix part of CURIE</li>
+<li><a href="types/Nodeidentifier/">Nodeidentifier</a>  (<strong>NodeIdentifier</strong>)  - A URI, CURIE or BNODE that represents a node in a model.</li>
+<li><a href="types/Objectidentifier/">Objectidentifier</a>  (<strong>ElementIdentifier</strong>)  - A URI or CURIE that represents an object in the model.</li>
+<li><a href="types/String/">String</a>  (<strong>str</strong>)  - A character string</li>
+<li><a href="types/Time/">Time</a>  (<strong>XSDTime</strong>)  - A time object represents a (local) time of day, independent of any particular day</li>
+<li><a href="types/Uri/">Uri</a>  (<strong>URI</strong>)  - a complete URI</li>
+<li><a href="types/Uriorcurie/">Uriorcurie</a>  (<strong>URIorCURIE</strong>)  - a URI or a CURIE</li>
 </ul>
               
             </div>
@@ -454,10 +468,10 @@
   
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
       
-        <a href="credits.html" class="btn btn-neutral float-right" title="Credits">Next <span class="icon icon-circle-arrow-right"></span></a>
+        <a href="credits/" class="btn btn-neutral float-right" title="Credits">Next <span class="icon icon-circle-arrow-right"></span></a>
       
       
-        <a href="home.html" class="btn btn-neutral" title="Home"><span class="icon icon-circle-arrow-left"></span> Previous</a>
+        <a href="home/" class="btn btn-neutral" title="Home"><span class="icon icon-circle-arrow-left"></span> Previous</a>
       
     </div>
   
@@ -487,10 +501,10 @@
         </span>
     
     
-      <span><a href="home.html" style="color: #fcfcfc">&laquo; Previous</a></span>
+      <span><a href="home/" style="color: #fcfcfc">&laquo; Previous</a></span>
     
     
-      <span><a href="credits.html" style="color: #fcfcfc">Next &raquo;</a></span>
+      <span><a href="credits/" style="color: #fcfcfc">Next &raquo;</a></span>
     
   </span>
 </div>
@@ -508,6 +522,6 @@
 </html>
 
 <!--
-MkDocs version : 1.2.1
-Build Date UTC : 2021-06-24 19:20:02.662595+00:00
+MkDocs version : 1.2.2
+Build Date UTC : 2021-08-25 23:37:06.806604+00:00
 -->
