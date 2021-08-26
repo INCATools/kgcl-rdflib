@@ -15,7 +15,7 @@ from model.kgcl import (
     NewSynonym,
     RemovedNodeFromSubset,
 )
-from model.ontology_model import Edge
+from model.ontology_model import Edge, Annotation
 from pathlib import Path
 
 
@@ -133,6 +133,45 @@ def parse_statement(input):
             id=id, subject=subject_token, predicate=predicate_token, object=object_token
         )
 
+    if command == "create_annotated_edge":
+        subject_token = extract(tree, "subject")
+        predicate_token = extract(tree, "predicate")
+        object_token = extract(tree, "object")
+        annotation_property_token = extract(tree, "annotation_property")
+        annotation_token = extract(tree, "annotation")
+
+        annotation = Annotation(
+            property=annotation_property_token, filler=annotation_token
+        )
+
+        return EdgeCreation(
+            id=id,
+            subject=subject_token,
+            predicate=predicate_token,
+            object=object_token,
+            annotation_set=annotation,
+        )
+
+    if command == "delete_annotated_edge":
+        subject_token = extract(tree, "subject")
+        predicate_token = extract(tree, "predicate")
+        object_token = extract(tree, "object")
+        annotation_property_token = extract(tree, "annotation_property")
+        annotation_token = extract(tree, "annotation")
+
+        annotation = Annotation(
+            property=annotation_property_token,
+            filler=annotation_token,
+        )
+
+        return EdgeDeletion(
+            id=id,
+            subject=subject_token,
+            predicate=predicate_token,
+            object=object_token,
+            annotation_set=annotation,
+        )
+
     if command == "change_relationship":
         subject_token = extract(tree, "subject")
         object_token = extract(tree, "object")
@@ -170,7 +209,6 @@ def parse_statement(input):
         synonym_string_token = extract(tree, "synonym")
         language_token = extract(tree, "language")
         qualifier_token = extract(tree, "synonym_qualifier")
-        print(qualifier_token)
 
         return NewSynonym(
             id=id,

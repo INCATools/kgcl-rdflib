@@ -90,7 +90,10 @@ def convert(kgclInstance):
             and is_id(kgclInstance.predicate)
             and (is_id(kgclInstance.object) or is_label(kgclInstance.object))
         ):
-            return edge_creation(kgclInstance)
+            if kgclInstance.annotation_set is None:
+                return edge_creation(kgclInstance)
+            else:
+                return edge_annotation_creation(kgclInstance)
 
     # edge deletion
     if type(kgclInstance) is EdgeDeletion:
@@ -433,6 +436,30 @@ def create_node(kgclInstance):
     else:
         whereQuery = " BIND( STRLANG(" + label + ',"' + language + '") AS ?tag) '
         where = "WHERE {" + whereQuery + "}"
+
+    updateQuery = prefix + " " + insert + " " + where
+
+    return updateQuery
+
+
+def edge_annotation_creation(kgclInstance):
+    subject = kgclInstance.subject
+    predicate = kgclInstance.predicate
+    object = kgclInstance.object
+    annotation = kgclInstance.annotation_set
+
+    prefix = "PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>  "
+    prefix += "PREFIX owl: <http://www.w3.org/2002/07/owl#>  "
+
+    insertQuery = "?bnode owl:annotatedSource " + subject + " . "
+    insertQuery += "?bnode owl:annotatedProperty " + predicate + " . "
+    insertQuery += "?bnode owl:annotatedTarget " + object + " . "
+    insertQuery += "?bnode " + annotation.property + " " + annotation.filler + " . "
+    insertQuery += "?bnode rdf:type owl:Axiom ."
+    insert = "INSERT {" + insertQuery + "}"
+
+    whereQuery = ' BIND(BNODE("what") AS ?bnode) '
+    where = "WHERE {" + whereQuery + "}"
 
     updateQuery = prefix + " " + insert + " " + where
 

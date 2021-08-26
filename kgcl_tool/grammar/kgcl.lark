@@ -13,6 +13,8 @@
            | create_synonym 
            | remove_from_subset
            | add_to_subset 
+           | create_annotated_edge
+           | delete_annotated_edge
 
 rename : "rename" [id "from"] old_label [old_language] ("to"|"as"|"->") new_label [new_language]
 
@@ -36,6 +38,9 @@ move : "move" subject predicate object "from" old_id ("to"|"as"|"->") new_id
 create_edge : "create edge" subject predicate object
 delete_edge : "delete edge" subject predicate object
 
+create_annotated_edge : "create edge <<" subject predicate object ">>" annotation_property annotation
+delete_annotated_edge : "delete edge <<" subject predicate object ">>" annotation_property annotation
+
 change_relationship: "change relationship between" subject "and" object "from" old "to" new 
 
 remove_from_subset :  "remove" id "from subset" subset
@@ -56,6 +61,8 @@ language: _language_tag
 old_language : _language_tag
 new_language : _language_tag
 _language_tag :  /[a-zA-Z]+(?:-[a-zA-Z0-9]+)*/
+annotation_property : STRING
+annotation : STRING
 
 old_id : ID
 new_id : ID
