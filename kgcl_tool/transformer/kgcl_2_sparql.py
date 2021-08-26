@@ -102,7 +102,11 @@ def convert(kgclInstance):
             and is_id(kgclInstance.predicate)
             and (is_id(kgclInstance.object) or is_label(kgclInstance.object))
         ):
-            return edge_deletion(kgclInstance)
+
+            if kgclInstance.annotation_set is None:
+                return edge_deletion(kgclInstance)
+            else:
+                return edge_annotation_deletion(kgclInstance)
 
     # node move
     if type(kgclInstance) is NodeMove:
@@ -480,6 +484,65 @@ def edge_creation(kgclInstance):
     where = "WHERE {}"
 
     updateQuery = prefix + " " + insert + " " + where
+
+    return updateQuery
+
+
+def edge_annotation_deletion(kgclInstance):
+    subject = kgclInstance.subject
+    predicate = kgclInstance.predicate
+    object = kgclInstance.object
+    annotation = kgclInstance.annotation_set
+
+    # NB: we need to distinguish between two cases
+    # (a) the entire reification needs to be deleted
+    # (b) only one annotation triple is deleted
+    #     while the reification is not because it's
+    #     needed for other annotations
+
+    # TODO: example
+
+    # Query for (a)
+    # A reification for a single annotations will consist of 5 triples.
+    # So, we use this size bound to determine whether we need to
+    # delete the entire reification or not
+    prefix = "PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>  "
+    prefix += "PREFIX owl: <http://www.w3.org/2002/07/owl#>  "
+
+    insert = "INSERT { }"
+
+    deleteQuery = "?bnode owl:annotatedSource " + subject + " . "
+    deleteQuery += "?bnode owl:annotatedProperty " + predicate + " . "
+    deleteQuery += "?bnode owl:annotatedTarget " + object + " . "
+    deleteQuery += "?bnode " + annotation.property + " " + annotation.filler + " . "
+    deleteQuery += "?bnode rdf:type owl:Axiom ."
+
+    delete = "DELETE {" + deleteQuery + "}"
+
+    whereQuery = "SELECT ?bnode WHERE { "
+    whereQuery += "?bnode ?ap ?p ."
+    whereQuery += "?bnode owl:annotatedSource " + subject + " . } "
+    whereQuery += "HAVING((COUNT(?ap) <= 5) && (COUNT(?p) <= 5))"
+
+    where = "WHERE {" + whereQuery + "}"
+
+    subquery1 = prefix + " " + delete + " " + insert + " " + where
+
+    # Query for (b)
+    deleteQuery = "?bnode " + annotation.property + " " + annotation.filler + " . "
+    delete = "DELETE {" + deleteQuery + "}"
+
+    whereQuery = "SELECT ?bnode WHERE {"
+    whereQuery += "?bnode ?ap ?p ."
+    whereQuery += "?bnode owl:annotatedSource " + subject + " . } "
+    whereQuery += "HAVING((COUNT(?ap) > 5) || (COUNT(?ap) > 5))"
+
+    where = "WHERE {" + whereQuery + "}"
+
+    subquery2 = prefix + " " + delete + " " + insert + " " + where
+
+    # putting (a) and (b) together
+    updateQuery = subquery1 + " ; " + subquery2
 
     return updateQuery
 
