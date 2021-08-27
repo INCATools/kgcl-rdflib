@@ -15,6 +15,7 @@ from model.kgcl import (
     NewSynonym,
     RemovedNodeFromSubset,
     PlaceUnder,
+    ExistentialRestrictionCreation,
 )
 from model.ontology_model import Edge, Annotation
 from pathlib import Path
@@ -243,7 +244,16 @@ def parse_statement(input):
         )
 
     if command == "add_existential_restriction_axiom":
-        pass
+        subclass_token = extract(tree, "subclass")
+        property_token = extract(tree, "property")
+        filler_token = extract(tree, "filler")
+
+        return ExistentialRestrictionCreation(
+            id=id,
+            subclass=subclass_token,
+            property=property_token,
+            filler=filler_token,
+        )
 
     if command == "remove_from_subset":
 

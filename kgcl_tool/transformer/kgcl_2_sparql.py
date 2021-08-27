@@ -15,6 +15,7 @@ from model.kgcl import (
     NewSynonym,
     RemovedNodeFromSubset,
     PlaceUnder,
+    ExistentialRestrictionCreation,
 )
 
 
@@ -137,6 +138,9 @@ def convert(kgclInstance):
     if type(kgclInstance) is RemovedNodeFromSubset:
         if is_id(kgclInstance.about_node) and is_id(kgclInstance.subset):
             return remove_node_from_subset(kgclInstance)
+
+    if type(kgclInstance) is ExistentialRestrictionCreation:
+        return create_existential_restriction(kgclInstance)
 
 
 def node_move(kgclInstance):
@@ -466,7 +470,7 @@ def edge_annotation_creation(kgclInstance):
     insertQuery += "?bnode rdf:type owl:Axiom ."
     insert = "INSERT {" + insertQuery + "}"
 
-    whereQuery = ' BIND(BNODE("what") AS ?bnode) '
+    whereQuery = ' BIND(BNODE("reification") AS ?bnode) '
     where = "WHERE {" + whereQuery + "}"
 
     updateQuery = prefix + " " + insert + " " + where
@@ -701,6 +705,31 @@ def new_synonym(kgclInstance):
         whereQuery = " BIND( STRLANG(" + synonym + ',"' + language + '") AS ?tag) '
 
     insert = "INSERT {" + insertQuery + "}"
+    where = "WHERE {" + whereQuery + "}"
+
+    updateQuery = prefix + " " + insert + " " + where
+
+    return updateQuery
+
+
+def create_existential_restriction(kgclInstance):
+    subclass = kgclInstance.subclass
+    property = kgclInstance.property
+    filler = kgclInstance.filler
+
+    prefix = "PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>  "
+    prefix += "PREFIX owl: <http://www.w3.org/2002/07/owl#>  "
+    prefix += "PREFIX xsd:  <http://www.w3.org/2001/XMLSchema#> "
+    prefix += "PREFIX oboInOwl: <http://www.geneontology.org/formats/oboInOwl#> "
+
+    insertQuery = subclass + "rdfs:subClassOf ?bnode . "
+    insertQuery += "?bnode owl:someValuesFrom " + filler + " . "
+    insertQuery += "?bnode owl:onProperty " + property + " . "
+    insertQuery += "?bnode rdf:type owl:Restriction ."
+
+    insert = "INSERT {" + insertQuery + "}"
+
+    whereQuery = ' BIND(BNODE("existential") AS ?bnode) '
     where = "WHERE {" + whereQuery + "}"
 
     updateQuery = prefix + " " + insert + " " + where
