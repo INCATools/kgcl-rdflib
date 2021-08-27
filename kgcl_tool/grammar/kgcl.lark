@@ -15,6 +15,8 @@
            | add_to_subset 
            | create_annotated_edge
            | delete_annotated_edge
+           | add_subsumption_axiom
+           | add_existential_restriction_axiom
 
 rename : "rename" [id "from"] old_label [old_language] ("to"|"as"|"->") new_label [new_language]
 
@@ -43,6 +45,9 @@ delete_annotated_edge : "delete edge <<" subject predicate object ">>" annotatio
 
 change_relationship: "change relationship between" subject "and" object "from" old "to" new 
 
+add_subsumption_axiom: "add" subclass "SubClassOf" superclass
+add_existential_restriction_axiom: "add" subclass "SubClassOf" property "some" filler
+
 remove_from_subset :  "remove" id "from subset" subset
 add_to_subset :  "add" id "to subset" subset
 
@@ -53,6 +58,11 @@ predicate: ID
 object: _entity
 subset: ID
 synonym : QUOTED_LABEL
+
+subclass: ID
+superclass: ID
+property: ID
+filler: ID
 
 label : QUOTED_LABEL
 old_label : QUOTED_LABEL

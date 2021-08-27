@@ -14,6 +14,7 @@ from model.kgcl import (
     ClassCreation,
     NewSynonym,
     RemovedNodeFromSubset,
+    PlaceUnder,
 )
 
 
@@ -94,6 +95,9 @@ def convert(kgclInstance):
                 return edge_creation(kgclInstance)
             else:
                 return edge_annotation_creation(kgclInstance)
+
+    if type(kgclInstance) is PlaceUnder:
+        return edge_creation(kgclInstance)
 
     # edge deletion
     if type(kgclInstance) is EdgeDeletion:

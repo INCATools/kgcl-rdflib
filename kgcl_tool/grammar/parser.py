@@ -14,6 +14,7 @@ from model.kgcl import (
     ClassCreation,
     NewSynonym,
     RemovedNodeFromSubset,
+    PlaceUnder,
 )
 from model.ontology_model import Edge, Annotation
 from pathlib import Path
@@ -229,6 +230,20 @@ def parse_statement(input):
     #    return AddNodeToSubset(
     #        id=id, in_subset=subset_id_token, about_node=term_id_token
     #     )
+
+    if command == "add_subsumption_axiom":
+        subclass_token = extract(tree, "subclass")
+        superclass_token = extract(tree, "superclass")
+
+        return PlaceUnder(
+            id=id,
+            subject=subclass_token,
+            predicate="<http://www.w3.org/2000/01/rdf-schema#subClassOf>",
+            object=superclass_token,
+        )
+
+    if command == "add_existential_restriction_axiom":
+        pass
 
     if command == "remove_from_subset":
 
