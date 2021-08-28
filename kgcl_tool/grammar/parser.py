@@ -15,7 +15,9 @@ from model.kgcl import (
     NewSynonym,
     RemovedNodeFromSubset,
     PlaceUnder,
+    RemoveUnder,
     ExistentialRestrictionCreation,
+    ExistentialRestrictionDeletion,
 )
 from model.ontology_model import Edge, Annotation
 from pathlib import Path
@@ -243,12 +245,35 @@ def parse_statement(input):
             object=superclass_token,
         )
 
+    if command == "delete_subsumption_axiom":
+        subclass_token = extract(tree, "subclass")
+        superclass_token = extract(tree, "superclass")
+
+        return RemoveUnder(
+            id=id,
+            subject=subclass_token,
+            predicate="<http://www.w3.org/2000/01/rdf-schema#subClassOf>",
+            object=superclass_token,
+        )
+
     if command == "add_existential_restriction_axiom":
         subclass_token = extract(tree, "subclass")
         property_token = extract(tree, "property")
         filler_token = extract(tree, "filler")
 
         return ExistentialRestrictionCreation(
+            id=id,
+            subclass=subclass_token,
+            property=property_token,
+            filler=filler_token,
+        )
+
+    if command == "delete_existential_restriction_axiom":
+        subclass_token = extract(tree, "subclass")
+        property_token = extract(tree, "property")
+        filler_token = extract(tree, "filler")
+
+        return ExistentialRestrictionDeletion(
             id=id,
             subclass=subclass_token,
             property=property_token,

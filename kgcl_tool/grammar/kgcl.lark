@@ -17,6 +17,8 @@
            | delete_annotated_edge
            | add_subsumption_axiom
            | add_existential_restriction_axiom
+           | delete_subsumption_axiom
+           | delete_existential_restriction_axiom
 
 rename : "rename" [id "from"] old_label [old_language] ("to"|"as"|"->") new_label [new_language]
 
@@ -47,6 +49,9 @@ change_relationship: "change relationship between" subject "and" object "from" o
 
 add_subsumption_axiom: "add" subclass "SubClassOf" superclass
 add_existential_restriction_axiom: "add" subclass "SubClassOf" property "some" filler
+
+delete_subsumption_axiom: "delete" subclass "SubClassOf" superclass
+delete_existential_restriction_axiom: "delete" subclass "SubClassOf" property "some" filler
 
 remove_from_subset :  "remove" id "from subset" subset
 add_to_subset :  "add" id "to subset" subset

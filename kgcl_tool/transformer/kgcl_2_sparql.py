@@ -15,7 +15,9 @@ from model.kgcl import (
     NewSynonym,
     RemovedNodeFromSubset,
     PlaceUnder,
+    RemoveUnder,
     ExistentialRestrictionCreation,
+    ExistentialRestrictionDeletion,
 )
 
 
@@ -100,6 +102,9 @@ def convert(kgclInstance):
     if type(kgclInstance) is PlaceUnder:
         return edge_creation(kgclInstance)
 
+    if type(kgclInstance) is RemoveUnder:
+        return edge_deletion(kgclInstance)
+
     # edge deletion
     if type(kgclInstance) is EdgeDeletion:
         if (
@@ -142,6 +147,9 @@ def convert(kgclInstance):
     if type(kgclInstance) is ExistentialRestrictionCreation:
         return create_existential_restriction(kgclInstance)
 
+    if type(kgclInstance) is ExistentialRestrictionDeletion:
+        return delete_existential_restriction(kgclInstance)
+
 
 def node_move(kgclInstance):
     term_id = kgclInstance.about_edge.subject
@@ -173,18 +181,25 @@ def remove_node_from_subset(kgclInstance):
     about = kgclInstance.about_node
     subset = kgclInstance.subset
 
-    prefix = "PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>  "
-    prefix += "PREFIX obo: <http://purl.obolibrary.org/obo/> "
+    updateQuery = (
+        f"PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>"
+        f"PREFIX obo: <http://purl.obolibrary.org/obo/>"
+        f"DELETE {{ {about} obo:inSubset {subset} }}"
+        f"WHERE {{ {about} obo:inSubset {subset} }}"
+    )
 
-    deleteQuery = about + " obo:inSubset " + subset + " . "
+    # prefix = "PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>  "
+    # prefix += "PREFIX obo: <http://purl.obolibrary.org/obo/> "
 
-    delete = "DELETE {" + deleteQuery + "}"
+    # deleteQuery = about + " obo:inSubset " + subset + " . "
 
-    whereQuery = about + " obo:inSubset " + subset + " . "
+    # delete = "DELETE {" + deleteQuery + "}"
 
-    where = "WHERE { " + whereQuery + " }"
+    # whereQuery = about + " obo:inSubset " + subset + " . "
 
-    updateQuery = prefix + " " + delete + " " + where
+    # where = "WHERE { " + whereQuery + " }"
+
+    # updateQuery = prefix + " " + delete + " " + where
 
     return updateQuery
 
@@ -197,19 +212,26 @@ def change_predicate(kgclInstance):
     old_value = kgclInstance.old_value
     new_value = kgclInstance.new_value
 
-    prefix = "PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>  "
+    updateQuery = (
+        f"PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>"
+        f"DELETE {{ {subject} {old_value} {object} }}"
+        f"INSERT {{ {subject} {new_value} {object} }}"
+        f"WHERE {{  }}"
+    )
 
-    deleteQuery = subject + " " + old_value + " " + object + " . "
+    # prefix = "PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>  "
 
-    delete = "DELETE {" + deleteQuery + "}"
+    # deleteQuery = subject + " " + old_value + " " + object + " . "
 
-    insertQuery = subject + " " + new_value + " " + object + " . "
+    # delete = "DELETE {" + deleteQuery + "}"
 
-    insert = "INSERT {" + insertQuery + "}"
+    # insertQuery = subject + " " + new_value + " " + object + " . "
 
-    where = "WHERE {}"
+    # insert = "INSERT {" + insertQuery + "}"
 
-    updateQuery = prefix + " " + delete + " " + insert + " " + where
+    # where = "WHERE {}"
+
+    # updateQuery = prefix + " " + delete + " " + insert + " " + where
 
     return updateQuery
 
@@ -733,5 +755,30 @@ def create_existential_restriction(kgclInstance):
     where = "WHERE {" + whereQuery + "}"
 
     updateQuery = prefix + " " + insert + " " + where
+
+    return updateQuery
+
+
+def delete_existential_restriction(kgclInstance):
+    subclass = kgclInstance.subclass
+    property = kgclInstance.property
+    filler = kgclInstance.filler
+
+    prefix = "PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>  "
+    prefix += "PREFIX owl: <http://www.w3.org/2002/07/owl#>  "
+    prefix += "PREFIX xsd:  <http://www.w3.org/2001/XMLSchema#> "
+    prefix += "PREFIX oboInOwl: <http://www.geneontology.org/formats/oboInOwl#> "
+
+    deleteQuery = subclass + "rdfs:subClassOf ?bnode . "
+    deleteQuery += "?bnode owl:someValuesFrom " + filler + " . "
+    deleteQuery += "?bnode owl:onProperty " + property + " . "
+    deleteQuery += "?bnode rdf:type owl:Restriction ."
+
+    delete = "DELETE {" + deleteQuery + "}"
+
+    whereQuery = deleteQuery
+    where = "WHERE {" + whereQuery + "}"
+
+    updateQuery = prefix + " " + delete + " " + where
 
     return updateQuery
