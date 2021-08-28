@@ -25,11 +25,20 @@ def render(kgclInstance):
             + "ID="
             + kgclInstance.id
             + ", "
+            + "About="
+            + str(kgclInstance.about_node)
+            + ","
             + "Old Value="
             + kgclInstance.old_value
             + ", "
             + "New Value="
             + kgclInstance.new_value
+            + ", "
+            + "Old Language="
+            + str(kgclInstance.old_language)
+            + ", "
+            + "New Language="
+            + str(kgclInstance.new_language)
             + ")"
         )
 
@@ -40,7 +49,7 @@ def render(kgclInstance):
             + "ID="
             + kgclInstance.id
             + ", "
-            + "Repacelement="
+            + "Replacement="
             + str(kgclInstance.has_direct_replacement)
             + ", "
             + "About="
