@@ -313,6 +313,7 @@ def unobsolete(kgclInstance):
     deleteQuery += about + " obo:IAO_0000115 ?unobsolete_definition . "
     deleteQuery += about + " obo:IAO_0100001 ?replacedBy .  "
     deleteQuery += about + " oboInOwl:consider ?consider . "
+    deleteQuery += about + " rdfs:subClassOf oboInOwl:ObsoleteClass . "
 
     delete = "DELETE {" + deleteQuery + "}"
 
@@ -603,6 +604,7 @@ def obsolete_by_id(kgclInstance):
     prefix += "PREFIX owl: <http://www.w3.org/2002/07/owl#>  "
     prefix += "PREFIX xsd:  <http://www.w3.org/2001/XMLSchema#> "
     prefix += "PREFIX obo: <http://purl.obolibrary.org/obo/> "
+    prefix += "PREFIX oboInOwl: <http://www.geneontology.org/formats/oboInOwl#> "
 
     deleteQuery = about + "rdfs:label ?label . "
     deleteQuery += about + " rdfs:subClassOf ?superclass . "
@@ -613,6 +615,8 @@ def obsolete_by_id(kgclInstance):
 
     insertQuery = "?entity rdfs:label ?tag . "
     insertQuery += about + ' owl:deprecated "true"^^xsd:boolean . '
+    insertQuery += "?entity rdfs:subClassOf oboInOwl:ObsoleteClass . "
+
     if kgclInstance.has_direct_replacement is not None:
         insertQuery += about + " obo:IAO_0100001 " + replacement + "  .  "
 
@@ -642,6 +646,7 @@ def obsolete_by_label(kgclInstance):
     prefix = "PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>  "
     prefix += "PREFIX owl: <http://www.w3.org/2002/07/owl#>  "
     prefix += "PREFIX xsd:  <http://www.w3.org/2001/XMLSchema#> "
+    prefix += "PREFIX oboInOwl: <http://www.geneontology.org/formats/oboInOwl#> "
 
     deleteQuery = "?entity rdfs:label ?label . "
     deleteQuery += "?entity rdfs:subClassOf ?superclass . "
@@ -655,6 +660,7 @@ def obsolete_by_label(kgclInstance):
 
     insertQuery = "?entity rdfs:label ?tag . "
     insertQuery += '?entity owl:deprecated "true"^^xsd:boolean . '
+    insertQuery += "?entity rdfs:subClassOf oboInOwl:ObsoleteClass . "
 
     insert = "INSERT {" + insertQuery + "}"
 
