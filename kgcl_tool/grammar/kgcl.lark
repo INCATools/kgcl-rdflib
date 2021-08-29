@@ -45,7 +45,7 @@ delete_edge : "delete edge" subject predicate object
 create_annotated_edge : "create edge <<" subject predicate object ">>" annotation_property annotation
 delete_annotated_edge : "delete edge <<" subject predicate object ">>" annotation_property annotation
 
-change_relationship: "change relationship between" subject "and" object "from" old "to" new 
+change_relationship: "change relationship between" subject "and" object "from" old_predicate "to" new_predicate 
 
 add_subsumption_axiom: "add" subclass "SubClassOf" superclass
 add_existential_restriction_axiom: "add" subclass "SubClassOf" property "some" filler
@@ -60,41 +60,59 @@ replacement : ID
 id : ID 
 subject: ID
 predicate: ID
-object: _entity
+object: TERM
+
 subset: ID
-synonym : QUOTED_LABEL
+synonym : LABEL
 
 subclass: ID
 superclass: ID
 property: ID
 filler: ID
 
-label : QUOTED_LABEL
-old_label : QUOTED_LABEL
-new_label : QUOTED_LABEL
-language: _language_tag
-old_language : _language_tag
-new_language : _language_tag
-_language_tag :  /[a-zA-Z]+(?:-[a-zA-Z0-9]+)*/
+label : SINGLE_QUOTE_LITERAL
+old_label : SINGLE_QUOTE_LITERAL
+new_label : SINGLE_QUOTE_LITERAL
+
+language: LANGUAGE_TAG
+old_language : LANGUAGE_TAG
+new_language : LANGUAGE_TAG
+LANGUAGE_TAG :  /[a-zA-Z]+(?:-[a-zA-Z0-9]+)*/
+
 annotation_property : STRING
 annotation : STRING
 
 old_id : ID
 new_id : ID
 
-old : _entity
-new : _entity
-from : _entity 
+old_predicate : ID
+new_predicate : ID
 
-entity: _entity
+entity: ID
+        | LABEL
 
-_entity : QUOTED_LABEL
-        | INNER_ID
+LABEL: SINGLE_QUOTE_LITERAL
 
-QUOTED_LABEL : "'" INNER_LABEL "'" 
-ID :  "<" INNER_ID ">"
+TERM : ID
+       | TRIPLE_SINGLE_QUOTE_LITERAL
+       | TRIPLE_DOUBLE_QUOTE_LITERAL
+       | SINGLE_QUOTE_LITERAL
+       | DOUBLE_QUOTE_LITERAL
 
-INNER_LABEL: /[^ \s\'].*?/ 
+DOUBLE_QUOTE_LITERAL : "\"" INNER_DOUBLE_QUOTE_LITERAL "\""
+TRIPLE_DOUBLE_QUOTE_LITERAL : "\"\"\"" INNER_TRIPLE_DOUBLE_QUOTE_LITERAL "\"\"\""
+
+TRIPLE_SINGLE_QUOTE_LITERAL : "'''" INNER_TRIPLE_SINGLE_QUOTE_LITERAL "'''" 
+SINGLE_QUOTE_LITERAL : "'" INNER_SINGLE_QUOTE_LITERAL "'" 
+
+INNER_DOUBLE_QUOTE_LITERAL: /((?!\").)*/
+INNER_TRIPLE_DOUBLE_QUOTE_LITERAL: /((?!\"\"\").)*/
+
+INNER_SINGLE_QUOTE_LITERAL: /[^ \s]((?!\').)*/
+INNER_TRIPLE_SINGLE_QUOTE_LITERAL: /((?!\'\'\').)*/
+
+ID :  "<" INNER_ID ">" 
+
 INNER_ID: /\S+/
 STRING: /\S+/
 

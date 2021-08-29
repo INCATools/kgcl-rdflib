@@ -92,7 +92,7 @@ def convert(kgclInstance):
         if (
             is_id(kgclInstance.subject)
             and is_id(kgclInstance.predicate)
-            and (is_id(kgclInstance.object) or is_label(kgclInstance.object))
+            # and (is_id(kgclInstance.object) or is_label(kgclInstance.object))
         ):
             if kgclInstance.annotation_set is None:
                 return edge_creation(kgclInstance)
@@ -110,7 +110,7 @@ def convert(kgclInstance):
         if (
             is_id(kgclInstance.subject)
             and is_id(kgclInstance.predicate)
-            and (is_id(kgclInstance.object) or is_label(kgclInstance.object))
+            # and (is_id(kgclInstance.object) or is_label(kgclInstance.object))
         ):
 
             if kgclInstance.annotation_set is None:
