@@ -7,6 +7,28 @@ from rdflib.namespace import (
 from rdflib import BNode
 
 
+def get_thin_triples(g):
+    # NOTE: using FILTER(!isBlank(?subject)), etc slows things down considerably
+    query = """
+    SELECT DISTINCT ?subject ?predicate ?object
+    WHERE {
+        ?subject ?predicate ?object .
+    }"""
+
+    qres = g.query(query)
+    axioms = []
+
+    for row in qres:
+        if (
+            not isinstance(row.subject, BNode)
+            and not isinstance(row.predicate, BNode)
+            and not isinstance(row.object, BNode)
+        ):
+            axioms.append((row.subject, row.predicate, row.object))
+
+    return axioms
+
+
 def get_atomic_subclassOf_axioms(g):
     # these are handled as normal triples
 
@@ -34,6 +56,7 @@ def get_atomic_existential_restrictions(g):
         ?b rdf:type owl:Restriction .
         ?b owl:onProperty ?property .
         ?b owl:someValuesFrom ?filler .
+        FILTER(!isBlank(?subclass))
     }"""
 
     qres = g.query(query)
@@ -105,7 +128,13 @@ def annotation_2_owlstar(triple):
 if __name__ == "__main__":
     g = rdflib.Graph()
     g.load("n3/obi/obi_1.nt", format="nt")
+    # g.load("n3/uberon/uberon_1.nt", format="nt")
 
     # get_atomic_subclassOf_axioms(g)
+
     existentials = get_atomic_existential_restrictions(g)
     annotations = get_triple_annotations(g)
+    print(len(existentials))
+    print(len(annotations))
+    # triples = get_thin_triples(g)
+    # print(len(triples))
