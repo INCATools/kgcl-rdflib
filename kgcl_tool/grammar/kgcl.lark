@@ -20,41 +20,42 @@
            | delete_subsumption_axiom
            | delete_existential_restriction_axiom
 
-rename : "rename" [id "from"] old_label [old_language] ("to"|"as"|"->") new_label [new_language]
+rename : "rename" _WS [id "from" _WS] old_label ["@" old_language] _WS ("to"|"as"|"->") _WS new_label ["@" new_language]
 
-create : "create node" id label [language]
-create_class: "create" id
+create : "create node" _WS id _WS label ["@" language]
+create_class: "create" _WS id
 
-create_synonym: "create" [synonym_qualifier] "synonym" synonym [language] "for" id 
+create_synonym: "create" _WS [synonym_qualifier _WS] "synonym" _WS synonym ["@" language] _WS "for" id 
 synonym_qualifier : /exact|narrow|broad|related/
 
-delete : "delete" entity
+delete : "delete" _WS entity
 
-obsolete : "obsolete" entity
-         | "obsolete" entity "with replacement" replacement
+obsolete : "obsolete" _WS entity
+         | "obsolete" _WS entity _WS "with replacement" _WS replacement
 
-unobsolete: "unobsolete" id 
+unobsolete: "unobsolete" _WS id 
 
-deepen : "deepen" id "from" old_id ("to"|"->") new_id
-shallow : "shallow" id "from" old_id ("to"|"->") new_id 
-move : "move" subject predicate object "from" old_id ("to"|"as"|"->") new_id 
+deepen : "deepen" _WS id _WS "from" _WS old_id _WS ("to"|"->") _WS new_id 
+shallow : "shallow" _WS id _WS "from" _WS old_id _WS ("to"|"->") _WS new_id 
 
-create_edge : "create edge" subject predicate object
-delete_edge : "delete edge" subject predicate object
+move : "move" _WS subject _WS predicate _WS object _WS "from" _WS old_id _WS ("to"|"as"|"->") _WS new_id 
 
-create_annotated_edge : "create edge <<" subject predicate object ">>" annotation_property annotation
-delete_annotated_edge : "delete edge <<" subject predicate object ">>" annotation_property annotation
+create_edge : "create edge" _WS subject _WS predicate _WS object
+delete_edge : "delete edge" _WS subject _WS predicate _WS object
 
-change_relationship: "change relationship between" subject "and" object "from" old_predicate "to" new_predicate 
+create_annotated_edge : "create edge <<" subject predicate object ">>" _WS annotation_property _WS annotation
+delete_annotated_edge : "delete edge <<" subject predicate object ">>" _WS annotation_property _WS annotation
 
-add_subsumption_axiom: "add" subclass "SubClassOf" superclass
-add_existential_restriction_axiom: "add" subclass "SubClassOf" property "some" filler
+change_relationship: "change relationship between" _WS subject _WS "and" _WS object _WS "from" _WS old_predicate _WS "to" _WS new_predicate 
 
-delete_subsumption_axiom: "delete" subclass "SubClassOf" superclass
-delete_existential_restriction_axiom: "delete" subclass "SubClassOf" property "some" filler
+add_subsumption_axiom: "add" _WS subclass _WS "SubClassOf" _WS superclass
+add_existential_restriction_axiom: "add" _WS subclass _WS "SubClassOf" _WS property _WS "some" _WS filler
 
-remove_from_subset :  "remove" id "from subset" subset
-add_to_subset :  "add" id "to subset" subset
+delete_subsumption_axiom: "delete" _WS subclass _WS "SubClassOf" _WS superclass
+delete_existential_restriction_axiom: "delete" _WS subclass _WS "SubClassOf" _WS property _WS "some" _WS filler
+
+remove_from_subset :  "remove" _WS id _WS "from subset" _WS subset
+add_to_subset :  "add" _WS id _WS "to subset" _WS subset
 
 replacement : ID
 id : ID 
@@ -116,5 +117,5 @@ ID :  "<" INNER_ID ">"
 INNER_ID: /\S+/
 STRING: /\S+/
 
-%import common.WS
-%ignore WS
+_WS: /[ \t\f\r\n]/+
+
