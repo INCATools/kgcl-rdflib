@@ -158,6 +158,27 @@ classes:
       has undo:
         range: obsoletion
 
+  datatype or language tag change:
+    is_a: change mixin
+    mixin: true
+    description: >-
+      A change in a value assertion where the value remain unchanged but either the datatype or language changes
+
+  language tag change:
+    is_a: datatype or language tag change
+    slot_usage:
+      old value:
+        multivalued: false
+        range: language tag
+      new value:
+        multivalued: false
+        range: language tag
+
+  datatype change:
+    is_a: datatype or language tag change
+
+
+
   allows automatic replacement of edges:
     is_a: obsoletion
     mixin: true
@@ -398,6 +419,7 @@ classes:
       A simple change where the change is about a node
     slots:
       - about node
+      - language
 
   node rename:
     is_a: node change
@@ -417,6 +439,19 @@ classes:
     examples:
       - value: "rename UBERON:0002398 from 'manus' to 'hand'"
         description: "replacing the rdfs:label of 'manus' on an uberon class with the rdfs:label 'hand'"
+
+  set language for name:
+    is_a: node change
+    mixins:
+      - language tag change
+    description:
+      A node change where the string value for the name is unchanged but the language tag is set
+    slots:
+      - old value
+      - new value
+    slot_usage:
+      change description:
+        string_serialization: "changed {about} name language from {old value} to {new value}"
 
   node annotation change:
     description: >-
@@ -509,10 +544,6 @@ classes:
       - old value
       - new value
       - has textual diff
-
-        
-  datatype change:
-    is_a: simple change
 
   add node to subset:
     aliases:
@@ -736,6 +767,9 @@ slots:
     range: node
   superclass:
     range: node
+
+  language:
+    range: language tag
     
   about:
     description: >-

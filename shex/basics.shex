@@ -1,7 +1,10 @@
 BASE <https://w3id.org/kgcl/basics/>
 PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
 PREFIX linkml: <https://w3id.org/linkml/>
+PREFIX xml1: <http://example.org/UNKNOWN/xml/>
 
+
+<LanguageTag> xml1:lang
 
 linkml:String xsd:string
 

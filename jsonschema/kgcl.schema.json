@@ -62,6 +62,9 @@
                "$ref": "#/definitions/OntologySubset",
                "description": "subset that the element is being placed inside."
             },
+            "language": {
+               "type": "string"
+            },
             "new_value": {
                "description": "The value of a property held in the new instance of the ontology",
                "type": "string"
@@ -175,6 +178,9 @@
             "id": {
                "type": "string"
             },
+            "language": {
+               "type": "string"
+            },
             "name": {
                "type": "string"
             },
@@ -271,44 +277,8 @@
       "DatatypeChange": {
          "additionalProperties": false,
          "description": "",
-         "properties": {
-            "change_date": {
-               "type": "string"
-            },
-            "contributor": {
-               "type": "string"
-            },
-            "creator": {
-               "type": "string"
-            },
-            "has_undo": {
-               "description": "A change that reverses this change",
-               "type": "string"
-            },
-            "id": {
-               "type": "string"
-            },
-            "new_value": {
-               "description": "The value of a property held in the new instance of the ontology",
-               "type": "string"
-            },
-            "old_value": {
-               "description": "The value of a property held in the old instance of the ontology",
-               "type": "string"
-            },
-            "pull_request": {
-               "type": "string"
-            },
-            "see_also": {
-               "type": "string"
-            },
-            "was_generated_by": {
-               "type": "string"
-            }
-         },
-         "required": [
-            "id"
-         ],
+         "properties": {},
+         "required": [],
          "title": "DatatypeChange",
          "type": "object"
       },
@@ -646,6 +616,21 @@
          "title": "InstanceNode",
          "type": "object"
       },
+      "LanguageTagChange": {
+         "additionalProperties": false,
+         "description": "",
+         "properties": {
+            "new_value": {
+               "type": "string"
+            },
+            "old_value": {
+               "type": "string"
+            }
+         },
+         "required": [],
+         "title": "LanguageTagChange",
+         "type": "object"
+      },
       "LogicalAxiomChange": {
          "additionalProperties": false,
          "description": "A simple change where a logical axiom is changed, where the logical axiom cannot be represented as an edge",
@@ -847,6 +832,9 @@
             "id": {
                "type": "string"
             },
+            "language": {
+               "type": "string"
+            },
             "new_value": {
                "description": "The value of a property held in the new instance of the ontology",
                "type": "string"
@@ -894,6 +882,9 @@
             "id": {
                "type": "string"
             },
+            "language": {
+               "type": "string"
+            },
             "new_value": {
                "description": "The value of a property held in the new instance of the ontology",
                "type": "string"
@@ -939,6 +930,9 @@
                "type": "string"
             },
             "id": {
+               "type": "string"
+            },
+            "language": {
                "type": "string"
             },
             "new_value": {
@@ -1011,6 +1005,9 @@
             "id": {
                "type": "string"
             },
+            "language": {
+               "type": "string"
+            },
             "new_value": {
                "description": "The value of a property held in the new instance of the ontology",
                "type": "string"
@@ -1056,6 +1053,9 @@
                "type": "string"
             },
             "id": {
+               "type": "string"
+            },
+            "language": {
                "type": "string"
             },
             "new_value": {
@@ -1109,6 +1109,9 @@
                "type": "string"
             },
             "id": {
+               "type": "string"
+            },
+            "language": {
                "type": "string"
             },
             "name": {
@@ -1224,6 +1227,9 @@
             "id": {
                "type": "string"
             },
+            "language": {
+               "type": "string"
+            },
             "new_value": {
                "description": "The value of a property held in the new instance of the ontology",
                "type": "string"
@@ -1293,6 +1299,9 @@
                "type": "string"
             },
             "id": {
+               "type": "string"
+            },
+            "language": {
                "type": "string"
             },
             "new_value": {
@@ -1421,6 +1430,9 @@
             "id": {
                "type": "string"
             },
+            "language": {
+               "type": "string"
+            },
             "new_value": {
                "description": "The value of a property held in the new instance of the ontology",
                "type": "string"
@@ -1490,6 +1502,9 @@
                "type": "string"
             },
             "id": {
+               "type": "string"
+            },
+            "language": {
                "type": "string"
             },
             "new_value": {
@@ -1564,6 +1579,9 @@
             "id": {
                "type": "string"
             },
+            "language": {
+               "type": "string"
+            },
             "new_value": {
                "description": "The value of a property held in the new instance of the ontology",
                "type": "string"
@@ -1617,6 +1635,9 @@
                "type": "string"
             },
             "id": {
+               "type": "string"
+            },
+            "language": {
                "type": "string"
             },
             "new_value": {
@@ -1717,6 +1738,9 @@
             "id": {
                "type": "string"
             },
+            "language": {
+               "type": "string"
+            },
             "new_value": {
                "description": "The value of a property held in the new instance of the ontology",
                "type": "string"
@@ -1768,6 +1792,9 @@
                "type": "string"
             },
             "id": {
+               "type": "string"
+            },
+            "language": {
                "type": "string"
             },
             "new_value": {
@@ -1976,6 +2003,9 @@
             "id": {
                "type": "string"
             },
+            "language": {
+               "type": "string"
+            },
             "new_value": {
                "description": "The value of a property held in the new instance of the ontology",
                "type": "string"
@@ -2021,6 +2051,9 @@
                "type": "string"
             },
             "id": {
+               "type": "string"
+            },
+            "language": {
                "type": "string"
             },
             "new_value": {
@@ -2078,6 +2111,9 @@
                "$ref": "#/definitions/OntologySubset",
                "description": "subset that the element is being removed from"
             },
+            "language": {
+               "type": "string"
+            },
             "new_value": {
                "description": "The value of a property held in the new instance of the ontology",
                "type": "string"
@@ -2128,6 +2164,59 @@
          "title": "Session",
          "type": "object"
       },
+      "SetLanguageForName": {
+         "additionalProperties": false,
+         "description": "A node change where the string value for the name is unchanged but the language tag is set",
+         "properties": {
+            "about_node": {
+               "type": "string"
+            },
+            "change_date": {
+               "type": "string"
+            },
+            "change_description": {
+               "type": "string"
+            },
+            "contributor": {
+               "type": "string"
+            },
+            "creator": {
+               "type": "string"
+            },
+            "has_undo": {
+               "description": "A change that reverses this change",
+               "type": "string"
+            },
+            "id": {
+               "type": "string"
+            },
+            "language": {
+               "type": "string"
+            },
+            "new_value": {
+               "description": "The value of a property held in the new instance of the ontology",
+               "type": "string"
+            },
+            "old_value": {
+               "description": "The value of a property held in the old instance of the ontology",
+               "type": "string"
+            },
+            "pull_request": {
+               "type": "string"
+            },
+            "see_also": {
+               "type": "string"
+            },
+            "was_generated_by": {
+               "type": "string"
+            }
+         },
+         "required": [
+            "id"
+         ],
+         "title": "SetLanguageForName",
+         "type": "object"
+      },
       "SynonymPredicateChange": {
          "additionalProperties": false,
          "description": "A node synonym change where the predicate of a synonym is changed. Background: synonyms can be represented by a variety of predicates. For example, many OBO ontologies make use of predicates such as oio:hasExactSynonym, oio:hasRelatedSynonym, etc",
@@ -2153,6 +2242,9 @@
                "type": "string"
             },
             "id": {
+               "type": "string"
+            },
+            "language": {
                "type": "string"
             },
             "new_value": {
@@ -2204,6 +2296,9 @@
                "type": "string"
             },
             "id": {
+               "type": "string"
+            },
+            "language": {
                "type": "string"
             },
             "new_value": {
@@ -2266,6 +2361,9 @@
                "type": "string"
             },
             "id": {
+               "type": "string"
+            },
+            "language": {
                "type": "string"
             },
             "new_value": {
