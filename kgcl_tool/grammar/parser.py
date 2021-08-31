@@ -87,11 +87,16 @@ def parse_statement(input):
         return NodeDeletion(id=id, about_node=label_token)
 
     if command == "move":
-        term_id_token = extract(tree, "id")
+        subject_token = extract(tree, "subject")
+        predicate_token = extract(tree, "predicate")
+        object_token = extract(tree, "object")
+
         old_token = extract(tree, "old_id")
         new_token = extract(tree, "new_id")
 
-        edge = Edge(subject=term_id_token, object=old_token)
+        edge = Edge(
+            subject=subject_token, predicate=predicate_token, object=object_token
+        )
 
         return NodeMove(
             id=id, about_edge=edge, old_value=old_token, new_value=new_token
