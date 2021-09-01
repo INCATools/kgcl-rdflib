@@ -1,0 +1,5 @@
+create synonym 'Virus' for <http://purl.obolibrary.org/obo/NCBITaxon_2>
+create exact synonym 'Eubacteria' for <http://purl.obolibrary.org/obo/NCBITaxon_2>
+create related synonym 'Disease' for <http://purl.obolibrary.org/obo/NCBITaxon_2>
+create narrow synonym 'Bacterium' for <http://purl.obolibrary.org/obo/NCBITaxon_2>
+create broad synonym 'Infection'@en for <http://purl.obolibrary.org/obo/NCBITaxon_2>
