@@ -47,6 +47,14 @@ def index():
         "move",
         "edgeCreation",
         "edgeDeletion",
+        "annotatedEdgeCreation",
+        "annotatedEdgeDeletion",
+        "changeRelationship",
+        "createSynonym",
+        "addSubsumptionAxiom",
+        "deleteSubsumptionAxiom",
+        "addExistential",
+        "deleteExistential",
     ]
 
     if request.method == "POST":
