@@ -221,8 +221,8 @@ def parse_change_relationship(tree, id):
 
     edge = Edge(subject=subject_token, object=object_token)
 
-    old_token = extract(tree, "old")
-    new_token = extract(tree, "new")
+    old_token = extract(tree, "old_predicate")
+    new_token = extract(tree, "new_predicate")
     return PredicateChange(
         id=id, about_edge=edge, old_value=old_token, new_value=new_token
     )
