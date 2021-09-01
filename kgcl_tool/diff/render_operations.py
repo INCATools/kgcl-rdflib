@@ -44,7 +44,7 @@ def render_entity(entity, rdf_type):
 def render(kgclInstance):
 
     if type(kgclInstance) is NodeRename:
-        subject = render_entity(kgclInstance.about_node)
+        subject = render_entity(kgclInstance.about_node, "IRI")
         old = render_entity(kgclInstance.old_value, "Literal")
         new = render_entity(kgclInstance.new_value, "Literal")
         return "rename " + old + " from " + subject + " to " + new
