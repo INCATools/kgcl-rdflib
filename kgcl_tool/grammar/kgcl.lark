@@ -43,8 +43,8 @@ move : "move" _WS subject _WS predicate _WS object _WS "from" _WS old_id _WS ("t
 create_edge : "create edge" _WS subject _WS predicate _WS object
 delete_edge : "delete edge" _WS subject _WS predicate _WS object
 
-create_annotated_edge : "create edge <<" subject predicate object ">>" _WS annotation_property _WS annotation
-delete_annotated_edge : "delete edge <<" subject predicate object ">>" _WS annotation_property _WS annotation
+create_annotated_edge : "create edge <<" subject _WS predicate _WS object ">>" _WS annotation_property _WS annotation
+delete_annotated_edge : "delete edge <<" subject _WS predicate _WS object ">>" _WS annotation_property _WS annotation
 
 change_relationship: "change relationship between" _WS subject _WS "and" _WS object _WS "from" _WS old_predicate _WS "to" _WS new_predicate 
 
@@ -114,7 +114,7 @@ INNER_TRIPLE_SINGLE_QUOTE_LITERAL: /((?!\'\'\').)*/
 
 ID :  "<" INNER_ID ">" 
 
-INNER_ID: /\S+/
+INNER_ID: /((?!>).)*/
 STRING: /\S+/
 
 _WS: /[ \t\f\r\n]/+
