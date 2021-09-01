@@ -1,5 +1,5 @@
 # Auto generated from kgcl.yaml by pythongen.py version: 0.9.0
-# Generation date: 2021-08-28 14:06
+# Generation date: 2021-08-30 16:54
 # Schema: kgcl
 #
 # id: https://w3id.org/kgcl
@@ -15,16 +15,37 @@ import re
 from jsonasobj2 import JsonObj, as_dict
 from typing import Optional, List, Union, Dict, ClassVar, Any
 from dataclasses import dataclass
-from linkml_runtime.linkml_model.meta import EnumDefinition, PermissibleValue, PvFormulaOptions
+from linkml_runtime.linkml_model.meta import (
+    EnumDefinition,
+    PermissibleValue,
+    PvFormulaOptions,
+)
 
 from linkml_runtime.utils.slot import Slot
 from linkml_runtime.utils.metamodelcore import empty_list, empty_dict, bnode
-from linkml_runtime.utils.yamlutils import YAMLRoot, extended_str, extended_float, extended_int
-from linkml_runtime.utils.dataclass_extensions_376 import dataclasses_init_fn_with_kwargs
+from linkml_runtime.utils.yamlutils import (
+    YAMLRoot,
+    extended_str,
+    extended_float,
+    extended_int,
+)
+from linkml_runtime.utils.dataclass_extensions_376 import (
+    dataclasses_init_fn_with_kwargs,
+)
 from linkml_runtime.utils.formatutils import camelcase, underscore, sfx
 from linkml_runtime.utils.enumerations import EnumDefinitionImpl
 from rdflib import Namespace, URIRef
 from linkml_runtime.utils.curienamespace import CurieNamespace
+from .ontology_model import (
+    Annotation,
+    Edge,
+    NodeId,
+    OntologyElement,
+    OntologySubset,
+    OwlTypeEnum,
+    PropertyValue,
+)
+from .prov import Activity, ActivityId
 from linkml_runtime.linkml_model.types import Integer, String, Uriorcurie
 from linkml_runtime.utils.metamodelcore import URIorCURIE
 
@@ -34,24 +55,20 @@ metamodel_version = "1.7.0"
 dataclasses._init_fn = dataclasses_init_fn_with_kwargs
 
 # Namespaces
-IAO = CurieNamespace('IAO', 'http://purl.obolibrary.org/obo/IAO_')
-BASICS = CurieNamespace('basics', 'https://w3id.org/kgcl/basics/')
-DCTERMS = CurieNamespace('dcterms', 'http://purl.org/dc/terms/')
-KGCL = CurieNamespace('kgcl', 'http://w3id.org/kgcl/')
-LINKML = CurieNamespace('linkml', 'https://w3id.org/linkml/')
-OIO = CurieNamespace('oio', 'http://www.geneontology.org/formats/oboInOwl#')
-OM = CurieNamespace('om', 'http://w3id.org/kgcl/om/')
-OWL = CurieNamespace('owl', 'http://www.w3.org/2002/07/owl#')
-PROV = CurieNamespace('prov', 'http://www.w3.org/ns/prov#')
-RDF = CurieNamespace('rdf', 'http://www.w3.org/1999/02/22-rdf-syntax-ns#')
-RDFS = CurieNamespace('rdfs', 'http://www.w3.org/2000/01/rdf-schema#')
-XSD = CurieNamespace('xsd', 'http://www.w3.org/2001/XMLSchema#')
+IAO = CurieNamespace("IAO", "http://purl.obolibrary.org/obo/IAO_")
+DCTERMS = CurieNamespace("dcterms", "http://purl.org/dc/terms/")
+KGCL = CurieNamespace("kgcl", "http://w3id.org/kgcl/")
+LINKML = CurieNamespace("linkml", "https://w3id.org/linkml/")
+OIO = CurieNamespace("oio", "http://www.geneontology.org/formats/oboInOwl#")
+RDFS = CurieNamespace("rdfs", "http://www.w3.org/2000/01/rdf-schema#")
+XSD = CurieNamespace("xsd", "http://www.w3.org/2001/XMLSchema#")
 DEFAULT_ = KGCL
 
 
 # Types
 class ChangeClassType(Uriorcurie):
-    """ CURIE for a class within this datamodel. E.g. kgcl:NodeObsoletion """
+    """CURIE for a class within this datamodel. E.g. kgcl:NodeObsoletion"""
+
     type_class_uri = XSD.anyURI
     type_class_curie = "xsd:anyURI"
     type_name = "change class type"
@@ -263,31 +280,12 @@ class NodeObsoletionWithNoDirectReplacementId(NodeObsoletionId):
     pass
 
 
-class NodeId(extended_str):
-    pass
-
-
-class ClassNodeId(NodeId):
-    pass
-
-
-class InstanceNodeId(NodeId):
-    pass
-
-
-class ActivityId(extended_str):
-    pass
-
-
-class AgentId(extended_str):
-    pass
-
-
 @dataclass
 class Change(YAMLRoot):
     """
     Any change perform on an ontology or knowledge graph
     """
+
     _inherited_slots: ClassVar[List[str]] = []
 
     class_class_uri: ClassVar[URIRef] = KGCL.Change
@@ -310,7 +308,9 @@ class Change(YAMLRoot):
         if not isinstance(self.id, ChangeId):
             self.id = ChangeId(self.id)
 
-        if self.was_generated_by is not None and not isinstance(self.was_generated_by, ActivityId):
+        if self.was_generated_by is not None and not isinstance(
+            self.was_generated_by, ActivityId
+        ):
             self.was_generated_by = ActivityId(self.was_generated_by)
 
         if self.see_also is not None and not isinstance(self.see_also, str):
@@ -339,6 +339,7 @@ class SimpleChange(Change):
     """
     A change that is about a single ontology element
     """
+
     _inherited_slots: ClassVar[List[str]] = []
 
     class_class_uri: ClassVar[URIRef] = KGCL.SimpleChange
@@ -365,6 +366,7 @@ class ComplexChange(Change):
     """
     A change that is is a composition of other changes
     """
+
     _inherited_slots: ClassVar[List[str]] = []
 
     class_class_uri: ClassVar[URIRef] = KGCL.ComplexChange
@@ -373,10 +375,16 @@ class ComplexChange(Change):
     class_model_uri: ClassVar[URIRef] = KGCL.ComplexChange
 
     id: Union[str, ComplexChangeId] = None
-    change_set: Optional[Union[Dict[Union[str, ChangeId], Union[dict, Change]], List[Union[dict, Change]]]] = empty_dict()
+    change_set: Optional[
+        Union[
+            Dict[Union[str, ChangeId], Union[dict, Change]], List[Union[dict, Change]]
+        ]
+    ] = empty_dict()
 
     def __post_init__(self, *_: List[str], **kwargs: Dict[str, Any]):
-        self._normalize_inlined_as_list(slot_name="change_set", slot_type=Change, key_name="id", keyed=True)
+        self._normalize_inlined_as_list(
+            slot_name="change_set", slot_type=Change, key_name="id", keyed=True
+        )
 
         super().__post_init__(**kwargs)
 
@@ -386,6 +394,7 @@ class MultiNodeObsoletion(ComplexChange):
     """
     A complex change consisting of multiple obsoletions.
     """
+
     _inherited_slots: ClassVar[List[str]] = []
 
     class_class_uri: ClassVar[URIRef] = KGCL.MultiNodeObsoletion
@@ -394,9 +403,18 @@ class MultiNodeObsoletion(ComplexChange):
     class_model_uri: ClassVar[URIRef] = KGCL.MultiNodeObsoletion
 
     id: Union[str, MultiNodeObsoletionId] = None
-    change_set: Optional[Union[Dict[Union[str, NodeObsoletionId], Union[dict, "NodeObsoletion"]], List[Union[dict, "NodeObsoletion"]]]] = empty_dict()
+    change_set: Optional[
+        Union[
+            Dict[Union[str, NodeObsoletionId], Union[dict, "NodeObsoletion"]],
+            List[Union[dict, "NodeObsoletion"]],
+        ]
+    ] = empty_dict()
     change_description: Optional[str] = None
-    associated_change_set: Optional[Union[Dict[Union[str, ChangeId], Union[dict, Change]], List[Union[dict, Change]]]] = empty_dict()
+    associated_change_set: Optional[
+        Union[
+            Dict[Union[str, ChangeId], Union[dict, Change]], List[Union[dict, Change]]
+        ]
+    ] = empty_dict()
 
     def __post_init__(self, *_: List[str], **kwargs: Dict[str, Any]):
         if self._is_empty(self.id):
@@ -404,12 +422,21 @@ class MultiNodeObsoletion(ComplexChange):
         if not isinstance(self.id, MultiNodeObsoletionId):
             self.id = MultiNodeObsoletionId(self.id)
 
-        self._normalize_inlined_as_list(slot_name="change_set", slot_type=NodeObsoletion, key_name="id", keyed=True)
+        self._normalize_inlined_as_list(
+            slot_name="change_set", slot_type=NodeObsoletion, key_name="id", keyed=True
+        )
 
-        if self.change_description is not None and not isinstance(self.change_description, str):
+        if self.change_description is not None and not isinstance(
+            self.change_description, str
+        ):
             self.change_description = str(self.change_description)
 
-        self._normalize_inlined_as_list(slot_name="associated_change_set", slot_type=Change, key_name="id", keyed=True)
+        self._normalize_inlined_as_list(
+            slot_name="associated_change_set",
+            slot_type=Change,
+            key_name="id",
+            keyed=True,
+        )
 
         super().__post_init__(**kwargs)
 
@@ -420,6 +447,7 @@ class Transaction(Change):
     A change that is a composition of a set of changes, where those changes are treated as a single unit. Could be a
     single change, or the results of an ontology diff
     """
+
     _inherited_slots: ClassVar[List[str]] = []
 
     class_class_uri: ClassVar[URIRef] = KGCL.Transaction
@@ -428,7 +456,11 @@ class Transaction(Change):
     class_model_uri: ClassVar[URIRef] = KGCL.Transaction
 
     id: Union[str, TransactionId] = None
-    change_set: Optional[Union[Dict[Union[str, ChangeId], Union[dict, Change]], List[Union[dict, Change]]]] = empty_dict()
+    change_set: Optional[
+        Union[
+            Dict[Union[str, ChangeId], Union[dict, Change]], List[Union[dict, Change]]
+        ]
+    ] = empty_dict()
 
     def __post_init__(self, *_: List[str], **kwargs: Dict[str, Any]):
         if self._is_empty(self.id):
@@ -436,7 +468,9 @@ class Transaction(Change):
         if not isinstance(self.id, TransactionId):
             self.id = TransactionId(self.id)
 
-        self._normalize_inlined_as_list(slot_name="change_set", slot_type=Change, key_name="id", keyed=True)
+        self._normalize_inlined_as_list(
+            slot_name="change_set", slot_type=Change, key_name="id", keyed=True
+        )
 
         super().__post_init__(**kwargs)
 
@@ -446,6 +480,7 @@ class ChangeSetSummaryStatistic(YAMLRoot):
     """
     A summary statistic for a set of changes of the same type, grouped by zero or more node properties
     """
+
     _inherited_slots: ClassVar[List[str]] = []
 
     class_class_uri: ClassVar[URIRef] = KGCL.ChangeSetSummaryStatistic
@@ -455,18 +490,27 @@ class ChangeSetSummaryStatistic(YAMLRoot):
 
     change_type: Optional[Union[str, ChangeClassType]] = None
     count: Optional[int] = None
-    property_value_set: Optional[Union[Union[dict, "PropertyValue"], List[Union[dict, "PropertyValue"]]]] = empty_list()
+    property_value_set: Optional[
+        Union[Union[dict, PropertyValue], List[Union[dict, PropertyValue]]]
+    ] = empty_list()
 
     def __post_init__(self, *_: List[str], **kwargs: Dict[str, Any]):
-        if self.change_type is not None and not isinstance(self.change_type, ChangeClassType):
+        if self.change_type is not None and not isinstance(
+            self.change_type, ChangeClassType
+        ):
             self.change_type = ChangeClassType(self.change_type)
 
         if self.count is not None and not isinstance(self.count, int):
             self.count = int(self.count)
 
         if not isinstance(self.property_value_set, list):
-            self.property_value_set = [self.property_value_set] if self.property_value_set is not None else []
-        self.property_value_set = [v if isinstance(v, PropertyValue) else PropertyValue(**as_dict(v)) for v in self.property_value_set]
+            self.property_value_set = (
+                [self.property_value_set] if self.property_value_set is not None else []
+            )
+        self.property_value_set = [
+            v if isinstance(v, PropertyValue) else PropertyValue(**as_dict(v))
+            for v in self.property_value_set
+        ]
 
         super().__post_init__(**kwargs)
 
@@ -475,6 +519,7 @@ class ChangeMixin(YAMLRoot):
     """
     root class for all change mixins
     """
+
     _inherited_slots: ClassVar[List[str]] = []
 
     class_class_uri: ClassVar[URIRef] = KGCL.ChangeMixin
@@ -488,6 +533,7 @@ class Obsoletion(ChangeMixin):
     """
     Obsoletion of an element deprecates usage of that element, but does not delete that element.
     """
+
     _inherited_slots: ClassVar[List[str]] = []
 
     class_class_uri: ClassVar[URIRef] = KGCL.Obsoletion
@@ -495,7 +541,7 @@ class Obsoletion(ChangeMixin):
     class_name: ClassVar[str] = "obsoletion"
     class_model_uri: ClassVar[URIRef] = KGCL.Obsoletion
 
-    about: Optional[Union[dict, "OntologyElement"]] = None
+    about: Optional[Union[dict, OntologyElement]] = None
     has_undo: Optional[Union[dict, "Obsoletion"]] = None
 
     def __post_init__(self, *_: List[str], **kwargs: Dict[str, Any]):
@@ -513,6 +559,7 @@ class AllowsAutomaticReplacementOfEdges(Obsoletion):
     Applies to an obsoletion in which annotations or edges pointing at the obsoleted node can be automatically rewired
     to point to a target
     """
+
     _inherited_slots: ClassVar[List[str]] = []
 
     class_class_uri: ClassVar[URIRef] = KGCL.AllowsAutomaticReplacementOfEdges
@@ -526,6 +573,7 @@ class Unobsoletion(ChangeMixin):
     """
     Opposite operation of obsoletion. Rarely performed.
     """
+
     _inherited_slots: ClassVar[List[str]] = []
 
     class_class_uri: ClassVar[URIRef] = KGCL.Unobsoletion
@@ -546,6 +594,7 @@ class Deletion(ChangeMixin):
     """
     Removal of an element.
     """
+
     _inherited_slots: ClassVar[List[str]] = []
 
     class_class_uri: ClassVar[URIRef] = KGCL.Deletion
@@ -559,6 +608,7 @@ class Creation(ChangeMixin):
     """
     Creation of an element.
     """
+
     _inherited_slots: ClassVar[List[str]] = []
 
     class_class_uri: ClassVar[URIRef] = KGCL.Creation
@@ -580,6 +630,7 @@ class SubsetMembershipChange(ChangeMixin):
     """
     A change in the membership status of a node with respect to a subset (view)
     """
+
     _inherited_slots: ClassVar[List[str]] = []
 
     class_class_uri: ClassVar[URIRef] = KGCL.SubsetMembershipChange
@@ -587,10 +638,12 @@ class SubsetMembershipChange(ChangeMixin):
     class_name: ClassVar[str] = "subset membership change"
     class_model_uri: ClassVar[URIRef] = KGCL.SubsetMembershipChange
 
-    in_subset: Optional[Union[dict, "OntologySubset"]] = None
+    in_subset: Optional[Union[dict, OntologySubset]] = None
 
     def __post_init__(self, *_: List[str], **kwargs: Dict[str, Any]):
-        if self.in_subset is not None and not isinstance(self.in_subset, OntologySubset):
+        if self.in_subset is not None and not isinstance(
+            self.in_subset, OntologySubset
+        ):
             self.in_subset = OntologySubset()
 
         super().__post_init__(**kwargs)
@@ -601,6 +654,7 @@ class AddToSubset(SubsetMembershipChange):
     """
     placing an element inside a subset
     """
+
     _inherited_slots: ClassVar[List[str]] = []
 
     class_class_uri: ClassVar[URIRef] = KGCL.AddToSubset
@@ -608,10 +662,12 @@ class AddToSubset(SubsetMembershipChange):
     class_name: ClassVar[str] = "add to subset"
     class_model_uri: ClassVar[URIRef] = KGCL.AddToSubset
 
-    in_subset: Optional[Union[dict, "OntologySubset"]] = None
+    in_subset: Optional[Union[dict, OntologySubset]] = None
 
     def __post_init__(self, *_: List[str], **kwargs: Dict[str, Any]):
-        if self.in_subset is not None and not isinstance(self.in_subset, OntologySubset):
+        if self.in_subset is not None and not isinstance(
+            self.in_subset, OntologySubset
+        ):
             self.in_subset = OntologySubset()
 
         super().__post_init__(**kwargs)
@@ -622,6 +678,7 @@ class RemoveFromSubset(SubsetMembershipChange):
     """
     removing an element from a subset
     """
+
     _inherited_slots: ClassVar[List[str]] = []
 
     class_class_uri: ClassVar[URIRef] = KGCL.RemoveFromSubset
@@ -629,11 +686,13 @@ class RemoveFromSubset(SubsetMembershipChange):
     class_name: ClassVar[str] = "remove from subset"
     class_model_uri: ClassVar[URIRef] = KGCL.RemoveFromSubset
 
-    in_subset: Optional[Union[dict, "OntologySubset"]] = None
+    in_subset: Optional[Union[dict, OntologySubset]] = None
     has_undo: Optional[Union[dict, AddToSubset]] = None
 
     def __post_init__(self, *_: List[str], **kwargs: Dict[str, Any]):
-        if self.in_subset is not None and not isinstance(self.in_subset, OntologySubset):
+        if self.in_subset is not None and not isinstance(
+            self.in_subset, OntologySubset
+        ):
             self.in_subset = OntologySubset()
 
         if self.has_undo is not None and not isinstance(self.has_undo, AddToSubset):
@@ -647,6 +706,7 @@ class EdgeChange(SimpleChange):
     """
     A change in which the element that is the focus of the change is an edge.
     """
+
     _inherited_slots: ClassVar[List[str]] = []
 
     class_class_uri: ClassVar[URIRef] = KGCL.EdgeChange
@@ -655,12 +715,16 @@ class EdgeChange(SimpleChange):
     class_model_uri: ClassVar[URIRef] = KGCL.EdgeChange
 
     id: Union[str, EdgeChangeId] = None
-    about_edge: Optional[Union[dict, "Edge"]] = None
+    about_edge: Optional[Union[dict, Edge]] = None
+    object_type: Optional[str] = None
     subject: Optional[Union[str, NodeId]] = None
 
     def __post_init__(self, *_: List[str], **kwargs: Dict[str, Any]):
         if self.about_edge is not None and not isinstance(self.about_edge, Edge):
             self.about_edge = Edge(**as_dict(self.about_edge))
+
+        if self.object_type is not None and not isinstance(self.object_type, str):
+            self.object_type = str(self.object_type)
 
         if self.subject is not None and not isinstance(self.subject, NodeId):
             self.subject = NodeId(self.subject)
@@ -673,6 +737,7 @@ class EdgeCreation(EdgeChange):
     """
     An edge change in which a de-novo edge is created. The edge is potentially annotated in the same action.
     """
+
     _inherited_slots: ClassVar[List[str]] = []
 
     class_class_uri: ClassVar[URIRef] = KGCL.EdgeCreation
@@ -684,7 +749,7 @@ class EdgeCreation(EdgeChange):
     subject: Optional[Union[str, NodeId]] = None
     predicate: Optional[Union[str, NodeId]] = None
     object: Optional[Union[str, NodeId]] = None
-    annotation_set: Optional[Union[dict, "Annotation"]] = None
+    annotation_set: Optional[Union[dict, Annotation]] = None
     change_description: Optional[str] = None
 
     def __post_init__(self, *_: List[str], **kwargs: Dict[str, Any]):
@@ -702,10 +767,14 @@ class EdgeCreation(EdgeChange):
         if self.object is not None and not isinstance(self.object, NodeId):
             self.object = NodeId(self.object)
 
-        if self.annotation_set is not None and not isinstance(self.annotation_set, Annotation):
+        if self.annotation_set is not None and not isinstance(
+            self.annotation_set, Annotation
+        ):
             self.annotation_set = Annotation(**as_dict(self.annotation_set))
 
-        if self.change_description is not None and not isinstance(self.change_description, str):
+        if self.change_description is not None and not isinstance(
+            self.change_description, str
+        ):
             self.change_description = str(self.change_description)
 
         super().__post_init__(**kwargs)
@@ -716,6 +785,7 @@ class PlaceUnder(EdgeCreation):
     """
     An edge creation where the predicate is owl:subClassOf
     """
+
     _inherited_slots: ClassVar[List[str]] = []
 
     class_class_uri: ClassVar[URIRef] = KGCL.PlaceUnder
@@ -739,6 +809,7 @@ class EdgeDeletion(EdgeChange):
     """
     An edge change in which an edge is removed. All edge annotations/properies are removed in the same action.
     """
+
     _inherited_slots: ClassVar[List[str]] = []
 
     class_class_uri: ClassVar[URIRef] = KGCL.EdgeDeletion
@@ -750,7 +821,7 @@ class EdgeDeletion(EdgeChange):
     subject: Optional[Union[str, NodeId]] = None
     predicate: Optional[Union[str, NodeId]] = None
     object: Optional[Union[str, NodeId]] = None
-    annotation_set: Optional[Union[dict, "Annotation"]] = None
+    annotation_set: Optional[Union[dict, Annotation]] = None
     change_description: Optional[str] = None
 
     def __post_init__(self, *_: List[str], **kwargs: Dict[str, Any]):
@@ -768,10 +839,14 @@ class EdgeDeletion(EdgeChange):
         if self.object is not None and not isinstance(self.object, NodeId):
             self.object = NodeId(self.object)
 
-        if self.annotation_set is not None and not isinstance(self.annotation_set, Annotation):
+        if self.annotation_set is not None and not isinstance(
+            self.annotation_set, Annotation
+        ):
             self.annotation_set = Annotation(**as_dict(self.annotation_set))
 
-        if self.change_description is not None and not isinstance(self.change_description, str):
+        if self.change_description is not None and not isinstance(
+            self.change_description, str
+        ):
             self.change_description = str(self.change_description)
 
         super().__post_init__(**kwargs)
@@ -782,6 +857,7 @@ class RemoveUnder(EdgeDeletion):
     """
     An edge deletion where the predicate is owl:subClassOf
     """
+
     _inherited_slots: ClassVar[List[str]] = []
 
     class_class_uri: ClassVar[URIRef] = KGCL.RemoveUnder
@@ -805,6 +881,7 @@ class EdgeObsoletion(EdgeChange):
     """
     An edge change in which an edge is obsoleted.
     """
+
     _inherited_slots: ClassVar[List[str]] = []
 
     class_class_uri: ClassVar[URIRef] = KGCL.EdgeObsoletion
@@ -816,9 +893,9 @@ class EdgeObsoletion(EdgeChange):
     subject: Optional[Union[str, NodeId]] = None
     predicate: Optional[Union[str, NodeId]] = None
     object: Optional[Union[str, NodeId]] = None
-    annotation_set: Optional[Union[dict, "Annotation"]] = None
+    annotation_set: Optional[Union[dict, Annotation]] = None
     change_description: Optional[str] = None
-    about: Optional[Union[dict, "OntologyElement"]] = None
+    about: Optional[Union[dict, OntologyElement]] = None
 
     def __post_init__(self, *_: List[str], **kwargs: Dict[str, Any]):
         if self._is_empty(self.id):
@@ -835,10 +912,14 @@ class EdgeObsoletion(EdgeChange):
         if self.object is not None and not isinstance(self.object, NodeId):
             self.object = NodeId(self.object)
 
-        if self.annotation_set is not None and not isinstance(self.annotation_set, Annotation):
+        if self.annotation_set is not None and not isinstance(
+            self.annotation_set, Annotation
+        ):
             self.annotation_set = Annotation(**as_dict(self.annotation_set))
 
-        if self.change_description is not None and not isinstance(self.change_description, str):
+        if self.change_description is not None and not isinstance(
+            self.change_description, str
+        ):
             self.change_description = str(self.change_description)
 
         if self.about is not None and not isinstance(self.about, OntologyElement):
@@ -852,6 +933,7 @@ class EdgeRewiring(EdgeChange):
     """
     An edge change where one node is replaced with another, as in the case of obsoletion with replacement
     """
+
     _inherited_slots: ClassVar[List[str]] = []
 
     class_class_uri: ClassVar[URIRef] = KGCL.EdgeRewiring
@@ -875,6 +957,7 @@ class MappingCreation(EdgeCreation):
     """
     A specific kind of edge creation in which the created edge is a mapping.
     """
+
     _inherited_slots: ClassVar[List[str]] = []
 
     class_class_uri: ClassVar[URIRef] = KGCL.MappingCreation
@@ -886,7 +969,7 @@ class MappingCreation(EdgeCreation):
     subject: Optional[Union[str, NodeId]] = None
     predicate: Optional[Union[str, NodeId]] = None
     object: Optional[Union[str, NodeId]] = None
-    annotation_set: Optional[Union[dict, "Annotation"]] = None
+    annotation_set: Optional[Union[dict, Annotation]] = None
     change_description: Optional[str] = None
 
     def __post_init__(self, *_: List[str], **kwargs: Dict[str, Any]):
@@ -904,10 +987,14 @@ class MappingCreation(EdgeCreation):
         if self.object is not None and not isinstance(self.object, NodeId):
             self.object = NodeId(self.object)
 
-        if self.annotation_set is not None and not isinstance(self.annotation_set, Annotation):
+        if self.annotation_set is not None and not isinstance(
+            self.annotation_set, Annotation
+        ):
             self.annotation_set = Annotation(**as_dict(self.annotation_set))
 
-        if self.change_description is not None and not isinstance(self.change_description, str):
+        if self.change_description is not None and not isinstance(
+            self.change_description, str
+        ):
             self.change_description = str(self.change_description)
 
         super().__post_init__(**kwargs)
@@ -919,6 +1006,7 @@ class NodeMove(EdgeChange):
     A node move is a combination of deleting a parent edge and adding a parent edge, where the predicate is preserved
     and the object/parent node changes
     """
+
     _inherited_slots: ClassVar[List[str]] = []
 
     class_class_uri: ClassVar[URIRef] = KGCL.NodeMove
@@ -927,6 +1015,8 @@ class NodeMove(EdgeChange):
     class_model_uri: ClassVar[URIRef] = KGCL.NodeMove
 
     id: Union[str, NodeMoveId] = None
+    old_object_type: Optional[str] = None
+    new_object_type: Optional[str] = None
     change_description: Optional[str] = None
 
     def __post_init__(self, *_: List[str], **kwargs: Dict[str, Any]):
@@ -935,7 +1025,19 @@ class NodeMove(EdgeChange):
         if not isinstance(self.id, NodeMoveId):
             self.id = NodeMoveId(self.id)
 
-        if self.change_description is not None and not isinstance(self.change_description, str):
+        if self.old_object_type is not None and not isinstance(
+            self.old_object_type, str
+        ):
+            self.old_object_type = str(self.old_object_type)
+
+        if self.new_object_type is not None and not isinstance(
+            self.new_object_type, str
+        ):
+            self.new_object_type = str(self.new_object_type)
+
+        if self.change_description is not None and not isinstance(
+            self.change_description, str
+        ):
             self.change_description = str(self.change_description)
 
         super().__post_init__(**kwargs)
@@ -947,6 +1049,7 @@ class NodeDeepening(NodeMove):
     A node move in which a node where the destination is a proper descendant of the original location. Note that here
     descendant applied not just to subclass, but edges of any predicate in the relational graph
     """
+
     _inherited_slots: ClassVar[List[str]] = []
 
     class_class_uri: ClassVar[URIRef] = KGCL.NodeDeepening
@@ -963,7 +1066,9 @@ class NodeDeepening(NodeMove):
         if not isinstance(self.id, NodeDeepeningId):
             self.id = NodeDeepeningId(self.id)
 
-        if self.change_description is not None and not isinstance(self.change_description, str):
+        if self.change_description is not None and not isinstance(
+            self.change_description, str
+        ):
             self.change_description = str(self.change_description)
 
         super().__post_init__(**kwargs)
@@ -974,6 +1079,7 @@ class NodeShallowing(NodeMove):
     """
     The opposite of node deepening
     """
+
     _inherited_slots: ClassVar[List[str]] = []
 
     class_class_uri: ClassVar[URIRef] = KGCL.NodeShallowing
@@ -990,7 +1096,9 @@ class NodeShallowing(NodeMove):
         if not isinstance(self.id, NodeShallowingId):
             self.id = NodeShallowingId(self.id)
 
-        if self.change_description is not None and not isinstance(self.change_description, str):
+        if self.change_description is not None and not isinstance(
+            self.change_description, str
+        ):
             self.change_description = str(self.change_description)
 
         super().__post_init__(**kwargs)
@@ -1001,6 +1109,7 @@ class PredicateChange(EdgeChange):
     """
     An edge change where the predicate (relationship type) is modified.
     """
+
     _inherited_slots: ClassVar[List[str]] = []
 
     class_class_uri: ClassVar[URIRef] = KGCL.PredicateChange
@@ -1017,7 +1126,9 @@ class PredicateChange(EdgeChange):
         if not isinstance(self.id, PredicateChangeId):
             self.id = PredicateChangeId(self.id)
 
-        if self.change_description is not None and not isinstance(self.change_description, str):
+        if self.change_description is not None and not isinstance(
+            self.change_description, str
+        ):
             self.change_description = str(self.change_description)
 
         super().__post_init__(**kwargs)
@@ -1028,6 +1139,7 @@ class EdgeLogicalInterpretationChange(EdgeChange):
     """
     An edge change where the subjet, object, and predicate are unchanged, but the logical interpretation changes
     """
+
     _inherited_slots: ClassVar[List[str]] = []
 
     class_class_uri: ClassVar[URIRef] = KGCL.EdgeLogicalInterpretationChange
@@ -1051,6 +1163,7 @@ class ComplexExistentialRestrictionChange(ComplexChange):
     """
     A complex change where an existential restriction axiom is changed
     """
+
     _inherited_slots: ClassVar[List[str]] = []
 
     class_class_uri: ClassVar[URIRef] = KGCL.ComplexExistentialRestrictionChange
@@ -1098,6 +1211,7 @@ class LogicalAxiomChange(SimpleChange):
     """
     A simple change where a logical axiom is changed, where the logical axiom cannot be represented as an edge
     """
+
     _inherited_slots: ClassVar[List[str]] = []
 
     class_class_uri: ClassVar[URIRef] = KGCL.LogicalAxiomChange
@@ -1121,6 +1235,7 @@ class ExistentialRestrictionChange(LogicalAxiomChange):
     """
     A simple change where an existential restriction axiom is changed
     """
+
     _inherited_slots: ClassVar[List[str]] = []
 
     class_class_uri: ClassVar[URIRef] = KGCL.ExistentialRestrictionChange
@@ -1196,6 +1311,7 @@ class ExistentialRestrictionSubclassChange(ExistentialRestrictionChange):
     """
     A simple change where an existential restriction axiom is changed
     """
+
     _inherited_slots: ClassVar[List[str]] = []
 
     class_class_uri: ClassVar[URIRef] = KGCL.ExistentialRestrictionSubclassChange
@@ -1223,6 +1339,7 @@ class ExistentialRestrictionPropertyChange(ExistentialRestrictionChange):
     """
     A simple change where an existential restriction axiom is changed
     """
+
     _inherited_slots: ClassVar[List[str]] = []
 
     class_class_uri: ClassVar[URIRef] = KGCL.ExistentialRestrictionPropertyChange
@@ -1250,6 +1367,7 @@ class ExistentialRestrictionFillerChange(ExistentialRestrictionChange):
     """
     A simple change where an existential restriction axiom is changed
     """
+
     _inherited_slots: ClassVar[List[str]] = []
 
     class_class_uri: ClassVar[URIRef] = KGCL.ExistentialRestrictionFillerChange
@@ -1277,6 +1395,7 @@ class NodeChange(SimpleChange):
     """
     A simple change where the change is about a node
     """
+
     _inherited_slots: ClassVar[List[str]] = []
 
     class_class_uri: ClassVar[URIRef] = KGCL.NodeChange
@@ -1299,6 +1418,7 @@ class NodeRename(NodeChange):
     """
     A node change where the name (aka rdfs:label) of the node changes
     """
+
     _inherited_slots: ClassVar[List[str]] = []
 
     class_class_uri: ClassVar[URIRef] = KGCL.NodeRename
@@ -1326,7 +1446,9 @@ class NodeRename(NodeChange):
         if self.new_value is not None and not isinstance(self.new_value, str):
             self.new_value = str(self.new_value)
 
-        if self.has_textual_diff is not None and not isinstance(self.has_textual_diff, TextualDiff):
+        if self.has_textual_diff is not None and not isinstance(
+            self.has_textual_diff, TextualDiff
+        ):
             self.has_textual_diff = TextualDiff()
 
         if self.new_language is not None and not isinstance(self.new_language, str):
@@ -1335,7 +1457,9 @@ class NodeRename(NodeChange):
         if self.old_language is not None and not isinstance(self.old_language, str):
             self.old_language = str(self.old_language)
 
-        if self.change_description is not None and not isinstance(self.change_description, str):
+        if self.change_description is not None and not isinstance(
+            self.change_description, str
+        ):
             self.change_description = str(self.change_description)
 
         super().__post_init__(**kwargs)
@@ -1346,6 +1470,7 @@ class NodeAnnotationChange(NodeChange):
     """
     A node change where the change alters node properties/annotations. TODO
     """
+
     _inherited_slots: ClassVar[List[str]] = []
 
     class_class_uri: ClassVar[URIRef] = KGCL.NodeAnnotationChange
@@ -1369,6 +1494,7 @@ class NodeAnnotationReplacement(NodeAnnotationChange):
     """
     A node annotation change where the change replaces a particular property value. TODO
     """
+
     _inherited_slots: ClassVar[List[str]] = []
 
     class_class_uri: ClassVar[URIRef] = KGCL.NodeAnnotationReplacement
@@ -1412,6 +1538,7 @@ class NewSynonym(NodeSynonymChange):
     """
     A node synonym change where a de-novo synonym is created
     """
+
     _inherited_slots: ClassVar[List[str]] = []
 
     class_class_uri: ClassVar[URIRef] = KGCL.NewSynonym
@@ -1448,6 +1575,7 @@ class NameBecomesSynonym(NodeSynonymChange):
     A node synonym where the name NAME of an node NODE moves to a synonym, and NODE receives a new name. This change
     consists of compose of (1) a node rename where NAME is replaced by a different name (2) a new synonym
     """
+
     _inherited_slots: ClassVar[List[str]] = []
 
     class_class_uri: ClassVar[URIRef] = KGCL.NameBecomesSynonym
@@ -1472,7 +1600,9 @@ class NameBecomesSynonym(NodeSynonymChange):
         if self.change_2 is not None and not isinstance(self.change_2, NewSynonymId):
             self.change_2 = NewSynonymId(self.change_2)
 
-        if self.change_description is not None and not isinstance(self.change_description, str):
+        if self.change_description is not None and not isinstance(
+            self.change_description, str
+        ):
             self.change_description = str(self.change_description)
 
         super().__post_init__(**kwargs)
@@ -1483,6 +1613,7 @@ class RemoveSynonym(NodeSynonymChange):
     """
     A node synonym change where a synonym is deleted
     """
+
     _inherited_slots: ClassVar[List[str]] = []
 
     class_class_uri: ClassVar[URIRef] = KGCL.RemoveSynonym
@@ -1510,6 +1641,7 @@ class SynonymReplacement(NodeSynonymChange):
     """
     A node synonym change where the text of a synonym is changed
     """
+
     _inherited_slots: ClassVar[List[str]] = []
 
     class_class_uri: ClassVar[URIRef] = KGCL.SynonymReplacement
@@ -1534,7 +1666,9 @@ class SynonymReplacement(NodeSynonymChange):
         if self.new_value is not None and not isinstance(self.new_value, str):
             self.new_value = str(self.new_value)
 
-        if self.has_textual_diff is not None and not isinstance(self.has_textual_diff, TextualDiff):
+        if self.has_textual_diff is not None and not isinstance(
+            self.has_textual_diff, TextualDiff
+        ):
             self.has_textual_diff = TextualDiff()
 
         super().__post_init__(**kwargs)
@@ -1547,6 +1681,7 @@ class SynonymPredicateChange(NodeSynonymChange):
     variety of predicates. For example, many OBO ontologies make use of predicates such as oio:hasExactSynonym,
     oio:hasRelatedSynonym, etc
     """
+
     _inherited_slots: ClassVar[List[str]] = []
 
     class_class_uri: ClassVar[URIRef] = KGCL.SynonymPredicateChange
@@ -1571,7 +1706,9 @@ class SynonymPredicateChange(NodeSynonymChange):
         if self.new_value is not None and not isinstance(self.new_value, str):
             self.new_value = str(self.new_value)
 
-        if self.has_textual_diff is not None and not isinstance(self.has_textual_diff, TextualDiff):
+        if self.has_textual_diff is not None and not isinstance(
+            self.has_textual_diff, TextualDiff
+        ):
             self.has_textual_diff = TextualDiff()
 
         super().__post_init__(**kwargs)
@@ -1582,6 +1719,7 @@ class NodeTextDefinitionChange(NodeChange):
     """
     A node change where the text definition is changed
     """
+
     _inherited_slots: ClassVar[List[str]] = []
 
     class_class_uri: ClassVar[URIRef] = KGCL.NodeTextDefinitionChange
@@ -1591,11 +1729,13 @@ class NodeTextDefinitionChange(NodeChange):
 
     id: Union[str, NodeTextDefinitionChangeId] = None
 
+
 @dataclass
 class NewTextDefinition(NodeTextDefinitionChange):
     """
     A node change where a de-novo text definition is created
     """
+
     _inherited_slots: ClassVar[List[str]] = []
 
     class_class_uri: ClassVar[URIRef] = KGCL.NewTextDefinition
@@ -1623,6 +1763,7 @@ class RemoveTextDefinition(NodeTextDefinitionChange):
     """
     A node change where a text definition is deleted
     """
+
     _inherited_slots: ClassVar[List[str]] = []
 
     class_class_uri: ClassVar[URIRef] = KGCL.RemoveTextDefinition
@@ -1650,6 +1791,7 @@ class TextDefinitionReplacement(NodeTextDefinitionChange):
     """
     A node change where a text definition is modified
     """
+
     _inherited_slots: ClassVar[List[str]] = []
 
     class_class_uri: ClassVar[URIRef] = KGCL.TextDefinitionReplacement
@@ -1674,7 +1816,9 @@ class TextDefinitionReplacement(NodeTextDefinitionChange):
         if self.new_value is not None and not isinstance(self.new_value, str):
             self.new_value = str(self.new_value)
 
-        if self.has_textual_diff is not None and not isinstance(self.has_textual_diff, TextualDiff):
+        if self.has_textual_diff is not None and not isinstance(
+            self.has_textual_diff, TextualDiff
+        ):
             self.has_textual_diff = TextualDiff()
 
         super().__post_init__(**kwargs)
@@ -1705,6 +1849,7 @@ class AddNodeToSubset(NodeChange):
     """
     Places a node inside a subset, by annotating that node
     """
+
     _inherited_slots: ClassVar[List[str]] = []
 
     class_class_uri: ClassVar[URIRef] = KGCL.AddNodeToSubset
@@ -1713,7 +1858,7 @@ class AddNodeToSubset(NodeChange):
     class_model_uri: ClassVar[URIRef] = KGCL.AddNodeToSubset
 
     id: Union[str, AddNodeToSubsetId] = None
-    in_subset: Optional[Union[dict, "OntologySubset"]] = None
+    in_subset: Optional[Union[dict, OntologySubset]] = None
 
     def __post_init__(self, *_: List[str], **kwargs: Dict[str, Any]):
         if self._is_empty(self.id):
@@ -1721,7 +1866,9 @@ class AddNodeToSubset(NodeChange):
         if not isinstance(self.id, AddNodeToSubsetId):
             self.id = AddNodeToSubsetId(self.id)
 
-        if self.in_subset is not None and not isinstance(self.in_subset, OntologySubset):
+        if self.in_subset is not None and not isinstance(
+            self.in_subset, OntologySubset
+        ):
             self.in_subset = OntologySubset()
 
         super().__post_init__(**kwargs)
@@ -1732,6 +1879,7 @@ class RemovedNodeFromSubset(NodeChange):
     """
     Removes a node from a subset, by removing an annotation
     """
+
     _inherited_slots: ClassVar[List[str]] = []
 
     class_class_uri: ClassVar[URIRef] = KGCL.RemovedNodeFromSubset
@@ -1743,7 +1891,7 @@ class RemovedNodeFromSubset(NodeChange):
     change_description: Optional[str] = None
     about_node: Optional[Union[str, NodeId]] = None
     subset: Optional[str] = None
-    in_subset: Optional[Union[dict, "OntologySubset"]] = None
+    in_subset: Optional[Union[dict, OntologySubset]] = None
 
     def __post_init__(self, *_: List[str], **kwargs: Dict[str, Any]):
         if self._is_empty(self.id):
@@ -1751,7 +1899,9 @@ class RemovedNodeFromSubset(NodeChange):
         if not isinstance(self.id, RemovedNodeFromSubsetId):
             self.id = RemovedNodeFromSubsetId(self.id)
 
-        if self.change_description is not None and not isinstance(self.change_description, str):
+        if self.change_description is not None and not isinstance(
+            self.change_description, str
+        ):
             self.change_description = str(self.change_description)
 
         if self.about_node is not None and not isinstance(self.about_node, NodeId):
@@ -1760,7 +1910,9 @@ class RemovedNodeFromSubset(NodeChange):
         if self.subset is not None and not isinstance(self.subset, str):
             self.subset = str(self.subset)
 
-        if self.in_subset is not None and not isinstance(self.in_subset, OntologySubset):
+        if self.in_subset is not None and not isinstance(
+            self.in_subset, OntologySubset
+        ):
             self.in_subset = OntologySubset()
 
         super().__post_init__(**kwargs)
@@ -1771,6 +1923,7 @@ class NodeObsoletion(NodeChange):
     """
     Obsoletion of a node deprecates usage of that node, but does not delete it.
     """
+
     _inherited_slots: ClassVar[List[str]] = []
 
     class_class_uri: ClassVar[URIRef] = KGCL.NodeObsoletion
@@ -1780,10 +1933,16 @@ class NodeObsoletion(NodeChange):
 
     id: Union[str, NodeObsoletionId] = None
     has_direct_replacement: Optional[Union[str, NodeId]] = None
-    has_nondirect_replacement: Optional[Union[Union[str, NodeId], List[Union[str, NodeId]]]] = empty_list()
+    has_nondirect_replacement: Optional[
+        Union[Union[str, NodeId], List[Union[str, NodeId]]]
+    ] = empty_list()
     change_description: Optional[str] = None
-    associated_change_set: Optional[Union[Dict[Union[str, ChangeId], Union[dict, Change]], List[Union[dict, Change]]]] = empty_dict()
-    about: Optional[Union[dict, "OntologyElement"]] = None
+    associated_change_set: Optional[
+        Union[
+            Dict[Union[str, ChangeId], Union[dict, Change]], List[Union[dict, Change]]
+        ]
+    ] = empty_dict()
+    about: Optional[Union[dict, OntologyElement]] = None
 
     def __post_init__(self, *_: List[str], **kwargs: Dict[str, Any]):
         if self._is_empty(self.id):
@@ -1791,17 +1950,33 @@ class NodeObsoletion(NodeChange):
         if not isinstance(self.id, NodeObsoletionId):
             self.id = NodeObsoletionId(self.id)
 
-        if self.has_direct_replacement is not None and not isinstance(self.has_direct_replacement, NodeId):
+        if self.has_direct_replacement is not None and not isinstance(
+            self.has_direct_replacement, NodeId
+        ):
             self.has_direct_replacement = NodeId(self.has_direct_replacement)
 
         if not isinstance(self.has_nondirect_replacement, list):
-            self.has_nondirect_replacement = [self.has_nondirect_replacement] if self.has_nondirect_replacement is not None else []
-        self.has_nondirect_replacement = [v if isinstance(v, NodeId) else NodeId(v) for v in self.has_nondirect_replacement]
+            self.has_nondirect_replacement = (
+                [self.has_nondirect_replacement]
+                if self.has_nondirect_replacement is not None
+                else []
+            )
+        self.has_nondirect_replacement = [
+            v if isinstance(v, NodeId) else NodeId(v)
+            for v in self.has_nondirect_replacement
+        ]
 
-        if self.change_description is not None and not isinstance(self.change_description, str):
+        if self.change_description is not None and not isinstance(
+            self.change_description, str
+        ):
             self.change_description = str(self.change_description)
 
-        self._normalize_inlined_as_list(slot_name="associated_change_set", slot_type=Change, key_name="id", keyed=True)
+        self._normalize_inlined_as_list(
+            slot_name="associated_change_set",
+            slot_type=Change,
+            key_name="id",
+            keyed=True,
+        )
 
         if self.about is not None and not isinstance(self.about, OntologyElement):
             self.about = OntologyElement()
@@ -1814,6 +1989,7 @@ class NodeUnobsoletion(NodeChange):
     """
     unobsoletion of a node deprecates usage of that node. Rarely applied.
     """
+
     _inherited_slots: ClassVar[List[str]] = []
 
     class_class_uri: ClassVar[URIRef] = KGCL.NodeUnobsoletion
@@ -1832,7 +2008,9 @@ class NodeUnobsoletion(NodeChange):
         if not isinstance(self.id, NodeUnobsoletionId):
             self.id = NodeUnobsoletionId(self.id)
 
-        if self.change_description is not None and not isinstance(self.change_description, str):
+        if self.change_description is not None and not isinstance(
+            self.change_description, str
+        ):
             self.change_description = str(self.change_description)
 
         if self.replaced_by is not None and not isinstance(self.replaced_by, NodeId):
@@ -1849,6 +2027,7 @@ class NodeCreation(NodeChange):
     """
     a node change in which a new node is created
     """
+
     _inherited_slots: ClassVar[List[str]] = []
 
     class_class_uri: ClassVar[URIRef] = KGCL.NodeCreation
@@ -1860,7 +2039,7 @@ class NodeCreation(NodeChange):
     node_id: Optional[Union[str, NodeId]] = None
     name: Optional[str] = None
     owl_type: Optional[Union[str, "OwlTypeEnum"]] = None
-    annotation_set: Optional[Union[dict, "Annotation"]] = None
+    annotation_set: Optional[Union[dict, Annotation]] = None
     language: Optional[str] = None
     change_description: Optional[str] = None
 
@@ -1879,13 +2058,17 @@ class NodeCreation(NodeChange):
         if self.owl_type is not None and not isinstance(self.owl_type, OwlTypeEnum):
             self.owl_type = OwlTypeEnum(self.owl_type)
 
-        if self.annotation_set is not None and not isinstance(self.annotation_set, Annotation):
+        if self.annotation_set is not None and not isinstance(
+            self.annotation_set, Annotation
+        ):
             self.annotation_set = Annotation(**as_dict(self.annotation_set))
 
         if self.language is not None and not isinstance(self.language, str):
             self.language = str(self.language)
 
-        if self.change_description is not None and not isinstance(self.change_description, str):
+        if self.change_description is not None and not isinstance(
+            self.change_description, str
+        ):
             self.change_description = str(self.change_description)
 
         super().__post_init__(**kwargs)
@@ -1896,6 +2079,7 @@ class ClassCreation(NodeCreation):
     """
     A node creation where the owl type is 'class'
     """
+
     _inherited_slots: ClassVar[List[str]] = []
 
     class_class_uri: ClassVar[URIRef] = KGCL.ClassCreation
@@ -1916,7 +2100,9 @@ class ClassCreation(NodeCreation):
         if self.superclass is not None and not isinstance(self.superclass, NodeId):
             self.superclass = NodeId(self.superclass)
 
-        if self.change_description is not None and not isinstance(self.change_description, str):
+        if self.change_description is not None and not isinstance(
+            self.change_description, str
+        ):
             self.change_description = str(self.change_description)
 
         super().__post_init__(**kwargs)
@@ -1928,6 +2114,7 @@ class NodeDeletion(NodeChange):
     Deletion of a node from the graph. Note it is recommended nodes are obsoleted and never merged, but this operation
     exists to represent deletions in ontologies, accidental or otherwise
     """
+
     _inherited_slots: ClassVar[List[str]] = []
 
     class_class_uri: ClassVar[URIRef] = KGCL.NodeDeletion
@@ -1944,7 +2131,9 @@ class NodeDeletion(NodeChange):
         if not isinstance(self.id, NodeDeletionId):
             self.id = NodeDeletionId(self.id)
 
-        if self.change_description is not None and not isinstance(self.change_description, str):
+        if self.change_description is not None and not isinstance(
+            self.change_description, str
+        ):
             self.change_description = str(self.change_description)
 
         super().__post_init__(**kwargs)
@@ -1956,6 +2145,7 @@ class NodeDirectMerge(NodeObsoletion):
     An obsoletion change in which all metadata (including name/label) from the source node is deleted and added to the
     target node, and edges can automatically be rewired to point to the target node
     """
+
     _inherited_slots: ClassVar[List[str]] = []
 
     class_class_uri: ClassVar[URIRef] = KGCL.NodeDirectMerge
@@ -1982,7 +2172,9 @@ class NodeDirectMerge(NodeObsoletion):
         if self.about_node is not None and not isinstance(self.about_node, NodeId):
             self.about_node = NodeId(self.about_node)
 
-        if self.change_description is not None and not isinstance(self.change_description, str):
+        if self.change_description is not None and not isinstance(
+            self.change_description, str
+        ):
             self.change_description = str(self.change_description)
 
         super().__post_init__(**kwargs)
@@ -1994,6 +2186,7 @@ class NodeObsoletionWithDirectReplacement(NodeObsoletion):
     An obsoletion change in which information from the obsoleted node is selectively copied to a single target, and
     edges can automatically be rewired to point to the target node
     """
+
     _inherited_slots: ClassVar[List[str]] = []
 
     class_class_uri: ClassVar[URIRef] = KGCL.NodeObsoletionWithDirectReplacement
@@ -2016,7 +2209,9 @@ class NodeObsoletionWithDirectReplacement(NodeObsoletion):
         if not isinstance(self.has_direct_replacement, NodeId):
             self.has_direct_replacement = NodeId(self.has_direct_replacement)
 
-        if self.change_description is not None and not isinstance(self.change_description, str):
+        if self.change_description is not None and not isinstance(
+            self.change_description, str
+        ):
             self.change_description = str(self.change_description)
 
         super().__post_init__(**kwargs)
@@ -2027,6 +2222,7 @@ class NodeObsoletionWithNoDirectReplacement(NodeObsoletion):
     """
     An obsoletion change in which there is no direct replacement
     """
+
     _inherited_slots: ClassVar[List[str]] = []
 
     class_class_uri: ClassVar[URIRef] = KGCL.NodeObsoletionWithNoDirectReplacement
@@ -2035,7 +2231,9 @@ class NodeObsoletionWithNoDirectReplacement(NodeObsoletion):
     class_model_uri: ClassVar[URIRef] = KGCL.NodeObsoletionWithNoDirectReplacement
 
     id: Union[str, NodeObsoletionWithNoDirectReplacementId] = None
-    has_nondirect_replacement: Union[Union[str, NodeId], List[Union[str, NodeId]]] = None
+    has_nondirect_replacement: Union[
+        Union[str, NodeId], List[Union[str, NodeId]]
+    ] = None
     change_description: Optional[str] = None
 
     def __post_init__(self, *_: List[str], **kwargs: Dict[str, Any]):
@@ -2047,10 +2245,19 @@ class NodeObsoletionWithNoDirectReplacement(NodeObsoletion):
         if self._is_empty(self.has_nondirect_replacement):
             self.MissingRequiredField("has_nondirect_replacement")
         if not isinstance(self.has_nondirect_replacement, list):
-            self.has_nondirect_replacement = [self.has_nondirect_replacement] if self.has_nondirect_replacement is not None else []
-        self.has_nondirect_replacement = [v if isinstance(v, NodeId) else NodeId(v) for v in self.has_nondirect_replacement]
+            self.has_nondirect_replacement = (
+                [self.has_nondirect_replacement]
+                if self.has_nondirect_replacement is not None
+                else []
+            )
+        self.has_nondirect_replacement = [
+            v if isinstance(v, NodeId) else NodeId(v)
+            for v in self.has_nondirect_replacement
+        ]
 
-        if self.change_description is not None and not isinstance(self.change_description, str):
+        if self.change_description is not None and not isinstance(
+            self.change_description, str
+        ):
             self.change_description = str(self.change_description)
 
         super().__post_init__(**kwargs)
@@ -2060,6 +2267,7 @@ class TextualDiff(YAMLRoot):
     """
     A summarizing of a change on a piece of text. This could be rendered in a number of different ways
     """
+
     _inherited_slots: ClassVar[List[str]] = []
 
     class_class_uri: ClassVar[URIRef] = KGCL.TextualDiff
@@ -2073,6 +2281,7 @@ class Configuration(YAMLRoot):
     """
     The meaning of operations can be configured
     """
+
     _inherited_slots: ClassVar[List[str]] = []
 
     class_class_uri: ClassVar[URIRef] = KGCL.Configuration
@@ -2093,25 +2302,39 @@ class Configuration(YAMLRoot):
         if self.name_predicate is not None and not isinstance(self.name_predicate, str):
             self.name_predicate = str(self.name_predicate)
 
-        if self.definition_predicate is not None and not isinstance(self.definition_predicate, str):
+        if self.definition_predicate is not None and not isinstance(
+            self.definition_predicate, str
+        ):
             self.definition_predicate = str(self.definition_predicate)
 
-        if self.main_synonym_predicate is not None and not isinstance(self.main_synonym_predicate, str):
+        if self.main_synonym_predicate is not None and not isinstance(
+            self.main_synonym_predicate, str
+        ):
             self.main_synonym_predicate = str(self.main_synonym_predicate)
 
-        if self.synonym_predicates is not None and not isinstance(self.synonym_predicates, str):
+        if self.synonym_predicates is not None and not isinstance(
+            self.synonym_predicates, str
+        ):
             self.synonym_predicates = str(self.synonym_predicates)
 
-        if self.creator_predicate is not None and not isinstance(self.creator_predicate, str):
+        if self.creator_predicate is not None and not isinstance(
+            self.creator_predicate, str
+        ):
             self.creator_predicate = str(self.creator_predicate)
 
-        if self.contributor_predicate is not None and not isinstance(self.contributor_predicate, str):
+        if self.contributor_predicate is not None and not isinstance(
+            self.contributor_predicate, str
+        ):
             self.contributor_predicate = str(self.contributor_predicate)
 
-        if self.obsoletion_workflow is not None and not isinstance(self.obsoletion_workflow, str):
+        if self.obsoletion_workflow is not None and not isinstance(
+            self.obsoletion_workflow, str
+        ):
             self.obsoletion_workflow = str(self.obsoletion_workflow)
 
-        if self.obsoletion_policy is not None and not isinstance(self.obsoletion_policy, str):
+        if self.obsoletion_policy is not None and not isinstance(
+            self.obsoletion_policy, str
+        ):
             self.obsoletion_policy = str(self.obsoletion_policy)
 
         super().__post_init__(**kwargs)
@@ -2122,6 +2345,7 @@ class Session(YAMLRoot):
     """
     A session consists of a set of change sets bundled with the activities that generated those change sets
     """
+
     _inherited_slots: ClassVar[List[str]] = []
 
     class_class_uri: ClassVar[URIRef] = KGCL.Session
@@ -2129,679 +2353,973 @@ class Session(YAMLRoot):
     class_name: ClassVar[str] = "session"
     class_model_uri: ClassVar[URIRef] = KGCL.Session
 
-    change_set: Optional[Union[Dict[Union[str, ChangeId], Union[dict, Change]], List[Union[dict, Change]]]] = empty_dict()
-    activity_set: Optional[Union[Dict[Union[str, ActivityId], Union[dict, "Activity"]], List[Union[dict, "Activity"]]]] = empty_dict()
+    change_set: Optional[
+        Union[
+            Dict[Union[str, ChangeId], Union[dict, Change]], List[Union[dict, Change]]
+        ]
+    ] = empty_dict()
+    activity_set: Optional[
+        Union[
+            Dict[Union[str, ActivityId], Union[dict, Activity]],
+            List[Union[dict, Activity]],
+        ]
+    ] = empty_dict()
 
     def __post_init__(self, *_: List[str], **kwargs: Dict[str, Any]):
-        self._normalize_inlined_as_list(slot_name="change_set", slot_type=Change, key_name="id", keyed=True)
-
-        self._normalize_inlined_as_list(slot_name="activity_set", slot_type=Activity, key_name="id", keyed=True)
-
-        super().__post_init__(**kwargs)
-
-
-class OntologyElement(YAMLRoot):
-    """
-    Any component of an ontology or knowledge graph
-    """
-    _inherited_slots: ClassVar[List[str]] = []
-
-    class_class_uri: ClassVar[URIRef] = OM.OntologyElement
-    class_class_curie: ClassVar[str] = "om:OntologyElement"
-    class_name: ClassVar[str] = "ontology element"
-    class_model_uri: ClassVar[URIRef] = KGCL.OntologyElement
-
-
-@dataclass
-class PropertyValue(OntologyElement):
-    """
-    a property-value pair
-    """
-    _inherited_slots: ClassVar[List[str]] = []
-
-    class_class_uri: ClassVar[URIRef] = OM.PropertyValue
-    class_class_curie: ClassVar[str] = "om:PropertyValue"
-    class_name: ClassVar[str] = "property value"
-    class_model_uri: ClassVar[URIRef] = KGCL.PropertyValue
-
-    property: Optional[Union[str, NodeId]] = None
-    filler: Optional[str] = None
-
-    def __post_init__(self, *_: List[str], **kwargs: Dict[str, Any]):
-        if self.property is not None and not isinstance(self.property, NodeId):
-            self.property = NodeId(self.property)
-
-        if self.filler is not None and not isinstance(self.filler, str):
-            self.filler = str(self.filler)
-
-        super().__post_init__(**kwargs)
-
-
-@dataclass
-class Annotation(PropertyValue):
-    """
-    owl annotations. Not to be confused with annotations sensu GO
-    """
-    _inherited_slots: ClassVar[List[str]] = []
-
-    class_class_uri: ClassVar[URIRef] = OM.Annotation
-    class_class_curie: ClassVar[str] = "om:Annotation"
-    class_name: ClassVar[str] = "annotation"
-    class_model_uri: ClassVar[URIRef] = KGCL.Annotation
-
-    property: Optional[Union[str, NodeId]] = None
-    filler: Optional[str] = None
-    annotation_set: Optional[Union[dict, "Annotation"]] = None
-
-    def __post_init__(self, *_: List[str], **kwargs: Dict[str, Any]):
-        if self.property is not None and not isinstance(self.property, NodeId):
-            self.property = NodeId(self.property)
-
-        if self.filler is not None and not isinstance(self.filler, str):
-            self.filler = str(self.filler)
-
-        if self.annotation_set is not None and not isinstance(self.annotation_set, Annotation):
-            self.annotation_set = Annotation(**as_dict(self.annotation_set))
-
-        super().__post_init__(**kwargs)
-
-
-@dataclass
-class Node(OntologyElement):
-    """
-    Any named entity in an ontology. May be a class, individual, property
-    """
-    _inherited_slots: ClassVar[List[str]] = []
-
-    class_class_uri: ClassVar[URIRef] = OM.Node
-    class_class_curie: ClassVar[str] = "om:Node"
-    class_name: ClassVar[str] = "node"
-    class_model_uri: ClassVar[URIRef] = KGCL.Node
-
-    id: Union[str, NodeId] = None
-    name: Optional[str] = None
-    annotation_set: Optional[Union[dict, Annotation]] = None
-    owl_type: Optional[Union[str, "OwlTypeEnum"]] = None
-
-    def __post_init__(self, *_: List[str], **kwargs: Dict[str, Any]):
-        if self._is_empty(self.id):
-            self.MissingRequiredField("id")
-        if not isinstance(self.id, NodeId):
-            self.id = NodeId(self.id)
-
-        if self.name is not None and not isinstance(self.name, str):
-            self.name = str(self.name)
-
-        if self.annotation_set is not None and not isinstance(self.annotation_set, Annotation):
-            self.annotation_set = Annotation(**as_dict(self.annotation_set))
-
-        if self.owl_type is not None and not isinstance(self.owl_type, OwlTypeEnum):
-            self.owl_type = OwlTypeEnum(self.owl_type)
-
-        super().__post_init__(**kwargs)
-
-
-@dataclass
-class ClassNode(Node):
-    """
-    A node that is a class
-    """
-    _inherited_slots: ClassVar[List[str]] = []
-
-    class_class_uri: ClassVar[URIRef] = OWL.Class
-    class_class_curie: ClassVar[str] = "owl:Class"
-    class_name: ClassVar[str] = "class node"
-    class_model_uri: ClassVar[URIRef] = KGCL.ClassNode
-
-    id: Union[str, ClassNodeId] = None
-
-    def __post_init__(self, *_: List[str], **kwargs: Dict[str, Any]):
-        if self._is_empty(self.id):
-            self.MissingRequiredField("id")
-        if not isinstance(self.id, ClassNodeId):
-            self.id = ClassNodeId(self.id)
-
-        super().__post_init__(**kwargs)
-
-
-@dataclass
-class InstanceNode(Node):
-    """
-    A node that is an individual
-    """
-    _inherited_slots: ClassVar[List[str]] = []
-
-    class_class_uri: ClassVar[URIRef] = OWL.NamedIndividual
-    class_class_curie: ClassVar[str] = "owl:NamedIndividual"
-    class_name: ClassVar[str] = "instance node"
-    class_model_uri: ClassVar[URIRef] = KGCL.InstanceNode
-
-    id: Union[str, InstanceNodeId] = None
-
-    def __post_init__(self, *_: List[str], **kwargs: Dict[str, Any]):
-        if self._is_empty(self.id):
-            self.MissingRequiredField("id")
-        if not isinstance(self.id, InstanceNodeId):
-            self.id = InstanceNodeId(self.id)
-
-        super().__post_init__(**kwargs)
-
-
-@dataclass
-class Edge(OntologyElement):
-    """
-    A relationship between two nodes. We assume owlstar or similar for existential restrictions
-    """
-    _inherited_slots: ClassVar[List[str]] = []
-
-    class_class_uri: ClassVar[URIRef] = OM.Edge
-    class_class_curie: ClassVar[str] = "om:Edge"
-    class_name: ClassVar[str] = "edge"
-    class_model_uri: ClassVar[URIRef] = KGCL.Edge
-
-    subject: Optional[Union[str, NodeId]] = None
-    predicate: Optional[Union[str, NodeId]] = None
-    object: Optional[Union[str, NodeId]] = None
-    annotation_set: Optional[Union[dict, Annotation]] = None
-
-    def __post_init__(self, *_: List[str], **kwargs: Dict[str, Any]):
-        if self.subject is not None and not isinstance(self.subject, NodeId):
-            self.subject = NodeId(self.subject)
-
-        if self.predicate is not None and not isinstance(self.predicate, NodeId):
-            self.predicate = NodeId(self.predicate)
-
-        if self.object is not None and not isinstance(self.object, NodeId):
-            self.object = NodeId(self.object)
-
-        if self.annotation_set is not None and not isinstance(self.annotation_set, Annotation):
-            self.annotation_set = Annotation(**as_dict(self.annotation_set))
-
-        super().__post_init__(**kwargs)
-
-
-class LogicalDefinition(OntologyElement):
-    _inherited_slots: ClassVar[List[str]] = []
-
-    class_class_uri: ClassVar[URIRef] = OM.LogicalDefinition
-    class_class_curie: ClassVar[str] = "om:LogicalDefinition"
-    class_name: ClassVar[str] = "logical definition"
-    class_model_uri: ClassVar[URIRef] = KGCL.LogicalDefinition
-
-
-class OntologySubset(OntologyElement):
-    _inherited_slots: ClassVar[List[str]] = []
-
-    class_class_uri: ClassVar[URIRef] = OM.OntologySubset
-    class_class_curie: ClassVar[str] = "om:OntologySubset"
-    class_name: ClassVar[str] = "ontology subset"
-    class_model_uri: ClassVar[URIRef] = KGCL.OntologySubset
-
-
-@dataclass
-class Activity(YAMLRoot):
-    """
-    a provence-generating activity
-    """
-    _inherited_slots: ClassVar[List[str]] = []
-
-    class_class_uri: ClassVar[URIRef] = PROV.Activity
-    class_class_curie: ClassVar[str] = "prov:Activity"
-    class_name: ClassVar[str] = "activity"
-    class_model_uri: ClassVar[URIRef] = KGCL.Activity
-
-    id: Union[str, ActivityId] = None
-    started_at_time: Optional[str] = None
-    ended_at_time: Optional[str] = None
-    was_informed_by: Optional[Union[str, ActivityId]] = None
-    was_associated_with: Optional[Union[str, AgentId]] = None
-    used: Optional[str] = None
-    description: Optional[str] = None
-
-    def __post_init__(self, *_: List[str], **kwargs: Dict[str, Any]):
-        if self._is_empty(self.id):
-            self.MissingRequiredField("id")
-        if not isinstance(self.id, ActivityId):
-            self.id = ActivityId(self.id)
-
-        if self.started_at_time is not None and not isinstance(self.started_at_time, str):
-            self.started_at_time = str(self.started_at_time)
-
-        if self.ended_at_time is not None and not isinstance(self.ended_at_time, str):
-            self.ended_at_time = str(self.ended_at_time)
-
-        if self.was_informed_by is not None and not isinstance(self.was_informed_by, ActivityId):
-            self.was_informed_by = ActivityId(self.was_informed_by)
-
-        if self.was_associated_with is not None and not isinstance(self.was_associated_with, AgentId):
-            self.was_associated_with = AgentId(self.was_associated_with)
-
-        if self.used is not None and not isinstance(self.used, str):
-            self.used = str(self.used)
-
-        if self.description is not None and not isinstance(self.description, str):
-            self.description = str(self.description)
-
-        super().__post_init__(**kwargs)
-
-
-@dataclass
-class Agent(YAMLRoot):
-    """
-    a provence-generating agent
-    """
-    _inherited_slots: ClassVar[List[str]] = []
-
-    class_class_uri: ClassVar[URIRef] = PROV.Agent
-    class_class_curie: ClassVar[str] = "prov:Agent"
-    class_name: ClassVar[str] = "agent"
-    class_model_uri: ClassVar[URIRef] = KGCL.Agent
-
-    id: Union[str, AgentId] = None
-    acted_on_behalf_of: Optional[Union[str, AgentId]] = None
-    was_informed_by: Optional[Union[str, ActivityId]] = None
-
-    def __post_init__(self, *_: List[str], **kwargs: Dict[str, Any]):
-        if self._is_empty(self.id):
-            self.MissingRequiredField("id")
-        if not isinstance(self.id, AgentId):
-            self.id = AgentId(self.id)
-
-        if self.acted_on_behalf_of is not None and not isinstance(self.acted_on_behalf_of, AgentId):
-            self.acted_on_behalf_of = AgentId(self.acted_on_behalf_of)
-
-        if self.was_informed_by is not None and not isinstance(self.was_informed_by, ActivityId):
-            self.was_informed_by = ActivityId(self.was_informed_by)
+        self._normalize_inlined_as_list(
+            slot_name="change_set", slot_type=Change, key_name="id", keyed=True
+        )
+
+        self._normalize_inlined_as_list(
+            slot_name="activity_set", slot_type=Activity, key_name="id", keyed=True
+        )
 
         super().__post_init__(**kwargs)
 
 
 # Enumerations
-class OwlTypeEnum(EnumDefinitionImpl):
 
-    CLASS = PermissibleValue(text="CLASS",
-                                 meaning=OWL.Class)
-    OBJECT_PROPERTY = PermissibleValue(text="OBJECT_PROPERTY",
-                                                     meaning=OWL.ObjectProperty)
-    NAMED_INDIVIDUAL = PermissibleValue(text="NAMED_INDIVIDUAL",
-                                                       meaning=OWL.NamedIndividual)
-
-    _defn = EnumDefinition(
-        name="OwlTypeEnum",
-    )
-
-class SynonymScopeEnum(EnumDefinitionImpl):
-
-    related = PermissibleValue(text="related",
-                                     meaning=OIO.hasNarrowSynonym)
-    broad = PermissibleValue(text="broad",
-                                 meaning=OIO.hasBroadSynonym)
-    narrow = PermissibleValue(text="narrow",
-                                   meaning=OIO.hasNarrowSynonym)
-    exact = PermissibleValue(text="exact",
-                                 meaning=OIO.hasExactSynonym)
-
-    _defn = EnumDefinition(
-        name="SynonymScopeEnum",
-    )
 
 # Slots
 class slots:
     pass
 
-slots.pull_request = Slot(uri=KGCL.pull_request, name="pull request", curie=KGCL.curie('pull_request'),
-                   model_uri=KGCL.pull_request, domain=None, range=Optional[str])
 
-slots.see_also = Slot(uri=RDFS.seeAlso, name="see also", curie=RDFS.curie('seeAlso'),
-                   model_uri=KGCL.see_also, domain=None, range=Optional[str])
-
-slots.creator = Slot(uri=DCTERMS.creator, name="creator", curie=DCTERMS.curie('creator'),
-                   model_uri=KGCL.creator, domain=None, range=Optional[str])
-
-slots.contributor = Slot(uri=DCTERMS.creator, name="contributor", curie=DCTERMS.curie('creator'),
-                   model_uri=KGCL.contributor, domain=None, range=Optional[str])
-
-slots.change_date = Slot(uri=DCTERMS.date, name="change date", curie=DCTERMS.curie('date'),
-                   model_uri=KGCL.change_date, domain=None, range=Optional[str])
-
-slots.has_undo = Slot(uri=KGCL.has_undo, name="has undo", curie=KGCL.curie('has_undo'),
-                   model_uri=KGCL.has_undo, domain=Change, range=Optional[Union[str, ChangeId]])
-
-slots.node_id = Slot(uri=KGCL.node_id, name="node id", curie=KGCL.curie('node_id'),
-                   model_uri=KGCL.node_id, domain=None, range=Optional[Union[str, NodeId]])
-
-slots.superclass = Slot(uri=KGCL.superclass, name="superclass", curie=KGCL.curie('superclass'),
-                   model_uri=KGCL.superclass, domain=None, range=Optional[Union[str, NodeId]])
-
-slots.about = Slot(uri=KGCL.about, name="about", curie=KGCL.curie('about'),
-                   model_uri=KGCL.about, domain=None, range=Optional[Union[dict, OntologyElement]])
-
-slots.about_node = Slot(uri=KGCL.about_node, name="about node", curie=KGCL.curie('about_node'),
-                   model_uri=KGCL.about_node, domain=None, range=Optional[Union[str, NodeId]])
-
-slots.about_edge = Slot(uri=KGCL.about_edge, name="about edge", curie=KGCL.curie('about_edge'),
-                   model_uri=KGCL.about_edge, domain=None, range=Optional[Union[dict, Edge]])
-
-slots.target = Slot(uri=KGCL.target, name="target", curie=KGCL.curie('target'),
-                   model_uri=KGCL.target, domain=None, range=Optional[str])
-
-slots.old_value = Slot(uri=KGCL.old_value, name="old value", curie=KGCL.curie('old_value'),
-                   model_uri=KGCL.old_value, domain=None, range=Optional[str])
-
-slots.new_value = Slot(uri=KGCL.new_value, name="new value", curie=KGCL.curie('new_value'),
-                   model_uri=KGCL.new_value, domain=None, range=Optional[str])
-
-slots.language = Slot(uri=KGCL.language, name="language", curie=KGCL.curie('language'),
-                   model_uri=KGCL.language, domain=None, range=Optional[str])
-
-slots.new_language = Slot(uri=KGCL.new_language, name="new language", curie=KGCL.curie('new_language'),
-                   model_uri=KGCL.new_language, domain=None, range=Optional[str])
-
-slots.old_language = Slot(uri=KGCL.old_language, name="old language", curie=KGCL.curie('old_language'),
-                   model_uri=KGCL.old_language, domain=None, range=Optional[str])
-
-slots.qualifier = Slot(uri=KGCL.qualifier, name="qualifier", curie=KGCL.curie('qualifier'),
-                   model_uri=KGCL.qualifier, domain=None, range=Optional[str])
-
-slots.subclass = Slot(uri=KGCL.subclass, name="subclass", curie=KGCL.curie('subclass'),
-                   model_uri=KGCL.subclass, domain=None, range=Optional[str])
-
-slots.new_subclass = Slot(uri=KGCL.new_subclass, name="new subclass", curie=KGCL.curie('new_subclass'),
-                   model_uri=KGCL.new_subclass, domain=None, range=Optional[str])
-
-slots.new_property = Slot(uri=KGCL.new_property, name="new property", curie=KGCL.curie('new_property'),
-                   model_uri=KGCL.new_property, domain=None, range=Optional[str])
-
-slots.new_filler = Slot(uri=KGCL.new_filler, name="new filler", curie=KGCL.curie('new_filler'),
-                   model_uri=KGCL.new_filler, domain=None, range=Optional[str])
-
-slots.in_subset = Slot(uri=KGCL.in_subset, name="in subset", curie=KGCL.curie('in_subset'),
-                   model_uri=KGCL.in_subset, domain=None, range=Optional[Union[dict, OntologySubset]])
-
-slots.change_description = Slot(uri=KGCL.change_description, name="change description", curie=KGCL.curie('change_description'),
-                   model_uri=KGCL.change_description, domain=None, range=Optional[str])
-
-slots.has_textual_diff = Slot(uri=KGCL.has_textual_diff, name="has textual diff", curie=KGCL.curie('has_textual_diff'),
-                   model_uri=KGCL.has_textual_diff, domain=Change, range=Optional[Union[dict, "TextualDiff"]])
-
-slots.change_set = Slot(uri=KGCL.change_set, name="change set", curie=KGCL.curie('change_set'),
-                   model_uri=KGCL.change_set, domain=None, range=Optional[Union[Dict[Union[str, ChangeId], Union[dict, Change]], List[Union[dict, Change]]]])
-
-slots.has_replacement = Slot(uri=KGCL.has_replacement, name="has replacement", curie=KGCL.curie('has_replacement'),
-                   model_uri=KGCL.has_replacement, domain=NodeObsoletion, range=Optional[Union[str, NodeId]])
-
-slots.has_direct_replacement = Slot(uri=KGCL.has_direct_replacement, name="has direct replacement", curie=KGCL.curie('has_direct_replacement'),
-                   model_uri=KGCL.has_direct_replacement, domain=None, range=Optional[Union[str, NodeId]])
-
-slots.has_nondirect_replacement = Slot(uri=KGCL.has_nondirect_replacement, name="has nondirect replacement", curie=KGCL.curie('has_nondirect_replacement'),
-                   model_uri=KGCL.has_nondirect_replacement, domain=None, range=Optional[Union[Union[str, NodeId], List[Union[str, NodeId]]]])
-
-slots.owl_type = Slot(uri=OM.owl_type, name="owl type", curie=OM.curie('owl_type'),
-                   model_uri=KGCL.owl_type, domain=None, range=Optional[Union[str, "OwlTypeEnum"]])
-
-slots.name = Slot(uri=OM.name, name="name", curie=OM.curie('name'),
-                   model_uri=KGCL.name, domain=None, range=Optional[str])
-
-slots.subject = Slot(uri=OM.subject, name="subject", curie=OM.curie('subject'),
-                   model_uri=KGCL.subject, domain=None, range=Optional[Union[str, NodeId]])
-
-slots.object = Slot(uri=OM.object, name="object", curie=OM.curie('object'),
-                   model_uri=KGCL.object, domain=None, range=Optional[Union[str, NodeId]])
-
-slots.predicate = Slot(uri=OM.predicate, name="predicate", curie=OM.curie('predicate'),
-                   model_uri=KGCL.predicate, domain=None, range=Optional[Union[str, NodeId]])
-
-slots.annotation_set = Slot(uri=OM.annotation_set, name="annotation set", curie=OM.curie('annotation_set'),
-                   model_uri=KGCL.annotation_set, domain=None, range=Optional[Union[dict, Annotation]])
-
-slots.property = Slot(uri=OM.property, name="property", curie=OM.curie('property'),
-                   model_uri=KGCL.property, domain=None, range=Optional[Union[str, NodeId]])
-
-slots.filler = Slot(uri=OM.filler, name="filler", curie=OM.curie('filler'),
-                   model_uri=KGCL.filler, domain=None, range=Optional[str])
-
-slots.property_value_set = Slot(uri=OM.property_value_set, name="property value set", curie=OM.curie('property_value_set'),
-                   model_uri=KGCL.property_value_set, domain=None, range=Optional[Union[Union[dict, PropertyValue], List[Union[dict, PropertyValue]]]])
-
-slots.started_at_time = Slot(uri=PROV.startedAtTime, name="started at time", curie=PROV.curie('startedAtTime'),
-                   model_uri=KGCL.started_at_time, domain=None, range=Optional[str])
-
-slots.ended_at_time = Slot(uri=PROV.endedAtTime, name="ended at time", curie=PROV.curie('endedAtTime'),
-                   model_uri=KGCL.ended_at_time, domain=None, range=Optional[str])
-
-slots.was_informed_by = Slot(uri=PROV.wasInformedBy, name="was informed by", curie=PROV.curie('wasInformedBy'),
-                   model_uri=KGCL.was_informed_by, domain=None, range=Optional[Union[str, ActivityId]])
-
-slots.was_associated_with = Slot(uri=PROV.wasAssociatedWith, name="was associated with", curie=PROV.curie('wasAssociatedWith'),
-                   model_uri=KGCL.was_associated_with, domain=None, range=Optional[Union[str, AgentId]])
-
-slots.acted_on_behalf_of = Slot(uri=PROV.actedOnBehalfOf, name="acted on behalf of", curie=PROV.curie('actedOnBehalfOf'),
-                   model_uri=KGCL.acted_on_behalf_of, domain=None, range=Optional[Union[str, AgentId]])
-
-slots.was_generated_by = Slot(uri=PROV.wasGeneratedBy, name="was generated by", curie=PROV.curie('wasGeneratedBy'),
-                   model_uri=KGCL.was_generated_by, domain=None, range=Optional[Union[str, ActivityId]])
-
-slots.used = Slot(uri=PROV.used, name="used", curie=PROV.curie('used'),
-                   model_uri=KGCL.used, domain=Activity, range=Optional[str])
-
-slots.activity_set = Slot(uri=PROV.activity_set, name="activity set", curie=PROV.curie('activity_set'),
-                   model_uri=KGCL.activity_set, domain=None, range=Optional[Union[Dict[Union[str, ActivityId], Union[dict, Activity]], List[Union[dict, Activity]]]])
-
-slots.agent_set = Slot(uri=PROV.agent_set, name="agent set", curie=PROV.curie('agent_set'),
-                   model_uri=KGCL.agent_set, domain=None, range=Optional[Union[Dict[Union[str, AgentId], Union[dict, Agent]], List[Union[dict, Agent]]]])
-
-slots.id = Slot(uri=BASICS.id, name="id", curie=BASICS.curie('id'),
-                   model_uri=KGCL.id, domain=None, range=URIRef)
-
-slots.description = Slot(uri=DCTERMS.description, name="description", curie=DCTERMS.curie('description'),
-                   model_uri=KGCL.description, domain=None, range=Optional[str])
-
-slots.configuration__name_predicate = Slot(uri=KGCL.name_predicate, name="configuration__name_predicate", curie=KGCL.curie('name_predicate'),
-                   model_uri=KGCL.configuration__name_predicate, domain=None, range=Optional[str])
-
-slots.configuration__definition_predicate = Slot(uri=KGCL.definition_predicate, name="configuration__definition_predicate", curie=KGCL.curie('definition_predicate'),
-                   model_uri=KGCL.configuration__definition_predicate, domain=None, range=Optional[str])
-
-slots.configuration__main_synonym_predicate = Slot(uri=KGCL.main_synonym_predicate, name="configuration__main_synonym_predicate", curie=KGCL.curie('main_synonym_predicate'),
-                   model_uri=KGCL.configuration__main_synonym_predicate, domain=None, range=Optional[str])
-
-slots.configuration__synonym_predicates = Slot(uri=KGCL.synonym_predicates, name="configuration__synonym_predicates", curie=KGCL.curie('synonym_predicates'),
-                   model_uri=KGCL.configuration__synonym_predicates, domain=None, range=Optional[str])
-
-slots.configuration__creator_predicate = Slot(uri=KGCL.creator_predicate, name="configuration__creator_predicate", curie=KGCL.curie('creator_predicate'),
-                   model_uri=KGCL.configuration__creator_predicate, domain=None, range=Optional[str])
-
-slots.configuration__contributor_predicate = Slot(uri=KGCL.contributor_predicate, name="configuration__contributor_predicate", curie=KGCL.curie('contributor_predicate'),
-                   model_uri=KGCL.configuration__contributor_predicate, domain=None, range=Optional[str])
-
-slots.configuration__obsoletion_workflow = Slot(uri=KGCL.obsoletion_workflow, name="configuration__obsoletion_workflow", curie=KGCL.curie('obsoletion_workflow'),
-                   model_uri=KGCL.configuration__obsoletion_workflow, domain=None, range=Optional[str])
-
-slots.configuration__obsoletion_policy = Slot(uri=KGCL.obsoletion_policy, name="configuration__obsoletion_policy", curie=KGCL.curie('obsoletion_policy'),
-                   model_uri=KGCL.configuration__obsoletion_policy, domain=None, range=Optional[str])
-
-slots.associated_change_set = Slot(uri=KGCL.associated_change_set, name="associated change set", curie=KGCL.curie('associated_change_set'),
-                   model_uri=KGCL.associated_change_set, domain=None, range=Optional[Union[Dict[Union[str, ChangeId], Union[dict, Change]], List[Union[dict, Change]]]])
-
-slots.change_type = Slot(uri=KGCL.change_type, name="change type", curie=KGCL.curie('change_type'),
-                   model_uri=KGCL.change_type, domain=None, range=Optional[Union[str, ChangeClassType]])
-
-slots.count = Slot(uri=KGCL.count, name="count", curie=KGCL.curie('count'),
-                   model_uri=KGCL.count, domain=None, range=Optional[int])
-
-slots.change_1 = Slot(uri=KGCL.change_1, name="change 1", curie=KGCL.curie('change_1'),
-                   model_uri=KGCL.change_1, domain=None, range=Optional[Union[str, NodeRenameId]])
-
-slots.change_2 = Slot(uri=KGCL.change_2, name="change 2", curie=KGCL.curie('change_2'),
-                   model_uri=KGCL.change_2, domain=None, range=Optional[Union[str, NewSynonymId]])
-
-slots.subset = Slot(uri=KGCL.subset, name="subset", curie=KGCL.curie('subset'),
-                   model_uri=KGCL.subset, domain=None, range=Optional[str])
-
-slots.replaced_by = Slot(uri=KGCL.replaced_by, name="replaced by", curie=KGCL.curie('replaced_by'),
-                   model_uri=KGCL.replaced_by, domain=None, range=Optional[Union[str, NodeId]])
-
-slots.consider = Slot(uri=KGCL.consider, name="consider", curie=KGCL.curie('consider'),
-                   model_uri=KGCL.consider, domain=None, range=Optional[Union[str, NodeId]])
-
-slots.change_was_generated_by = Slot(uri=KGCL.was_generated_by, name="change_was generated by", curie=KGCL.curie('was_generated_by'),
-                   model_uri=KGCL.change_was_generated_by, domain=Change, range=Optional[Union[str, ActivityId]])
-
-slots.change_see_also = Slot(uri=KGCL.see_also, name="change_see also", curie=KGCL.curie('see_also'),
-                   model_uri=KGCL.change_see_also, domain=Change, range=Optional[str])
-
-slots.change_pull_request = Slot(uri=KGCL.pull_request, name="change_pull request", curie=KGCL.curie('pull_request'),
-                   model_uri=KGCL.change_pull_request, domain=Change, range=Optional[str])
-
-slots.change_creator = Slot(uri=KGCL.creator, name="change_creator", curie=KGCL.curie('creator'),
-                   model_uri=KGCL.change_creator, domain=Change, range=Optional[str])
-
-slots.change_change_date = Slot(uri=KGCL.change_date, name="change_change date", curie=KGCL.curie('change_date'),
-                   model_uri=KGCL.change_change_date, domain=Change, range=Optional[str])
-
-slots.multi_node_obsoletion_change_set = Slot(uri=KGCL.change_set, name="multi node obsoletion_change set", curie=KGCL.curie('change_set'),
-                   model_uri=KGCL.multi_node_obsoletion_change_set, domain=MultiNodeObsoletion, range=Optional[Union[Dict[Union[str, NodeObsoletionId], Union[dict, "NodeObsoletion"]], List[Union[dict, "NodeObsoletion"]]]])
-
-slots.multi_node_obsoletion_change_description = Slot(uri=KGCL.change_description, name="multi node obsoletion_change description", curie=KGCL.curie('change_description'),
-                   model_uri=KGCL.multi_node_obsoletion_change_description, domain=MultiNodeObsoletion, range=Optional[str])
-
-slots.multi_node_obsoletion_associated_change_set = Slot(uri=KGCL.associated_change_set, name="multi node obsoletion_associated change set", curie=KGCL.curie('associated_change_set'),
-                   model_uri=KGCL.multi_node_obsoletion_associated_change_set, domain=MultiNodeObsoletion, range=Optional[Union[Dict[Union[str, ChangeId], Union[dict, Change]], List[Union[dict, Change]]]])
-
-slots.change_set_summary_statistic_change_type = Slot(uri=KGCL.change_type, name="change set summary statistic_change type", curie=KGCL.curie('change_type'),
-                   model_uri=KGCL.change_set_summary_statistic_change_type, domain=ChangeSetSummaryStatistic, range=Optional[Union[str, ChangeClassType]])
-
-slots.change_set_summary_statistic_count = Slot(uri=KGCL.count, name="change set summary statistic_count", curie=KGCL.curie('count'),
-                   model_uri=KGCL.change_set_summary_statistic_count, domain=ChangeSetSummaryStatistic, range=Optional[int])
-
-slots.change_set_summary_statistic_property_value_set = Slot(uri=KGCL.property_value_set, name="change set summary statistic_property value set", curie=KGCL.curie('property_value_set'),
-                   model_uri=KGCL.change_set_summary_statistic_property_value_set, domain=ChangeSetSummaryStatistic, range=Optional[Union[Union[dict, "PropertyValue"], List[Union[dict, "PropertyValue"]]]])
-
-slots.obsoletion_about = Slot(uri=KGCL.about, name="obsoletion_about", curie=KGCL.curie('about'),
-                   model_uri=KGCL.obsoletion_about, domain=None, range=Optional[Union[dict, "OntologyElement"]])
-
-slots.obsoletion_has_undo = Slot(uri=KGCL.has_undo, name="obsoletion_has undo", curie=KGCL.curie('has_undo'),
-                   model_uri=KGCL.obsoletion_has_undo, domain=None, range=Optional[Union[dict, "Obsoletion"]])
-
-slots.unobsoletion_has_undo = Slot(uri=KGCL.has_undo, name="unobsoletion_has undo", curie=KGCL.curie('has_undo'),
-                   model_uri=KGCL.unobsoletion_has_undo, domain=None, range=Optional[Union[dict, Obsoletion]])
-
-slots.creation_has_undo = Slot(uri=KGCL.has_undo, name="creation_has undo", curie=KGCL.curie('has_undo'),
-                   model_uri=KGCL.creation_has_undo, domain=None, range=Optional[Union[dict, Deletion]])
-
-slots.add_to_subset_in_subset = Slot(uri=KGCL.in_subset, name="add to subset_in subset", curie=KGCL.curie('in_subset'),
-                   model_uri=KGCL.add_to_subset_in_subset, domain=None, range=Optional[Union[dict, "OntologySubset"]])
-
-slots.remove_from_subset_in_subset = Slot(uri=KGCL.in_subset, name="remove from subset_in subset", curie=KGCL.curie('in_subset'),
-                   model_uri=KGCL.remove_from_subset_in_subset, domain=None, range=Optional[Union[dict, "OntologySubset"]])
-
-slots.remove_from_subset_has_undo = Slot(uri=KGCL.has_undo, name="remove from subset_has undo", curie=KGCL.curie('has_undo'),
-                   model_uri=KGCL.remove_from_subset_has_undo, domain=None, range=Optional[Union[dict, AddToSubset]])
-
-slots.edge_change_subject = Slot(uri=KGCL.subject, name="edge change_subject", curie=KGCL.curie('subject'),
-                   model_uri=KGCL.edge_change_subject, domain=EdgeChange, range=Optional[Union[str, NodeId]])
-
-slots.edge_creation_change_description = Slot(uri=KGCL.change_description, name="edge creation_change description", curie=KGCL.curie('change_description'),
-                   model_uri=KGCL.edge_creation_change_description, domain=EdgeCreation, range=Optional[str])
-
-slots.edge_deletion_change_description = Slot(uri=KGCL.change_description, name="edge deletion_change description", curie=KGCL.curie('change_description'),
-                   model_uri=KGCL.edge_deletion_change_description, domain=EdgeDeletion, range=Optional[str])
-
-slots.edge_obsoletion_change_description = Slot(uri=KGCL.change_description, name="edge obsoletion_change description", curie=KGCL.curie('change_description'),
-                   model_uri=KGCL.edge_obsoletion_change_description, domain=EdgeObsoletion, range=Optional[str])
-
-slots.mapping_creation_change_description = Slot(uri=KGCL.change_description, name="mapping creation_change description", curie=KGCL.curie('change_description'),
-                   model_uri=KGCL.mapping_creation_change_description, domain=MappingCreation, range=Optional[str])
-
-slots.mapping_creation_subject = Slot(uri=KGCL.subject, name="mapping creation_subject", curie=KGCL.curie('subject'),
-                   model_uri=KGCL.mapping_creation_subject, domain=MappingCreation, range=Optional[Union[str, NodeId]])
-
-slots.mapping_creation_predicate = Slot(uri=KGCL.predicate, name="mapping creation_predicate", curie=KGCL.curie('predicate'),
-                   model_uri=KGCL.mapping_creation_predicate, domain=MappingCreation, range=Optional[Union[str, NodeId]])
-
-slots.mapping_creation_object = Slot(uri=KGCL.object, name="mapping creation_object", curie=KGCL.curie('object'),
-                   model_uri=KGCL.mapping_creation_object, domain=MappingCreation, range=Optional[Union[str, NodeId]])
-
-slots.node_move_change_description = Slot(uri=KGCL.change_description, name="node move_change description", curie=KGCL.curie('change_description'),
-                   model_uri=KGCL.node_move_change_description, domain=NodeMove, range=Optional[str])
-
-slots.node_deepening_change_description = Slot(uri=KGCL.change_description, name="node deepening_change description", curie=KGCL.curie('change_description'),
-                   model_uri=KGCL.node_deepening_change_description, domain=NodeDeepening, range=Optional[str])
-
-slots.node_shallowing_change_description = Slot(uri=KGCL.change_description, name="node shallowing_change description", curie=KGCL.curie('change_description'),
-                   model_uri=KGCL.node_shallowing_change_description, domain=NodeShallowing, range=Optional[str])
-
-slots.predicate_change_change_description = Slot(uri=KGCL.change_description, name="predicate change_change description", curie=KGCL.curie('change_description'),
-                   model_uri=KGCL.predicate_change_change_description, domain=PredicateChange, range=Optional[str])
-
-slots.node_rename_old_value = Slot(uri=KGCL.old_value, name="node rename_old value", curie=KGCL.curie('old_value'),
-                   model_uri=KGCL.node_rename_old_value, domain=NodeRename, range=Optional[str])
-
-slots.node_rename_new_value = Slot(uri=KGCL.new_value, name="node rename_new value", curie=KGCL.curie('new_value'),
-                   model_uri=KGCL.node_rename_new_value, domain=NodeRename, range=Optional[str])
-
-slots.node_rename_change_description = Slot(uri=KGCL.change_description, name="node rename_change description", curie=KGCL.curie('change_description'),
-                   model_uri=KGCL.node_rename_change_description, domain=NodeRename, range=Optional[str])
-
-slots.name_becomes_synonym_change_1 = Slot(uri=KGCL.change_1, name="name becomes synonym_change 1", curie=KGCL.curie('change_1'),
-                   model_uri=KGCL.name_becomes_synonym_change_1, domain=NameBecomesSynonym, range=Optional[Union[str, NodeRenameId]])
-
-slots.name_becomes_synonym_change_2 = Slot(uri=KGCL.change_2, name="name becomes synonym_change 2", curie=KGCL.curie('change_2'),
-                   model_uri=KGCL.name_becomes_synonym_change_2, domain=NameBecomesSynonym, range=Optional[Union[str, NewSynonymId]])
-
-slots.name_becomes_synonym_change_description = Slot(uri=KGCL.change_description, name="name becomes synonym_change description", curie=KGCL.curie('change_description'),
-                   model_uri=KGCL.name_becomes_synonym_change_description, domain=NameBecomesSynonym, range=Optional[str])
-
-slots.removed_node_from_subset_change_description = Slot(uri=KGCL.change_description, name="removed node from subset_change description", curie=KGCL.curie('change_description'),
-                   model_uri=KGCL.removed_node_from_subset_change_description, domain=RemovedNodeFromSubset, range=Optional[str])
-
-slots.removed_node_from_subset_about_node = Slot(uri=KGCL.about_node, name="removed node from subset_about node", curie=KGCL.curie('about_node'),
-                   model_uri=KGCL.removed_node_from_subset_about_node, domain=RemovedNodeFromSubset, range=Optional[Union[str, NodeId]])
-
-slots.removed_node_from_subset_subset = Slot(uri=KGCL.subset, name="removed node from subset_subset", curie=KGCL.curie('subset'),
-                   model_uri=KGCL.removed_node_from_subset_subset, domain=RemovedNodeFromSubset, range=Optional[str])
-
-slots.node_obsoletion_change_description = Slot(uri=KGCL.change_description, name="node obsoletion_change description", curie=KGCL.curie('change_description'),
-                   model_uri=KGCL.node_obsoletion_change_description, domain=NodeObsoletion, range=Optional[str])
-
-slots.node_obsoletion_associated_change_set = Slot(uri=KGCL.associated_change_set, name="node obsoletion_associated change set", curie=KGCL.curie('associated_change_set'),
-                   model_uri=KGCL.node_obsoletion_associated_change_set, domain=NodeObsoletion, range=Optional[Union[Dict[Union[str, ChangeId], Union[dict, Change]], List[Union[dict, Change]]]])
-
-slots.node_unobsoletion_change_description = Slot(uri=KGCL.change_description, name="node unobsoletion_change description", curie=KGCL.curie('change_description'),
-                   model_uri=KGCL.node_unobsoletion_change_description, domain=NodeUnobsoletion, range=Optional[str])
-
-slots.node_unobsoletion_replaced_by = Slot(uri=KGCL.replaced_by, name="node unobsoletion_replaced by", curie=KGCL.curie('replaced_by'),
-                   model_uri=KGCL.node_unobsoletion_replaced_by, domain=NodeUnobsoletion, range=Optional[Union[str, NodeId]])
-
-slots.node_unobsoletion_consider = Slot(uri=KGCL.consider, name="node unobsoletion_consider", curie=KGCL.curie('consider'),
-                   model_uri=KGCL.node_unobsoletion_consider, domain=NodeUnobsoletion, range=Optional[Union[str, NodeId]])
-
-slots.node_creation_change_description = Slot(uri=KGCL.change_description, name="node creation_change description", curie=KGCL.curie('change_description'),
-                   model_uri=KGCL.node_creation_change_description, domain=NodeCreation, range=Optional[str])
-
-slots.class_creation_change_description = Slot(uri=KGCL.change_description, name="class creation_change description", curie=KGCL.curie('change_description'),
-                   model_uri=KGCL.class_creation_change_description, domain=ClassCreation, range=Optional[str])
-
-slots.node_deletion_change_description = Slot(uri=KGCL.change_description, name="node deletion_change description", curie=KGCL.curie('change_description'),
-                   model_uri=KGCL.node_deletion_change_description, domain=NodeDeletion, range=Optional[str])
-
-slots.node_direct_merge_has_direct_replacement = Slot(uri=KGCL.has_direct_replacement, name="node direct merge_has direct replacement", curie=KGCL.curie('has_direct_replacement'),
-                   model_uri=KGCL.node_direct_merge_has_direct_replacement, domain=NodeDirectMerge, range=Union[str, NodeId])
-
-slots.node_direct_merge_about_node = Slot(uri=KGCL.about_node, name="node direct merge_about node", curie=KGCL.curie('about_node'),
-                   model_uri=KGCL.node_direct_merge_about_node, domain=NodeDirectMerge, range=Optional[Union[str, NodeId]])
-
-slots.node_direct_merge_change_description = Slot(uri=KGCL.change_description, name="node direct merge_change description", curie=KGCL.curie('change_description'),
-                   model_uri=KGCL.node_direct_merge_change_description, domain=NodeDirectMerge, range=Optional[str])
-
-slots.node_obsoletion_with_direct_replacement_has_direct_replacement = Slot(uri=KGCL.has_direct_replacement, name="node obsoletion with direct replacement_has direct replacement", curie=KGCL.curie('has_direct_replacement'),
-                   model_uri=KGCL.node_obsoletion_with_direct_replacement_has_direct_replacement, domain=NodeObsoletionWithDirectReplacement, range=Union[str, NodeId])
-
-slots.node_obsoletion_with_direct_replacement_change_description = Slot(uri=KGCL.change_description, name="node obsoletion with direct replacement_change description", curie=KGCL.curie('change_description'),
-                   model_uri=KGCL.node_obsoletion_with_direct_replacement_change_description, domain=NodeObsoletionWithDirectReplacement, range=Optional[str])
-
-slots.node_obsoletion_with_no_direct_replacement_has_nondirect_replacement = Slot(uri=KGCL.has_nondirect_replacement, name="node obsoletion with no direct replacement_has nondirect replacement", curie=KGCL.curie('has_nondirect_replacement'),
-                   model_uri=KGCL.node_obsoletion_with_no_direct_replacement_has_nondirect_replacement, domain=NodeObsoletionWithNoDirectReplacement, range=Union[Union[str, NodeId], List[Union[str, NodeId]]])
-
-slots.node_obsoletion_with_no_direct_replacement_change_description = Slot(uri=KGCL.change_description, name="node obsoletion with no direct replacement_change description", curie=KGCL.curie('change_description'),
-                   model_uri=KGCL.node_obsoletion_with_no_direct_replacement_change_description, domain=NodeObsoletionWithNoDirectReplacement, range=Optional[str])
+slots.pull_request = Slot(
+    uri=KGCL.pull_request,
+    name="pull request",
+    curie=KGCL.curie("pull_request"),
+    model_uri=KGCL.pull_request,
+    domain=None,
+    range=Optional[str],
+)
+
+slots.see_also = Slot(
+    uri=RDFS.seeAlso,
+    name="see also",
+    curie=RDFS.curie("seeAlso"),
+    model_uri=KGCL.see_also,
+    domain=None,
+    range=Optional[str],
+)
+
+slots.creator = Slot(
+    uri=DCTERMS.creator,
+    name="creator",
+    curie=DCTERMS.curie("creator"),
+    model_uri=KGCL.creator,
+    domain=None,
+    range=Optional[str],
+)
+
+slots.contributor = Slot(
+    uri=DCTERMS.creator,
+    name="contributor",
+    curie=DCTERMS.curie("creator"),
+    model_uri=KGCL.contributor,
+    domain=None,
+    range=Optional[str],
+)
+
+slots.change_date = Slot(
+    uri=DCTERMS.date,
+    name="change date",
+    curie=DCTERMS.curie("date"),
+    model_uri=KGCL.change_date,
+    domain=None,
+    range=Optional[str],
+)
+
+slots.has_undo = Slot(
+    uri=KGCL.has_undo,
+    name="has undo",
+    curie=KGCL.curie("has_undo"),
+    model_uri=KGCL.has_undo,
+    domain=Change,
+    range=Optional[Union[str, ChangeId]],
+)
+
+slots.node_id = Slot(
+    uri=KGCL.node_id,
+    name="node id",
+    curie=KGCL.curie("node_id"),
+    model_uri=KGCL.node_id,
+    domain=None,
+    range=Optional[Union[str, NodeId]],
+)
+
+slots.superclass = Slot(
+    uri=KGCL.superclass,
+    name="superclass",
+    curie=KGCL.curie("superclass"),
+    model_uri=KGCL.superclass,
+    domain=None,
+    range=Optional[Union[str, NodeId]],
+)
+
+slots.about = Slot(
+    uri=KGCL.about,
+    name="about",
+    curie=KGCL.curie("about"),
+    model_uri=KGCL.about,
+    domain=None,
+    range=Optional[Union[dict, OntologyElement]],
+)
+
+slots.about_node = Slot(
+    uri=KGCL.about_node,
+    name="about node",
+    curie=KGCL.curie("about_node"),
+    model_uri=KGCL.about_node,
+    domain=None,
+    range=Optional[Union[str, NodeId]],
+)
+
+slots.about_edge = Slot(
+    uri=KGCL.about_edge,
+    name="about edge",
+    curie=KGCL.curie("about_edge"),
+    model_uri=KGCL.about_edge,
+    domain=None,
+    range=Optional[Union[dict, Edge]],
+)
+
+slots.target = Slot(
+    uri=KGCL.target,
+    name="target",
+    curie=KGCL.curie("target"),
+    model_uri=KGCL.target,
+    domain=None,
+    range=Optional[str],
+)
+
+slots.old_value = Slot(
+    uri=KGCL.old_value,
+    name="old value",
+    curie=KGCL.curie("old_value"),
+    model_uri=KGCL.old_value,
+    domain=None,
+    range=Optional[str],
+)
+
+slots.new_value = Slot(
+    uri=KGCL.new_value,
+    name="new value",
+    curie=KGCL.curie("new_value"),
+    model_uri=KGCL.new_value,
+    domain=None,
+    range=Optional[str],
+)
+
+slots.language = Slot(
+    uri=KGCL.language,
+    name="language",
+    curie=KGCL.curie("language"),
+    model_uri=KGCL.language,
+    domain=None,
+    range=Optional[str],
+)
+
+slots.new_language = Slot(
+    uri=KGCL.new_language,
+    name="new language",
+    curie=KGCL.curie("new_language"),
+    model_uri=KGCL.new_language,
+    domain=None,
+    range=Optional[str],
+)
+
+slots.old_language = Slot(
+    uri=KGCL.old_language,
+    name="old language",
+    curie=KGCL.curie("old_language"),
+    model_uri=KGCL.old_language,
+    domain=None,
+    range=Optional[str],
+)
+
+slots.qualifier = Slot(
+    uri=KGCL.qualifier,
+    name="qualifier",
+    curie=KGCL.curie("qualifier"),
+    model_uri=KGCL.qualifier,
+    domain=None,
+    range=Optional[str],
+)
+
+slots.subclass = Slot(
+    uri=KGCL.subclass,
+    name="subclass",
+    curie=KGCL.curie("subclass"),
+    model_uri=KGCL.subclass,
+    domain=None,
+    range=Optional[str],
+)
+
+slots.new_subclass = Slot(
+    uri=KGCL.new_subclass,
+    name="new subclass",
+    curie=KGCL.curie("new_subclass"),
+    model_uri=KGCL.new_subclass,
+    domain=None,
+    range=Optional[str],
+)
+
+slots.new_property = Slot(
+    uri=KGCL.new_property,
+    name="new property",
+    curie=KGCL.curie("new_property"),
+    model_uri=KGCL.new_property,
+    domain=None,
+    range=Optional[str],
+)
+
+slots.new_filler = Slot(
+    uri=KGCL.new_filler,
+    name="new filler",
+    curie=KGCL.curie("new_filler"),
+    model_uri=KGCL.new_filler,
+    domain=None,
+    range=Optional[str],
+)
+
+slots.object_type = Slot(
+    uri=KGCL.object_type,
+    name="object type",
+    curie=KGCL.curie("object_type"),
+    model_uri=KGCL.object_type,
+    domain=None,
+    range=Optional[str],
+)
+
+slots.new_object_type = Slot(
+    uri=KGCL.new_object_type,
+    name="new object type",
+    curie=KGCL.curie("new_object_type"),
+    model_uri=KGCL.new_object_type,
+    domain=None,
+    range=Optional[str],
+)
+
+slots.old_object_type = Slot(
+    uri=KGCL.old_object_type,
+    name="old object type",
+    curie=KGCL.curie("old_object_type"),
+    model_uri=KGCL.old_object_type,
+    domain=None,
+    range=Optional[str],
+)
+
+slots.in_subset = Slot(
+    uri=KGCL.in_subset,
+    name="in subset",
+    curie=KGCL.curie("in_subset"),
+    model_uri=KGCL.in_subset,
+    domain=None,
+    range=Optional[Union[dict, OntologySubset]],
+)
+
+slots.change_description = Slot(
+    uri=KGCL.change_description,
+    name="change description",
+    curie=KGCL.curie("change_description"),
+    model_uri=KGCL.change_description,
+    domain=None,
+    range=Optional[str],
+)
+
+slots.has_textual_diff = Slot(
+    uri=KGCL.has_textual_diff,
+    name="has textual diff",
+    curie=KGCL.curie("has_textual_diff"),
+    model_uri=KGCL.has_textual_diff,
+    domain=Change,
+    range=Optional[Union[dict, "TextualDiff"]],
+)
+
+slots.change_set = Slot(
+    uri=KGCL.change_set,
+    name="change set",
+    curie=KGCL.curie("change_set"),
+    model_uri=KGCL.change_set,
+    domain=None,
+    range=Optional[
+        Union[
+            Dict[Union[str, ChangeId], Union[dict, Change]], List[Union[dict, Change]]
+        ]
+    ],
+)
+
+slots.has_replacement = Slot(
+    uri=KGCL.has_replacement,
+    name="has replacement",
+    curie=KGCL.curie("has_replacement"),
+    model_uri=KGCL.has_replacement,
+    domain=NodeObsoletion,
+    range=Optional[Union[str, NodeId]],
+)
+
+slots.has_direct_replacement = Slot(
+    uri=KGCL.has_direct_replacement,
+    name="has direct replacement",
+    curie=KGCL.curie("has_direct_replacement"),
+    model_uri=KGCL.has_direct_replacement,
+    domain=None,
+    range=Optional[Union[str, NodeId]],
+)
+
+slots.has_nondirect_replacement = Slot(
+    uri=KGCL.has_nondirect_replacement,
+    name="has nondirect replacement",
+    curie=KGCL.curie("has_nondirect_replacement"),
+    model_uri=KGCL.has_nondirect_replacement,
+    domain=None,
+    range=Optional[Union[Union[str, NodeId], List[Union[str, NodeId]]]],
+)
+
+slots.configuration__name_predicate = Slot(
+    uri=KGCL.name_predicate,
+    name="configuration__name_predicate",
+    curie=KGCL.curie("name_predicate"),
+    model_uri=KGCL.configuration__name_predicate,
+    domain=None,
+    range=Optional[str],
+)
+
+slots.configuration__definition_predicate = Slot(
+    uri=KGCL.definition_predicate,
+    name="configuration__definition_predicate",
+    curie=KGCL.curie("definition_predicate"),
+    model_uri=KGCL.configuration__definition_predicate,
+    domain=None,
+    range=Optional[str],
+)
+
+slots.configuration__main_synonym_predicate = Slot(
+    uri=KGCL.main_synonym_predicate,
+    name="configuration__main_synonym_predicate",
+    curie=KGCL.curie("main_synonym_predicate"),
+    model_uri=KGCL.configuration__main_synonym_predicate,
+    domain=None,
+    range=Optional[str],
+)
+
+slots.configuration__synonym_predicates = Slot(
+    uri=KGCL.synonym_predicates,
+    name="configuration__synonym_predicates",
+    curie=KGCL.curie("synonym_predicates"),
+    model_uri=KGCL.configuration__synonym_predicates,
+    domain=None,
+    range=Optional[str],
+)
+
+slots.configuration__creator_predicate = Slot(
+    uri=KGCL.creator_predicate,
+    name="configuration__creator_predicate",
+    curie=KGCL.curie("creator_predicate"),
+    model_uri=KGCL.configuration__creator_predicate,
+    domain=None,
+    range=Optional[str],
+)
+
+slots.configuration__contributor_predicate = Slot(
+    uri=KGCL.contributor_predicate,
+    name="configuration__contributor_predicate",
+    curie=KGCL.curie("contributor_predicate"),
+    model_uri=KGCL.configuration__contributor_predicate,
+    domain=None,
+    range=Optional[str],
+)
+
+slots.configuration__obsoletion_workflow = Slot(
+    uri=KGCL.obsoletion_workflow,
+    name="configuration__obsoletion_workflow",
+    curie=KGCL.curie("obsoletion_workflow"),
+    model_uri=KGCL.configuration__obsoletion_workflow,
+    domain=None,
+    range=Optional[str],
+)
+
+slots.configuration__obsoletion_policy = Slot(
+    uri=KGCL.obsoletion_policy,
+    name="configuration__obsoletion_policy",
+    curie=KGCL.curie("obsoletion_policy"),
+    model_uri=KGCL.configuration__obsoletion_policy,
+    domain=None,
+    range=Optional[str],
+)
+
+slots.associated_change_set = Slot(
+    uri=KGCL.associated_change_set,
+    name="associated change set",
+    curie=KGCL.curie("associated_change_set"),
+    model_uri=KGCL.associated_change_set,
+    domain=None,
+    range=Optional[
+        Union[
+            Dict[Union[str, ChangeId], Union[dict, Change]], List[Union[dict, Change]]
+        ]
+    ],
+)
+
+slots.change_type = Slot(
+    uri=KGCL.change_type,
+    name="change type",
+    curie=KGCL.curie("change_type"),
+    model_uri=KGCL.change_type,
+    domain=None,
+    range=Optional[Union[str, ChangeClassType]],
+)
+
+slots.count = Slot(
+    uri=KGCL.count,
+    name="count",
+    curie=KGCL.curie("count"),
+    model_uri=KGCL.count,
+    domain=None,
+    range=Optional[int],
+)
+
+slots.change_1 = Slot(
+    uri=KGCL.change_1,
+    name="change 1",
+    curie=KGCL.curie("change_1"),
+    model_uri=KGCL.change_1,
+    domain=None,
+    range=Optional[Union[str, NodeRenameId]],
+)
+
+slots.change_2 = Slot(
+    uri=KGCL.change_2,
+    name="change 2",
+    curie=KGCL.curie("change_2"),
+    model_uri=KGCL.change_2,
+    domain=None,
+    range=Optional[Union[str, NewSynonymId]],
+)
+
+slots.subset = Slot(
+    uri=KGCL.subset,
+    name="subset",
+    curie=KGCL.curie("subset"),
+    model_uri=KGCL.subset,
+    domain=None,
+    range=Optional[str],
+)
+
+slots.replaced_by = Slot(
+    uri=KGCL.replaced_by,
+    name="replaced by",
+    curie=KGCL.curie("replaced_by"),
+    model_uri=KGCL.replaced_by,
+    domain=None,
+    range=Optional[Union[str, NodeId]],
+)
+
+slots.consider = Slot(
+    uri=KGCL.consider,
+    name="consider",
+    curie=KGCL.curie("consider"),
+    model_uri=KGCL.consider,
+    domain=None,
+    range=Optional[Union[str, NodeId]],
+)
+
+slots.change_was_generated_by = Slot(
+    uri=KGCL.was_generated_by,
+    name="change_was generated by",
+    curie=KGCL.curie("was_generated_by"),
+    model_uri=KGCL.change_was_generated_by,
+    domain=Change,
+    range=Optional[Union[str, ActivityId]],
+)
+
+slots.change_see_also = Slot(
+    uri=KGCL.see_also,
+    name="change_see also",
+    curie=KGCL.curie("see_also"),
+    model_uri=KGCL.change_see_also,
+    domain=Change,
+    range=Optional[str],
+)
+
+slots.change_pull_request = Slot(
+    uri=KGCL.pull_request,
+    name="change_pull request",
+    curie=KGCL.curie("pull_request"),
+    model_uri=KGCL.change_pull_request,
+    domain=Change,
+    range=Optional[str],
+)
+
+slots.change_creator = Slot(
+    uri=KGCL.creator,
+    name="change_creator",
+    curie=KGCL.curie("creator"),
+    model_uri=KGCL.change_creator,
+    domain=Change,
+    range=Optional[str],
+)
+
+slots.change_change_date = Slot(
+    uri=KGCL.change_date,
+    name="change_change date",
+    curie=KGCL.curie("change_date"),
+    model_uri=KGCL.change_change_date,
+    domain=Change,
+    range=Optional[str],
+)
+
+slots.multi_node_obsoletion_change_set = Slot(
+    uri=KGCL.change_set,
+    name="multi node obsoletion_change set",
+    curie=KGCL.curie("change_set"),
+    model_uri=KGCL.multi_node_obsoletion_change_set,
+    domain=MultiNodeObsoletion,
+    range=Optional[
+        Union[
+            Dict[Union[str, NodeObsoletionId], Union[dict, "NodeObsoletion"]],
+            List[Union[dict, "NodeObsoletion"]],
+        ]
+    ],
+)
+
+slots.multi_node_obsoletion_change_description = Slot(
+    uri=KGCL.change_description,
+    name="multi node obsoletion_change description",
+    curie=KGCL.curie("change_description"),
+    model_uri=KGCL.multi_node_obsoletion_change_description,
+    domain=MultiNodeObsoletion,
+    range=Optional[str],
+)
+
+slots.multi_node_obsoletion_associated_change_set = Slot(
+    uri=KGCL.associated_change_set,
+    name="multi node obsoletion_associated change set",
+    curie=KGCL.curie("associated_change_set"),
+    model_uri=KGCL.multi_node_obsoletion_associated_change_set,
+    domain=MultiNodeObsoletion,
+    range=Optional[
+        Union[
+            Dict[Union[str, ChangeId], Union[dict, Change]], List[Union[dict, Change]]
+        ]
+    ],
+)
+
+slots.change_set_summary_statistic_change_type = Slot(
+    uri=KGCL.change_type,
+    name="change set summary statistic_change type",
+    curie=KGCL.curie("change_type"),
+    model_uri=KGCL.change_set_summary_statistic_change_type,
+    domain=ChangeSetSummaryStatistic,
+    range=Optional[Union[str, ChangeClassType]],
+)
+
+slots.change_set_summary_statistic_count = Slot(
+    uri=KGCL.count,
+    name="change set summary statistic_count",
+    curie=KGCL.curie("count"),
+    model_uri=KGCL.change_set_summary_statistic_count,
+    domain=ChangeSetSummaryStatistic,
+    range=Optional[int],
+)
+
+slots.change_set_summary_statistic_property_value_set = Slot(
+    uri=KGCL.property_value_set,
+    name="change set summary statistic_property value set",
+    curie=KGCL.curie("property_value_set"),
+    model_uri=KGCL.change_set_summary_statistic_property_value_set,
+    domain=ChangeSetSummaryStatistic,
+    range=Optional[Union[Union[dict, PropertyValue], List[Union[dict, PropertyValue]]]],
+)
+
+slots.obsoletion_about = Slot(
+    uri=KGCL.about,
+    name="obsoletion_about",
+    curie=KGCL.curie("about"),
+    model_uri=KGCL.obsoletion_about,
+    domain=None,
+    range=Optional[Union[dict, OntologyElement]],
+)
+
+slots.obsoletion_has_undo = Slot(
+    uri=KGCL.has_undo,
+    name="obsoletion_has undo",
+    curie=KGCL.curie("has_undo"),
+    model_uri=KGCL.obsoletion_has_undo,
+    domain=None,
+    range=Optional[Union[dict, "Obsoletion"]],
+)
+
+slots.unobsoletion_has_undo = Slot(
+    uri=KGCL.has_undo,
+    name="unobsoletion_has undo",
+    curie=KGCL.curie("has_undo"),
+    model_uri=KGCL.unobsoletion_has_undo,
+    domain=None,
+    range=Optional[Union[dict, Obsoletion]],
+)
+
+slots.creation_has_undo = Slot(
+    uri=KGCL.has_undo,
+    name="creation_has undo",
+    curie=KGCL.curie("has_undo"),
+    model_uri=KGCL.creation_has_undo,
+    domain=None,
+    range=Optional[Union[dict, Deletion]],
+)
+
+slots.add_to_subset_in_subset = Slot(
+    uri=KGCL.in_subset,
+    name="add to subset_in subset",
+    curie=KGCL.curie("in_subset"),
+    model_uri=KGCL.add_to_subset_in_subset,
+    domain=None,
+    range=Optional[Union[dict, OntologySubset]],
+)
+
+slots.remove_from_subset_in_subset = Slot(
+    uri=KGCL.in_subset,
+    name="remove from subset_in subset",
+    curie=KGCL.curie("in_subset"),
+    model_uri=KGCL.remove_from_subset_in_subset,
+    domain=None,
+    range=Optional[Union[dict, OntologySubset]],
+)
+
+slots.remove_from_subset_has_undo = Slot(
+    uri=KGCL.has_undo,
+    name="remove from subset_has undo",
+    curie=KGCL.curie("has_undo"),
+    model_uri=KGCL.remove_from_subset_has_undo,
+    domain=None,
+    range=Optional[Union[dict, AddToSubset]],
+)
+
+slots.edge_change_subject = Slot(
+    uri=KGCL.subject,
+    name="edge change_subject",
+    curie=KGCL.curie("subject"),
+    model_uri=KGCL.edge_change_subject,
+    domain=EdgeChange,
+    range=Optional[Union[str, NodeId]],
+)
+
+slots.edge_creation_change_description = Slot(
+    uri=KGCL.change_description,
+    name="edge creation_change description",
+    curie=KGCL.curie("change_description"),
+    model_uri=KGCL.edge_creation_change_description,
+    domain=EdgeCreation,
+    range=Optional[str],
+)
+
+slots.edge_deletion_change_description = Slot(
+    uri=KGCL.change_description,
+    name="edge deletion_change description",
+    curie=KGCL.curie("change_description"),
+    model_uri=KGCL.edge_deletion_change_description,
+    domain=EdgeDeletion,
+    range=Optional[str],
+)
+
+slots.edge_obsoletion_change_description = Slot(
+    uri=KGCL.change_description,
+    name="edge obsoletion_change description",
+    curie=KGCL.curie("change_description"),
+    model_uri=KGCL.edge_obsoletion_change_description,
+    domain=EdgeObsoletion,
+    range=Optional[str],
+)
+
+slots.mapping_creation_change_description = Slot(
+    uri=KGCL.change_description,
+    name="mapping creation_change description",
+    curie=KGCL.curie("change_description"),
+    model_uri=KGCL.mapping_creation_change_description,
+    domain=MappingCreation,
+    range=Optional[str],
+)
+
+slots.mapping_creation_subject = Slot(
+    uri=KGCL.subject,
+    name="mapping creation_subject",
+    curie=KGCL.curie("subject"),
+    model_uri=KGCL.mapping_creation_subject,
+    domain=MappingCreation,
+    range=Optional[Union[str, NodeId]],
+)
+
+slots.mapping_creation_predicate = Slot(
+    uri=KGCL.predicate,
+    name="mapping creation_predicate",
+    curie=KGCL.curie("predicate"),
+    model_uri=KGCL.mapping_creation_predicate,
+    domain=MappingCreation,
+    range=Optional[Union[str, NodeId]],
+)
+
+slots.mapping_creation_object = Slot(
+    uri=KGCL.object,
+    name="mapping creation_object",
+    curie=KGCL.curie("object"),
+    model_uri=KGCL.mapping_creation_object,
+    domain=MappingCreation,
+    range=Optional[Union[str, NodeId]],
+)
+
+slots.node_move_change_description = Slot(
+    uri=KGCL.change_description,
+    name="node move_change description",
+    curie=KGCL.curie("change_description"),
+    model_uri=KGCL.node_move_change_description,
+    domain=NodeMove,
+    range=Optional[str],
+)
+
+slots.node_deepening_change_description = Slot(
+    uri=KGCL.change_description,
+    name="node deepening_change description",
+    curie=KGCL.curie("change_description"),
+    model_uri=KGCL.node_deepening_change_description,
+    domain=NodeDeepening,
+    range=Optional[str],
+)
+
+slots.node_shallowing_change_description = Slot(
+    uri=KGCL.change_description,
+    name="node shallowing_change description",
+    curie=KGCL.curie("change_description"),
+    model_uri=KGCL.node_shallowing_change_description,
+    domain=NodeShallowing,
+    range=Optional[str],
+)
+
+slots.predicate_change_change_description = Slot(
+    uri=KGCL.change_description,
+    name="predicate change_change description",
+    curie=KGCL.curie("change_description"),
+    model_uri=KGCL.predicate_change_change_description,
+    domain=PredicateChange,
+    range=Optional[str],
+)
+
+slots.node_rename_old_value = Slot(
+    uri=KGCL.old_value,
+    name="node rename_old value",
+    curie=KGCL.curie("old_value"),
+    model_uri=KGCL.node_rename_old_value,
+    domain=NodeRename,
+    range=Optional[str],
+)
+
+slots.node_rename_new_value = Slot(
+    uri=KGCL.new_value,
+    name="node rename_new value",
+    curie=KGCL.curie("new_value"),
+    model_uri=KGCL.node_rename_new_value,
+    domain=NodeRename,
+    range=Optional[str],
+)
+
+slots.node_rename_change_description = Slot(
+    uri=KGCL.change_description,
+    name="node rename_change description",
+    curie=KGCL.curie("change_description"),
+    model_uri=KGCL.node_rename_change_description,
+    domain=NodeRename,
+    range=Optional[str],
+)
+
+slots.name_becomes_synonym_change_1 = Slot(
+    uri=KGCL.change_1,
+    name="name becomes synonym_change 1",
+    curie=KGCL.curie("change_1"),
+    model_uri=KGCL.name_becomes_synonym_change_1,
+    domain=NameBecomesSynonym,
+    range=Optional[Union[str, NodeRenameId]],
+)
+
+slots.name_becomes_synonym_change_2 = Slot(
+    uri=KGCL.change_2,
+    name="name becomes synonym_change 2",
+    curie=KGCL.curie("change_2"),
+    model_uri=KGCL.name_becomes_synonym_change_2,
+    domain=NameBecomesSynonym,
+    range=Optional[Union[str, NewSynonymId]],
+)
+
+slots.name_becomes_synonym_change_description = Slot(
+    uri=KGCL.change_description,
+    name="name becomes synonym_change description",
+    curie=KGCL.curie("change_description"),
+    model_uri=KGCL.name_becomes_synonym_change_description,
+    domain=NameBecomesSynonym,
+    range=Optional[str],
+)
+
+slots.removed_node_from_subset_change_description = Slot(
+    uri=KGCL.change_description,
+    name="removed node from subset_change description",
+    curie=KGCL.curie("change_description"),
+    model_uri=KGCL.removed_node_from_subset_change_description,
+    domain=RemovedNodeFromSubset,
+    range=Optional[str],
+)
+
+slots.removed_node_from_subset_about_node = Slot(
+    uri=KGCL.about_node,
+    name="removed node from subset_about node",
+    curie=KGCL.curie("about_node"),
+    model_uri=KGCL.removed_node_from_subset_about_node,
+    domain=RemovedNodeFromSubset,
+    range=Optional[Union[str, NodeId]],
+)
+
+slots.removed_node_from_subset_subset = Slot(
+    uri=KGCL.subset,
+    name="removed node from subset_subset",
+    curie=KGCL.curie("subset"),
+    model_uri=KGCL.removed_node_from_subset_subset,
+    domain=RemovedNodeFromSubset,
+    range=Optional[str],
+)
+
+slots.node_obsoletion_change_description = Slot(
+    uri=KGCL.change_description,
+    name="node obsoletion_change description",
+    curie=KGCL.curie("change_description"),
+    model_uri=KGCL.node_obsoletion_change_description,
+    domain=NodeObsoletion,
+    range=Optional[str],
+)
+
+slots.node_obsoletion_associated_change_set = Slot(
+    uri=KGCL.associated_change_set,
+    name="node obsoletion_associated change set",
+    curie=KGCL.curie("associated_change_set"),
+    model_uri=KGCL.node_obsoletion_associated_change_set,
+    domain=NodeObsoletion,
+    range=Optional[
+        Union[
+            Dict[Union[str, ChangeId], Union[dict, Change]], List[Union[dict, Change]]
+        ]
+    ],
+)
+
+slots.node_unobsoletion_change_description = Slot(
+    uri=KGCL.change_description,
+    name="node unobsoletion_change description",
+    curie=KGCL.curie("change_description"),
+    model_uri=KGCL.node_unobsoletion_change_description,
+    domain=NodeUnobsoletion,
+    range=Optional[str],
+)
+
+slots.node_unobsoletion_replaced_by = Slot(
+    uri=KGCL.replaced_by,
+    name="node unobsoletion_replaced by",
+    curie=KGCL.curie("replaced_by"),
+    model_uri=KGCL.node_unobsoletion_replaced_by,
+    domain=NodeUnobsoletion,
+    range=Optional[Union[str, NodeId]],
+)
+
+slots.node_unobsoletion_consider = Slot(
+    uri=KGCL.consider,
+    name="node unobsoletion_consider",
+    curie=KGCL.curie("consider"),
+    model_uri=KGCL.node_unobsoletion_consider,
+    domain=NodeUnobsoletion,
+    range=Optional[Union[str, NodeId]],
+)
+
+slots.node_creation_change_description = Slot(
+    uri=KGCL.change_description,
+    name="node creation_change description",
+    curie=KGCL.curie("change_description"),
+    model_uri=KGCL.node_creation_change_description,
+    domain=NodeCreation,
+    range=Optional[str],
+)
+
+slots.class_creation_change_description = Slot(
+    uri=KGCL.change_description,
+    name="class creation_change description",
+    curie=KGCL.curie("change_description"),
+    model_uri=KGCL.class_creation_change_description,
+    domain=ClassCreation,
+    range=Optional[str],
+)
+
+slots.node_deletion_change_description = Slot(
+    uri=KGCL.change_description,
+    name="node deletion_change description",
+    curie=KGCL.curie("change_description"),
+    model_uri=KGCL.node_deletion_change_description,
+    domain=NodeDeletion,
+    range=Optional[str],
+)
+
+slots.node_direct_merge_has_direct_replacement = Slot(
+    uri=KGCL.has_direct_replacement,
+    name="node direct merge_has direct replacement",
+    curie=KGCL.curie("has_direct_replacement"),
+    model_uri=KGCL.node_direct_merge_has_direct_replacement,
+    domain=NodeDirectMerge,
+    range=Union[str, NodeId],
+)
+
+slots.node_direct_merge_about_node = Slot(
+    uri=KGCL.about_node,
+    name="node direct merge_about node",
+    curie=KGCL.curie("about_node"),
+    model_uri=KGCL.node_direct_merge_about_node,
+    domain=NodeDirectMerge,
+    range=Optional[Union[str, NodeId]],
+)
+
+slots.node_direct_merge_change_description = Slot(
+    uri=KGCL.change_description,
+    name="node direct merge_change description",
+    curie=KGCL.curie("change_description"),
+    model_uri=KGCL.node_direct_merge_change_description,
+    domain=NodeDirectMerge,
+    range=Optional[str],
+)
+
+slots.node_obsoletion_with_direct_replacement_has_direct_replacement = Slot(
+    uri=KGCL.has_direct_replacement,
+    name="node obsoletion with direct replacement_has direct replacement",
+    curie=KGCL.curie("has_direct_replacement"),
+    model_uri=KGCL.node_obsoletion_with_direct_replacement_has_direct_replacement,
+    domain=NodeObsoletionWithDirectReplacement,
+    range=Union[str, NodeId],
+)
+
+slots.node_obsoletion_with_direct_replacement_change_description = Slot(
+    uri=KGCL.change_description,
+    name="node obsoletion with direct replacement_change description",
+    curie=KGCL.curie("change_description"),
+    model_uri=KGCL.node_obsoletion_with_direct_replacement_change_description,
+    domain=NodeObsoletionWithDirectReplacement,
+    range=Optional[str],
+)
+
+slots.node_obsoletion_with_no_direct_replacement_has_nondirect_replacement = Slot(
+    uri=KGCL.has_nondirect_replacement,
+    name="node obsoletion with no direct replacement_has nondirect replacement",
+    curie=KGCL.curie("has_nondirect_replacement"),
+    model_uri=KGCL.node_obsoletion_with_no_direct_replacement_has_nondirect_replacement,
+    domain=NodeObsoletionWithNoDirectReplacement,
+    range=Union[Union[str, NodeId], List[Union[str, NodeId]]],
+)
+
+slots.node_obsoletion_with_no_direct_replacement_change_description = Slot(
+    uri=KGCL.change_description,
+    name="node obsoletion with no direct replacement_change description",
+    curie=KGCL.curie("change_description"),
+    model_uri=KGCL.node_obsoletion_with_no_direct_replacement_change_description,
+    domain=NodeObsoletionWithNoDirectReplacement,
+    range=Optional[str],
+)
