@@ -47,7 +47,17 @@ def render(kgclInstance):
         subject = render_entity(kgclInstance.about_node, "IRI")
         old = render_entity(kgclInstance.old_value, "Literal")
         new = render_entity(kgclInstance.new_value, "Literal")
-        return "rename " + old + " from " + subject + " to " + new
+
+        new_language = kgclInstance.new_language
+        old_language = kgclInstance.old_language
+
+        if old_language is not None:
+            old = old + "@" + old_language
+
+        if new_language is not None:
+            new = new + "@" + new_language
+
+        return "rename " + subject + " from " + old + " to " + new
 
     if type(kgclInstance) is NodeObsoletion:
         subject = render_entity(kgclInstance.about_node, "IRI")
@@ -76,15 +86,40 @@ def render(kgclInstance):
         subject = render_entity(kgclInstance.subject, "IRI")
         predicate = render_entity(kgclInstance.predicate, "IRI")
         object = render_entity(kgclInstance.object, kgclInstance.object_type)
+
+        language = kgclInstance.language
+        datatype = kgclInstance.datatype
+
+        base = "create edge " + subject + " " + predicate + " " + object
+
+        if language is not None:
+            return base + "@" + language
+        elif datatype is not None:
+            # print(base + "^^" + datatype)
+            return base + "^^" + datatype
+        else:
+            return base
+
         # object = render_entity(repr(kgclInstance.object)[1:-1])
-        return "create edge " + subject + " " + predicate + " " + object
+        # return "create edge " + subject + " " + predicate + " " + object
 
     if type(kgclInstance) is EdgeDeletion:
         subject = render_entity(kgclInstance.subject, "IRI")
         predicate = render_entity(kgclInstance.predicate, "IRI")
         object = render_entity(kgclInstance.object, kgclInstance.object_type)
         # object = render_entity(repr(kgclInstance.object)[1:-1])
-        return "delete edge " + subject + " " + predicate + " " + object
+
+        language = kgclInstance.language
+        datatype = kgclInstance.datatype
+
+        base = "delete edge " + subject + " " + predicate + " " + object
+
+        if language is not None:
+            return base + "@" + language
+        elif datatype is not None:
+            return base + "^^" + datatype
+        else:
+            return base
 
     if type(kgclInstance) is PredicateChange:
         subject = render_entity(kgclInstance.about_edge.subject, "IRI")
