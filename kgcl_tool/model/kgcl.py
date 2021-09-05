@@ -1,5 +1,5 @@
 # Auto generated from kgcl.yaml by pythongen.py version: 0.9.0
-# Generation date: 2021-08-30 16:54
+# Generation date: 2021-09-01 22:17
 # Schema: kgcl
 #
 # id: https://w3id.org/kgcl
@@ -717,6 +717,8 @@ class EdgeChange(SimpleChange):
     id: Union[str, EdgeChangeId] = None
     about_edge: Optional[Union[dict, Edge]] = None
     object_type: Optional[str] = None
+    language: Optional[str] = None
+    datatype: Optional[str] = None
     subject: Optional[Union[str, NodeId]] = None
 
     def __post_init__(self, *_: List[str], **kwargs: Dict[str, Any]):
@@ -725,6 +727,12 @@ class EdgeChange(SimpleChange):
 
         if self.object_type is not None and not isinstance(self.object_type, str):
             self.object_type = str(self.object_type)
+
+        if self.language is not None and not isinstance(self.language, str):
+            self.language = str(self.language)
+
+        if self.datatype is not None and not isinstance(self.datatype, str):
+            self.datatype = str(self.datatype)
 
         if self.subject is not None and not isinstance(self.subject, NodeId):
             self.subject = NodeId(self.subject)
@@ -2516,6 +2524,15 @@ slots.language = Slot(
     name="language",
     curie=KGCL.curie("language"),
     model_uri=KGCL.language,
+    domain=None,
+    range=Optional[str],
+)
+
+slots.datatype = Slot(
+    uri=KGCL.datatype,
+    name="datatype",
+    curie=KGCL.curie("datatype"),
+    model_uri=KGCL.datatype,
     domain=None,
     range=Optional[str],
 )
