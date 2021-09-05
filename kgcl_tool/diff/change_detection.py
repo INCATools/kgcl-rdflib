@@ -65,43 +65,54 @@ def detect_renamings(added, deleted):
     deleted_labels = {}
 
     for s, p, o in added.triples((None, RDFS.label, None)):
-        added_labels[s] = o
+        if s not in added_labels:
+            added_labels[s] = set()
+        added_labels[s].add(o)
 
     for s, p, o in deleted.triples((None, RDFS.label, None)):
-        deleted_labels[s] = o
+        if s not in deleted_labels:
+            deleted_labels[s] = set()
+        deleted_labels[s].add(o)
 
     # collect renamings
-    renamed_subjects = []
+    nonDeterministic = []  # list of non-deterministic choices
+    kgcl = []
     for subject in deleted_labels:
         if subject in added_labels:
-            renamed_subjects.append(subject)
-            covered.add((subject, RDFS.label, deleted_labels[subject]))
-            covered.add((subject, RDFS.label, added_labels[subject]))
 
-    # encode renamings wrt KGCL model
-    kgcl = []
-    for s in renamed_subjects:
-        id = "test_id_" + str(next(id_gen))
-        subject = str(s)
-        old_label = str(deleted_labels[s])
-        new_label = str(added_labels[s])
-        # get language tags
-        old_language = deleted_labels[s].language
-        new_language = added_labels[s].language
-        # print(old_language)
-        # print(new_language)
+            moved_from = deleted_labels[subject]
+            moved_to = added_labels[subject]
 
-        node = NodeRename(
-            id=id,
-            about_node=subject,
-            old_value=old_label,
-            new_value=new_label,
-            old_language=old_language,
-            new_language=new_language,
-        )
-        kgcl.append(node)
+            if len(moved_to) > 1 or len(moved_from) > 1:
+                nonDeterministic.append((set(moved_from), set(moved_to)))
 
-    return kgcl, covered
+            shared = min(len(moved_to), len(moved_from))
+            for x in range(shared):
+                id = "test_id_" + str(next(id_gen))
+
+                new = moved_to.pop()
+                old = moved_from.pop()
+
+                old_label = str(old)
+                new_label = str(new)
+                # get language tags
+                old_language = old.language
+                new_language = new.language
+
+                node = NodeRename(
+                    id=id,
+                    about_node=subject,
+                    old_value=old_label,
+                    new_value=new_label,
+                    old_language=old_language,
+                    new_language=new_language,
+                )
+                kgcl.append(node)
+
+                covered.add((subject, RDFS.label, new))
+                covered.add((subject, RDFS.label, old))
+
+    return kgcl, covered, nonDeterministic
 
 
 def detect_node_moves(added, deleted):
@@ -163,6 +174,9 @@ def detect_node_moves(added, deleted):
                 # record entity type for KGCL rendering purposes
                 old_object_type = get_type(old[2])
                 new_object_type = get_type(new[2])
+
+                print(old_object_type)
+                print(new_object_type)
 
                 node = NodeMove(
                     id=id,
