@@ -347,7 +347,59 @@ def unobsolete(kgclInstance):
     return updateQuery
 
 
+# NB this does not preserve language tags
 def rename(kgclInstance):
+    oldValue = kgclInstance.old_value
+    newValue = kgclInstance.new_value
+
+    # strip label's single quotes
+    oldValue = oldValue.replace("'", "")
+    newValue = newValue.replace("'", "")
+
+    old_language = kgclInstance.old_language
+    new_language = kgclInstance.new_language
+
+    if kgclInstance.about_node is None:
+        subject = "?entity"
+    else:
+        subject = kgclInstance.about_node
+
+    prefix = "PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>"
+    deleteQuery = subject + " rdfs:label ?oldlabel ."
+    delete = "DELETE {" + deleteQuery + "}"
+
+    insertQuery = subject + " rdfs:label ?newlabel ."
+    insert = "INSERT {" + insertQuery + "}"
+
+    whereQuery = subject + " rdfs:label ?label .  "
+    whereQuery += ' FILTER(STR(?label)="' + oldValue + '") '
+
+    if old_language is None:
+        whereQuery += ' BIND("' + oldValue + '" AS ?oldlabel) '
+    else:
+        whereQuery += ' FILTER(LANG(?label) ="' + old_language + '")'
+        whereQuery += (
+            ' BIND( STRLANG("' + oldValue + '","' + old_language + '") AS ?oldlabel) '
+        )
+
+    if new_language is None:
+        whereQuery += ' BIND("' + newValue + '" AS ?newlabel) '
+    else:
+        whereQuery += (
+            ' BIND( STRLANG("' + newValue + '","' + new_language + '") AS ?newlabel) '
+        )
+
+    where = "WHERE {" + whereQuery + "}"
+
+    updateQuery = prefix + " " + delete + " " + insert + " " + where
+
+    return updateQuery
+
+
+# TODO: this implementation is buggy
+# this implementation should preserve language tags
+# note that this cannot be used for diffing
+def rename_preserve(kgclInstance):
     oldValue = kgclInstance.old_value
     newValue = kgclInstance.new_value
     oldValue = oldValue.replace("'", "")
@@ -360,9 +412,8 @@ def rename(kgclInstance):
     else:
         subject = kgclInstance.about_node
 
-    # this changes only the label of an entity
     prefix = "PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>"
-    deleteQuery = subject + " rdfs:label ?label ."
+    deleteQuery = subject + " rdfs:label ?tag ."
     delete = "DELETE {" + deleteQuery + "}"
 
     insertQuery = subject + " rdfs:label ?tag ."
@@ -506,13 +557,24 @@ def edge_creation(kgclInstance):
     predicate = kgclInstance.predicate
     object = kgclInstance.object
 
+    language = kgclInstance.language
+    datatype = kgclInstance.datatype  # TODO: currently only accepting full IRIs
+
     prefix = "PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>  "
     prefix += "PREFIX owl: <http://www.w3.org/2002/07/owl#>  "
 
-    insertQuery = subject + " " + predicate + " " + object + " . "
+    insertQuery = subject + " " + predicate + " ?object . "
+
     insert = "INSERT {" + insertQuery + "}"
 
-    where = "WHERE {}"
+    if datatype is not None:
+        whereQuery = " BIND( STRDT(" + object + "," + datatype + ") AS ?object) "
+    elif language is not None:
+        whereQuery = "BIND( STRLANG(" + object + ',"' + language + '") AS ?object) '
+    else:
+        whereQuery = "BIND(" + object + " AS ?object)"
+
+    where = "WHERE { " + whereQuery + " }"
 
     updateQuery = prefix + " " + insert + " " + where
 
@@ -583,13 +645,25 @@ def edge_deletion(kgclInstance):
     predicate = kgclInstance.predicate
     object = kgclInstance.object
 
+    language = kgclInstance.language
+    datatype = kgclInstance.datatype
+
     prefix = "PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>  "
     prefix += "PREFIX owl: <http://www.w3.org/2002/07/owl#>  "
 
-    deleteQuery = subject + " " + predicate + " " + object + " . "
+    deleteQuery = subject + " " + predicate + " ?object . "
     delete = "DELETE {" + deleteQuery + "}"
 
-    where = "WHERE {" + deleteQuery + "}"
+    whereQuery = deleteQuery
+
+    if datatype is not None:
+        whereQuery += " BIND( STRDT(" + object + "," + datatype + ") AS ?object) "
+    elif language is not None:
+        whereQuery += "BIND( STRLANG(" + object + ',"' + language + '") AS ?object) '
+    else:
+        whereQuery += "BIND(" + object + " AS ?object)"
+
+    where = "WHERE {" + whereQuery + "}"
 
     updateQuery = prefix + " " + delete + " " + where
 
