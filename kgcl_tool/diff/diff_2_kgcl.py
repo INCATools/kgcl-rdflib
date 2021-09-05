@@ -40,10 +40,17 @@ id_gen = id_generator()
 
 
 def generate_kgcl_commands(added, deleted):
+
+    renamings, covered, nonDeterministic = detect_renamings(added, deleted)
+    added = added - covered
+    deleted = deleted - covered
+
     edge_creations, covered = generate_edge_creations(added)
     edge_deletions, covered = generate_edge_deletions(deleted)
 
     kgcl_commands = []
+    for r in renamings:
+        kgcl_commands.append(render(r))
     for e in edge_creations:
         kgcl_commands.append(render(e))
     for e in edge_deletions:
@@ -61,6 +68,20 @@ def get_type(rdf_entity):
         return "Error"
 
 
+def get_language_tag(rdf_entity):
+    if isinstance(rdf_entity, Literal):
+        return rdf_entity.language
+    else:
+        return None
+
+
+def get_datatype(rdf_entity):
+    if isinstance(rdf_entity, Literal) and rdf_entity.datatype is not None:
+        return str(rdf_entity.datatype)
+    else:
+        return None
+
+
 def generate_edge_deletions(deleted):
     covered = rdflib.Graph()
     kgcl = []
@@ -68,6 +89,10 @@ def generate_edge_deletions(deleted):
 
         id = "test_id_" + str(next(id_gen))
         object_type = get_type(o)
+        language_tag = get_language_tag(o)
+        datatype = get_datatype(o)
+        if datatype is not None:
+            datatype = "<" + datatype + ">"
 
         node = EdgeDeletion(
             id=id,
@@ -75,6 +100,8 @@ def generate_edge_deletions(deleted):
             predicate=str(p),
             object=str(o),
             object_type=object_type,
+            language=language_tag,
+            datatype=datatype,
         )
 
         kgcl.append(node)
@@ -91,13 +118,19 @@ def generate_edge_creations(added):
 
         id = "test_id_" + str(next(id_gen))
         object_type = get_type(o)
+        language_tag = get_language_tag(o)
+        datatype = get_datatype(o)
+        if datatype is not None:
+            datatype = "<" + datatype + ">"  # expect data types without curies
 
         node = EdgeCreation(
             id=id,
             subject=str(s),
             predicate=str(p),
             object=str(o),
-            object_type=object_type,
+            object_type=str(object_type),
+            language=language_tag,
+            datatype=datatype,
         )
 
         kgcl.append(node)
