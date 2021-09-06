@@ -218,6 +218,7 @@ def identify_synonym_creation(added, deleted):
 
 
 def identify_unobsoletions(added, deleted):
+    # TODO: check whether the unobsoleted class is indeed in the original graph
     covered = rdflib.Graph()
     # look for subjects that were originally owl:deprecated
     deprecated = []
@@ -236,6 +237,8 @@ def identify_unobsoletions(added, deleted):
         for s, p, o in deleted.triples((d, OBO.IAO_0100001, None)):
             covered.add((s, p, o))
         for s, p, o in deleted.triples((d, OBOINOWL.consider, None)):
+            covered.add((s, p, o))
+        for s, p, o in deleted.triples((d, RDFS.subClassOf, OBOINOWL.ObsoleteClass)):
             covered.add((s, p, o))
 
         for s, p, o in added.triples((d, RDFS.label, None)):
@@ -387,11 +390,19 @@ def identify_renamings(added, deleted):
         subject = str(s)
         old_label = str(deleted_labels[s])
         new_label = str(added_labels[s])
+        # get language tags
+        old_language = deleted_labels[s].language
+        new_language = added_labels[s].language
+        print(old_language)
+        print(new_language)
+
         node = NodeRename(
             id=id,
             about_node=subject,
             old_value=old_label,
             new_value=new_label,
+            old_language=old_language,
+            new_language=new_language,
         )
         kgcl.append(node)
 
