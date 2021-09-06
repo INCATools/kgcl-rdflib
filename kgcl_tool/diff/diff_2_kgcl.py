@@ -30,7 +30,7 @@ from diff.owlstar_sublanguage import (
     get_triple_annotations,
     get_bnodes_2_triple_annotations,
 )
-from diff.kgcl_diff import get_added_triple_annotations, get_added_triple_annotations_2
+from diff.graph_diff import get_added_triple_annotations, get_added_triple_annotations_2
 from diff.render_operations import render
 from model.ontology_model import Edge, Annotation
 
