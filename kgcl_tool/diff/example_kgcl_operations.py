@@ -96,7 +96,7 @@ def generate_diff():
     f.write("Predicate Changes: " + str(len(predicateChanges)) + "\n")
     f.write("Edge Creations: " + str(len(edgeCreations)) + "\n")
     f.write("Edge Deletions: " + str(len(edgeDeletions)) + "\n")
-    f.close()
+    # f.close()
 
     # write KGCL statements
     f = open("diff/stats/all", "a")
@@ -111,4 +111,5 @@ def generate_diff():
             f.write(s)
             f.write("\n")
         ff.close()
+
     f.close()
