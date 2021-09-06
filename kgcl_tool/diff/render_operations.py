@@ -83,25 +83,10 @@ def render(kgclInstance):
         return "move " + subject + " from " + old + " to " + new
 
     if type(kgclInstance) is EdgeCreation:
-        subject = render_entity(kgclInstance.subject, "IRI")
-        predicate = render_entity(kgclInstance.predicate, "IRI")
-        object = render_entity(kgclInstance.object, kgclInstance.object_type)
-
-        language = kgclInstance.language
-        datatype = kgclInstance.datatype
-
-        base = "create edge " + subject + " " + predicate + " " + object
-
-        if language is not None:
-            return base + "@" + language
-        elif datatype is not None:
-            # print(base + "^^" + datatype)
-            return base + "^^" + datatype
+        if kgclInstance.annotation_set is None:
+            return render_edge_creation(kgclInstance)
         else:
-            return base
-
-        # object = render_entity(repr(kgclInstance.object)[1:-1])
-        # return "create edge " + subject + " " + predicate + " " + object
+            return render_annotation_creation(kgclInstance)
 
     if type(kgclInstance) is EdgeDeletion:
         subject = render_entity(kgclInstance.subject, "IRI")
@@ -153,3 +138,53 @@ def render(kgclInstance):
         subject = render_entity(kgclInstance.about_node, "IRI")
         synonym = render_entity(kgclInstance.new_value, "Literal")
         return "create synonym " + synonym + " for " + subject
+
+
+def render_annotation_creation(kgclInstance):
+    subject = render_entity(kgclInstance.subject, "IRI")
+    predicate = render_entity(kgclInstance.predicate, "IRI")
+    object = render_entity(kgclInstance.object, kgclInstance.object_type)
+
+    annotation = kgclInstance.annotation_set
+    annotation_property = render_entity(annotation.property, "IRI")
+    annotation_filler = render_entity(annotation.filler, annotation.filler_type)
+
+    language = kgclInstance.language
+    datatype = kgclInstance.datatype
+
+    if language is not None:
+        object = object + "@" + language
+    if datatype is not None:
+        object = object + "^^" + datatype
+
+    return (
+        "create edge <<"
+        + subject
+        + " "
+        + predicate
+        + " "
+        + object
+        + ">>"
+        + " "
+        + annotation_property
+        + " "
+        + annotation_filler
+    )
+
+
+def render_edge_creation(kgclInstance):
+    subject = render_entity(kgclInstance.subject, "IRI")
+    predicate = render_entity(kgclInstance.predicate, "IRI")
+    object = render_entity(kgclInstance.object, kgclInstance.object_type)
+
+    language = kgclInstance.language
+    datatype = kgclInstance.datatype
+
+    base = "create edge " + subject + " " + predicate + " " + object
+
+    if language is not None:
+        return base + "@" + language
+    elif datatype is not None:
+        return base + "^^" + datatype
+    else:
+        return base
