@@ -22,7 +22,6 @@ def get_deleted_thin_triples(g1, g2):
     return thin1 - thin2
 
 
-# this is an rdflib graph too
 def get_added_subsumptions(g1, g2):
     sub1 = get_atomic_subsumptions(g1)
     sub2 = get_atomic_subsumptions(g2)
@@ -37,6 +36,8 @@ def get_deleted_subsumptions(g1, g2):
     return sub1 - sub2
 
 
+# NB: this is not an rdflib graph
+# because blank nodes are 'abstracted' away
 def get_added_existentials(g1, g2):
     ex1 = set(get_atomic_existentials(g1))
     ex2 = set(get_atomic_existentials(g2))
