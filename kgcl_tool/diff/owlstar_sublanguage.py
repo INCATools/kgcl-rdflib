@@ -19,6 +19,9 @@ class TripleAnnotation:
         self.triples = set()
 
     # TODO check that all triples have the same blank node
+    def add_triple(self, t):
+        self.triples.add(t)
+
     def add_triples(self, ts):
         self.triples.update(ts)
 
@@ -57,6 +60,56 @@ class TripleAnnotation:
             self.target,
             self.annotation_property,
             self.annotation,
+        )
+
+    def __hash__(self):
+        return hash(self.__key())
+
+
+class ExistentialRestriction:
+    # TODO: store blank node associated with the existential restriction
+    def __init__(self, sub, prop, fil):
+        self.subclass = sub
+        self.property = prop
+        self.filler = fil
+        self.triples
+
+    def add_triple(self, t):
+        self.triples.add(t)
+
+    def add_triples(self, ts):
+        self.triples.update(ts)
+
+    def __repr__(self):
+        return (
+            self.subclass
+            + " "
+            + "SubClassOf"
+            + " "
+            + self.property
+            + " "
+            + "some"
+            + " "
+            + self.filler
+        )
+
+    def __eq__(self, other):
+        if isinstance(other, ExistentialRestriction):
+            return (
+                self.subclass == other.subclass
+                and self.property == other.property
+                and self.filler == other.filler
+            )
+        return False
+
+    def __ne__(self, other):
+        return not self.__eq__(other)
+
+    def __key(self):
+        return (
+            self.subclass,
+            self.property,
+            self.filler,
         )
 
     def __hash__(self):
@@ -176,12 +229,8 @@ def get_triple_annotations(g):
     property = set(g.subjects(predicate=OWL.annotatedProperty))
     target = set(g.subjects(predicate=OWL.annotatedTarget))
 
-    #    print(len(source))
-    #    print(len(property))
-    #    print(len(target))
-    #
     intersection = source & property & target
-    # print(len(intersection))
+
     exclude = {
         OWL.annotatedSource,
         OWL.annotatedProperty,
@@ -189,47 +238,7 @@ def get_triple_annotations(g):
         RDF.type,
     }
 
-    annotations = []
-    for i in intersection:
-        if isinstance(i, BNode):  # this check should be unnecessary
-            # NB these generators are singletons
-            source = next(g.objects(subject=i, predicate=OWL.annotatedSource))
-            property = next(g.objects(subject=i, predicate=OWL.annotatedProperty))
-            target = next(g.objects(subject=i, predicate=OWL.annotatedTarget))
-            for s, p, o in g.triples((i, None, None)):
-                if (
-                    p not in exclude
-                    and not isinstance(o, BNode)
-                    and not isinstance(p, BNode)
-                    and not isinstance(source, BNode)
-                    and not isinstance(property, BNode)
-                    and not isinstance(target, BNode)
-                ):
-                    annotations.append((source, property, target, p, o))
-                    ta = TripleAnnotation(source, property, target, p, o)
-                    # (str(source), str(property), str(target), str(p), str(o))
-
-    return annotations
-
-
-def get_triple_annotations_2(g):
-    source = set(g.subjects(predicate=OWL.annotatedSource))
-    property = set(g.subjects(predicate=OWL.annotatedProperty))
-    target = set(g.subjects(predicate=OWL.annotatedTarget))
-
-    #    print(len(source))
-    #    print(len(property))
-    #    print(len(target))
-    #
-    intersection = source & property & target
-    # print(len(intersection))
-    exclude = {
-        OWL.annotatedSource,
-        OWL.annotatedProperty,
-        OWL.annotatedTarget,
-        RDF.type,
-    }
-
+    bnodes_2_triple_annotations = get_bnodes_2_triple_annotations(g)
     annotations = []
     for i in intersection:
         if isinstance(i, BNode):  # this check should be unnecessary
@@ -247,7 +256,10 @@ def get_triple_annotations_2(g):
                     and not isinstance(target, BNode)
                 ):
                     ta = TripleAnnotation(source, property, target, p, o)
+                    ta.add_triples(bnodes_2_triple_annotations[s])
                     annotations.append(ta)
+
+                    # annotations.append((source, property, target, p, o))
                     # (str(source), str(property), str(target), str(p), str(o))
 
     return annotations
@@ -265,7 +277,7 @@ def get_bnodes_2_triple_annotations(g):
         OWL.annotatedSource,
         OWL.annotatedProperty,
         OWL.annotatedTarget,
-        RDF.type,
+        # RDF.type,
     }
 
     annotations = {}
