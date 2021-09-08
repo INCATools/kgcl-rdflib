@@ -147,9 +147,11 @@ def detect_node_moves(added, deleted):
             moved_to = set()
             moved_from = set()
             for s, p, o in added.triples((subject, predicate, None)):
-                moved_to.add((s, p, o))
+                if isinstance(o, URIRef):  # node move operates only on nodes
+                    moved_to.add((s, p, o))
             for s, p, o in deleted.triples((subject, predicate, None)):
-                moved_from.add((s, p, o))
+                if isinstance(o, URIRef):
+                    moved_from.add((s, p, o))
 
             if len(moved_to) > 1 or len(moved_from) > 1:
                 nonDeterministic.append((set(moved_from), set(moved_to)))
@@ -166,17 +168,17 @@ def detect_node_moves(added, deleted):
                 covered.add(old)
 
                 old_subject = str(old[0])
+                old_predicate = str(old[1])
                 old_object = str(old[2])
                 new_object = str(new[2])
 
-                edge = Edge(subject=old_subject, object=old_object)
+                edge = Edge(
+                    subject=old_subject, predicate=old_predicate, object=old_object
+                )
 
                 # record entity type for KGCL rendering purposes
                 old_object_type = get_type(old[2])
                 new_object_type = get_type(new[2])
-
-                print(old_object_type)
-                print(new_object_type)
 
                 node = NodeMove(
                     id=id,
