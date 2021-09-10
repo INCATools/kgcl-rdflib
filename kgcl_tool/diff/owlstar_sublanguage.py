@@ -72,7 +72,7 @@ class ExistentialRestriction:
         self.subclass = sub
         self.property = prop
         self.filler = fil
-        self.triples
+        self.triples = set()
 
     def add_triple(self, t):
         self.triples.add(t)
@@ -153,6 +153,7 @@ def get_atomic_existentials(g):
                     existential_2_classes[i].append(str(s))
 
     owlstar_axiom = []
+    bnodes_2_existentials = get_bnodes_2_atomic_existentials(g)
     for i, subclasses in existential_2_classes.items():
         # bnode = str(i)  # don't really need the bnode
         filler = ""
@@ -162,7 +163,7 @@ def get_atomic_existentials(g):
 
         # get property
         for s, p, o in g.triples((i, OWL.onProperty, None)):
-            if not isinstance(o, BNode):
+            if not isinstance(o, BNode):  # this test is unnecessary
                 property = str(o)
                 bnode_property = False
 
@@ -174,7 +175,10 @@ def get_atomic_existentials(g):
 
         if not bnode_property and not bnode_filler:
             for subclass in subclasses:
-                owlstar_axiom.append((subclass, property, filler))
+                ex = ExistentialRestriction(subclass, property, filler)
+                ex.add_triples(bnodes_2_existentials[i])
+                owlstar_axiom.append(ex)
+                # owlstar_axiom.append((subclass, property, filler))
 
     return owlstar_axiom
 
