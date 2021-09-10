@@ -44,8 +44,8 @@ id_gen = id_generator()
 
 class SingleTripleChangeSummary:
     def __init__(self):
-        self.edge_creations = []
-        self.edge_deletions = []
+
+        # KGCL data
         self.renamings = []
         self.class_creations = []
         self.subsumption_creations = []
@@ -53,6 +53,19 @@ class SingleTripleChangeSummary:
         self.predicate_changes = []
         self.node_moves = []
         self.synonym_creations = []
+        self.edge_creations = []
+        self.edge_deletions = []
+
+        # RDF datak
+        self.covered_triples_renamings = []
+        self.covered_triples_class_creations = []
+        self.covered_triples_subsumption_creations = []
+        self.covered_triples_subsumption_deletions = []
+        self.covered_triples_predicate_changes = []
+        self.covered_triples_node_moves = []
+        self.covered_triples_synonym_creations = []
+        self.covered_triples_edge_creations = []
+        self.covered_triples_edge_deletions = []
 
     def get_commands(self):
         kgcl_commands = []
@@ -76,6 +89,136 @@ class SingleTripleChangeSummary:
             kgcl_commands.append(k)
 
         return kgcl_commands
+
+    def get_summary_KGCL_commands(self):
+        out = (
+            "Renamings:"
+            + str(len(self.renamings))
+            + "\n"
+            + "Class Creations: "
+            + str(len(self.class_creations))
+            + "\n"
+            + "Subsumption Creations: "
+            + str(len(self.subsumption_creations))
+            + "\n"
+            + "Subsumption Deletions: "
+            + str(len(self.subsumption_deletions))
+            + "\n"
+            + "Predicate Changes: "
+            + str(len(self.predicate_changes))
+            + "\n"
+            + "Node Moves: "
+            + str(len(self.node_moves))
+            + "\n"
+            + "Synonym Creations: "
+            + str(len(self.synonym_creations))
+            + "\n"
+            + "Edge Creations: "
+            + str(len(self.edge_creations))
+            + "\n"
+            + "Edge Deletions: "
+            + str(len(self.edge_deletions))
+        )
+        return out
+
+    def get_summary_RDF_triples(self):
+        out = (
+            "Renamings:"
+            + str(len(self.covered_triples_renamings))
+            + "\n"
+            + "Class Creations: "
+            + str(len(self.covered_triples_class_creations))
+            + "\n"
+            + "Subsumption Creations: "
+            + str(len(self.covered_triples_subsumption_creations))
+            + "\n"
+            + "Subsumption Deletions: "
+            + str(len(self.covered_triples_subsumption_deletions))
+            + "\n"
+            + "Predicate Changes: "
+            + str(len(self.covered_triples_predicate_changes))
+            + "\n"
+            + "Node Moves: "
+            + str(len(self.covered_triples_node_moves))
+            + "\n"
+            + "Synonym Creations: "
+            + str(len(self.covered_triples_synonym_creations))
+            + "\n"
+            + "Edge Creations: "
+            + str(len(self.covered_triples_edge_creations))
+            + "\n"
+            + "Edge Deletions: "
+            + str(len(self.covered_triples_edge_deletions))
+            + "\n"
+        )
+        return out
+
+    # RDF data
+
+    def get_covered_triples_renamings(self):
+        return self.covered_triples_renamings
+
+    def add_covered_triples_renamings(self, triples):
+        for t in triples:
+            self.covered_triples_renamings.append(t)
+
+    def get_covered_triples_class_creations(self):
+        return self.covered_triples_class_creations
+
+    def add_covered_triples_class_creations(self, triples):
+        for t in triples:
+            self.covered_triples_class_creations.append(t)
+
+    def get_covered_triples_subsumption_creations(self):
+        return self.covered_triples_subsumption_creations
+
+    def add_covered_triples_subsumption_creations(self, triples):
+        for t in triples:
+            self.covered_triples_subsumption_creations.append(t)
+
+    def get_covered_triples_subsumption_deletions(self):
+        return self.covered_triples_subsumption_deletions
+
+    def add_covered_triples_subsumption_deletions(self, triples):
+        for t in triples:
+            self.covered_triples_subsumption_deletions.append(t)
+
+    def get_covered_triples_predicate_changes(self):
+        return self.covered_triples_predicate_changes
+
+    def add_covered_triples_predicate_changes(self, triples):
+        for t in triples:
+            self.covered_triples_predicate_changes.append(t)
+
+    def get_covered_triples_node_moves(self):
+        return self.covered_triples_node_moves
+
+    def add_covered_triples_node_moves(self, triples):
+        for t in triples:
+            self.covered_triples_node_moves.append(t)
+
+    def get_covered_triples_synonym_creations(self):
+        return self.covered_triples_synonym_creations
+
+    def add_covered_triples_synonym_creations(self, triples):
+        for t in triples:
+            self.covered_triples_synonym_creations.append(t)
+
+    def get_covered_triples_edge_creations(self):
+        return self.covered_triples_edge_creations
+
+    def add_covered_triples_edge_creations(self, triples):
+        for t in triples:
+            self.covered_triples_edge_creations.append(t)
+
+    def get_covered_triples_edge_deletions(self):
+        return self.covered_triples_edge_deletions
+
+    def add_covered_triples_edge_deletions(self, triples):
+        for t in triples:
+            self.covered_triples_edge_deletions.append(t)
+
+    # KGCL data
 
     def add_edge_creations(self, ls):
         for i in ls:
@@ -130,9 +273,12 @@ class SingleTripleChangeSummary:
 
 
 def generate_thin_triple_commands(added, deleted):
+    # summary object for single triple changes
+    summary = SingleTripleChangeSummary()
 
     # synonyms
     synonym_additions, covered = generate_synonym_creations(added)
+    summary.add_covered_triples_synonym_creations(covered)
     added = added - covered
     # TODO: extend data model for deleted synonyms
     # synonym_deletions, covered = generate_synonym_deletions(added)
@@ -142,6 +288,7 @@ def generate_thin_triple_commands(added, deleted):
 
     # move
     node_moves, covered, nonDeterministic = detect_node_moves(added, deleted)
+    summary.add_covered_triples_node_moves(covered)
     added = added - covered
     deleted = deleted - covered
 
@@ -149,29 +296,36 @@ def generate_thin_triple_commands(added, deleted):
     relationship_change, covered, nonDeterministic = detect_predicate_changes(
         added, deleted
     )
+    summary.add_covered_triples_predicate_changes(covered)
     added = added - covered
     deleted = deleted - covered
 
     # renamings
     renamings, covered, nonDeterministic = detect_renamings(added, deleted)
+    summary.add_covered_triples_renamings(covered)
     added = added - covered
     deleted = deleted - covered
 
     # subsumptions
     subsumption_creations, covered = generate_subsumption_creations(added)
+    summary.add_covered_triples_subsumption_creations(covered)
     added = added - covered
+
     subsumption_deletions, covered = generate_subsumption_deletions(deleted)
+    summary.add_covered_triples_subsumption_deletions(covered)
     deleted = deleted - covered
 
     # create node
     node_creations, covered = generate_class_creations(added)
+    summary.add_covered_triples_class_creations(covered)
     added = added - covered
 
     # everything else
     edge_creations, covered = generate_edge_creations(added)
+    summary.add_covered_triples_edge_creations(covered)
     edge_deletions, covered = generate_edge_deletions(deleted)
+    summary.add_covered_triples_edge_deletions(covered)
 
-    summary = SingleTripleChangeSummary()
     for s in synonym_additions:
         summary.add_synonym_creation(render(s))
     for c in node_creations:
