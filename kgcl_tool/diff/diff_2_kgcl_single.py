@@ -50,9 +50,18 @@ class SingleTripleChangeSummary:
         self.class_creations = []
         self.subsumption_creations = []
         self.subsumption_deletions = []
+        self.predicate_changes = []
+        self.node_moves = []
+        self.synonym_creations = []
 
     def get_commands(self):
         kgcl_commands = []
+        for k in self.synonym_creations:
+            kgcl_commands.append(k)
+        for k in self.node_moves:
+            kgcl_commands.append(k)
+        for k in self.predicate_changes:
+            kgcl_commands.append(k)
         for k in self.edge_creations:
             kgcl_commands.append(k)
         for k in self.edge_deletions:
@@ -110,12 +119,21 @@ class SingleTripleChangeSummary:
     def add_subsumption_deletion(self, i):
         self.subsumption_deletions.append(i)
 
+    def add_predicate_change(self, i):
+        self.predicate_changes.append(i)
+
+    def add_node_move(self, i):
+        self.node_moves.append(i)
+
+    def add_synonym_creation(self, i):
+        self.synonym_creations.append(i)
+
 
 def generate_thin_triple_commands(added, deleted):
 
     # synonyms
-    # synonym_additions, covered = generate_synonym_creations(added)
-    # added = added - covered
+    synonym_additions, covered = generate_synonym_creations(added)
+    added = added - covered
     # TODO: extend data model for deleted synonyms
     # synonym_deletions, covered = generate_synonym_deletions(added)
 
@@ -123,9 +141,9 @@ def generate_thin_triple_commands(added, deleted):
     # shallow [TODO: need some kind of reasoning/querying for this]
 
     # move
-    # node_moves, covered, nonDeterministic = detect_node_moves(added, deleted)
-    # added = added - covered
-    # deleted = deleted - covered
+    node_moves, covered, nonDeterministic = detect_node_moves(added, deleted)
+    added = added - covered
+    deleted = deleted - covered
 
     # change relationship
     relationship_change, covered, nonDeterministic = detect_predicate_changes(
@@ -154,12 +172,14 @@ def generate_thin_triple_commands(added, deleted):
     edge_deletions, covered = generate_edge_deletions(deleted)
 
     summary = SingleTripleChangeSummary()
+    for s in synonym_additions:
+        summary.add_synonym_creation(render(s))
     for c in node_creations:
         summary.add_class_creation(render(c))
-    # for m in node_moves:
-    #     kgcl_commands.append(render(m))
+    for m in node_moves:
+        summary.add_node_move(render(m))
     for r in relationship_change:
-        summary.add_subsumption_creation(render(r))
+        summary.add_predicate_change(render(r))
     for s in subsumption_creations:
         summary.add_subsumption_creation(render(s))
     for s in subsumption_deletions:
@@ -215,7 +235,7 @@ def generate_synonym_creations(added):
     covered = rdflib.Graph()
     kgcl = []
 
-    # synonym = URIRef("http://www.geneontology.org/formats/oboInOwl#hasSynonym")
+    synonym = URIRef("http://www.geneontology.org/formats/oboInOwl#hasSynonym")
     exact_synonym = URIRef(
         "http://www.geneontology.org/formats/oboInOwl#hasExactSynonym"
     )
@@ -229,33 +249,36 @@ def generate_synonym_creations(added):
         "http://www.geneontology.org/formats/oboInOwl#hasRelatedSynonym"
     )
 
+    include = {synonym, exact_synonym, narrow_synonym, broad_synonym, related_synonym}
+
     # synonyms
     for s, p, o in added:
-        id = "test_id_" + str(next(id_gen))
-        covered.add((s, p, o))
+        if p in include:
+            id = "test_id_" + str(next(id_gen))
+            covered.add((s, p, o))
 
-        language = get_language_tag(o)
-        # datatype = get_datatype(o)
+            language = get_language_tag(o)
+            # datatype = get_datatype(o)
 
-        qualifier = ""  # case for hasSynonym
-        if p == exact_synonym:
-            qualifier = "exact"
-        elif p == narrow_synonym:
-            qualifier = "narrow"
-        elif p == broad_synonym:
-            qualifier = "broad"
-        elif p == related_synonym:
-            qualifier = "related"
+            qualifier = ""  # case for hasSynonym
+            if p == exact_synonym:
+                qualifier = "exact"
+            elif p == narrow_synonym:
+                qualifier = "narrow"
+            elif p == broad_synonym:
+                qualifier = "broad"
+            elif p == related_synonym:
+                qualifier = "related"
 
-        node = NewSynonym(
-            id=id,
-            about_node=str(s),
-            new_value=str(o),
-            qualifier=qualifier,
-            language=language,
-        )
+            node = NewSynonym(
+                id=id,
+                about_node=str(s),
+                new_value=str(o),
+                qualifier=qualifier,
+                language=language,
+            )
 
-        kgcl.append(node)
+            kgcl.append(node)
 
     return kgcl, covered
 
