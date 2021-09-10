@@ -29,6 +29,11 @@ from diff.change_detection import (
 
 from diff.render_operations import render
 
+from diff.graph_diff import (
+    get_added_thin_triples,
+    get_deleted_thin_triples,
+)
+
 
 def id_generator():
     id = 0
@@ -92,7 +97,7 @@ class SingleTripleChangeSummary:
 
     def get_summary_KGCL_commands(self):
         out = (
-            "Renamings:"
+            "Renamings: "
             + str(len(self.renamings))
             + "\n"
             + "Class Creations: "
@@ -272,9 +277,12 @@ class SingleTripleChangeSummary:
         self.synonym_creations.append(i)
 
 
-def generate_thin_triple_commands(added, deleted):
+def generate_thin_triple_commands(g1, g2):
     # summary object for single triple changes
     summary = SingleTripleChangeSummary()
+
+    added = get_added_thin_triples(g1, g2)
+    deleted = get_deleted_thin_triples(g1, g2)
 
     # synonyms
     synonym_additions, covered = generate_synonym_creations(added)
