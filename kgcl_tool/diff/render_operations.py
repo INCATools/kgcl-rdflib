@@ -12,7 +12,11 @@ from model.kgcl import (
     NodeCreation,
     ClassCreation,
     NewSynonym,
+    PlaceUnder,
+    RemoveUnder,
     RemovedNodeFromSubset,
+    ExistentialRestrictionCreation,
+    ExistentialRestrictionDeletion,
 )
 from model.ontology_model import Edge
 import re
@@ -78,9 +82,25 @@ def render(kgclInstance):
 
     if type(kgclInstance) is NodeMove:
         subject = render_entity(kgclInstance.about_edge.subject, "IRI")
+        predicate = render_entity(kgclInstance.about_edge.predicate, "IRI")
         new = render_entity(kgclInstance.new_value, kgclInstance.new_object_type)
         old = render_entity(kgclInstance.old_value, kgclInstance.old_object_type)
-        return "move " + subject + " from " + old + " to " + new
+        return (
+            "move "
+            + subject
+            + " "
+            + predicate
+            + " "
+            + old
+            + " "
+            + "from"
+            + " "
+            + old
+            + " "
+            + "to"
+            + " "
+            + new
+        )
 
     if type(kgclInstance) is EdgeCreation:
         if kgclInstance.annotation_set is None:
@@ -89,28 +109,23 @@ def render(kgclInstance):
             return render_annotation_creation(kgclInstance)
 
     if type(kgclInstance) is EdgeDeletion:
-        subject = render_entity(kgclInstance.subject, "IRI")
-        predicate = render_entity(kgclInstance.predicate, "IRI")
-        object = render_entity(kgclInstance.object, kgclInstance.object_type)
-        # object = render_entity(repr(kgclInstance.object)[1:-1])
-
-        language = kgclInstance.language
-        datatype = kgclInstance.datatype
-
-        base = "delete edge " + subject + " " + predicate + " " + object
-
-        if language is not None:
-            return base + "@" + language
-        elif datatype is not None:
-            return base + "^^" + datatype
+        if kgclInstance.annotation_set is None:
+            return render_edge_deletion(kgclInstance)
         else:
-            return base
+            return render_annotation_deletion(kgclInstance)
 
     if type(kgclInstance) is PredicateChange:
         subject = render_entity(kgclInstance.about_edge.subject, "IRI")
         object = render_entity(kgclInstance.about_edge.object, kgclInstance.object_type)
         new = render_entity(kgclInstance.new_value, "IRI")
         old = render_entity(kgclInstance.old_value, "IRI")
+
+        if kgclInstance.language is not None:
+            object += "@" + kgclInstance.language
+
+        if kgclInstance.datatype is not None:
+            object += "^^" + kgclInstance.datatype
+
         return (
             "change relationship between "
             + subject
@@ -137,7 +152,40 @@ def render(kgclInstance):
     if type(kgclInstance) is NewSynonym:
         subject = render_entity(kgclInstance.about_node, "IRI")
         synonym = render_entity(kgclInstance.new_value, "Literal")
-        return "create synonym " + synonym + " for " + subject
+        qualifier = kgclInstance.qualifier
+        language = kgclInstance.language
+
+        if language is not None:
+            synonym = synonym + "@" + language
+
+        if qualifier is not None:
+            return (
+                "create " + qualifier + " synonym" + " " + synonym + " for " + subject
+            )
+        else:
+            return "create synonym " + synonym + " for " + subject
+
+    if type(kgclInstance) is ExistentialRestrictionCreation:
+        subclass = render_entity(kgclInstance.subclass, "IRI")
+        property = render_entity(kgclInstance.property, "IRI")
+        filler = render_entity(kgclInstance.filler, "IRI")
+        return "add " + subclass + " SubClassOf " + property + " some " + filler
+
+    if type(kgclInstance) is ExistentialRestrictionDeletion:
+        subclass = render_entity(kgclInstance.subclass, "IRI")
+        property = render_entity(kgclInstance.property, "IRI")
+        filler = render_entity(kgclInstance.filler, "IRI")
+        return "delete " + subclass + " SubClassOf " + property + " some " + filler
+
+    if type(kgclInstance) is PlaceUnder:
+        subclass = render_entity(kgclInstance.subject, "IRI")
+        superclass = render_entity(kgclInstance.object, "IRI")
+        return "add " + subclass + " SubClassOf " + superclass
+
+    if type(kgclInstance) is RemoveUnder:
+        subclass = render_entity(kgclInstance.subject, "IRI")
+        superclass = render_entity(kgclInstance.object, "IRI")
+        return "delete " + subclass + " SubClassOf " + superclass
 
 
 def render_annotation_creation(kgclInstance):
@@ -170,6 +218,57 @@ def render_annotation_creation(kgclInstance):
         + " "
         + annotation_filler
     )
+
+
+def render_annotation_deletion(kgclInstance):
+    subject = render_entity(kgclInstance.subject, "IRI")
+    predicate = render_entity(kgclInstance.predicate, "IRI")
+    object = render_entity(kgclInstance.object, kgclInstance.object_type)
+
+    annotation = kgclInstance.annotation_set
+    annotation_property = render_entity(annotation.property, "IRI")
+    annotation_filler = render_entity(annotation.filler, annotation.filler_type)
+
+    language = kgclInstance.language
+    datatype = kgclInstance.datatype
+
+    if language is not None:
+        object = object + "@" + language
+    if datatype is not None:
+        object = object + "^^" + datatype
+
+    return (
+        "delete edge <<"
+        + subject
+        + " "
+        + predicate
+        + " "
+        + object
+        + ">>"
+        + " "
+        + annotation_property
+        + " "
+        + annotation_filler
+    )
+
+
+def render_edge_deletion(kgclInstance):
+    subject = render_entity(kgclInstance.subject, "IRI")
+    predicate = render_entity(kgclInstance.predicate, "IRI")
+    object = render_entity(kgclInstance.object, kgclInstance.object_type)
+    # object = render_entity(repr(kgclInstance.object)[1:-1])
+
+    language = kgclInstance.language
+    datatype = kgclInstance.datatype
+
+    base = "delete edge " + subject + " " + predicate + " " + object
+
+    if language is not None:
+        return base + "@" + language
+    elif datatype is not None:
+        return base + "^^" + datatype
+    else:
+        return base
 
 
 def render_edge_creation(kgclInstance):
