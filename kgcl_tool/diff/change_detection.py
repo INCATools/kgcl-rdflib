@@ -217,6 +217,7 @@ def detect_predicate_changes(added, deleted):
     for s in s_2_os_added:
         if s in s_2_os_deleted:
 
+            # get the objects as sets
             added_objects = set(s_2_os_added[s])
             deleted_objects = set(s_2_os_deleted[s])
 
@@ -233,7 +234,18 @@ def detect_predicate_changes(added, deleted):
                     changed_from.add(p)
 
                 # create KGCL edge object
-                edge = Edge(subject=s, object=i)
+                edge = Edge(subject=str(s), object=str(i))
+                language = i.language
+                datatype = i.datatype
+
+                # if i.language is not None:
+                #    language = str(i.language)
+                # else:
+                #    language = None
+                # if i.datatype is not None:
+                #    datatype = str(i.datatype)
+                # else:
+                #    datatype = None
 
                 object_type = get_type(i)
 
@@ -251,9 +263,11 @@ def detect_predicate_changes(added, deleted):
                     change = PredicateChange(
                         id=id,
                         about_edge=edge,
-                        old_value=old,
-                        new_value=new,
+                        old_value=str(old),
+                        new_value=str(new),
                         object_type=object_type,
+                        language=language,
+                        datatype=datatype,
                     )
 
                     kgcl.append(change)
