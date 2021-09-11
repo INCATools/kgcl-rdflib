@@ -229,9 +229,9 @@ def detect_predicate_changes(added, deleted):
                 changed_to = set()
                 changed_from = set()
                 for s, p, o in added.triples((s, None, i)):
-                    changed_to.add(p)
+                    changed_to.add((s, p, o))
                 for s, p, o in deleted.triples((s, None, i)):
-                    changed_from.add(p)
+                    changed_from.add((s, p, o))
 
                 # create KGCL edge object
                 edge = Edge(subject=str(s), object=str(i))
@@ -256,8 +256,8 @@ def detect_predicate_changes(added, deleted):
                 m = min(len(changed_to), len(changed_from))
                 for x in range(m):
                     id = "test_id_" + str(next(id_gen))
-                    old = changed_from.pop()
-                    new = changed_to.pop()
+                    old = (changed_from.pop())[1]
+                    new = (changed_to.pop())[1]
 
                     # KGCL change object
                     change = PredicateChange(
