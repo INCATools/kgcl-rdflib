@@ -61,7 +61,7 @@ class SingleTripleChangeSummary:
         self.edge_creations = []
         self.edge_deletions = []
 
-        # RDF datak
+        # RDF data
         self.covered_triples_renamings = []
         self.covered_triples_class_creations = []
         self.covered_triples_subsumption_creations = []
@@ -71,6 +71,11 @@ class SingleTripleChangeSummary:
         self.covered_triples_synonym_creations = []
         self.covered_triples_edge_creations = []
         self.covered_triples_edge_deletions = []
+
+        # non-deterministic data
+        self.non_deterministic_node_moves = []
+        self.non_deterministic_predicate_changes = []
+        self.non_deterministic_renamings = []
 
     def get_commands(self):
         kgcl_commands = []
@@ -276,6 +281,25 @@ class SingleTripleChangeSummary:
     def add_synonym_creation(self, i):
         self.synonym_creations.append(i)
 
+    # non-deterministic data
+    def add_non_deterministic_node_moves(self, ls):
+        self.non_deterministic_node_moves += ls
+
+    def add_non_deterministic_predicate_changes(self, ls):
+        self.non_deterministic_predicate_changes += ls
+
+    def add_non_deterministic_renamings(self, ls):
+        self.non_deterministic_renamings += ls
+
+    def get_non_deterministic_node_moves(self):
+        return self.non_deterministic_node_moves
+
+    def get_non_deterministic_predicate_changes(self):
+        return self.non_deterministic_predicate_changes
+
+    def get_non_deterministic_renamings(self):
+        return self.non_deterministic_renamings
+
 
 def generate_thin_triple_commands(g1, g2):
     # summary object for single triple changes
@@ -295,22 +319,25 @@ def generate_thin_triple_commands(g1, g2):
     # shallow [TODO: need some kind of reasoning/querying for this]
 
     # move
-    node_moves, covered, nonDeterministic = detect_node_moves(added, deleted)
+    node_moves, covered, non_deterministic = detect_node_moves(added, deleted)
     summary.add_covered_triples_node_moves(covered)
+    summary.add_non_deterministic_node_moves(non_deterministic)
     added = added - covered
     deleted = deleted - covered
 
     # change relationship
-    relationship_change, covered, nonDeterministic = detect_predicate_changes(
+    relationship_change, covered, non_deterministic = detect_predicate_changes(
         added, deleted
     )
     summary.add_covered_triples_predicate_changes(covered)
+    summary.add_non_deterministic_predicate_changes(non_deterministic)
     added = added - covered
     deleted = deleted - covered
 
     # renamings
-    renamings, covered, nonDeterministic = detect_renamings(added, deleted)
+    renamings, covered, non_deterministic = detect_renamings(added, deleted)
     summary.add_covered_triples_renamings(covered)
+    summary.add_non_deterministic_renamings(non_deterministic)
     added = added - covered
     deleted = deleted - covered
 
