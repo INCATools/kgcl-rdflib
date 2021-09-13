@@ -40,8 +40,8 @@ shallow : "shallow" _WS id _WS "from" _WS old_id _WS ("to"|"->") _WS new_id
 
 move : "move" _WS subject _WS predicate _WS object _WS "from" _WS old_id _WS ("to"|"as"|"->") _WS new_id 
 
-create_edge : "create edge" _WS subject _WS predicate _WS object ["@" language | datatype]
-delete_edge : "delete edge" _WS subject _WS predicate _WS object ["@" language | datatype]
+create_edge : "create edge" _WS subject _WS predicate _WS object 
+delete_edge : "delete edge" _WS subject _WS predicate _WS object 
 
 create_annotated_edge : "create edge <<" subject _WS predicate _WS object ">>" _WS annotation_property _WS annotation
 delete_annotated_edge : "delete edge <<" subject _WS predicate _WS object ">>" _WS annotation_property _WS annotation
@@ -61,7 +61,7 @@ replacement : ID
 id : ID 
 subject: ID
 predicate: ID
-object: TERM
+object: TERM ["@" language | datatype]
 
 subset: ID
 synonym : LABEL

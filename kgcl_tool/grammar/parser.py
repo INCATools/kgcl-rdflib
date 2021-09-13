@@ -1,4 +1,5 @@
 from lark import Lark, Token
+import re
 from model.kgcl import (
     NodeRename,
     NodeObsoletion,
@@ -158,6 +159,7 @@ def parse_delete_subsumption_axiom(tree, id):
     subclass_token = extract(tree, "subclass")
     superclass_token = extract(tree, "superclass")
 
+    # TODO the hardcoded owl:subClassOf should be part of the data model
     return RemoveUnder(
         id=id,
         subject=subclass_token,
@@ -170,6 +172,7 @@ def parse_add_subsumption_axiom(tree, id):
     subclass_token = extract(tree, "subclass")
     superclass_token = extract(tree, "superclass")
 
+    # TODO the hardcoded owl:subClassOf should be part of the data model
     return PlaceUnder(
         id=id,
         subject=subclass_token,
@@ -223,8 +226,17 @@ def parse_change_relationship(tree, id):
 
     old_token = extract(tree, "old_predicate")
     new_token = extract(tree, "new_predicate")
+
+    language_token = extract(tree, "language")
+    datatype_token = extract(tree, "datatype")
+
     return PredicateChange(
-        id=id, about_edge=edge, old_value=old_token, new_value=new_token
+        id=id,
+        about_edge=edge,
+        old_value=old_token,
+        new_value=new_token,
+        language=language_token,
+        datatype=datatype_token,
     )
 
 
@@ -272,8 +284,25 @@ def parse_delete_edge(tree, id):
     predicate_token = extract(tree, "predicate")
     object_token = extract(tree, "object")
 
+    language_token = extract(tree, "language")
+    datatype_token = extract(tree, "datatype")
+
+    # if not is_id(object_token.value):
+    #    if datatype_token is not None:
+    #        print(tree)
+    #        print(datatype_token)
+    #        print(object_token)
+    #        # print(str(object_token))
+    #        # object_token = '"' + repr(str(object_token)[1:-1]) + '"'
+    #        object_token = '"' + repr(str(object_token)[1:-1])[1:-1] + '"'
+
     return EdgeDeletion(
-        id=id, subject=subject_token, predicate=predicate_token, object=object_token
+        id=id,
+        subject=subject_token,
+        predicate=predicate_token,
+        object=object_token,
+        language=language_token,
+        datatype=datatype_token,
     )
 
 
@@ -282,8 +311,41 @@ def parse_create_edge(tree, id):
     predicate_token = extract(tree, "predicate")
     object_token = extract(tree, "object")
 
+    language_token = extract(tree, "language")
+    datatype_token = extract(tree, "datatype")
+
+    # if not is_id(object_token.value):
+    #    if datatype_token is not None:
+    #        print(tree)
+    #        print(datatype_token)
+    #        print(object_token)
+    #        # print(object_token)
+    #        # print(str(object_token)[1:-1])
+    #        object_token = '"' + repr(str(object_token)[1:-1])[1:-1] + '"'
+    #        # object_token = '"true"'
+
+    # TODO determine type of object
+    # if it's a literal,
+    # extract it,
+    # transform it to a strng rep
+    # put it in " " marks (because we need it in that form for the SPARQL qery)
+
+    # if datatype_token is not None:
+    #     print(type(subject_token))
+    #     print(language_token)
+    #     print(type(datatype_token))
+    #     print(object_token)
+    #     print(datatype_token)
+    #     # print(datatype_token.value)
+    #     # datatype_token = datatype_token.value
+
     return EdgeCreation(
-        id=id, subject=subject_token, predicate=predicate_token, object=object_token
+        id=id,
+        subject=subject_token,
+        predicate=predicate_token,
+        object=object_token,
+        language=language_token,
+        datatype=datatype_token,
     )
 
 
@@ -378,6 +440,10 @@ def get_next(generator):
         return res
     except StopIteration:
         return None
+
+
+def is_id(input):
+    return re.match(r"<\S+>", input)
 
 
 if __name__ == "__main__":
