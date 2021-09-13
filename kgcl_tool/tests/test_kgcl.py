@@ -23,11 +23,25 @@ def compare_graphs(actual, expected):
         _, in_first, in_second = graph_diff(actual_iso, expected_iso)
         error += "\tThe actual and expected graphs differ\n"
         error += "\t----- Contents of actual graph not in expected graph -----\n"
-        error += "\t" + in_first.serialize(format="nt").decode("utf-8") + "\n"
+        # error += "\t" + in_first.serialize(format="nt").decode("utf-8") + "\n"
+        error += (
+            "\t"
+            + "\t".join(
+                in_first.serialize(format="nt").decode("utf-8").splitlines(True)
+            )
+            + "\n"
+        )
 
         # dump_ttl_sorted(in_first)
         error += "\t----- Contents of expected graph not in actual graph -----\n"
-        error += "\t" + in_second.serialize(format="nt").decode("utf-8") + "\n"
+        # error += "\t" + in_second.serialize(format="nt").decode("utf-8") + "\n"
+        error += (
+            "\t"
+            + "\t".join(
+                in_second.serialize(format="nt").decode("utf-8").splitlines(True)
+            )
+            + "\n"
+        )
         # dump_ttl_sorted(in_second)
 
     comp = actual_iso == expected_iso
