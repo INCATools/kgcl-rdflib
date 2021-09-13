@@ -1,1 +1,1 @@
-create node <http://purl.obolibrary.org/obo/NCBITaxon_2> 'Bacteria' en
+create node <http://purl.obolibrary.org/obo/NCBITaxon_2> 'Bacteria'@en
