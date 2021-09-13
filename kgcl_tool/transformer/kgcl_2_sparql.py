@@ -134,7 +134,7 @@ def convert(kgclInstance):
     if type(kgclInstance) is PredicateChange:
         if (
             is_id(kgclInstance.about_edge.subject)
-            and is_id(kgclInstance.about_edge.object)
+            # and is_id(kgclInstance.about_edge.object)
             and is_id(kgclInstance.old_value)
             and is_id(kgclInstance.new_value)
         ):
@@ -206,32 +206,45 @@ def remove_node_from_subset(kgclInstance):
 
 def change_predicate(kgclInstance):
 
+    # TODO handle language tags and datatype..
     subject = kgclInstance.about_edge.subject
     object = kgclInstance.about_edge.object
 
     old_value = kgclInstance.old_value
     new_value = kgclInstance.new_value
 
-    updateQuery = (
-        f"PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>"
-        f"DELETE {{ {subject} {old_value} {object} }}"
-        f"INSERT {{ {subject} {new_value} {object} }}"
-        f"WHERE {{  }}"
-    )
+    language = kgclInstance.language
+    datatype = kgclInstance.datatype
 
-    # prefix = "PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>  "
+    # updateQuery = (
+    #    f"PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>"
+    #    f"DELETE {{ {subject} {old_value} {object} }}"
+    #    f"INSERT {{ {subject} {new_value} {object} }}"
+    #    f"WHERE {{  }}"
+    # )
 
-    # deleteQuery = subject + " " + old_value + " " + object + " . "
+    prefix = "PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>  "
 
-    # delete = "DELETE {" + deleteQuery + "}"
+    deleteQuery = subject + " " + old_value + " ?object . "
 
-    # insertQuery = subject + " " + new_value + " " + object + " . "
+    delete = "DELETE {" + deleteQuery + "}"
 
-    # insert = "INSERT {" + insertQuery + "}"
+    insertQuery = subject + " " + new_value + " ?object . "
 
-    # where = "WHERE {}"
+    insert = "INSERT {" + insertQuery + "}"
 
-    # updateQuery = prefix + " " + delete + " " + insert + " " + where
+    whereQuery = deleteQuery
+
+    if datatype is not None:
+        whereQuery += " BIND( STRDT(" + object + "," + datatype + ") AS ?object) "
+    elif language is not None:
+        whereQuery += "BIND( STRLANG(" + object + ',"' + language + '") AS ?object) '
+    else:
+        whereQuery += "BIND(" + object + " AS ?object)"
+
+    where = "WHERE {" + whereQuery + "}"
+
+    updateQuery = prefix + " " + delete + " " + insert + " " + where
 
     return updateQuery
 
