@@ -1,15 +1,16 @@
-**Feedback and PRs welcome! There is always more to do and things to improve.**
-
 # KGCL Tooling
 This folder contains tooling for handling change operations in ontologies according to the [Knowledge-Graph-Change-Language](https://cmungall.github.io/knowledge-graph-change-language/).
 
-*The code is in active development and subject to frequent changes.*
+**The code is in active development and subject to frequent changes.**
+
+**Feedback and PRs are welcome! There is always more to do and things to improve.**
+
 
 ## What are KGCL change operations?
 
 A KGCL change operation is a statement that specifies a change for a knowledge graph (or ontology). 
 For example, the statment `add A SubClassOf B` specifies the addition of a subsumption axiom between two (named) classes `A` and `B`.
-The current prototype supports the following KGCL change operations (according to the [grammar](https://github.com/ckindermann/knowledge-graph-change-language/blob/parser/kgcl_tool/grammar/kgcl.lark)) for:
+The current prototype supports the following KGCL change operations (according to this [grammar](https://github.com/ckindermann/knowledge-graph-change-language/blob/parser/kgcl_tool/grammar/kgcl.lark)):
 - renaming labels
 - creating nodes
 - deleting nodes
@@ -58,20 +59,28 @@ of the form `rename node from x to x@en`. The current implementation provides a 
 
 # Installation
 
-TODO
+1. `git clone https://github.com/ckindermann/knowledge-graph-change-language.git`
+2. `git checkout origin/parser`
+4. `cd knowledge-graph-change-language` 
+4. `pipenv install linkml` (used by the data model for KGCL) 
+5. `pipenv shell` (activate virtualenv for the project)
+6. `pip install lark` (parsing library)
+7. `pip install click` (CLI library)
 
 # How to contribute?
 
 There are many things left to do. 
-- testing
-- extending the grammar
-- making commands more user-friendly (i.e. by allowing the use of labels instead of IRIs)
-- building a GUI 
-- building a (proper) CLI
-- GIT interaction
-- extending KGCL to handle all of OWL (or at least OWL EL)
-- cleaning up the code base (many things are not pythonic yet)
-- package things up (for convenient installation)
+- testing both KGCL and KGCL Diff (beyond simple unit testing)
+- extending the grammar (there are many missing KGCL operations)
+- making KGCL commands more user-friendly and forgiving (i.e. by allowing the use of labels instead of IRIs)
+- building a GUI (start with a Jupyter Notebook?)
+- building a (proper) CLI (that integrates KGCL and KGCL Diff with proper subgroups)
+- extending KGCL data model to handle general OWL axioms (or at least OWL EL)
+- package the project for easy installation
 - handling of non-deterministic diffs
-- robust handling of command variants (see issue with obsoletions)
+- robust handling of complex KGCL change operations (consider the case of obsoletions - when can a class be considerd 'obsoleted'? If it's label chaged "obsolete X"? If there is a triple with `oboInOwl:deprecated` set to `true`? Are both conditions sufficient by themselves?)
 - (proper) parsing of URIs and CURIES 
+- validating constraints on KGCL operations
+- setting up Github Actions
+- GIT interaction
+- cleaning up the code base (many things are not yet pythonic - if something seems off to you, it's because it probably is)
