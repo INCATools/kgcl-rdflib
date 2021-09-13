@@ -70,19 +70,31 @@ class TripleAnnotationChangeSummary:
             kgcl_commands.append(k)
         return kgcl_commands
 
+    def get_triple_annotation_additions(self):
+        return self.triple_annotations_additions
+
+    def get_triple_annotation_deletions(self):
+        return self.triple_annotations_deletions
+
     def get_summary_KGCL_commands(self):
-        out = "Triple Annotation Additions: " + str(
-            len(self.triple_annotations_additions)
-        ) + "\n" "Triple Annotation Deletions: " + str(
-            len(self.triple_annotations_deletions)
+        out = (
+            "Triple Annotation Additions: "
+            + str(len(self.triple_annotations_additions))
+            + "\n"
+            "Triple Annotation Deletions: "
+            + str(len(self.triple_annotations_deletions))
+            + "\n"
         )
         return out
 
     def get_summary_RDF_triples(self):
-        out = "Triple Annotation Additions: " + str(
-            len(self.covered_triples_triple_annotations_additions)
-        ) + "\n" "Triple Annotation Deletions: " + str(
-            len(self.covered_triples_triple_annotations_deletions)
+        out = (
+            "Triple Annotation Additions: "
+            + str(len(self.covered_triples_triple_annotations_additions))
+            + "\n"
+            "Triple Annotation Deletions: "
+            + str(len(self.covered_triples_triple_annotations_deletions))
+            + "\n"
         )
         return out
 

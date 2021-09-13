@@ -70,17 +70,27 @@ class ExistentialChangeSummary:
             kgcl_commands.append(k)
         return kgcl_commands
 
+    def get_existential_additions(self):
+        return self.existential_additions
+
+    def get_existential_deletions(self):
+        return self.existential_deletions
+
     def get_summary_KGCL_commands(self):
-        out = "Existential Additions: " + str(
-            len(self.existential_additions)
-        ) + "\n" "Existential Deletions: " + str(len(self.existential_deletions))
+        out = (
+            "Existential Additions: " + str(len(self.existential_additions)) + "\n"
+            "Existential Deletions: " + str(len(self.existential_deletions)) + "\n"
+        )
         return out
 
     def get_summary_RDF_triples(self):
-        out = "Existential Additions: " + str(
-            len(self.covered_triples_triple_existential_additions)
-        ) + "\n" "Existential Deletions: " + str(
-            len(self.covered_triples_triple_existential_deletions)
+        out = (
+            "Existential Additions: "
+            + str(len(self.covered_triples_triple_existential_additions))
+            + "\n"
+            "Existential Deletions: "
+            + str(len(self.covered_triples_triple_existential_deletions))
+            + "\n"
         )
         return out
 

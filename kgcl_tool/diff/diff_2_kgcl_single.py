@@ -100,6 +100,33 @@ class SingleTripleChangeSummary:
 
         return kgcl_commands
 
+    def get_renamings(self):
+        return self.renamings
+
+    def get_class_creations(self):
+        return self.class_creations
+
+    def get_subsumption_creations(self):
+        return self.subsumption_creations
+
+    def get_subsumption_deletions(self):
+        return self.subsumption_deletions
+
+    def get_predicate_changes(self):
+        return self.predicate_changes
+
+    def get_node_moves(self):
+        return self.node_moves
+
+    def get_synonym_creations(self):
+        return self.synonym_creations
+
+    def get_edge_creations(self):
+        return self.edge_creations
+
+    def get_edge_deletions(self):
+        return self.edge_deletions
+
     def get_summary_KGCL_commands(self):
         out = (
             "Renamings: "
@@ -128,6 +155,7 @@ class SingleTripleChangeSummary:
             + "\n"
             + "Edge Deletions: "
             + str(len(self.edge_deletions))
+            + "\n"
         )
         return out
 
