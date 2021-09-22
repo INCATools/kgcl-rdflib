@@ -132,28 +132,30 @@ class SingleTripleChangeSummary:
             "Renamings: "
             + str(len(self.renamings))
             + "\n"
-            + "Class Creations: "
+            + "ClassCreations: "
             + str(len(self.class_creations))
             + "\n"
-            + "Subsumption Creations: "
+            # + "Subsumption Creations: "
+            + "PlaceUnder: "
             + str(len(self.subsumption_creations))
             + "\n"
-            + "Subsumption Deletions: "
+            # + "Subsumption Deletions: "
+            + "RemoveUnder: "
             + str(len(self.subsumption_deletions))
             + "\n"
-            + "Predicate Changes: "
+            + "PredicateChanges: "
             + str(len(self.predicate_changes))
             + "\n"
-            + "Node Moves: "
+            + "NodeMoves: "
             + str(len(self.node_moves))
             + "\n"
-            + "Synonym Creations: "
+            + "SynonymCreations: "
             + str(len(self.synonym_creations))
             + "\n"
-            + "Edge Creations: "
+            + "EdgeCreations: "
             + str(len(self.edge_creations))
             + "\n"
-            + "Edge Deletions: "
+            + "EdgeDeletions: "
             + str(len(self.edge_deletions))
             + "\n"
         )
@@ -164,28 +166,30 @@ class SingleTripleChangeSummary:
             "Renamings:"
             + str(len(self.covered_triples_renamings))
             + "\n"
-            + "Class Creations: "
+            + "ClassCreations: "
             + str(len(self.covered_triples_class_creations))
             + "\n"
-            + "Subsumption Creations: "
+            # + "Subsumption Creations: "
+            + "PlaceUnder: "
             + str(len(self.covered_triples_subsumption_creations))
             + "\n"
-            + "Subsumption Deletions: "
+            # + "Subsumption Deletions: "
+            + "RemoveUnder: "
             + str(len(self.covered_triples_subsumption_deletions))
             + "\n"
-            + "Predicate Changes: "
+            + "PredicateChanges: "
             + str(len(self.covered_triples_predicate_changes))
             + "\n"
-            + "Node Moves: "
+            + "NodeMoves: "
             + str(len(self.covered_triples_node_moves))
             + "\n"
-            + "Synonym Creations: "
+            + "SynonymCreations: "
             + str(len(self.covered_triples_synonym_creations))
             + "\n"
-            + "Edge Creations: "
+            + "EdgeCreations: "
             + str(len(self.covered_triples_edge_creations))
             + "\n"
-            + "Edge Deletions: "
+            + "EdgeDeletions: "
             + str(len(self.covered_triples_edge_deletions))
             + "\n"
         )

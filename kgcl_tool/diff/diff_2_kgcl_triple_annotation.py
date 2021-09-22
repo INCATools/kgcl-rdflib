@@ -78,10 +78,12 @@ class TripleAnnotationChangeSummary:
 
     def get_summary_KGCL_commands(self):
         out = (
-            "Triple Annotation Additions: "
+            # "Triple Annotation Additions: "
+            "EdgeCreations (with annotation): "
             + str(len(self.triple_annotations_additions))
             + "\n"
-            "Triple Annotation Deletions: "
+            # "Triple Annotation Deletions: "
+            + "EdgeDeletion (with annotation): "
             + str(len(self.triple_annotations_deletions))
             + "\n"
         )
@@ -89,10 +91,12 @@ class TripleAnnotationChangeSummary:
 
     def get_summary_RDF_triples(self):
         out = (
-            "Triple Annotation Additions: "
+            # "Triple Annotation Additions: "
+            "EdgeCreations (with annotation): "
             + str(len(self.covered_triples_triple_annotations_additions))
             + "\n"
-            "Triple Annotation Deletions: "
+            # + "Triple Annotation Deletions: "
+            + "EdgeDeletion (with annotation): "
             + str(len(self.covered_triples_triple_annotations_deletions))
             + "\n"
         )
