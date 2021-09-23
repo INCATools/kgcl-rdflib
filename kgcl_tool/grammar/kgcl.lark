@@ -25,7 +25,7 @@ rename : "rename" _WS [id _WS "from" _WS] old_label ["@" old_language] _WS ("to"
 create : "create node" _WS id _WS label ["@" language]
 create_class: "create" _WS id
 
-create_synonym: "create" _WS [synonym_qualifier _WS] "synonym" _WS synonym ["@" language] _WS "for" _WS id 
+create_synonym: "create" _WS [synonym_qualifier _WS] "synonym" _WS synonym ["@" language] _WS "for" _WS entity
 synonym_qualifier : /exact|narrow|broad|related/
 
 delete : "delete" _WS entity
@@ -33,9 +33,9 @@ delete : "delete" _WS entity
 obsolete : "obsolete" _WS entity
          | "obsolete" _WS entity _WS "with replacement" _WS replacement
 
-unobsolete: "unobsolete" _WS id 
+unobsolete: "unobsolete" _WS entity 
 
-deepen : "deepen" _WS id _WS "from" _WS old_id _WS ("to"|"->") _WS new_id 
+deepen : "deepen" _WS entity _WS "from" _WS old_entity _WS ("to"|"->") _WS new_entity 
 shallow : "shallow" _WS id _WS "from" _WS old_id _WS ("to"|"->") _WS new_id 
 
 move : "move" _WS subject _WS predicate _WS object _WS "from" _WS old_id _WS ("to"|"as"|"->") _WS new_id 
@@ -91,8 +91,16 @@ new_id : ID
 old_predicate : ID
 new_predicate : ID
 
-entity: ID
-        | LABEL
+entity: _entity 
+old_entity: _entity
+new_entity: _entity
+
+_entity: ID
+         | LABEL 
+         | CURIE
+
+CURIE: "[" INNER_CURIE "]" 
+INNER_CURIE: /((?!]).)*/
 
 LABEL: SINGLE_QUOTE_LITERAL
 

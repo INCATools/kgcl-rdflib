@@ -182,14 +182,17 @@ def parse_add_subsumption_axiom(tree, id):
 
 
 def parse_create_synonym(tree, id):
-    term_id_token = extract(tree, "id")
+    entity_token = extract(tree, "entity")
+    entity, representation = get_entity_representation(entity_token)
+
     synonym_string_token = extract(tree, "synonym")
     language_token = extract(tree, "language")
     qualifier_token = extract(tree, "synonym_qualifier")
 
     return NewSynonym(
         id=id,
-        about_node=term_id_token,
+        about_node=entity,
+        about_node_representation=representation,
         new_value=synonym_string_token,
         qualifier=qualifier_token,
         language=language_token,
@@ -362,14 +365,28 @@ def parse_shallow(tree, id):
 
 
 def parse_deepen(tree, id):
-    term_id_token = extract(tree, "id")
-    old_token = extract(tree, "old_id")
-    new_token = extract(tree, "new_id")
+    entity_token = extract(tree, "entity")
+    old_token = extract(tree, "old_entity")
+    new_token = extract(tree, "new_entity")
 
-    edge = Edge(subject=term_id_token, object=old_token)
+    entity, e_representation = get_entity_representation(entity_token)
+    old_entity, o_representation = get_entity_representation(old_token)
+    new_entity, n_representation = get_entity_representation(new_token)
+
+    edge = Edge(
+        subject=entity,
+        object=old_entity,
+        subject_representation=e_representation,
+        object_representation=o_representation,
+    )
 
     return NodeDeepening(
-        id=id, about_edge=edge, old_value=old_token, new_value=new_token
+        id=id,
+        about_edge=edge,
+        old_value=old_entity,
+        new_value=new_entity,
+        old_object_type=o_representation,
+        new_object_type=n_representation,
     )
 
 
@@ -387,20 +404,34 @@ def parse_move(tree, id):
 
 
 def parse_delete(tree, id):
-    label_token = extract(tree, "entity")
-    return NodeDeletion(id=id, about_node=label_token)
+    entity_token = extract(tree, "entity")
+    entity, representation = get_entity_representation(entity_token)
+
+    return NodeDeletion(
+        id=id, about_node=entity, about_node_representation=representation
+    )
 
 
 def parse_unobsolete(tree, id):
-    term_id_token = extract(tree, "id")
-    return NodeUnobsoletion(id=id, about_node=term_id_token)
+    entity_token = extract(tree, "entity")
+    entity, representation = get_entity_representation(entity_token)
+
+    return NodeUnobsoletion(
+        id=id, about_node=entity, about_node_representation=representation
+    )
 
 
 def parse_obsolete(tree, id):
-    label_token = extract(tree, "entity")
+    entity_token = extract(tree, "entity")
+    entity, representation = get_entity_representation(entity_token)
+
     replacement_token = extract(tree, "replacement")
+
     return NodeObsoletion(
-        id=id, about_node=label_token, has_direct_replacement=replacement_token
+        id=id,
+        about_node=entity,
+        about_node_representation=representation,
+        has_direct_replacement=replacement_token,
     )
 
 
@@ -444,6 +475,19 @@ def get_next(generator):
 
 def is_id(input):
     return re.match(r"<\S+>", input)
+
+
+def get_entity_representation(entity):
+    first = entity[0]
+    last = entity[-1:]
+    if first == "[" and last == "]":
+        return entity[1:-1], "curie"
+    if first == "<" and last == ">":
+        return entity, "uri"  # don't remove brackets <, >
+    if first == "'" and last == "'":
+        return entity[1:-1], "label"
+
+    return entity, "error"
 
 
 if __name__ == "__main__":
