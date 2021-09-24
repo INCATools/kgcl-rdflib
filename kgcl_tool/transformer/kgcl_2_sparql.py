@@ -101,15 +101,10 @@ def convert(kgclInstance):
 
     # edge creation
     if type(kgclInstance) is EdgeCreation:
-        if (
-            is_id(kgclInstance.subject)
-            and is_id(kgclInstance.predicate)
-            # and (is_id(kgclInstance.object) or is_label(kgclInstance.object))
-        ):
-            if kgclInstance.annotation_set is None:
-                return edge_creation(kgclInstance)
-            else:
-                return edge_annotation_creation(kgclInstance)
+        if kgclInstance.annotation_set is None:
+            return edge_creation(kgclInstance)
+        else:
+            return edge_annotation_creation(kgclInstance)
 
     if type(kgclInstance) is PlaceUnder:
         return edge_creation(kgclInstance)
@@ -918,22 +913,56 @@ def edge_creation(kgclInstance):
     predicate = kgclInstance.predicate
     object = kgclInstance.object
 
+    subject_type = kgclInstance.subject_type
+    predicate_type = kgclInstance.predicate_type
+    object_type = kgclInstance.object_type
+
     language = kgclInstance.language
     datatype = kgclInstance.datatype  # TODO: currently only accepting full IRIs
 
     prefix = "PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>  "
     prefix += "PREFIX owl: <http://www.w3.org/2002/07/owl#>  "
 
-    insertQuery = subject + " " + predicate + " ?object . "
+    if subject_type == "curie":
+        curie_prefix = get_prefix(subject)
+        curie_uri = prefix_2_uri[curie_prefix]
+        prefix += "PREFIX " + curie_prefix + ": " + curie_uri + " "
+
+    if predicate_type == "curie":
+        curie_prefix = get_prefix(predicate)
+        curie_uri = prefix_2_uri[curie_prefix]
+        prefix += "PREFIX " + curie_prefix + ": " + curie_uri + " "
+
+    if object_type == "curie":
+        curie_prefix = get_prefix(object)
+        curie_uri = prefix_2_uri[curie_prefix]
+        prefix += "PREFIX " + curie_prefix + ": " + curie_uri + " "
+
+    insertQuery = "?subject " + predicate + " ?object . "
 
     insert = "INSERT {" + insertQuery + "}"
 
-    if datatype is not None:
-        whereQuery = " BIND( STRDT(" + object + "," + datatype + ") AS ?object) "
-    elif language is not None:
-        whereQuery = "BIND( STRLANG(" + object + ',"' + language + '") AS ?object) '
+    # TODO this needs to be reworked
+    # currently language tags are ignored if an entity is specified via a label
+    whereQuery = ""
+    if subject_type == "label":
+        whereQuery += "?subject rdfs:label ?object_label . "
+        whereQuery += ' FILTER(STR(?object_label)="' + subject + '") '
     else:
-        whereQuery = "BIND(" + object + " AS ?object)"
+        whereQuery += "BIND(" + subject + " AS ?subject)"
+
+    if object_type == "label":
+        whereQuery += "?object rdfs:label ?object_label . "
+        whereQuery += ' FILTER(STR(?object_label)="' + object + '") '
+    else:  # curie or uri
+        if datatype is not None:
+            whereQuery += " BIND( STRDT(" + object + "," + datatype + ") AS ?object) "
+        elif language is not None:
+            whereQuery += (
+                "BIND( STRLANG(" + object + ',"' + language + '") AS ?object) '
+            )
+        else:
+            whereQuery += "BIND(" + object + " AS ?object)"
 
     where = "WHERE { " + whereQuery + " }"
 

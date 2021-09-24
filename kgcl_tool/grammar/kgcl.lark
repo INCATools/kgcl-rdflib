@@ -40,7 +40,7 @@ shallow : "shallow" _WS entity _WS "from" _WS old_entity _WS ("to"|"->") _WS new
 
 move : "move" _WS entity_subject _WS entity_predicate _WS entity_object _WS "from" _WS old_entity _WS ("to"|"as"|"->") _WS new_entity 
 
-create_edge : "create edge" _WS subject _WS predicate _WS object 
+create_edge : "create edge" _WS entity_subject _WS entity_predicate _WS entity_object 
 delete_edge : "delete edge" _WS subject _WS predicate _WS object 
 
 create_annotated_edge : "create edge <<" subject _WS predicate _WS object ">>" _WS annotation_property _WS annotation
