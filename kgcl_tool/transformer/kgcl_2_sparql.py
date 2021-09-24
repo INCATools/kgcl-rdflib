@@ -31,6 +31,7 @@ def get_prefix(curie):
 
 prefix_2_uri = {
     "obo": "<http://purl.obolibrary.org/obo/>",
+    "ex": "<http://example.org/>",
     # TODO add more prefixes
 }
 
@@ -292,17 +293,17 @@ def node_deepening(kgclInstance):
 
     # set up prefixes  for curies as needed
     if entity_type == "curie":
-        curie_prefix = get_prefix(entity_type)
+        curie_prefix = get_prefix(entity)
         curie_uri = prefix_2_uri[curie_prefix]
         prefix += "PREFIX " + curie_prefix + ": " + curie_uri + " "
 
     if old_type == "curie":
-        curie_prefix = get_prefix(old_type)
+        curie_prefix = get_prefix(old_value)
         curie_uri = prefix_2_uri[curie_prefix]
         prefix += "PREFIX " + curie_prefix + ": " + curie_uri + " "
 
     if new_type == "curie":
-        curie_prefix = get_prefix(new_type)
+        curie_prefix = get_prefix(new_value)
         curie_uri = prefix_2_uri[curie_prefix]
         prefix += "PREFIX " + curie_prefix + ": " + curie_uri + " "
 
