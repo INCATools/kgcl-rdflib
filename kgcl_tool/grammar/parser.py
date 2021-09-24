@@ -299,9 +299,13 @@ def parse_create_annotated_edge(tree, id):
 
 
 def parse_delete_edge(tree, id):
-    subject_token = extract(tree, "subject")
-    predicate_token = extract(tree, "predicate")
-    object_token = extract(tree, "object")
+    subject_token = extract(tree, "entity_subject")
+    predicate_token = extract(tree, "entity_predicate")
+    object_token = extract(tree, "entity_object")
+
+    subject, s_representation = get_entity_representation(subject_token)
+    predicate, p_representation = get_entity_representation(predicate_token)
+    object, o_representation = get_entity_representation(object_token)
 
     language_token = extract(tree, "language")
     datatype_token = extract(tree, "datatype")
@@ -317,9 +321,12 @@ def parse_delete_edge(tree, id):
 
     return EdgeDeletion(
         id=id,
-        subject=subject_token,
-        predicate=predicate_token,
-        object=object_token,
+        subject=subject,
+        predicate=predicate,
+        object=object,
+        subject_type=s_representation,
+        predicate_type=p_representation,
+        object_type=o_representation,
         language=language_token,
         datatype=datatype_token,
     )

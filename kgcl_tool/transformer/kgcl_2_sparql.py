@@ -114,16 +114,10 @@ def convert(kgclInstance):
 
     # edge deletion
     if type(kgclInstance) is EdgeDeletion:
-        if (
-            is_id(kgclInstance.subject)
-            and is_id(kgclInstance.predicate)
-            # and (is_id(kgclInstance.object) or is_label(kgclInstance.object))
-        ):
-
-            if kgclInstance.annotation_set is None:
-                return edge_deletion(kgclInstance)
-            else:
-                return edge_annotation_deletion(kgclInstance)
+        if kgclInstance.annotation_set is None:
+            return edge_deletion(kgclInstance)
+        else:
+            return edge_annotation_deletion(kgclInstance)
 
     # node move
     if type(kgclInstance) is NodeMove:
@@ -1035,25 +1029,57 @@ def edge_deletion(kgclInstance):
     predicate = kgclInstance.predicate
     object = kgclInstance.object
 
+    subject_type = kgclInstance.subject_type
+    predicate_type = kgclInstance.predicate_type
+    object_type = kgclInstance.object_type
+
     language = kgclInstance.language
     datatype = kgclInstance.datatype
 
     prefix = "PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>  "
     prefix += "PREFIX owl: <http://www.w3.org/2002/07/owl#>  "
 
-    deleteQuery = subject + " " + predicate + " ?object . "
+    if subject_type == "curie":
+        curie_prefix = get_prefix(subject)
+        curie_uri = prefix_2_uri[curie_prefix]
+        prefix += "PREFIX " + curie_prefix + ": " + curie_uri + " "
+
+    if predicate_type == "curie":
+        curie_prefix = get_prefix(predicate)
+        curie_uri = prefix_2_uri[curie_prefix]
+        prefix += "PREFIX " + curie_prefix + ": " + curie_uri + " "
+
+    if object_type == "curie":
+        curie_prefix = get_prefix(object)
+        curie_uri = prefix_2_uri[curie_prefix]
+        prefix += "PREFIX " + curie_prefix + ": " + curie_uri + " "
+
+    deleteQuery = "?subject " + predicate + " ?object . "
     delete = "DELETE {" + deleteQuery + "}"
 
-    whereQuery = deleteQuery
+    whereQuery = ""
 
-    if datatype is not None:
-        whereQuery += " BIND( STRDT(" + object + "," + datatype + ") AS ?object) "
-    elif language is not None:
-        whereQuery += "BIND( STRLANG(" + object + ',"' + language + '") AS ?object) '
+    whereQuery = ""
+    if subject_type == "label":
+        whereQuery += "?subject rdfs:label ?object_label . "
+        whereQuery += ' FILTER(STR(?object_label)="' + subject + '") '
     else:
-        whereQuery += "BIND(" + object + " AS ?object)"
+        whereQuery += "BIND(" + subject + " AS ?subject)"
 
-    where = "WHERE {" + whereQuery + "}"
+    if object_type == "label":
+        whereQuery += "?object rdfs:label ?object_label . "
+        whereQuery += ' FILTER(STR(?object_label)="' + object + '") '
+    else:  # curie or uri
+        if datatype is not None:
+            whereQuery += " BIND( STRDT(" + object + "," + datatype + ") AS ?object) "
+        elif language is not None:
+            whereQuery += (
+                "BIND( STRLANG(" + object + ',"' + language + '") AS ?object) '
+            )
+        else:
+            whereQuery += "BIND(" + object + " AS ?object)"
+
+    where = "WHERE { " + whereQuery + " }"
 
     updateQuery = prefix + " " + delete + " " + where
 
