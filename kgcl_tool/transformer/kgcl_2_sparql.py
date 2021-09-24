@@ -97,12 +97,7 @@ def convert(kgclInstance):
 
     # node shallowing
     if type(kgclInstance) is NodeShallowing:
-        if (
-            is_id(kgclInstance.about_edge.subject)
-            and is_id(kgclInstance.old_value)
-            and is_id(kgclInstance.new_value)
-        ):
-            return node_shallowing(kgclInstance)
+        return node_shallowing(kgclInstance)
 
     # edge creation
     if type(kgclInstance) is EdgeCreation:
@@ -350,25 +345,73 @@ def node_deepening(kgclInstance):
 
 def node_shallowing(kgclInstance):
 
-    term_id = kgclInstance.about_edge.subject
+    entity = kgclInstance.about_edge.subject
     old_value = kgclInstance.old_value
     new_value = kgclInstance.new_value
+
+    entity_type = kgclInstance.about_edge.subject_representation
+    old_type = kgclInstance.old_object_type
+    new_type = kgclInstance.new_object_type
 
     prefix = "PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>  "
     prefix += "PREFIX owl: <http://www.w3.org/2002/07/owl#>  "
     prefix += "PREFIX xsd:  <http://www.w3.org/2001/XMLSchema#> "
 
-    deleteQuery = term_id + " ?relation " + old_value + " . "
+    # set up prefixes  for curies as needed
+    if entity_type == "curie":
+        curie_prefix = get_prefix(entity)
+        curie_uri = prefix_2_uri[curie_prefix]
+        prefix += "PREFIX " + curie_prefix + ": " + curie_uri + " "
+
+    if old_type == "curie":
+        curie_prefix = get_prefix(old_value)
+        curie_uri = prefix_2_uri[curie_prefix]
+        prefix += "PREFIX " + curie_prefix + ": " + curie_uri + " "
+
+    if new_type == "curie":
+        curie_prefix = get_prefix(new_value)
+        curie_uri = prefix_2_uri[curie_prefix]
+        prefix += "PREFIX " + curie_prefix + ": " + curie_uri + " "
+
+    # query for labels
+    # query for curies and uris
+
+    deleteQuery = "?entity ?relation ?old . "
 
     delete = "DELETE {" + deleteQuery + "}"
 
-    insertQuery = term_id + " ?relation " + new_value + " . "
+    insertQuery = "?entity ?relation ?new . "
 
     insert = "INSERT {" + insertQuery + "}"
 
-    whereQuery = term_id + " ?relation " + old_value + " . "
-    whereQuery += old_value + " ?relation " + new_value + " . "
+    whereQuery = ""
+
+    if old_type == "label":
+        whereQuery += "?old rdfs:label ?old_label . "
+        whereQuery += ' FILTER(STR(?old_label)="' + old_value + '") '
+    else:
+        whereQuery += " BIND(" + old_value + " AS ?old) "
+
+    if new_type == "label":
+        whereQuery += "?new rdfs:label ?new_label . "
+        whereQuery += ' FILTER(STR(?new_label)="' + new_value + '") '
+    else:
+        whereQuery += " BIND(" + new_value + " AS ?new) "
+
+    if entity_type == "label":
+        whereQuery += "?entity rdfs:label ?entity_label . "
+        whereQuery += ' FILTER(STR(?entity_label)="' + entity + '") '
+    else:
+        whereQuery += " BIND(" + entity + " AS ?entity) "
+
+    whereQuery += "?entity ?relation ?old . "
+    whereQuery += "?old ?relation ?new . "
+
     where = "WHERE {" + whereQuery + "}"
+
+    updateQuery = prefix + " " + delete + " " + insert + " " + where
+
+    return updateQuery
 
     updateQuery = prefix + " " + delete + " " + insert + " " + where
 

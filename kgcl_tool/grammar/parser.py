@@ -353,14 +353,28 @@ def parse_create_edge(tree, id):
 
 
 def parse_shallow(tree, id):
-    term_id_token = extract(tree, "id")
-    old_token = extract(tree, "old_id")
-    new_token = extract(tree, "new_id")
+    entity_token = extract(tree, "entity")
+    old_token = extract(tree, "old_entity")
+    new_token = extract(tree, "new_entity")
 
-    edge = Edge(subject=term_id_token, object=old_token)
+    entity, e_representation = get_entity_representation(entity_token)
+    old_entity, o_representation = get_entity_representation(old_token)
+    new_entity, n_representation = get_entity_representation(new_token)
+
+    edge = Edge(
+        subject=entity,
+        object=old_entity,
+        subject_representation=e_representation,
+        object_representation=o_representation,
+    )
 
     return NodeShallowing(
-        id=id, about_edge=edge, old_value=old_token, new_value=new_token
+        id=id,
+        about_edge=edge,
+        old_value=old_entity,
+        new_value=new_entity,
+        old_object_type=o_representation,
+        new_object_type=n_representation,
     )
 
 

@@ -36,7 +36,7 @@ obsolete : "obsolete" _WS entity
 unobsolete: "unobsolete" _WS entity 
 
 deepen : "deepen" _WS entity _WS "from" _WS old_entity _WS ("to"|"->") _WS new_entity 
-shallow : "shallow" _WS id _WS "from" _WS old_id _WS ("to"|"->") _WS new_id 
+shallow : "shallow" _WS entity _WS "from" _WS old_entity _WS ("to"|"->") _WS new_entity 
 
 move : "move" _WS subject _WS predicate _WS object _WS "from" _WS old_id _WS ("to"|"as"|"->") _WS new_id 
 
