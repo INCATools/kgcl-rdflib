@@ -132,12 +132,7 @@ def convert(kgclInstance):
 
     # node move
     if type(kgclInstance) is NodeMove:
-        if (
-            is_id(kgclInstance.about_edge.subject)
-            and is_id(kgclInstance.old_value)
-            and is_id(kgclInstance.new_value)
-        ):
-            return node_move(kgclInstance)
+        return node_move(kgclInstance)
 
     if type(kgclInstance) is NewSynonym:
         representation = kgclInstance.about_node_representation
@@ -171,24 +166,87 @@ def convert(kgclInstance):
 
 
 def node_move(kgclInstance):
-    term_id = kgclInstance.about_edge.subject
+
+    # NB: object and old_value are the (necessarily) the same
+    subject = kgclInstance.about_edge.subject
+    predicate = kgclInstance.about_edge.predicate
+    object = kgclInstance.about_edge.object
+
+    subject_type = kgclInstance.about_edge.subject_representation
+    predicate_type = kgclInstance.about_edge.predicate_representation
+    object_type = kgclInstance.about_edge.object_representation
+
     old_value = kgclInstance.old_value
     new_value = kgclInstance.new_value
+
+    old_type = kgclInstance.old_object_type
+    new_type = kgclInstance.new_object_type
 
     prefix = "PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>  "
     prefix += "PREFIX owl: <http://www.w3.org/2002/07/owl#>  "
     prefix += "PREFIX xsd:  <http://www.w3.org/2001/XMLSchema#> "
 
-    deleteQuery = term_id + " ?relation " + old_value + " . "
+    # set up prefixes  for curies as needed
+    if subject_type == "curie":
+        curie_prefix = get_prefix(subject)
+        curie_uri = prefix_2_uri[curie_prefix]
+        prefix += "PREFIX " + curie_prefix + ": " + curie_uri + " "
+
+    if predicate_type == "curie":
+        curie_prefix = get_prefix(predicate)
+        curie_uri = prefix_2_uri[curie_prefix]
+        prefix += "PREFIX " + curie_prefix + ": " + curie_uri + " "
+
+    if object_type == "curie":
+        curie_prefix = get_prefix(object)
+        curie_uri = prefix_2_uri[curie_prefix]
+        prefix += "PREFIX " + curie_prefix + ": " + curie_uri + " "
+
+    if old_type == "curie":
+        curie_prefix = get_prefix(old_value)
+        curie_uri = prefix_2_uri[curie_prefix]
+        prefix += "PREFIX " + curie_prefix + ": " + curie_uri + " "
+
+    if new_type == "curie":
+        curie_prefix = get_prefix(new_value)
+        curie_uri = prefix_2_uri[curie_prefix]
+        prefix += "PREFIX " + curie_prefix + ": " + curie_uri + " "
+
+    deleteQuery = "?subject " + predicate + " ?old . "
 
     delete = "DELETE {" + deleteQuery + "}"
 
-    insertQuery = term_id + " ?relation " + new_value + " . "
+    insertQuery = "?subject " + predicate + " ?new . "
 
     insert = "INSERT {" + insertQuery + "}"
 
-    whereQuery = term_id + " ?relation " + old_value + " . "
+    whereQuery = ""
+
+    if old_type == "label":
+        whereQuery += "?old rdfs:label ?old_label . "
+        whereQuery += ' FILTER(STR(?old_label)="' + old_value + '") '
+    else:
+        whereQuery += " BIND(" + old_value + " AS ?old) "
+
+    if new_type == "label":
+        whereQuery += "?new rdfs:label ?new_label . "
+        whereQuery += ' FILTER(STR(?new_label)="' + new_value + '") '
+    else:
+        whereQuery += " BIND(" + new_value + " AS ?new) "
+
+    if subject_type == "label":
+        whereQuery += "?subject rdfs:label ?entity_label . "
+        whereQuery += ' FILTER(STR(?entity_label)="' + subject + '") '
+    else:
+        whereQuery += " BIND(" + subject + " AS ?subject) "
+
+    whereQuery += "?subject " + predicate + " ?old . "
+
     where = "WHERE {" + whereQuery + "}"
+
+    updateQuery = prefix + " " + delete + " " + insert + " " + where
+
+    return updateQuery
 
     updateQuery = prefix + " " + delete + " " + insert + " " + where
 

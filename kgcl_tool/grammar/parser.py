@@ -405,16 +405,37 @@ def parse_deepen(tree, id):
 
 
 def parse_move(tree, id):
-    subject_token = extract(tree, "subject")
-    predicate_token = extract(tree, "predicate")
-    object_token = extract(tree, "object")
+    subject_token = extract(tree, "entity_subject")
+    predicate_token = extract(tree, "entity_predicate")
+    object_token = extract(tree, "entity_object")
 
-    old_token = extract(tree, "old_id")
-    new_token = extract(tree, "new_id")
+    subject, s_representation = get_entity_representation(subject_token)
+    predicate, p_representation = get_entity_representation(predicate_token)
+    object, o_representation = get_entity_representation(object_token)
 
-    edge = Edge(subject=subject_token, predicate=predicate_token, object=object_token)
+    old_token = extract(tree, "old_entity")
+    new_token = extract(tree, "new_entity")
 
-    return NodeMove(id=id, about_edge=edge, old_value=old_token, new_value=new_token)
+    old, old_representation = get_entity_representation(old_token)
+    new, new_representation = get_entity_representation(new_token)
+
+    edge = Edge(
+        subject=subject,
+        predicate=predicate,
+        object=object,
+        subject_representation=s_representation,
+        predicate_representation=p_representation,
+        object_representation=o_representation,
+    )
+
+    return NodeMove(
+        id=id,
+        about_edge=edge,
+        old_value=old,
+        new_value=new,
+        old_object_type=old_representation,
+        new_object_type=new_representation,
+    )
 
 
 def parse_delete(tree, id):

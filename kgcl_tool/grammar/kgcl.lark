@@ -38,7 +38,7 @@ unobsolete: "unobsolete" _WS entity
 deepen : "deepen" _WS entity _WS "from" _WS old_entity _WS ("to"|"->") _WS new_entity 
 shallow : "shallow" _WS entity _WS "from" _WS old_entity _WS ("to"|"->") _WS new_entity 
 
-move : "move" _WS subject _WS predicate _WS object _WS "from" _WS old_id _WS ("to"|"as"|"->") _WS new_id 
+move : "move" _WS entity_subject _WS entity_predicate _WS entity_object _WS "from" _WS old_entity _WS ("to"|"as"|"->") _WS new_entity 
 
 create_edge : "create edge" _WS subject _WS predicate _WS object 
 delete_edge : "delete edge" _WS subject _WS predicate _WS object 
@@ -94,6 +94,9 @@ new_predicate : ID
 entity: _entity 
 old_entity: _entity
 new_entity: _entity
+entity_subject: _entity
+entity_predicate: _entity
+entity_object: _entity
 
 _entity: ID
          | LABEL 
