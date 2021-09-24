@@ -222,13 +222,26 @@ def parse_create(tree, id):
 
 
 def parse_change_relationship(tree, id):
-    subject_token = extract(tree, "subject")
-    object_token = extract(tree, "object")
+    subject_token = extract(tree, "entity_subject")
+    object_token = extract(tree, "entity_object")
 
-    edge = Edge(subject=subject_token, object=object_token)
+    subject, s_representation = get_entity_representation(subject_token)
+    object, o_representation = get_entity_representation(object_token)
 
-    old_token = extract(tree, "old_predicate")
-    new_token = extract(tree, "new_predicate")
+    old_token = extract(tree, "old_entity")
+    new_token = extract(tree, "new_entity")
+
+    old, old_representation = get_entity_representation(old_token)
+    new, new_representation = get_entity_representation(new_token)
+
+    edge = Edge(
+        subject=subject,
+        predicate=old,
+        object=object,
+        subject_representation=s_representation,
+        predicate_representation=old_representation,
+        object_representation=o_representation,
+    )
 
     language_token = extract(tree, "language")
     datatype_token = extract(tree, "datatype")
@@ -236,8 +249,10 @@ def parse_change_relationship(tree, id):
     return PredicateChange(
         id=id,
         about_edge=edge,
-        old_value=old_token,
-        new_value=new_token,
+        old_value=old,
+        new_value=new,
+        old_value_type=old_representation,
+        new_value_type=new_representation,
         language=language_token,
         datatype=datatype_token,
     )

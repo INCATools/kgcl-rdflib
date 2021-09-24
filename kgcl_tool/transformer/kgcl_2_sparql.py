@@ -146,13 +146,7 @@ def convert(kgclInstance):
             return new_synonym_for_curie(kgclInstance)
 
     if type(kgclInstance) is PredicateChange:
-        if (
-            is_id(kgclInstance.about_edge.subject)
-            # and is_id(kgclInstance.about_edge.object)
-            and is_id(kgclInstance.old_value)
-            and is_id(kgclInstance.new_value)
-        ):
-            return change_predicate(kgclInstance)
+        return change_predicate(kgclInstance)
 
     if type(kgclInstance) is RemovedNodeFromSubset:
         if is_id(kgclInstance.about_node) and is_id(kgclInstance.subset):
@@ -283,7 +277,6 @@ def remove_node_from_subset(kgclInstance):
 
 def change_predicate(kgclInstance):
 
-    # TODO handle language tags and datatype..
     subject = kgclInstance.about_edge.subject
     object = kgclInstance.about_edge.object
 
@@ -293,31 +286,66 @@ def change_predicate(kgclInstance):
     language = kgclInstance.language
     datatype = kgclInstance.datatype
 
-    # updateQuery = (
-    #    f"PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>"
-    #    f"DELETE {{ {subject} {old_value} {object} }}"
-    #    f"INSERT {{ {subject} {new_value} {object} }}"
-    #    f"WHERE {{  }}"
-    # )
+    subject_type = kgclInstance.about_edge.subject_representation
+    object_type = kgclInstance.about_edge.object_representation
+
+    old_value_type = kgclInstance.old_value_type
+    new_value_type = kgclInstance.new_value_type
 
     prefix = "PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>  "
 
-    deleteQuery = subject + " " + old_value + " ?object . "
+    if subject_type == "curie":
+        curie_prefix = get_prefix(subject)
+        curie_uri = prefix_2_uri[curie_prefix]
+        prefix += "PREFIX " + curie_prefix + ": " + curie_uri + " "
+
+    if object_type == "curie":
+        curie_prefix = get_prefix(subject)
+        curie_uri = prefix_2_uri[curie_prefix]
+        prefix += "PREFIX " + curie_prefix + ": " + curie_uri + " "
+
+    if old_value_type == "curie":
+        curie_prefix = get_prefix(old_value)
+        curie_uri = prefix_2_uri[curie_prefix]
+        prefix += "PREFIX " + curie_prefix + ": " + curie_uri + " "
+
+    if new_value_type == "curie":
+        curie_prefix = get_prefix(new_value)
+        curie_uri = prefix_2_uri[curie_prefix]
+        prefix += "PREFIX " + curie_prefix + ": " + curie_uri + " "
+
+    deleteQuery = "?subject ?old ?object . "
 
     delete = "DELETE {" + deleteQuery + "}"
 
-    insertQuery = subject + " " + new_value + " ?object . "
+    insertQuery = "?subject ?new ?object . "
 
     insert = "INSERT {" + insertQuery + "}"
 
     whereQuery = deleteQuery
 
-    if datatype is not None:
-        whereQuery += " BIND( STRDT(" + object + "," + datatype + ") AS ?object) "
-    elif language is not None:
-        whereQuery += "BIND( STRLANG(" + object + ',"' + language + '") AS ?object) '
+    if subject_type == "label":
+        whereQuery += "?subject rdfs:label ?subject_label . "
+        whereQuery += ' FILTER(STR(?subject_label)="' + subject + '") '
     else:
-        whereQuery += "BIND(" + object + " AS ?object)"
+        whereQuery += " BIND(" + subject + " AS ?subject) "
+
+    if object_type == "label":
+        whereQuery += "?object rdfs:label ?object_label . "
+        whereQuery += ' FILTER(STR(?object_label)="' + object + '") '
+    else:
+        whereQuery += " BIND(" + object + " AS ?object) "
+
+    whereQuery += " BIND(" + old_value + " AS ?old) "
+    whereQuery += " BIND(" + new_value + " AS ?new) "
+
+    # TODO: this needs to be reworked
+    # if datatype is not None:
+    #    whereQuery += " BIND( STRDT(" + object + "," + datatype + ") AS ?object) "
+    # elif language is not None:
+    #    whereQuery += "BIND( STRLANG(" + object + ',"' + language + '") AS ?object) '
+    # else:
+    #    whereQuery += "BIND(" + object + " AS ?object)"
 
     where = "WHERE {" + whereQuery + "}"
 

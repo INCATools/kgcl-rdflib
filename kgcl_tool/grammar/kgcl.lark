@@ -46,7 +46,7 @@ delete_edge : "delete edge" _WS subject _WS predicate _WS object
 create_annotated_edge : "create edge <<" subject _WS predicate _WS object ">>" _WS annotation_property _WS annotation
 delete_annotated_edge : "delete edge <<" subject _WS predicate _WS object ">>" _WS annotation_property _WS annotation
 
-change_relationship: "change relationship between" _WS subject _WS "and" _WS object _WS "from" _WS old_predicate _WS "to" _WS new_predicate 
+change_relationship: "change relationship between" _WS entity_subject _WS "and" _WS entity_object _WS "from" _WS old_entity _WS "to" _WS new_entity 
 
 add_subsumption_axiom: "add" _WS subclass _WS "SubClassOf" _WS superclass
 add_existential_restriction_axiom: "add" _WS subclass _WS "SubClassOf" _WS property _WS "some" _WS filler
