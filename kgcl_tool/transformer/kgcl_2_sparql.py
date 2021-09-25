@@ -45,6 +45,12 @@ def is_id(input):
     return re.match(r"<\S+>", input)
 
 
+def build_curie_prefix(entity):
+    curie_prefix = get_prefix(entity)
+    curie_uri = prefix_2_uri[curie_prefix]
+    return "PREFIX " + curie_prefix + ": " + curie_uri + " "
+
+
 def convert(kgclInstance):
 
     # label renaming
@@ -172,29 +178,19 @@ def node_move(kgclInstance):
 
     # set up prefixes  for curies as needed
     if subject_type == "curie":
-        curie_prefix = get_prefix(subject)
-        curie_uri = prefix_2_uri[curie_prefix]
-        prefix += "PREFIX " + curie_prefix + ": " + curie_uri + " "
+        prefix += build_curie_prefix(subject)
 
     if predicate_type == "curie":
-        curie_prefix = get_prefix(predicate)
-        curie_uri = prefix_2_uri[curie_prefix]
-        prefix += "PREFIX " + curie_prefix + ": " + curie_uri + " "
+        prefix += build_curie_prefix(predicate)
 
     if object_type == "curie":
-        curie_prefix = get_prefix(object)
-        curie_uri = prefix_2_uri[curie_prefix]
-        prefix += "PREFIX " + curie_prefix + ": " + curie_uri + " "
+        prefix += build_curie_prefix(object)
 
     if old_type == "curie":
-        curie_prefix = get_prefix(old_value)
-        curie_uri = prefix_2_uri[curie_prefix]
-        prefix += "PREFIX " + curie_prefix + ": " + curie_uri + " "
+        prefix += build_curie_prefix(old_value)
 
     if new_type == "curie":
-        curie_prefix = get_prefix(new_value)
-        curie_uri = prefix_2_uri[curie_prefix]
-        prefix += "PREFIX " + curie_prefix + ": " + curie_uri + " "
+        prefix += build_curie_prefix(new_value)
 
     deleteQuery = "?subject " + predicate + " ?old . "
 
@@ -285,24 +281,16 @@ def change_predicate(kgclInstance):
     prefix = "PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>  "
 
     if subject_type == "curie":
-        curie_prefix = get_prefix(subject)
-        curie_uri = prefix_2_uri[curie_prefix]
-        prefix += "PREFIX " + curie_prefix + ": " + curie_uri + " "
+        prefix += build_curie_prefix(subject)
 
     if object_type == "curie":
-        curie_prefix = get_prefix(subject)
-        curie_uri = prefix_2_uri[curie_prefix]
-        prefix += "PREFIX " + curie_prefix + ": " + curie_uri + " "
+        prefix += build_curie_prefix(object)
 
     if old_value_type == "curie":
-        curie_prefix = get_prefix(old_value)
-        curie_uri = prefix_2_uri[curie_prefix]
-        prefix += "PREFIX " + curie_prefix + ": " + curie_uri + " "
+        prefix += build_curie_prefix(old_value)
 
     if new_value_type == "curie":
-        curie_prefix = get_prefix(new_value)
-        curie_uri = prefix_2_uri[curie_prefix]
-        prefix += "PREFIX " + curie_prefix + ": " + curie_uri + " "
+        prefix += build_curie_prefix(new_value)
 
     deleteQuery = "?subject ?old ?object . "
 
@@ -354,32 +342,19 @@ def node_deepening(kgclInstance):
     old_type = kgclInstance.old_object_type
     new_type = kgclInstance.new_object_type
 
-    # curie
-    # label
-    # uri
-
     prefix = "PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>  "
     prefix += "PREFIX owl: <http://www.w3.org/2002/07/owl#>  "
     prefix += "PREFIX xsd:  <http://www.w3.org/2001/XMLSchema#> "
 
     # set up prefixes  for curies as needed
     if entity_type == "curie":
-        curie_prefix = get_prefix(entity)
-        curie_uri = prefix_2_uri[curie_prefix]
-        prefix += "PREFIX " + curie_prefix + ": " + curie_uri + " "
+        prefix += build_curie_prefix(entity)
 
     if old_type == "curie":
-        curie_prefix = get_prefix(old_value)
-        curie_uri = prefix_2_uri[curie_prefix]
-        prefix += "PREFIX " + curie_prefix + ": " + curie_uri + " "
+        prefix += build_curie_prefix(old_value)
 
     if new_type == "curie":
-        curie_prefix = get_prefix(new_value)
-        curie_uri = prefix_2_uri[curie_prefix]
-        prefix += "PREFIX " + curie_prefix + ": " + curie_uri + " "
-
-    # query for labels
-    # query for curies and uris
+        prefix += build_curie_prefix(new_value)
 
     deleteQuery = "?entity ?relation ?old . "
 
@@ -433,24 +408,14 @@ def node_shallowing(kgclInstance):
     prefix += "PREFIX owl: <http://www.w3.org/2002/07/owl#>  "
     prefix += "PREFIX xsd:  <http://www.w3.org/2001/XMLSchema#> "
 
-    # set up prefixes  for curies as needed
     if entity_type == "curie":
-        curie_prefix = get_prefix(entity)
-        curie_uri = prefix_2_uri[curie_prefix]
-        prefix += "PREFIX " + curie_prefix + ": " + curie_uri + " "
+        prefix += build_curie_prefix(entity)
 
     if old_type == "curie":
-        curie_prefix = get_prefix(old_value)
-        curie_uri = prefix_2_uri[curie_prefix]
-        prefix += "PREFIX " + curie_prefix + ": " + curie_uri + " "
+        prefix += build_curie_prefix(old_value)
 
     if new_type == "curie":
-        curie_prefix = get_prefix(new_value)
-        curie_uri = prefix_2_uri[curie_prefix]
-        prefix += "PREFIX " + curie_prefix + ": " + curie_uri + " "
-
-    # query for labels
-    # query for curies and uris
+        prefix += build_curie_prefix(new_value)
 
     deleteQuery = "?entity ?relation ?old . "
 
@@ -794,9 +759,7 @@ def delete_by_id(kgclInstance):
 def delete_curie(kgclInstance):
     about = kgclInstance.about_node
 
-    curie_prefix = get_prefix(about)
-    curie_uri = prefix_2_uri[curie_prefix]
-    prefix = "PREFIX " + curie_prefix + ": " + curie_uri + " "
+    prefix = build_curie_prefix(about)
 
     # this does not delete triples with blank nodes
     deleteQuery = "?s1 ?p1 " + about + " . "
@@ -897,29 +860,19 @@ def edge_annotation_creation(kgclInstance):
     prefix += "PREFIX owl: <http://www.w3.org/2002/07/owl#>  "
 
     if subject_type == "curie":
-        curie_prefix = get_prefix(subject)
-        curie_uri = prefix_2_uri[curie_prefix]
-        prefix += "PREFIX " + curie_prefix + ": " + curie_uri + " "
+        prefix += build_curie_prefix(subject)
 
     if predicate_type == "curie":
-        curie_prefix = get_prefix(predicate)
-        curie_uri = prefix_2_uri[curie_prefix]
-        prefix += "PREFIX " + curie_prefix + ": " + curie_uri + " "
+        prefix += build_curie_prefix(predicate)
 
     if object_type == "curie":
-        curie_prefix = get_prefix(object)
-        curie_uri = prefix_2_uri[curie_prefix]
-        prefix += "PREFIX " + curie_prefix + ": " + curie_uri + " "
+        prefix += build_curie_prefix(object)
 
     if annotation.property_type == "curie":
-        curie_prefix = get_prefix(annotation.property)
-        curie_uri = prefix_2_uri[curie_prefix]
-        prefix += "PREFIX " + curie_prefix + ": " + curie_uri + " "
+        prefix += build_curie_prefix(annotation.property)
 
     if annotation.filler_type == "curie":
-        curie_prefix = get_prefix(annotation.filler)
-        curie_uri = prefix_2_uri[curie_prefix]
-        prefix += "PREFIX " + curie_prefix + ": " + curie_uri + " "
+        prefix += build_curie_prefix(annotation.filler)
 
     insertQuery = "?bnode owl:annotatedSource ?subject . "
     insertQuery += "?bnode owl:annotatedProperty " + predicate + " . "
@@ -973,19 +926,13 @@ def edge_creation(kgclInstance):
     prefix += "PREFIX owl: <http://www.w3.org/2002/07/owl#>  "
 
     if subject_type == "curie":
-        curie_prefix = get_prefix(subject)
-        curie_uri = prefix_2_uri[curie_prefix]
-        prefix += "PREFIX " + curie_prefix + ": " + curie_uri + " "
+        prefix += build_curie_prefix(subject)
 
     if predicate_type == "curie":
-        curie_prefix = get_prefix(predicate)
-        curie_uri = prefix_2_uri[curie_prefix]
-        prefix += "PREFIX " + curie_prefix + ": " + curie_uri + " "
+        prefix += build_curie_prefix(predicate)
 
     if object_type == "curie":
-        curie_prefix = get_prefix(object)
-        curie_uri = prefix_2_uri[curie_prefix]
-        prefix += "PREFIX " + curie_prefix + ": " + curie_uri + " "
+        prefix += build_curie_prefix(object)
 
     insertQuery = "?subject " + predicate + " ?object . "
 
@@ -1047,29 +994,19 @@ def edge_annotation_deletion(kgclInstance):
     prefix += "PREFIX owl: <http://www.w3.org/2002/07/owl#>  "
 
     if subject_type == "curie":
-        curie_prefix = get_prefix(subject)
-        curie_uri = prefix_2_uri[curie_prefix]
-        prefix += "PREFIX " + curie_prefix + ": " + curie_uri + " "
+        prefix += build_curie_prefix(subject)
 
     if predicate_type == "curie":
-        curie_prefix = get_prefix(predicate)
-        curie_uri = prefix_2_uri[curie_prefix]
-        prefix += "PREFIX " + curie_prefix + ": " + curie_uri + " "
+        prefix += build_curie_prefix(predicate)
 
     if object_type == "curie":
-        curie_prefix = get_prefix(object)
-        curie_uri = prefix_2_uri[curie_prefix]
-        prefix += "PREFIX " + curie_prefix + ": " + curie_uri + " "
+        prefix += build_curie_prefix(object)
 
     if annotation.property_type == "curie":
-        curie_prefix = get_prefix(annotation.property)
-        curie_uri = prefix_2_uri[curie_prefix]
-        prefix += "PREFIX " + curie_prefix + ": " + curie_uri + " "
+        prefix += build_curie_prefix(annotation.property)
 
     if annotation.filler_type == "curie":
-        curie_prefix = get_prefix(annotation.filler)
-        curie_uri = prefix_2_uri[curie_prefix]
-        prefix += "PREFIX " + curie_prefix + ": " + curie_uri + " "
+        prefix += build_curie_prefix(annotation.filler)
 
     insert = "INSERT { }"
 
@@ -1175,19 +1112,13 @@ def edge_deletion(kgclInstance):
     prefix += "PREFIX owl: <http://www.w3.org/2002/07/owl#>  "
 
     if subject_type == "curie":
-        curie_prefix = get_prefix(subject)
-        curie_uri = prefix_2_uri[curie_prefix]
-        prefix += "PREFIX " + curie_prefix + ": " + curie_uri + " "
+        prefix += build_curie_prefix(subject)
 
     if predicate_type == "curie":
-        curie_prefix = get_prefix(predicate)
-        curie_uri = prefix_2_uri[curie_prefix]
-        prefix += "PREFIX " + curie_prefix + ": " + curie_uri + " "
+        prefix += build_curie_prefix(predicate)
 
     if object_type == "curie":
-        curie_prefix = get_prefix(object)
-        curie_uri = prefix_2_uri[curie_prefix]
-        prefix += "PREFIX " + curie_prefix + ": " + curie_uri + " "
+        prefix += build_curie_prefix(object)
 
     deleteQuery = "?subject " + predicate + " ?object . "
     delete = "DELETE {" + deleteQuery + "}"
@@ -1499,19 +1430,42 @@ def create_existential_restriction(kgclInstance):
     property = kgclInstance.property
     filler = kgclInstance.filler
 
+    subclass_type = kgclInstance.subclass_type
+    property_type = kgclInstance.property_type
+    filler_type = kgclInstance.filler_type
+
     prefix = "PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>  "
     prefix += "PREFIX owl: <http://www.w3.org/2002/07/owl#>  "
     prefix += "PREFIX xsd:  <http://www.w3.org/2001/XMLSchema#> "
-    prefix += "PREFIX oboInOwl: <http://www.geneontology.org/formats/oboInOwl#> "
 
-    insertQuery = subclass + "rdfs:subClassOf ?bnode . "
-    insertQuery += "?bnode owl:someValuesFrom " + filler + " . "
+    if subclass_type == "curie":
+        prefix += build_curie_prefix(subclass)
+    if property_type == "curie":
+        prefix += build_curie_prefix(property)
+    if filler_type == "curie":
+        prefix += build_curie_prefix(filler)
+
+    insertQuery = "?subclass rdfs:subClassOf ?bnode . "
+    insertQuery += "?bnode owl:someValuesFrom ?filler . "
     insertQuery += "?bnode owl:onProperty " + property + " . "
     insertQuery += "?bnode rdf:type owl:Restriction ."
 
     insert = "INSERT {" + insertQuery + "}"
 
-    whereQuery = ' BIND(BNODE("existential") AS ?bnode) '
+    whereQuery = ""
+    if subclass_type == "label":
+        whereQuery += "?subclass rdfs:label ?subclass_label . "
+        whereQuery += ' FILTER(STR(?subclass_label)="' + subclass + '") '
+    else:
+        whereQuery += " BIND(" + subclass + " AS ?subclass) "
+
+    if filler_type == "label":
+        whereQuery += "?filler rdfs:label ?filler_label . "
+        whereQuery += ' FILTER(STR(?filler_label)="' + filler + '") '
+    else:
+        whereQuery += " BIND(" + filler + " AS ?filler) "
+
+    whereQuery += ' BIND(BNODE("existential") AS ?bnode) '
     where = "WHERE {" + whereQuery + "}"
 
     updateQuery = prefix + " " + insert + " " + where
@@ -1524,19 +1478,43 @@ def delete_existential_restriction(kgclInstance):
     property = kgclInstance.property
     filler = kgclInstance.filler
 
+    subclass_type = kgclInstance.subclass_type
+    property_type = kgclInstance.property_type
+    filler_type = kgclInstance.filler_type
+
     prefix = "PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>  "
     prefix += "PREFIX owl: <http://www.w3.org/2002/07/owl#>  "
     prefix += "PREFIX xsd:  <http://www.w3.org/2001/XMLSchema#> "
     prefix += "PREFIX oboInOwl: <http://www.geneontology.org/formats/oboInOwl#> "
 
-    deleteQuery = subclass + "rdfs:subClassOf ?bnode . "
-    deleteQuery += "?bnode owl:someValuesFrom " + filler + " . "
+    if subclass_type == "curie":
+        prefix += build_curie_prefix(subclass)
+    if property_type == "curie":
+        prefix += build_curie_prefix(property)
+    if filler_type == "curie":
+        prefix += build_curie_prefix(filler)
+
+    deleteQuery = "?subclass rdfs:subClassOf ?bnode . "
+    deleteQuery += "?bnode owl:someValuesFrom ?filler . "
     deleteQuery += "?bnode owl:onProperty " + property + " . "
     deleteQuery += "?bnode rdf:type owl:Restriction ."
 
     delete = "DELETE {" + deleteQuery + "}"
 
     whereQuery = deleteQuery
+
+    if subclass_type == "label":
+        whereQuery += "?subclass rdfs:label ?subclass_label . "
+        whereQuery += ' FILTER(STR(?subclass_label)="' + subclass + '") '
+    else:
+        whereQuery += " BIND(" + subclass + " AS ?subclass) "
+
+    if filler_type == "label":
+        whereQuery += "?filler rdfs:label ?filler_label . "
+        whereQuery += ' FILTER(STR(?filler_label)="' + filler + '") '
+    else:
+        whereQuery += " BIND(" + filler + " AS ?filler) "
+
     where = "WHERE {" + whereQuery + "}"
 
     updateQuery = prefix + " " + delete + " " + where

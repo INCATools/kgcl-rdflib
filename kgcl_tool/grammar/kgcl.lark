@@ -66,10 +66,10 @@ object: TERM ["@" language | datatype]
 subset: ID
 synonym : LABEL
 
-subclass: ID
-superclass: ID
-property: ID
-filler: ID
+subclass: _entity
+superclass: _entity
+property: _entity
+filler: _entity
 
 label : SINGLE_QUOTE_LITERAL
 old_label : SINGLE_QUOTE_LITERAL

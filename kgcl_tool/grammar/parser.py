@@ -134,11 +134,18 @@ def parse_delete_existential_restriction_axiom(tree, id):
     property_token = extract(tree, "property")
     filler_token = extract(tree, "filler")
 
+    subclass, s_representation = get_entity_representation(subclass_token)
+    property, p_representation = get_entity_representation(property_token)
+    filler, f_representation = get_entity_representation(filler_token)
+
     return ExistentialRestrictionDeletion(
         id=id,
-        subclass=subclass_token,
-        property=property_token,
-        filler=filler_token,
+        subclass=subclass,
+        property=property,
+        filler=filler,
+        subclass_type=s_representation,
+        property_type=p_representation,
+        filler_type=f_representation,
     )
 
 
@@ -147,11 +154,18 @@ def parse_add_existential_restriction_axiom(tree, id):
     property_token = extract(tree, "property")
     filler_token = extract(tree, "filler")
 
+    subclass, s_representation = get_entity_representation(subclass_token)
+    property, p_representation = get_entity_representation(property_token)
+    filler, f_representation = get_entity_representation(filler_token)
+
     return ExistentialRestrictionCreation(
         id=id,
-        subclass=subclass_token,
-        property=property_token,
-        filler=filler_token,
+        subclass=subclass,
+        property=property,
+        filler=filler,
+        subclass_type=s_representation,
+        property_type=p_representation,
+        filler_type=f_representation,
     )
 
 
@@ -159,12 +173,17 @@ def parse_delete_subsumption_axiom(tree, id):
     subclass_token = extract(tree, "subclass")
     superclass_token = extract(tree, "superclass")
 
+    subclass, sub_representation = get_entity_representation(subclass_token)
+    superclass, sup_representation = get_entity_representation(superclass_token)
+
     # TODO the hardcoded owl:subClassOf should be part of the data model
     return RemoveUnder(
         id=id,
-        subject=subclass_token,
+        subject=subclass,
         predicate="<http://www.w3.org/2000/01/rdf-schema#subClassOf>",
-        object=superclass_token,
+        object=superclass,
+        subject_type=sub_representation,
+        object_type=sup_representation,
     )
 
 
@@ -172,12 +191,17 @@ def parse_add_subsumption_axiom(tree, id):
     subclass_token = extract(tree, "subclass")
     superclass_token = extract(tree, "superclass")
 
+    subclass, sub_representation = get_entity_representation(subclass_token)
+    superclass, sup_representation = get_entity_representation(superclass_token)
+
     # TODO the hardcoded owl:subClassOf should be part of the data model
     return PlaceUnder(
         id=id,
-        subject=subclass_token,
+        subject=subclass,
         predicate="<http://www.w3.org/2000/01/rdf-schema#subClassOf>",
-        object=superclass_token,
+        object=superclass,
+        subject_type=sub_representation,
+        object_type=sup_representation,
     )
 
 
