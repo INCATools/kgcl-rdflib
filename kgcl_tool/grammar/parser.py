@@ -259,42 +259,74 @@ def parse_change_relationship(tree, id):
 
 
 def parse_delete_annotated_edge(tree, id):
-    subject_token = extract(tree, "subject")
-    predicate_token = extract(tree, "predicate")
-    object_token = extract(tree, "object")
+    subject_token = extract(tree, "entity_subject")
+    predicate_token = extract(tree, "entity_predicate")
+    object_token = extract(tree, "entity_object")
+
+    subject, s_representation = get_entity_representation(subject_token)
+    predicate, p_representation = get_entity_representation(predicate_token)
+    object, o_representation = get_entity_representation(object_token)
+
     annotation_property_token = extract(tree, "annotation_property")
     annotation_token = extract(tree, "annotation")
 
-    annotation = Annotation(
-        property=annotation_property_token,
-        filler=annotation_token,
+    annotation_property, prop_representation = get_entity_representation(
+        annotation_property_token
+    )
+    annotation, a_representation = get_entity_representation(annotation_token)
+
+    annotation_set = Annotation(
+        property=annotation_property,
+        filler=annotation,
+        property_type=prop_representation,
+        filler_type=a_representation,
     )
 
     return EdgeDeletion(
         id=id,
-        subject=subject_token,
-        predicate=predicate_token,
-        object=object_token,
-        annotation_set=annotation,
+        subject=subject,
+        predicate=predicate,
+        object=object,
+        subject_type=s_representation,
+        predicate_type=p_representation,
+        object_type=o_representation,
+        annotation_set=annotation_set,
     )
 
 
 def parse_create_annotated_edge(tree, id):
-    subject_token = extract(tree, "subject")
-    predicate_token = extract(tree, "predicate")
-    object_token = extract(tree, "object")
+    subject_token = extract(tree, "entity_subject")
+    predicate_token = extract(tree, "entity_predicate")
+    object_token = extract(tree, "entity_object")
+
+    subject, s_representation = get_entity_representation(subject_token)
+    predicate, p_representation = get_entity_representation(predicate_token)
+    object, o_representation = get_entity_representation(object_token)
 
     annotation_property_token = extract(tree, "annotation_property")
     annotation_token = extract(tree, "annotation")
 
-    annotation = Annotation(property=annotation_property_token, filler=annotation_token)
+    annotation_property, prop_representation = get_entity_representation(
+        annotation_property_token
+    )
+    annotation, a_representation = get_entity_representation(annotation_token)
+
+    annotation_set = Annotation(
+        property=annotation_property_token,
+        filler=annotation_token,
+        property_type=prop_representation,
+        filler_type=a_representation,
+    )
 
     return EdgeCreation(
         id=id,
-        subject=subject_token,
-        predicate=predicate_token,
-        object=object_token,
-        annotation_set=annotation,
+        subject=subject,
+        predicate=predicate,
+        object=object,
+        subject_type=s_representation,
+        predicate_type=p_representation,
+        object_type=o_representation,
+        annotation_set=annotation_set,
     )
 
 
@@ -549,8 +581,14 @@ def get_entity_representation(entity):
         return entity[1:-1], "curie"
     if first == "<" and last == ">":
         return entity, "uri"  # don't remove brackets <, >
-    if first == "'" and last == "'":
+    if first == "'" and last == "'" and entity[1] != "'":
         return entity[1:-1], "label"
+    if first == '"' and last == '"':
+        return entity[1:-1], "literal"
+    if entity[0:2] == '"""' and entity[-3:] == '"""':
+        return entity[3:-3], "literal"
+    if entity[0:2] == "'''" and entity[-3:] == "'''":
+        return entity[3:-3], "literal"
 
     return entity, "error"
 

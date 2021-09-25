@@ -43,8 +43,8 @@ move : "move" _WS entity_subject _WS entity_predicate _WS entity_object _WS "fro
 create_edge : "create edge" _WS entity_subject _WS entity_predicate _WS entity_object 
 delete_edge : "delete edge" _WS entity_subject _WS entity_predicate _WS entity_object 
 
-create_annotated_edge : "create edge <<" subject _WS predicate _WS object ">>" _WS annotation_property _WS annotation
-delete_annotated_edge : "delete edge <<" subject _WS predicate _WS object ">>" _WS annotation_property _WS annotation
+create_annotated_edge : "create edge <<" entity_subject _WS entity_predicate _WS entity_object ">>" _WS annotation_property _WS annotation 
+delete_annotated_edge : "delete edge <<" entity_subject _WS entity_predicate _WS entity_object ">>" _WS annotation_property _WS annotation
 
 change_relationship: "change relationship between" _WS entity_subject _WS "and" _WS entity_object _WS "from" _WS old_entity _WS "to" _WS new_entity 
 
@@ -82,7 +82,7 @@ datatype: "^^" STRING
 
 LANGUAGE_TAG :  /[a-zA-Z]+(?:-[a-zA-Z0-9]+)*/
 
-annotation_property : STRING
+annotation_property : _entity
 annotation : STRING
 
 old_id : ID
@@ -97,6 +97,7 @@ new_entity: _entity
 entity_subject: _entity
 entity_predicate: _entity
 entity_object: _entity
+              | TERM
 
 _entity: ID
          | LABEL 
@@ -110,7 +111,6 @@ LABEL: SINGLE_QUOTE_LITERAL
 TERM : ID
        | TRIPLE_SINGLE_QUOTE_LITERAL
        | TRIPLE_DOUBLE_QUOTE_LITERAL
-       | SINGLE_QUOTE_LITERAL
        | DOUBLE_QUOTE_LITERAL
 
 DOUBLE_QUOTE_LITERAL : "\"" INNER_DOUBLE_QUOTE_LITERAL "\""

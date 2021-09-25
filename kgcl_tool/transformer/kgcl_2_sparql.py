@@ -32,6 +32,7 @@ def get_prefix(curie):
 prefix_2_uri = {
     "obo": "<http://purl.obolibrary.org/obo/>",
     "ex": "<http://example.org/>",
+    "oboInOwl": "<http://www.geneontology.org/formats/oboInOwl#>",
     # TODO add more prefixes
 }
 
@@ -882,19 +883,73 @@ def edge_annotation_creation(kgclInstance):
     subject = kgclInstance.subject
     predicate = kgclInstance.predicate
     object = kgclInstance.object
+
+    subject_type = kgclInstance.subject_type
+    predicate_type = kgclInstance.predicate_type
+    object_type = kgclInstance.object_type
+
     annotation = kgclInstance.annotation_set
+
+    # annotation.property_type
+    # annotation.filler_type
 
     prefix = "PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>  "
     prefix += "PREFIX owl: <http://www.w3.org/2002/07/owl#>  "
 
-    insertQuery = "?bnode owl:annotatedSource " + subject + " . "
+    if subject_type == "curie":
+        curie_prefix = get_prefix(subject)
+        curie_uri = prefix_2_uri[curie_prefix]
+        prefix += "PREFIX " + curie_prefix + ": " + curie_uri + " "
+
+    if predicate_type == "curie":
+        curie_prefix = get_prefix(predicate)
+        curie_uri = prefix_2_uri[curie_prefix]
+        prefix += "PREFIX " + curie_prefix + ": " + curie_uri + " "
+
+    if object_type == "curie":
+        curie_prefix = get_prefix(object)
+        curie_uri = prefix_2_uri[curie_prefix]
+        prefix += "PREFIX " + curie_prefix + ": " + curie_uri + " "
+
+    if annotation.property_type == "curie":
+        curie_prefix = get_prefix(annotation.property)
+        curie_uri = prefix_2_uri[curie_prefix]
+        prefix += "PREFIX " + curie_prefix + ": " + curie_uri + " "
+
+    if annotation.filler_type == "curie":
+        curie_prefix = get_prefix(annotation.filler)
+        curie_uri = prefix_2_uri[curie_prefix]
+        prefix += "PREFIX " + curie_prefix + ": " + curie_uri + " "
+
+    insertQuery = "?bnode owl:annotatedSource ?subject . "
     insertQuery += "?bnode owl:annotatedProperty " + predicate + " . "
-    insertQuery += "?bnode owl:annotatedTarget " + object + " . "
-    insertQuery += "?bnode " + annotation.property + " " + annotation.filler + " . "
+    insertQuery += "?bnode owl:annotatedTarget ?object . "
+    insertQuery += "?bnode " + annotation.property + " ?filler . "
     insertQuery += "?bnode rdf:type owl:Axiom ."
     insert = "INSERT {" + insertQuery + "}"
 
     whereQuery = ' BIND(BNODE("reification") AS ?bnode) '
+    if subject_type == "label":
+        whereQuery += "?subject rdfs:label ?subject_label . "
+        whereQuery += ' FILTER(STR(?subject_label)="' + subject + '") '
+    else:
+        whereQuery += "BIND(" + subject + " AS ?subject) "
+
+    if annotation.filler_type == "label":
+        whereQuery += "?filler rdfs:label ?filler_label . "
+        whereQuery += ' FILTER(STR(?filler_label)="' + annotation.filler + '") '
+    else:
+        whereQuery += "BIND(" + annotation.filler + " AS ?filler) "
+
+    if object_type == "label":
+        whereQuery += "?object rdfs:label ?object_label . "
+        whereQuery += ' FILTER(STR(?object_label)="' + object + '") '
+
+    if object_type == "literal":
+        whereQuery += 'BIND("' + object + '" AS ?object) '
+    if object_type == "uri" or object_type == "curie":
+        whereQuery += "BIND(" + object + " AS ?object) "
+
     where = "WHERE {" + whereQuery + "}"
 
     updateQuery = prefix + " " + insert + " " + where
@@ -969,6 +1024,11 @@ def edge_annotation_deletion(kgclInstance):
     subject = kgclInstance.subject
     predicate = kgclInstance.predicate
     object = kgclInstance.object
+
+    subject_type = kgclInstance.subject_type
+    predicate_type = kgclInstance.predicate_type
+    object_type = kgclInstance.object_type
+
     annotation = kgclInstance.annotation_set
 
     # NB: we need to distinguish between two cases
@@ -986,33 +1046,108 @@ def edge_annotation_deletion(kgclInstance):
     prefix = "PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>  "
     prefix += "PREFIX owl: <http://www.w3.org/2002/07/owl#>  "
 
+    if subject_type == "curie":
+        curie_prefix = get_prefix(subject)
+        curie_uri = prefix_2_uri[curie_prefix]
+        prefix += "PREFIX " + curie_prefix + ": " + curie_uri + " "
+
+    if predicate_type == "curie":
+        curie_prefix = get_prefix(predicate)
+        curie_uri = prefix_2_uri[curie_prefix]
+        prefix += "PREFIX " + curie_prefix + ": " + curie_uri + " "
+
+    if object_type == "curie":
+        curie_prefix = get_prefix(object)
+        curie_uri = prefix_2_uri[curie_prefix]
+        prefix += "PREFIX " + curie_prefix + ": " + curie_uri + " "
+
+    if annotation.property_type == "curie":
+        curie_prefix = get_prefix(annotation.property)
+        curie_uri = prefix_2_uri[curie_prefix]
+        prefix += "PREFIX " + curie_prefix + ": " + curie_uri + " "
+
+    if annotation.filler_type == "curie":
+        curie_prefix = get_prefix(annotation.filler)
+        curie_uri = prefix_2_uri[curie_prefix]
+        prefix += "PREFIX " + curie_prefix + ": " + curie_uri + " "
+
     insert = "INSERT { }"
 
-    deleteQuery = "?bnode owl:annotatedSource " + subject + " . "
+    deleteQuery = "?bnode owl:annotatedSource ?subject  . "
     deleteQuery += "?bnode owl:annotatedProperty " + predicate + " . "
-    deleteQuery += "?bnode owl:annotatedTarget " + object + " . "
-    deleteQuery += "?bnode " + annotation.property + " " + annotation.filler + " . "
+    deleteQuery += "?bnode owl:annotatedTarget ?object . "
+    deleteQuery += "?bnode " + annotation.property + " ?filler . "
     deleteQuery += "?bnode rdf:type owl:Axiom ."
 
     delete = "DELETE {" + deleteQuery + "}"
 
-    whereQuery = "SELECT ?bnode WHERE { "
-    whereQuery += "?bnode ?ap ?p ."
-    whereQuery += "?bnode owl:annotatedSource " + subject + " . } "
-    whereQuery += "HAVING((COUNT(?ap) <= 5) && (COUNT(?p) <= 5))"
+    whereQuery = "SELECT ?bnode ?subject ?object ?filler WHERE { "
+    whereQuery += "?bnode ?ap ?p . "
+    whereQuery += "?bnode owl:annotatedSource ?subject .  "
+
+    if subject_type == "label":
+        whereQuery += "?subject rdfs:label ?subject_label . "
+        whereQuery += ' FILTER(STR(?subject_label)="' + subject + '") '
+    else:
+        whereQuery += "BIND(" + subject + " AS ?subject) "
+
+    if annotation.filler_type == "label":
+        whereQuery += "?filler rdfs:label ?filler_label . "
+        whereQuery += ' FILTER(STR(?filler_label)="' + annotation.filler + '") '
+    if annotation.filler_type == "uri" or annotation.filler_type == "curie":
+        whereQuery += "BIND(" + annotation.filler + " AS ?filler) "
+    if annotation.filler_type == "literal":
+        whereQuery += 'BIND("' + annotation.filler + '" AS ?filler) '
+
+    if object_type == "label":
+        whereQuery += "?object rdfs:label ?object_label . "
+        whereQuery += ' FILTER(STR(?object_label)="' + object + '") '
+
+    if object_type == "literal":
+        whereQuery += 'BIND("' + object + '" AS ?object) '
+    if object_type == "uri" or object_type == "curie":
+        whereQuery += "BIND(" + object + " AS ?object)  "
+
+    whereQuery += "} "
+    whereQuery += "HAVING((COUNT(?ap) <= 5) && (COUNT(?p) <= 5)) "
 
     where = "WHERE {" + whereQuery + "}"
 
     subquery1 = prefix + " " + delete + " " + insert + " " + where
 
     # Query for (b)
-    deleteQuery = "?bnode " + annotation.property + " " + annotation.filler + " . "
+    deleteQuery = "?bnode " + annotation.property + " ?filler . "
     delete = "DELETE {" + deleteQuery + "}"
 
-    whereQuery = "SELECT ?bnode WHERE {"
-    whereQuery += "?bnode ?ap ?p ."
-    whereQuery += "?bnode owl:annotatedSource " + subject + " . } "
-    whereQuery += "HAVING((COUNT(?ap) > 5) || (COUNT(?ap) > 5))"
+    whereQuery = "SELECT ?bnode ?subject ?object ?filler WHERE {"
+    whereQuery += "?bnode ?ap ?p . "
+    whereQuery += "?bnode owl:annotatedSource ?subject .  "
+
+    if subject_type == "label":
+        whereQuery += "?subject rdfs:label ?subject_label . "
+        whereQuery += ' FILTER(STR(?subject_label)="' + subject + '") '
+    else:
+        whereQuery += "BIND(" + subject + " AS ?subject) "
+
+    if annotation.filler_type == "label":
+        whereQuery += "?filler rdfs:label ?filler_label . "
+        whereQuery += ' FILTER(STR(?filler_label)="' + annotation.filler + '") '
+    if annotation.filler_type == "uri" or annotation.filler_type == "curie":
+        whereQuery += "BIND(" + annotation.filler + " AS ?filler) "
+    if annotation.filler_type == "literal":
+        whereQuery += 'BIND("' + annotation.filler + '" AS ?filler) '
+
+    if object_type == "label":
+        whereQuery += "?object rdfs:label ?object_label . "
+        whereQuery += ' FILTER(STR(?object_label)="' + object + '") '
+
+    if object_type == "literal":
+        whereQuery += 'BIND("' + object + '" AS ?object) '
+    if object_type == "uri" or object_type == "curie":
+        whereQuery += "BIND(" + object + " AS ?object)  "
+
+    whereQuery += "} "
+    whereQuery += "HAVING((COUNT(?ap) > 5) || (COUNT(?ap) > 5)) "
 
     where = "WHERE {" + whereQuery + "}"
 
