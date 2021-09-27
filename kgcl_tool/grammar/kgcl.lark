@@ -59,9 +59,6 @@ add_to_subset :  "add" _WS id _WS "to subset" _WS subset
 
 replacement : ID
 id : ID 
-subject: ID
-predicate: ID
-object: TERM ["@" language | datatype]
 
 subset: ID
 synonym : LABEL
@@ -97,7 +94,7 @@ new_entity: _entity
 entity_subject: _entity
 entity_predicate: _entity
 entity_object: _entity
-              | TERM
+              | TERM ["@" language | datatype] 
 
 _entity: ID
          | LABEL 
@@ -108,8 +105,7 @@ INNER_CURIE: /((?!]).)*/
 
 LABEL: SINGLE_QUOTE_LITERAL
 
-TERM : ID
-       | TRIPLE_SINGLE_QUOTE_LITERAL
+TERM : TRIPLE_SINGLE_QUOTE_LITERAL
        | TRIPLE_DOUBLE_QUOTE_LITERAL
        | DOUBLE_QUOTE_LITERAL
 
