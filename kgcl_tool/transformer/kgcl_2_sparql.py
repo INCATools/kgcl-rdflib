@@ -640,8 +640,8 @@ def rename(kgclInstance):
     newValue = kgclInstance.new_value
 
     # strip label's single quotes
-    oldValue = oldValue.replace("'", "")
-    newValue = newValue.replace("'", "")
+    oldValue = oldValue[1:-1]
+    newValue = newValue[1:-1]
 
     old_language = kgclInstance.old_language
     new_language = kgclInstance.new_language
@@ -939,27 +939,29 @@ def edge_creation(kgclInstance):
 
     insert = "INSERT {" + insertQuery + "}"
 
-    # TODO this needs to be reworked
-    # currently language tags are ignored if an entity is specified via a label
     whereQuery = ""
     if subject_type == "label":
-        whereQuery += "?subject rdfs:label ?object_label . "
-        whereQuery += ' FILTER(STR(?object_label)="' + subject + '") '
+        whereQuery += "?subject rdfs:label ?subject_label . "
+        whereQuery += ' FILTER(STR(?subject_label)="' + subject + '") '
     else:
         whereQuery += "BIND(" + subject + " AS ?subject)"
 
     if object_type == "label":
         whereQuery += "?object rdfs:label ?object_label . "
         whereQuery += ' FILTER(STR(?object_label)="' + object + '") '
-    else:  # curie or uri
+
+    if object_type == "uri" or object_type == "curie":
+        whereQuery += "BIND(" + object + " AS ?object)"
+
+    if object_type == "literal":
         if datatype is not None:
-            whereQuery += " BIND( STRDT(" + object + "," + datatype + ") AS ?object) "
+            whereQuery += ' BIND( STRDT("' + object + '",' + datatype + ") AS ?object) "
         elif language is not None:
             whereQuery += (
-                "BIND( STRLANG(" + object + ',"' + language + '") AS ?object) '
+                'BIND( STRLANG("' + object + '","' + language + '") AS ?object) '
             )
         else:
-            whereQuery += "BIND(" + object + " AS ?object)"
+            whereQuery += 'BIND("' + object + '" AS ?object)'
 
     where = "WHERE { " + whereQuery + " }"
 
@@ -968,6 +970,7 @@ def edge_creation(kgclInstance):
     return updateQuery
 
 
+# TODO: language tags + data types
 def edge_annotation_deletion(kgclInstance):
     subject = kgclInstance.subject
     predicate = kgclInstance.predicate
@@ -1082,6 +1085,7 @@ def edge_annotation_deletion(kgclInstance):
 
     if object_type == "literal":
         whereQuery += 'BIND("' + object + '" AS ?object) '
+
     if object_type == "uri" or object_type == "curie":
         whereQuery += "BIND(" + object + " AS ?object)  "
 
