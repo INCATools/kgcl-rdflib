@@ -21,10 +21,6 @@ from model.kgcl import (
 )
 
 
-# TODO: extract prefix of curies
-# TODO: hardcode map of prefixeds for curies
-
-
 def get_prefix(curie):
     return curie.split(":")[0]
 
@@ -305,25 +301,29 @@ def change_predicate(kgclInstance):
     if subject_type == "label":
         whereQuery += "?subject rdfs:label ?subject_label . "
         whereQuery += ' FILTER(STR(?subject_label)="' + subject + '") '
-    else:
+
+    if subject_type == "uri" or subject_type == "curie":
         whereQuery += " BIND(" + subject + " AS ?subject) "
 
     if object_type == "label":
         whereQuery += "?object rdfs:label ?object_label . "
         whereQuery += ' FILTER(STR(?object_label)="' + object + '") '
-    else:
+
+    if object_type == "uri" or object_type == "curie":
         whereQuery += " BIND(" + object + " AS ?object) "
+
+    if object_type == "literal":
+        if datatype is not None:
+            whereQuery += " BIND( STRDT(" + object + "," + datatype + ") AS ?object) "
+        elif language is not None:
+            whereQuery += (
+                "BIND( STRLANG(" + object + ',"' + language + '") AS ?object) '
+            )
+        else:
+            whereQuery += "BIND(" + object + " AS ?object)"
 
     whereQuery += " BIND(" + old_value + " AS ?old) "
     whereQuery += " BIND(" + new_value + " AS ?new) "
-
-    # TODO: this needs to be reworked
-    # if datatype is not None:
-    #    whereQuery += " BIND( STRDT(" + object + "," + datatype + ") AS ?object) "
-    # elif language is not None:
-    #    whereQuery += "BIND( STRLANG(" + object + ',"' + language + '") AS ?object) '
-    # else:
-    #    whereQuery += "BIND(" + object + " AS ?object)"
 
     where = "WHERE {" + whereQuery + "}"
 
@@ -900,6 +900,7 @@ def edge_annotation_creation(kgclInstance):
 
     if object_type == "literal":
         whereQuery += 'BIND("' + object + '" AS ?object) '
+
     if object_type == "uri" or object_type == "curie":
         whereQuery += "BIND(" + object + " AS ?object) "
 
@@ -1042,6 +1043,7 @@ def edge_annotation_deletion(kgclInstance):
 
     if object_type == "literal":
         whereQuery += 'BIND("' + object + '" AS ?object) '
+
     if object_type == "uri" or object_type == "curie":
         whereQuery += "BIND(" + object + " AS ?object)  "
 
