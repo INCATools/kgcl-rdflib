@@ -25,10 +25,14 @@ def get_prefix(curie):
     return curie.split(":")[0]
 
 
+# TODO; JSON LD obo context look at robot
 prefix_2_uri = {
     "obo": "<http://purl.obolibrary.org/obo/>",
     "ex": "<http://example.org/>",
     "oboInOwl": "<http://www.geneontology.org/formats/oboInOwl#>",
+    "rdfs": "<http://www.w3.org/2000/01/rdf-schema#>  ",
+    "owl": "<http://www.w3.org/2002/07/owl#>  ",
+    "xsd": "<http://www.w3.org/2001/XMLSchema#> ",
     # TODO add more prefixes
 }
 
@@ -188,11 +192,11 @@ def node_move(kgclInstance):
     if new_type == "curie":
         prefix += build_curie_prefix(new_value)
 
-    deleteQuery = "?subject " + predicate + " ?old . "
+    deleteQuery = "?subject ?predicate ?old . "
 
     delete = "DELETE {" + deleteQuery + "}"
 
-    insertQuery = "?subject " + predicate + " ?new . "
+    insertQuery = "?subject ?predicate ?new . "
 
     insert = "INSERT {" + insertQuery + "}"
 
@@ -216,7 +220,13 @@ def node_move(kgclInstance):
     else:
         whereQuery += " BIND(" + subject + " AS ?subject) "
 
-    whereQuery += "?subject " + predicate + " ?old . "
+    if predicate_type == "label":
+        whereQuery += "?predicate rdfs:label ?predicate_label . "
+        whereQuery += ' FILTER(STR(?predicate_label)="' + predicate + '") '
+    else:
+        whereQuery += " BIND(" + predicate + " AS ?predicate) "
+
+    whereQuery += "?subject ?predicate ?old . "
 
     where = "WHERE {" + whereQuery + "}"
 
@@ -322,8 +332,17 @@ def change_predicate(kgclInstance):
         else:
             whereQuery += "BIND(" + object + " AS ?object)"
 
-    whereQuery += " BIND(" + old_value + " AS ?old) "
-    whereQuery += " BIND(" + new_value + " AS ?new) "
+    if new_value_type == "label":
+        whereQuery += "?new rdfs:label ?new_label . "
+        whereQuery += ' FILTER(STR(?new_label)="' + new_value + '") '
+    else:
+        whereQuery += " BIND(" + new_value + " AS ?new) "
+
+    if old_value_type == "label":
+        whereQuery += "?old rdfs:label ?old_label . "
+        whereQuery += ' FILTER(STR(?old_label)="' + old_value + '") '
+    else:
+        whereQuery += " BIND(" + old_value + " AS ?old) "
 
     where = "WHERE {" + whereQuery + "}"
 
@@ -875,9 +894,9 @@ def edge_annotation_creation(kgclInstance):
         prefix += build_curie_prefix(annotation.filler)
 
     insertQuery = "?bnode owl:annotatedSource ?subject . "
-    insertQuery += "?bnode owl:annotatedProperty " + predicate + " . "
+    insertQuery += "?bnode owl:annotatedProperty ?predicate . "
     insertQuery += "?bnode owl:annotatedTarget ?object . "
-    insertQuery += "?bnode " + annotation.property + " ?filler . "
+    insertQuery += "?bnode ?annotation_property ?filler . "
     insertQuery += "?bnode rdf:type owl:Axiom ."
     insert = "INSERT {" + insertQuery + "}"
 
@@ -887,6 +906,18 @@ def edge_annotation_creation(kgclInstance):
         whereQuery += ' FILTER(STR(?subject_label)="' + subject + '") '
     else:
         whereQuery += "BIND(" + subject + " AS ?subject) "
+
+    if predicate_type == "label":
+        whereQuery += "?predicate rdfs:label ?predicate_label . "
+        whereQuery += ' FILTER(STR(?predicate_label)="' + predicate + '") '
+    else:
+        whereQuery += "BIND(" + predicate + " AS ?predicate) "
+
+    if annotation.property_type == "label":
+        whereQuery += "?annotation_property rdfs:label ?ap_label . "
+        whereQuery += ' FILTER(STR(?ap_label)="' + annotation.property + '") '
+    else:
+        whereQuery += "BIND(" + annotation.property + " AS ?annotation_property) "
 
     if annotation.filler_type == "label":
         whereQuery += "?filler rdfs:label ?filler_label . "
@@ -935,7 +966,7 @@ def edge_creation(kgclInstance):
     if object_type == "curie":
         prefix += build_curie_prefix(object)
 
-    insertQuery = "?subject " + predicate + " ?object . "
+    insertQuery = "?subject ?predicate ?object . "
 
     insert = "INSERT {" + insertQuery + "}"
 
@@ -945,6 +976,12 @@ def edge_creation(kgclInstance):
         whereQuery += ' FILTER(STR(?subject_label)="' + subject + '") '
     else:
         whereQuery += "BIND(" + subject + " AS ?subject)"
+
+    if predicate_type == "label":
+        whereQuery += "?predicate rdfs:label ?predicate_label . "
+        whereQuery += ' FILTER(STR(?predicate_label)="' + predicate + '") '
+    else:
+        whereQuery += "BIND(" + predicate + " AS ?predicate)"
 
     if object_type == "label":
         whereQuery += "?object rdfs:label ?object_label . "
@@ -1015,14 +1052,14 @@ def edge_annotation_deletion(kgclInstance):
     insert = "INSERT { }"
 
     deleteQuery = "?bnode owl:annotatedSource ?subject  . "
-    deleteQuery += "?bnode owl:annotatedProperty " + predicate + " . "
+    deleteQuery += "?bnode owl:annotatedProperty ?predicate . "
     deleteQuery += "?bnode owl:annotatedTarget ?object . "
-    deleteQuery += "?bnode " + annotation.property + " ?filler . "
+    deleteQuery += "?bnode ?annotation_property ?filler . "
     deleteQuery += "?bnode rdf:type owl:Axiom ."
 
     delete = "DELETE {" + deleteQuery + "}"
 
-    whereQuery = "SELECT ?bnode ?subject ?object ?filler WHERE { "
+    whereQuery = "SELECT ?bnode ?subject ?predicate ?object ?filler ?annotation_property WHERE { "
     whereQuery += "?bnode ?ap ?p . "
     whereQuery += "?bnode owl:annotatedSource ?subject .  "
 
@@ -1032,9 +1069,22 @@ def edge_annotation_deletion(kgclInstance):
     else:
         whereQuery += "BIND(" + subject + " AS ?subject) "
 
+    if annotation.property_type == "label":
+        whereQuery += "?annotation_property rdfs:label ?ap_label . "
+        whereQuery += ' FILTER(STR(?ap_label)="' + annotation.property + '") '
+    else:
+        whereQuery += "BIND(" + annotation.property + " AS ?annotation_property) "
+
+    if predicate_type == "label":
+        whereQuery += "?predicate rdfs:label ?predicate_label . "
+        whereQuery += ' FILTER(STR(?predicate_label)="' + predicate + '") '
+    else:
+        whereQuery += "BIND(" + predicate + " AS ?predicate) "
+
     if annotation.filler_type == "label":
         whereQuery += "?filler rdfs:label ?filler_label . "
         whereQuery += ' FILTER(STR(?filler_label)="' + annotation.filler + '") '
+
     if annotation.filler_type == "uri" or annotation.filler_type == "curie":
         whereQuery += "BIND(" + annotation.filler + " AS ?filler) "
     if annotation.filler_type == "literal":
@@ -1058,10 +1108,10 @@ def edge_annotation_deletion(kgclInstance):
     subquery1 = prefix + " " + delete + " " + insert + " " + where
 
     # Query for (b)
-    deleteQuery = "?bnode " + annotation.property + " ?filler . "
+    deleteQuery = "?bnode ?annotation_property ?filler . "
     delete = "DELETE {" + deleteQuery + "}"
 
-    whereQuery = "SELECT ?bnode ?subject ?object ?filler WHERE {"
+    whereQuery = "SELECT ?bnode ?subject ?object ?annotation_property ?filler WHERE {"
     whereQuery += "?bnode ?ap ?p . "
     whereQuery += "?bnode owl:annotatedSource ?subject .  "
 
@@ -1071,9 +1121,16 @@ def edge_annotation_deletion(kgclInstance):
     else:
         whereQuery += "BIND(" + subject + " AS ?subject) "
 
+    if annotation.property_type == "label":
+        whereQuery += "?annotation_property rdfs:label ?ap_label . "
+        whereQuery += ' FILTER(STR(?ap_label)="' + annotation.property + '") '
+    else:
+        whereQuery += "BIND(" + annotation.property + " AS ?annotation_property) "
+
     if annotation.filler_type == "label":
         whereQuery += "?filler rdfs:label ?filler_label . "
         whereQuery += ' FILTER(STR(?filler_label)="' + annotation.filler + '") '
+
     if annotation.filler_type == "uri" or annotation.filler_type == "curie":
         whereQuery += "BIND(" + annotation.filler + " AS ?filler) "
     if annotation.filler_type == "literal":
@@ -1126,7 +1183,7 @@ def edge_deletion(kgclInstance):
     if object_type == "curie":
         prefix += build_curie_prefix(object)
 
-    deleteQuery = "?subject " + predicate + " ?object . "
+    deleteQuery = "?subject ?predicate ?object . "
     delete = "DELETE {" + deleteQuery + "}"
 
     whereQuery = ""
@@ -1137,6 +1194,12 @@ def edge_deletion(kgclInstance):
         whereQuery += ' FILTER(STR(?object_label)="' + subject + '") '
     else:
         whereQuery += "BIND(" + subject + " AS ?subject)"
+
+    if predicate_type == "label":
+        whereQuery += "?predicate rdfs:label ?predicate_label . "
+        whereQuery += ' FILTER(STR(?predicate_label)="' + predicate + '") '
+    else:
+        whereQuery += "BIND(" + predicate + " AS ?predicate)"
 
     if object_type == "label":
         whereQuery += "?object rdfs:label ?object_label . "
@@ -1453,7 +1516,7 @@ def create_existential_restriction(kgclInstance):
 
     insertQuery = "?subclass rdfs:subClassOf ?bnode . "
     insertQuery += "?bnode owl:someValuesFrom ?filler . "
-    insertQuery += "?bnode owl:onProperty " + property + " . "
+    insertQuery += "?bnode owl:onProperty ?property . "
     insertQuery += "?bnode rdf:type owl:Restriction ."
 
     insert = "INSERT {" + insertQuery + "}"
@@ -1464,6 +1527,12 @@ def create_existential_restriction(kgclInstance):
         whereQuery += ' FILTER(STR(?subclass_label)="' + subclass + '") '
     else:
         whereQuery += " BIND(" + subclass + " AS ?subclass) "
+
+    if property_type == "label":
+        whereQuery += "?property rdfs:label ?property_label . "
+        whereQuery += ' FILTER(STR(?property_label)="' + property + '") '
+    else:
+        whereQuery += " BIND(" + property + " AS ?property) "
 
     if filler_type == "label":
         whereQuery += "?filler rdfs:label ?filler_label . "
@@ -1502,7 +1571,7 @@ def delete_existential_restriction(kgclInstance):
 
     deleteQuery = "?subclass rdfs:subClassOf ?bnode . "
     deleteQuery += "?bnode owl:someValuesFrom ?filler . "
-    deleteQuery += "?bnode owl:onProperty " + property + " . "
+    deleteQuery += "?bnode owl:onProperty ?property . "
     deleteQuery += "?bnode rdf:type owl:Restriction ."
 
     delete = "DELETE {" + deleteQuery + "}"
@@ -1514,6 +1583,12 @@ def delete_existential_restriction(kgclInstance):
         whereQuery += ' FILTER(STR(?subclass_label)="' + subclass + '") '
     else:
         whereQuery += " BIND(" + subclass + " AS ?subclass) "
+
+    if property_type == "label":
+        whereQuery += "?property rdfs:label ?property_label . "
+        whereQuery += ' FILTER(STR(?property_label)="' + property + '") '
+    else:
+        whereQuery += " BIND(" + property + " AS ?property) "
 
     if filler_type == "label":
         whereQuery += "?filler rdfs:label ?filler_label . "
