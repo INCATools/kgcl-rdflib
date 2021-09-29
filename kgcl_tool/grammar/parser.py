@@ -601,8 +601,8 @@ def is_id(input):
 def get_entity_representation(entity):
     first = entity[0]
     last = entity[-1:]
-    if first == "[" and last == "]":
-        return entity[1:-1], "curie"
+    # if first == "[" and last == "]":
+    #    return entity[1:-1], "curie"
     if first == "<" and last == ">":
         return entity, "uri"  # don't remove brackets <, >
     if first == "'" and last == "'" and entity[1] != "'":
@@ -614,7 +614,8 @@ def get_entity_representation(entity):
     if entity[0:2] == "'''" and entity[-3:] == "'''":
         return entity[3:-3], "literal"
 
-    return entity, "error"
+    return entity, "curie"  # TODO: this needs to be improved
+    # return entity, "error"
 
 
 if __name__ == "__main__":

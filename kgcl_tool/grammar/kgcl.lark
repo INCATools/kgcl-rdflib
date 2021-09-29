@@ -20,6 +20,8 @@
            | delete_subsumption_axiom
            | delete_existential_restriction_axiom
 
+
+
 rename : "rename" _WS [id _WS "from" _WS] old_label ["@" old_language] _WS ("to"|"as"|"->") _WS new_label ["@" new_language]
 
 create : "create node" _WS id _WS label ["@" language]
@@ -100,8 +102,7 @@ _entity: ID
          | LABEL 
          | CURIE
 
-CURIE: "[" INNER_CURIE "]" 
-INNER_CURIE: /((?!]).)*/
+CURIE: /[a-zA-Z]+/ ":" /\S+/
 
 LABEL: SINGLE_QUOTE_LITERAL
 
