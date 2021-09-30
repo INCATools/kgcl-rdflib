@@ -30,9 +30,28 @@ prefix_2_uri = {
     "obo": "<http://purl.obolibrary.org/obo/>",
     "ex": "<http://example.org/>",
     "oboInOwl": "<http://www.geneontology.org/formats/oboInOwl#>",
-    "rdfs": "<http://www.w3.org/2000/01/rdf-schema#>  ",
-    "owl": "<http://www.w3.org/2002/07/owl#>  ",
-    "xsd": "<http://www.w3.org/2001/XMLSchema#> ",
+    "rdfs": "<http://www.w3.org/2000/01/rdf-schema#>",
+    "xsd": "<http://www.w3.org/2001/XMLSchema#>",
+    "rdf": "<http://www.w3.org/1999/02/22-rdf-syntax-ns#>",
+    "owl": "<http://www.w3.org/2002/07/owl#>",
+    "swrl": "<http://www.w3.org/2003/11/swrl#>",
+    "oio": "<http://www.geneontology.org/formats/oboInOwl#>",
+    "dce": "<http://purl.org/dc/elements/1.1/>",
+    "dct": "<http://purl.org/dc/terms/>",
+    "foaf": "<http://xmlns.com/foaf/0.1/>",
+    "protege": "<http://protege.stanford.edu/plugins/owl/protege#>",
+    "BFO": "<http://purl.obolibrary.org/obo/BFO_>",
+    "CHEBI": "<http://purl.obolibrary.org/obo/CHEBI_>",
+    "CL": "<http://purl.obolibrary.org/obo/CL_>",
+    "IAO": "<http://purl.obolibrary.org/obo/IAO_>",
+    "NCBITaxon": "<http://purl.obolibrary.org/obo/NCBITaxon_>",
+    "OBI": "<http://purl.obolibrary.org/obo/OBI_>",
+    "PR": "<http://purl.obolibrary.org/obo/PR_>",
+    "obo": "<http://purl.obolibrary.org/obo/>",
+    "UP": "<http://purl.uniprot.org/uniprot/>",
+    "UC": "<http://purl.uniprot.org/core/>",
+    "PRO": "<http://www.uniprot.org/annotation/PRO_>",
+    "faldo": "<http://biohackathon.org/resource/faldo#>",
     # TODO add more prefixes
 }
 
@@ -49,6 +68,10 @@ def build_curie_prefix(entity):
     curie_prefix = get_prefix(entity)
     curie_uri = prefix_2_uri[curie_prefix]
     return "PREFIX " + curie_prefix + ": " + curie_uri + " "
+
+
+def escape_literal(literal):
+    return literal.replace('"', '\\"').replace("\\'", "\\\\'")
 
 
 def convert(kgclInstance):
@@ -323,14 +346,16 @@ def change_predicate(kgclInstance):
         whereQuery += " BIND(" + object + " AS ?object) "
 
     if object_type == "literal":
+        object = escape_literal(object)
         if datatype is not None:
-            whereQuery += " BIND( STRDT(" + object + "," + datatype + ") AS ?object) "
+            # TODO: accept CURIES for data types
+            whereQuery += ' BIND( STRDT("' + object + '",' + datatype + ") AS ?object) "
         elif language is not None:
             whereQuery += (
-                "BIND( STRLANG(" + object + ',"' + language + '") AS ?object) '
+                'BIND( STRLANG("' + object + '","' + language + '") AS ?object) '
             )
         else:
-            whereQuery += "BIND(" + object + " AS ?object)"
+            whereQuery += 'BIND("' + object + '" AS ?object)'
 
     if new_value_type == "label":
         whereQuery += "?new rdfs:label ?new_label . "
@@ -802,7 +827,6 @@ def delete_curie(kgclInstance):
 
 def delete_by_label(kgclInstance):
     about = kgclInstance.about_node
-    # about = about.replace("'", "")  # remove single quotes from label input
 
     prefix = "PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>"
 
@@ -922,7 +946,11 @@ def edge_annotation_creation(kgclInstance):
     if annotation.filler_type == "label":
         whereQuery += "?filler rdfs:label ?filler_label . "
         whereQuery += ' FILTER(STR(?filler_label)="' + annotation.filler + '") '
-    else:
+
+    if annotation.filler_type == "literal":
+        whereQuery += 'BIND("' + escape_literal(annotation.filler) + '" AS ?filler) '
+
+    if annotation.filler_type == "uri" or annotation.filler_type == "curie":
         whereQuery += "BIND(" + annotation.filler + " AS ?filler) "
 
     if object_type == "label":
@@ -930,7 +958,7 @@ def edge_annotation_creation(kgclInstance):
         whereQuery += ' FILTER(STR(?object_label)="' + object + '") '
 
     if object_type == "literal":
-        whereQuery += 'BIND("' + object + '" AS ?object) '
+        whereQuery += 'BIND("' + escape_literal(object) + '" AS ?object) '
 
     if object_type == "uri" or object_type == "curie":
         whereQuery += "BIND(" + object + " AS ?object) "
@@ -975,30 +1003,31 @@ def edge_creation(kgclInstance):
         whereQuery += "?subject rdfs:label ?subject_label . "
         whereQuery += ' FILTER(STR(?subject_label)="' + subject + '") '
     else:
-        whereQuery += "BIND(" + subject + " AS ?subject)"
+        whereQuery += " BIND(" + subject + " AS ?subject)"
 
     if predicate_type == "label":
         whereQuery += "?predicate rdfs:label ?predicate_label . "
         whereQuery += ' FILTER(STR(?predicate_label)="' + predicate + '") '
     else:
-        whereQuery += "BIND(" + predicate + " AS ?predicate)"
+        whereQuery += " BIND(" + predicate + " AS ?predicate)"
 
     if object_type == "label":
         whereQuery += "?object rdfs:label ?object_label . "
         whereQuery += ' FILTER(STR(?object_label)="' + object + '") '
 
     if object_type == "uri" or object_type == "curie":
-        whereQuery += "BIND(" + object + " AS ?object)"
+        whereQuery += " BIND(" + object + " AS ?object) "
 
     if object_type == "literal":
+        object = escape_literal(object)
         if datatype is not None:
-            whereQuery += ' BIND( STRDT("' + object + '",' + datatype + ") AS ?object) "
+            whereQuery += ' BIND(STRDT("' + object + '",' + datatype + ") AS ?object) "
         elif language is not None:
             whereQuery += (
-                'BIND( STRLANG("' + object + '","' + language + '") AS ?object) '
+                ' BIND(STRLANG("' + object + '","' + language + '") AS ?object) '
             )
         else:
-            whereQuery += 'BIND("' + object + '" AS ?object)'
+            whereQuery += ' BIND("' + object + '" AS ?object)'
 
     where = "WHERE { " + whereQuery + " }"
 
@@ -1087,15 +1116,16 @@ def edge_annotation_deletion(kgclInstance):
 
     if annotation.filler_type == "uri" or annotation.filler_type == "curie":
         whereQuery += "BIND(" + annotation.filler + " AS ?filler) "
+
     if annotation.filler_type == "literal":
-        whereQuery += 'BIND("' + annotation.filler + '" AS ?filler) '
+        whereQuery += 'BIND("' + escape_literal(annotation.filler) + '" AS ?filler) '
 
     if object_type == "label":
         whereQuery += "?object rdfs:label ?object_label . "
         whereQuery += ' FILTER(STR(?object_label)="' + object + '") '
 
     if object_type == "literal":
-        whereQuery += 'BIND("' + object + '" AS ?object) '
+        whereQuery += 'BIND("' + escape_literal(object) + '" AS ?object) '
 
     if object_type == "uri" or object_type == "curie":
         whereQuery += "BIND(" + object + " AS ?object)  "
@@ -1134,14 +1164,14 @@ def edge_annotation_deletion(kgclInstance):
     if annotation.filler_type == "uri" or annotation.filler_type == "curie":
         whereQuery += "BIND(" + annotation.filler + " AS ?filler) "
     if annotation.filler_type == "literal":
-        whereQuery += 'BIND("' + annotation.filler + '" AS ?filler) '
+        whereQuery += 'BIND("' + escape_literal(annotation.filler) + '" AS ?filler) '
 
     if object_type == "label":
         whereQuery += "?object rdfs:label ?object_label . "
         whereQuery += ' FILTER(STR(?object_label)="' + object + '") '
 
     if object_type == "literal":
-        whereQuery += 'BIND("' + object + '" AS ?object) '
+        whereQuery += 'BIND("' + escape_literal(object) + '" AS ?object) '
 
     if object_type == "uri" or object_type == "curie":
         whereQuery += "BIND(" + object + " AS ?object)  "
@@ -1204,15 +1234,20 @@ def edge_deletion(kgclInstance):
     if object_type == "label":
         whereQuery += "?object rdfs:label ?object_label . "
         whereQuery += ' FILTER(STR(?object_label)="' + object + '") '
-    else:  # curie or uri
+
+    if object_type == "uri" or object_type == "curie":
+        whereQuery += " BIND(" + object + " AS ?object) "
+
+    if object_type == "literal":
+        object = escape_literal(object)
         if datatype is not None:
-            whereQuery += " BIND( STRDT(" + object + "," + datatype + ") AS ?object) "
+            whereQuery += ' BIND( STRDT("' + object + '",' + datatype + ") AS ?object) "
         elif language is not None:
             whereQuery += (
-                "BIND( STRLANG(" + object + ',"' + language + '") AS ?object) '
+                'BIND( STRLANG("' + object + '","' + language + '") AS ?object) '
             )
         else:
-            whereQuery += "BIND(" + object + " AS ?object)"
+            whereQuery += 'BIND("' + object + '" AS ?object)'
 
     where = "WHERE { " + whereQuery + " }"
 
