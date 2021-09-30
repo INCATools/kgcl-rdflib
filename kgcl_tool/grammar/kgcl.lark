@@ -61,6 +61,7 @@ add_to_subset :  "add" _WS id _WS "to subset" _WS subset
 
 replacement : ID
 id : ID 
+     | CURIE
 
 subset: ID
 synonym : LABEL
@@ -77,7 +78,9 @@ new_label : SINGLE_QUOTE_LITERAL
 language: LANGUAGE_TAG
 old_language : LANGUAGE_TAG
 new_language : LANGUAGE_TAG
-datatype: "^^" STRING
+datatype: "^^" IRI
+
+IRI: /\S+/
 
 LANGUAGE_TAG :  /[a-zA-Z]+(?:-[a-zA-Z0-9]+)*/
 
@@ -125,7 +128,7 @@ INNER_TRIPLE_SINGLE_QUOTE_LITERAL: /((?!\'\'\').)*/
 ID :  "<" INNER_ID ">" 
 
 INNER_ID: /((?!>).)*/
-STRING: /\S+/
+STRING: /.+/
 
 _WS: /[ \t\f\r\n]/+
 
