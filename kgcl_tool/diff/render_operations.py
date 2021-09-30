@@ -22,15 +22,18 @@ from model.ontology_model import Edge
 import re
 
 
+# TODO: literals are not to be encoded with single quotes
+# (because that's reserved for labels)
 def render_entity(entity, rdf_type):
     entity = repr(entity)[1:-1]
     if rdf_type == "IRI":
         return "<" + entity + ">"
+    elif rdf_type == "Label":
+        # if "'" not in entity:
+        return "'" + entity + "'"
     elif rdf_type == "Literal":
         # TODO: test this
-        if "'" not in entity:
-            return "'" + entity + "'"
-        elif '"' not in entity:
+        if '"' not in entity:
             return '"' + entity + '"'
         elif "'''" not in entity and entity[-1] != "'":
             return "'''" + entity + "'''"
@@ -48,9 +51,10 @@ def render_entity(entity, rdf_type):
 def render(kgclInstance):
 
     if type(kgclInstance) is NodeRename:
+        # TODO: subject could be 'None'?
         subject = render_entity(kgclInstance.about_node, "IRI")
-        old = render_entity(kgclInstance.old_value, "Literal")
-        new = render_entity(kgclInstance.new_value, "Literal")
+        old = render_entity(kgclInstance.old_value, "Label")
+        new = render_entity(kgclInstance.new_value, "Label")
 
         new_language = kgclInstance.new_language
         old_language = kgclInstance.old_language
@@ -139,7 +143,7 @@ def render(kgclInstance):
 
     if type(kgclInstance) is NodeCreation:
         subject = render_entity(kgclInstance.about_node, "IRI")
-        label = render_entity(kgclInstance.name, "Literal")
+        label = render_entity(kgclInstance.name, "Label")
         if kgclInstance.name is not None:
             return "create node " + subject + " " + label
         else:
