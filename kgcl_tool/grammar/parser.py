@@ -225,7 +225,11 @@ def parse_create_synonym(tree, id):
 
 def parse_create_class(tree, id):
     term_id_token = extract(tree, "id")
-    return ClassCreation(id=id, node_id=term_id_token)
+    entity, representation = get_entity_representation(term_id_token)
+
+    return ClassCreation(
+        id=id, node_id=entity, about_node_representation=representation
+    )
 
 
 # the KGCL model suggests the command
@@ -236,9 +240,12 @@ def parse_create(tree, id):
     label_token = extract(tree, "label")
     language_token = extract(tree, "language")
 
+    entity, representation = get_entity_representation(term_id_token)
+
     return NodeCreation(
         id=id,
-        about_node=term_id_token,
+        about_node=entity,
+        about_node_representation=representation,
         node_id=term_id_token,
         name=label_token,
         language=language_token,
@@ -336,8 +343,8 @@ def parse_create_annotated_edge(tree, id):
     annotation, a_representation = get_entity_representation(annotation_token)
 
     annotation_set = Annotation(
-        property=annotation_property_token,
-        filler=annotation_token,
+        property=annotation_property,
+        filler=annotation,
         property_type=prop_representation,
         filler_type=a_representation,
     )
@@ -561,11 +568,14 @@ def parse_rename(tree, id):
     new_token = extract(tree, "new_label")
     old_language = extract(tree, "old_language")
     new_language = extract(tree, "new_language")
+
     term_id_token = extract(tree, "id")
+    entity, representation = get_entity_representation(term_id_token)
 
     return NodeRename(
         id=id,
-        about_node=term_id_token,
+        about_node=entity,
+        about_node_representation=representation,
         old_value=old_token,
         new_value=new_token,
         old_language=old_language,
@@ -604,14 +614,14 @@ def get_entity_representation(entity):
     # if first == "[" and last == "]":
     #    return entity[1:-1], "curie"
     if first == "<" and last == ">":
-        return entity, "uri"  # don't remove brackets <, >
+        return entity, "uri"  # not removing brackets
     if first == "'" and last == "'" and entity[1] != "'":
         return entity[1:-1], "label"
     if first == '"' and last == '"':
         return entity[1:-1], "literal"
-    if entity[0:2] == '"""' and entity[-3:] == '"""':
+    if entity[0:3] == '"""' and entity[-3:] == '"""':
         return entity[3:-3], "literal"
-    if entity[0:2] == "'''" and entity[-3:] == "'''":
+    if entity[0:3] == "'''" and entity[-3:] == "'''":
         return entity[3:-3], "literal"
 
     return entity, "curie"  # TODO: this needs to be improved
