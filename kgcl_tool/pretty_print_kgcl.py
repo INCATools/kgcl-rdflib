@@ -158,7 +158,8 @@ def render_entity(entity, type, labelling):
 def render_instance(kgclInstance, labelling):
     if type(kgclInstance) is NodeRename:
         # TODO: subject could be 'None'? (not in KGCL Diff)
-        subject = render_entity(kgclInstance.about_node, "uri", labelling)
+        # passing an empty labelling because we do not want to repeat labels
+        subject = render_entity(kgclInstance.about_node, "uri", {})
         old = kgclInstance.old_value
         new = kgclInstance.new_value
 
