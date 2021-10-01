@@ -224,7 +224,7 @@ def parse_create_synonym(tree, id):
     entity, representation = get_entity_representation(entity_token)
 
     synonym_string_token = extract(tree, "synonym")
-    synonym, representation = get_entity_representation(synonym_string_token)
+    synonym, representation2 = get_entity_representation(synonym_string_token)
 
     language_token = extract(tree, "language")
     qualifier_token = extract(tree, "synonym_qualifier")
@@ -551,8 +551,14 @@ def parse_rename(tree, id):
     old_language = extract(tree, "old_language")
     new_language = extract(tree, "new_language")
 
+    # TODO old_token and new_token are enclosed in ''
+
     term_id_token = extract(tree, "id")
-    entity, representation = get_entity_representation(term_id_token)
+    if term_id_token is not None:
+        entity, representation = get_entity_representation(term_id_token)
+    else:
+        entity = None
+        representation = None
 
     return NodeRename(
         id=id,
