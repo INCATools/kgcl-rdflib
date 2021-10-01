@@ -25,19 +25,29 @@ from pathlib import Path
 
 
 def id_generator():
+    """
+    Returns a new ID for KGCL change operations.
+    """
     id = 0
     while True:
         yield id
         id += 1
 
 
-path = Path(__file__).parent
-kgcl_parser = Lark.open(str(path) + "/kgcl.lark", start="expression")
+# initialise ID generator
 id_gen = id_generator()
 
 
-# multiple KGCL input statements are expected to be separated by \n
+# initialise parser
+path = Path(__file__).parent
+kgcl_parser = Lark.open(str(path) + "/kgcl.lark", start="expression")
+
+
 def parse(input):
+    """
+    Parse a set of KGCL command separated by \n and
+    return instantiated dataclass objects from model.kgcl.
+    """
     statements = input.splitlines()
     parsed = []
 
@@ -47,6 +57,10 @@ def parse(input):
 
 
 def parse_statement(input):
+    """
+    Parse a KGCL command and
+    return an instantiated dataclass object from model.kgcl.
+    """
 
     tree = kgcl_parser.parse(input)
     id = "kgcl_change_id_" + str(next(id_gen))
@@ -210,6 +224,8 @@ def parse_create_synonym(tree, id):
     entity, representation = get_entity_representation(entity_token)
 
     synonym_string_token = extract(tree, "synonym")
+    synonym, representation = get_entity_representation(synonym_string_token)
+
     language_token = extract(tree, "language")
     qualifier_token = extract(tree, "synonym_qualifier")
 
@@ -217,7 +233,7 @@ def parse_create_synonym(tree, id):
         id=id,
         about_node=entity,
         about_node_representation=representation,
-        new_value=synonym_string_token,
+        new_value=synonym,
         qualifier=qualifier_token,
         language=language_token,
     )
@@ -373,15 +389,6 @@ def parse_delete_edge(tree, id):
     language_token = extract(tree, "language")
     datatype_token = extract(tree, "datatype")
 
-    # if not is_id(object_token.value):
-    #    if datatype_token is not None:
-    #        print(tree)
-    #        print(datatype_token)
-    #        print(object_token)
-    #        # print(str(object_token))
-    #        # object_token = '"' + repr(str(object_token)[1:-1]) + '"'
-    #        object_token = '"' + repr(str(object_token)[1:-1])[1:-1] + '"'
-
     return EdgeDeletion(
         id=id,
         subject=subject,
@@ -406,31 +413,6 @@ def parse_create_edge(tree, id):
 
     language_token = extract(tree, "language")
     datatype_token = extract(tree, "datatype")
-
-    # if not is_id(object_token.value):
-    #    if datatype_token is not None:
-    #        print(tree)
-    #        print(datatype_token)
-    #        print(object_token)
-    #        # print(object_token)
-    #        # print(str(object_token)[1:-1])
-    #        object_token = '"' + repr(str(object_token)[1:-1])[1:-1] + '"'
-    #        # object_token = '"true"'
-
-    # TODO determine type of object
-    # if it's a literal,
-    # extract it,
-    # transform it to a strng rep
-    # put it in " " marks (because we need it in that form for the SPARQL qery)
-
-    # if datatype_token is not None:
-    #     print(type(subject_token))
-    #     print(language_token)
-    #     print(type(datatype_token))
-    #     print(object_token)
-    #     print(datatype_token)
-    #     # print(datatype_token.value)
-    #     # datatype_token = datatype_token.value
 
     return EdgeCreation(
         id=id,
@@ -604,27 +586,22 @@ def get_next(generator):
         return None
 
 
-def is_id(input):
-    return re.match(r"<\S+>", input)
-
-
 def get_entity_representation(entity):
-    first = entity[0]
-    last = entity[-1:]
-    # if first == "[" and last == "]":
-    #    return entity[1:-1], "curie"
-    if first == "<" and last == ">":
-        return entity, "uri"  # not removing brackets
-    if first == "'" and last == "'" and entity[1] != "'":
+    first_character = entity[0]
+    last_character = entity[-1:]
+    if first_character == "<" and last_character == ">":
+        return entity, "uri"  # not removing brackets (TODO why?)
+    if first_character == "'" and last_character == "'" and entity[1] != "'":
         return entity[1:-1], "label"
-    if first == '"' and last == '"':
+    if first_character == '"' and last_character == '"':
         return entity[1:-1], "literal"
     if entity[0:3] == '"""' and entity[-3:] == '"""':
         return entity[3:-3], "literal"
     if entity[0:3] == "'''" and entity[-3:] == "'''":
         return entity[3:-3], "literal"
 
-    return entity, "curie"  # TODO: this needs to be improved
+    # TODO: use predefined set of prefixes to identify CURIEs
+    return entity, "curie"
     # return entity, "error"
 
 

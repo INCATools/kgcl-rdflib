@@ -4,6 +4,7 @@ import grammar.parser
 import transformer.graph_transformer
 import rdflib
 from datetime import datetime
+from pretty_print_kgcl import render_instances
 
 import diff.diff_2_kgcl_single as single
 from diff.diff_2_kgcl_single import SingleTripleChangeSummary
@@ -42,9 +43,11 @@ def cli(config, ingraph, outgraph, output):
     # load graphs
     g1 = rdflib.Graph()
     g2 = rdflib.Graph()
-    g1.load(ingraph, format="nt")
+    # g1.load(ingraph, format="nt")
+    g1.parse(ingraph)
     print(ts() + "Loaded Graph 1")
-    g2.load(outgraph, format="nt")
+    g2.parse(outgraph)
+    # g2.load(outgraph, format="nt")
     print(ts() + "Loaded Graph 2")
 
     # compute diff
@@ -155,6 +158,12 @@ def cli(config, ingraph, outgraph, output):
     with open(patch_folder + "/edge_deletions.txt", "w") as f:
         for k in single_triple_summary.get_edge_deletions():
             f.write(k)
+            f.write("\n")
+
+    pp_kgcl_commands = render_instances(kgcl_commands, g1)
+    with open(output + "/pp_patch.kgcl", "w") as f:
+        for a in pp_kgcl_commands:
+            f.write(a)
             f.write("\n")
 
 
