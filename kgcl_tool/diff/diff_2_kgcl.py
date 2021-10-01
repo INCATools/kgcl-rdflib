@@ -94,9 +94,9 @@ def generate_triple_annotation_commands(g1, g2):
 
 def get_type(rdf_entity):
     if isinstance(rdf_entity, URIRef):
-        return "IRI"
+        return "uri"
     elif isinstance(rdf_entity, Literal):
-        return "Literal"
+        return "literal"
     else:
         return "Error"
 
