@@ -60,6 +60,9 @@ prefix_2_uri = {
 
 
 def get_labels(graph):
+    """
+    Returns a map from IRIs in a graph to (a set of) labels.
+    """
     entity_2_label = {}
     for s, p, o in graph.triples((None, RDFS.label, None)):
         ss = str(s)
@@ -73,6 +76,11 @@ def get_labels(graph):
 
 
 def render_instances(kgcl, graph):
+    """
+    Takes a KGCL patch for a graph and
+    returns a more readable patch
+    in which IRI's are replaced by CURIEs and labels where possible.
+    """
     labelling = get_labels(graph)
 
     pretty_print_kgcl = []
@@ -86,8 +94,11 @@ def render_instances(kgcl, graph):
     return pretty_print_kgcl
 
 
-def label_entity(entity, labelling):
-    # check whether there is a label
+def has_label(entity, labelling):
+    """
+    Returns the label for an entity if it exists
+    and the entity itself otherwise.
+    """
     if entity in labelling:
         return "'" + labelling[entity][0] + "'"
     else:
@@ -95,7 +106,10 @@ def label_entity(entity, labelling):
 
 
 def curie_entity(entity):
-    # check whether an URI can be rewritten into a CURIE
+    """
+    Returns the CURIE for an entity if it exists
+    and the entity itself otherwise.
+    """
     for prefix, curie in prefix_2_uri.items():
         if curie in entity:
             return entity.replace(curie, prefix + ":")[1:-1]
@@ -103,10 +117,14 @@ def curie_entity(entity):
 
 
 def render_entity(entity, type, labelling):
+    """
+    Returns an encoding of the given entity using either
+    a CURIE, a label, a literal, or a URI.
+    """
     entity = str(entity)
     entity = repr(entity)[1:-1]
     if type == "uri":
-        labelling = label_entity(entity[1:-1], labelling)
+        labelling = has_label(entity[1:-1], labelling)
         if entity[1:-1] != labelling:
             return labelling
 
@@ -128,13 +146,13 @@ def render_entity(entity, type, labelling):
         elif '"""' not in entity and entity[-1] != '"':
             return '"""' + entity + '"""'
         else:
-            return "Error  " + entity
-            # print("Rendering error: " + entity)
-            # raise
+            # return "Error  " + entity
+            print("Rendering error: " + entity)
+            raise
     else:
-        return "Error  " + entity
-    # print("Rendering error: " + entity)
-    # raise
+        # return "Error  " + entity
+        print("Rendering error: " + entity)
+        raise
 
 
 def render_instance(kgclInstance, labelling):
