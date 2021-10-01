@@ -33,7 +33,9 @@ def cli(config, graph, kgcl, output):
 
     # apply kgcl commands as SPARQL UPDATE queries to graph
     g = rdflib.Graph()
-    g.load(graph, format="nt")
+    # TODO: change this to 'parse' in order to support all formats
+    # g.load(graph, format="nt")
+    g.parse(graph)  # , format="nt") #TODO: this doesn't always work
     transformer.graph_transformer.transform_graph(parsed_statements, g)
 
     # save updated graph
