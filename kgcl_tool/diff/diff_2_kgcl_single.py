@@ -44,10 +44,12 @@ def id_generator():
 
 id_gen = id_generator()
 
-# TODO refactor deletions/additions to files
-
 
 class SingleTripleChangeSummary:
+    """
+    Dataclass holding information about (atomic) existential restriction changes.
+    """
+
     def __init__(self):
 
         # KGCL data
@@ -334,6 +336,10 @@ class SingleTripleChangeSummary:
 
 
 def generate_thin_triple_commands(g1, g2):
+    """
+    Given two graphs g1 and g2,
+    return all KGCL data model instances to account for their diff.
+    """
     # summary object for single triple changes
     summary = SingleTripleChangeSummary()
 

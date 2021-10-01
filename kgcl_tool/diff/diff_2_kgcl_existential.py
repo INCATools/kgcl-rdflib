@@ -55,6 +55,10 @@ id_gen = id_generator()
 
 
 class ExistentialChangeSummary:
+    """
+    Dataclass holding information about (atomic) existential restriction changes.
+    """
+
     def __init__(self):
 
         self.existential_additions = []
@@ -124,6 +128,11 @@ class ExistentialChangeSummary:
 
 
 def generate_atomic_existential_commands(g1, g2):
+    """
+    Given two graphs g1 and g2,
+    return all ExistentialRestrictionCreation and
+    ExistentialRestrictionDeletion to account for their diff.
+    """
     summary = ExistentialChangeSummary()
 
     added = get_added_existentials(g1, g2)
@@ -144,6 +153,9 @@ def generate_atomic_existential_commands(g1, g2):
 
 
 def generate_existential_deletions(deleted):
+    """
+    Return ExistentialRestrictionDeletion instances for given (deleted) triples.
+    """
     covered = rdflib.Graph()
     kgcl = []
 
@@ -166,6 +178,9 @@ def generate_existential_deletions(deleted):
 
 
 def generate_existential_additions(added):
+    """
+    Return ExistentialRestrictionCreation instances for given (added) triples.
+    """
     covered = rdflib.Graph()
     kgcl = []
 

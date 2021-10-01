@@ -30,14 +30,17 @@ import time
 
 
 def id_generator():
+    """
+    Returns a new ID for KGCL change operations.
+    """
     id = 0
     while True:
         yield id
         id += 1
 
 
+# initialise ID generator
 id_gen = id_generator()
-
 
 # TODO:
 # obsoletion
@@ -55,8 +58,11 @@ def get_type(rdf_entity):
 
 def detect_renamings(added, deleted):
     """Given a diff represented by 'added' and 'deleted' triples,
-    return all possible KGCL renaming operations and
-    the corresponding triples (as a graph)"""
+    return an encoding in terms of
+    (i) NodeRename instances,
+    (ii) triples involved in (i), and
+    (iii) nondeterministic choices.
+    """
 
     covered = rdflib.Graph()
 
@@ -116,6 +122,12 @@ def detect_renamings(added, deleted):
 
 
 def detect_node_moves(added, deleted):
+    """Given a diff represented by 'added' and 'deleted' triples,
+    return an encoding in terms of
+    (i) NodeMove instances,
+    (ii) triples involved in (i), and
+    (iii) nondeterministic choices.
+    """
     covered = rdflib.Graph()
 
     # map from subject 2 property (in added)
@@ -195,6 +207,12 @@ def detect_node_moves(added, deleted):
 
 
 def detect_predicate_changes(added, deleted):
+    """Given a diff represented by 'added' and 'deleted' triples,
+    return an encoding in terms of
+    (i) PredicateChange instances,
+    (ii) triples involved in (i), and
+    (iii) nondeterministic choices.
+    """
     covered = rdflib.Graph()
 
     # maps from subjects to lists of objects
