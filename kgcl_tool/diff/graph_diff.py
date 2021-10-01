@@ -7,8 +7,12 @@ from .owlstar_sublanguage import (
 )
 
 
-# NB this returns an rdflib graph
 def get_added_thin_triples(g1, g2):
+    """
+    Given two graphs g1 and g2,
+    returns triples (without blank nodes) that are in g2 but not g1,
+    i.e. 'added' triples.
+    """
     thin1 = get_thin_triples(g1)
     thin2 = get_thin_triples(g2)
 
@@ -16,6 +20,11 @@ def get_added_thin_triples(g1, g2):
 
 
 def get_deleted_thin_triples(g1, g2):
+    """
+    Given two graphs g1 and g2,
+    returns triples (without blank nodes) that are in g1 but not g2,
+    i.e. 'deleted' triples.
+    """
     thin1 = get_thin_triples(g1)
     thin2 = get_thin_triples(g2)
 
@@ -23,6 +32,11 @@ def get_deleted_thin_triples(g1, g2):
 
 
 def get_added_subsumptions(g1, g2):
+    """
+    Given two graphs g1 and g2,
+    returns atomic subsumption axioms that are in g2 but not g1,
+    i.e. 'added' subsumptions.
+    """
     sub1 = get_atomic_subsumptions(g1)
     sub2 = get_atomic_subsumptions(g2)
 
@@ -30,15 +44,24 @@ def get_added_subsumptions(g1, g2):
 
 
 def get_deleted_subsumptions(g1, g2):
+    """
+    Given two graphs g1 and g2,
+    returns atomic subsumption axioms that are in g1 but not g2,
+    i.e. 'deleted' subsumptions.
+    """
     sub1 = get_atomic_subsumptions(g1)
     sub2 = get_atomic_subsumptions(g2)
 
     return sub1 - sub2
 
 
-# NB: this is not an rdflib graph
-# because blank nodes are 'abstracted' away
+# NB: this returns a set of 'ExistentialRestrictions'
 def get_added_existentials(g1, g2):
+    """
+    Given two graphs g1 and g2,
+    returns ExistentialRestrictions that are in g2 but not g1,
+    i.e. 'added' ExistentialRestrictions.
+    """
     ex1 = set(get_atomic_existentials(g1))
     ex2 = set(get_atomic_existentials(g2))
 
@@ -46,13 +69,24 @@ def get_added_existentials(g1, g2):
 
 
 def get_deleted_existentials(g1, g2):
+    """
+    Given two graphs g1 and g2,
+    returns ExistentialRestrictions that are in g1 but not g2,
+    i.e. 'deleted' ExistentialRestrictions.
+    """
     ex1 = set(get_atomic_existentials(g1))
     ex2 = set(get_atomic_existentials(g2))
 
     return ex1 - ex2
 
 
+# NB this returns a set of 'TripleAnnotation's
 def get_added_triple_annotations(g1, g2):
+    """
+    Given two graphs g1 and g2,
+    returns ExistentialRestrictions that are in g2 but not g1,
+    i.e. 'added' ExistentialRestrictions.
+    """
     annotations1 = set(get_triple_annotations(g1))
     annotations2 = set(get_triple_annotations(g2))
 
@@ -60,6 +94,11 @@ def get_added_triple_annotations(g1, g2):
 
 
 def get_deleted_triple_annotations(g1, g2):
+    """
+    Given two graphs g1 and g2,
+    returns TripleAnnotations that are in g1 but not g2,
+    i.e. 'deleted' ExistentialRestrictions.
+    """
     annotations1 = set(get_triple_annotations(g1))
     annotations2 = set(get_triple_annotations(g2))
 
