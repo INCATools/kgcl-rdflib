@@ -255,6 +255,8 @@ def detect_predicate_changes(added, deleted):
                 edge = Edge(subject=str(s), object=str(i))
                 language = i.language
                 datatype = i.datatype
+                if datatype is not None:
+                    datatype = "<" + datatype + ">"  # expect data types without curies
 
                 # if i.language is not None:
                 #    language = str(i.language)

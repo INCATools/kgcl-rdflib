@@ -176,6 +176,8 @@ def generate_triple_annotation_additions(added):
 
         language = get_language_tag(a.target)
         datatype = get_datatype(a.target)
+        if datatype is not None:
+            datatype = "<" + datatype + ">"  # expect data types without curies
 
         annotation = Annotation(
             property=annotation_property, filler=annotation, filler_type=annotation_type
@@ -219,6 +221,8 @@ def generate_triple_annotation_deletions(deleted):
 
         language = get_language_tag(a.target)
         datatype = get_datatype(a.target)
+        if datatype is not None:
+            datatype = "<" + datatype + ">"  # expect data types without curies
 
         annotation = Annotation(
             property=annotation_property, filler=annotation, filler_type=annotation_type
