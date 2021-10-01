@@ -80,7 +80,7 @@ old_language : LANGUAGE_TAG
 new_language : LANGUAGE_TAG
 datatype: "^^" IRI
 
-IRI: /\S+/
+IRI: /((?!>>)\S)+/
 
 LANGUAGE_TAG :  /[a-zA-Z]+(?:-[a-zA-Z0-9]+)*/
 
