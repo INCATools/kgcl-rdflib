@@ -1412,6 +1412,7 @@ def obsolete_curie(kgclInstance):
 
 
 def new_synonym_for_uri(kgclInstance):
+
     about = kgclInstance.about_node
     synonym = kgclInstance.new_value
     language = kgclInstance.language
@@ -1435,10 +1436,10 @@ def new_synonym_for_uri(kgclInstance):
 
     if language is None:
         whereQuery = ""
-        insertQuery += synonym + " ."
+        insertQuery += '"' + synonym + '" .'
     else:
         insertQuery += "?tag ."
-        whereQuery = " BIND( STRLANG(" + synonym + ',"' + language + '") AS ?tag) '
+        whereQuery = ' BIND( STRLANG("' + synonym + '","' + language + '") AS ?tag) '
 
     insert = "INSERT {" + insertQuery + "}"
     where = "WHERE {" + whereQuery + "}"
@@ -1475,10 +1476,10 @@ def new_synonym_for_label(kgclInstance):
     whereQuery += ' FILTER(STR(?label)="' + about + '") '
 
     if language is None:
-        insertQuery += synonym + " ."
+        insertQuery += '"' + synonym + '" .'
     else:
         insertQuery += "?tag ."
-        whereQuery += " BIND( STRLANG(" + synonym + ',"' + language + '") AS ?tag) '
+        whereQuery += ' BIND( STRLANG("' + synonym + '","' + language + '") AS ?tag) '
 
     insert = "INSERT {" + insertQuery + "}"
     where = "WHERE {" + whereQuery + "}"
@@ -1516,10 +1517,10 @@ def new_synonym_for_curie(kgclInstance):
 
     if language is None:
         whereQuery = ""
-        insertQuery += synonym + " ."
+        insertQuery += '"' + synonym + '" .'
     else:
         insertQuery += "?tag ."
-        whereQuery += " BIND( STRLANG(" + synonym + ',"' + language + '") AS ?tag) '
+        whereQuery += ' BIND( STRLANG("' + synonym + '","' + language + '") AS ?tag) '
 
     insert = "INSERT {" + insertQuery + "}"
     where = "WHERE {" + whereQuery + "}"
