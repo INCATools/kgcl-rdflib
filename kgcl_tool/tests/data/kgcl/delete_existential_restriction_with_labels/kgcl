@@ -1,0 +1,1 @@
+delete 'subject' SubClassOf <http://example.org/predicate> some <http://example.org/object>

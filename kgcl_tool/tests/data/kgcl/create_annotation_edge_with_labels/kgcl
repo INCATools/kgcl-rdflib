@@ -1,0 +1,1 @@
+create edge <<'Bacteria' <http://www.geneontology.org/formats/oboInOwl#hasRelatedSynonym> "area posterior hypothalami">> <http://www.geneontology.org/formats/oboInOwl#hasDbXref> "NeuroNames:420"

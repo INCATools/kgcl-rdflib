@@ -1,0 +1,1 @@
+change relationship between <http://example.org/subclass> and <http://example.org/superclass> from <http://example.org/partOf> to <http://example.org/hasPart>
