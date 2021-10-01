@@ -29,6 +29,7 @@ from model.ontology_model import Edge
 import grammar.parser
 
 
+# TODO: maintain this dictionary in a file
 prefix_2_uri = {
     "obo": "http://purl.obolibrary.org/obo/",
     "ex": "http://example.org/",
@@ -76,6 +77,7 @@ def render_instances(kgcl, graph):
 
     pretty_print_kgcl = []
     for k in kgcl:
+        # print(k)
         kgcl_instance = grammar.parser.parse_statement(k)
         # print(render_instance(kgcl_instance, labelling))  # pretty print
         # render_instance(kgcl_instance, labelling)
@@ -103,7 +105,7 @@ def curie_entity(entity):
 def render_entity(entity, type, labelling):
     entity = str(entity)
     entity = repr(entity)[1:-1]
-    if type == "IRI":
+    if type == "uri":
         labelling = label_entity(entity[1:-1], labelling)
         if entity[1:-1] != labelling:
             return labelling
@@ -114,11 +116,11 @@ def render_entity(entity, type, labelling):
         # return "<" + entity + ">"
         return entity
 
-    elif type == "Label":
+    elif type == "label":
         if "'" not in entity:
             return "'" + entity + "'"
 
-    elif type == "Literal":
+    elif type == "literal":
         if '"' not in entity:
             return '"' + entity + '"'
         elif "'''" not in entity and entity[-1] != "'":
@@ -135,15 +137,10 @@ def render_entity(entity, type, labelling):
     # raise
 
 
-# add labels to render_entity
-
-
 def render_instance(kgclInstance, labelling):
     if type(kgclInstance) is NodeRename:
         # TODO: subject could be 'None'? (not in KGCL Diff)
-        subject = render_entity(kgclInstance.about_node, "IRI", labelling)
-        # old = render_entity(kgclInstance.old_value, "Label", labelling)
-        # new = render_entity(kgclInstance.new_value, "Label", labelling)
+        subject = render_entity(kgclInstance.about_node, "uri", labelling)
         old = kgclInstance.old_value
         new = kgclInstance.new_value
 
@@ -159,10 +156,9 @@ def render_instance(kgclInstance, labelling):
         return "rename " + subject + " from " + old + " to " + new
 
     if type(kgclInstance) is NodeObsoletion:
-        subject = render_entity(kgclInstance.about_node, "IRI", labelling)
-        # TODO: type this correctly
+        subject = render_entity(kgclInstance.about_node, "uri", labelling)
         replacement = render_entity(
-            kgclInstance.has_direct_replacement, "IRI", labelling
+            kgclInstance.has_direct_replacement, "uri", labelling
         )
         if kgclInstance.has_direct_replacement is not None:
             return "obsolete " + subject + " with replacement " + replacement
@@ -170,30 +166,22 @@ def render_instance(kgclInstance, labelling):
             return "obsolete " + subject
 
     if type(kgclInstance) is NodeUnobsoletion:
-        subject = render_entity(kgclInstance.about_node, "IRI", labelling)
+        subject = render_entity(kgclInstance.about_node, "uri", labelling)
         return "unobsolete " + subject
 
     if type(kgclInstance) is NodeDeletion:
-        subject = render_entity(kgclInstance.about_node, "IRI", labelling)
+        subject = render_entity(kgclInstance.about_node, "uri", labelling)
         return "delete " + subject
 
     if type(kgclInstance) is NodeMove:
-        subject = render_entity(kgclInstance.about_edge.subject, "IRI", labelling)
-        predicate = render_entity(kgclInstance.about_edge.predicate, "IRI", labelling)
-
-        if kgclInstance.new_object_type == "literal":
-            new = render_entity(kgclInstance.new_value, "Literal", labelling)
-        if kgclInstance.new_object_type == "uri":
-            new = render_entity(kgclInstance.new_value, "IRI", labelling)
-        if kgclInstance.new_object_type == "label":
-            new = render_entity(kgclInstance.new_value, "Label", labelling)
-
-        if kgclInstance.old_object_type == "literal":
-            old = render_entity(kgclInstance.old_value, "Literal", labelling)
-        if kgclInstance.old_object_type == "uri":
-            old = render_entity(kgclInstance.old_value, "IRI", labelling)
-        if kgclInstance.old_object_type == "label":
-            old = render_entity(kgclInstance.old_value, "Label", labelling)
+        subject = render_entity(kgclInstance.about_edge.subject, "uri", labelling)
+        predicate = render_entity(kgclInstance.about_edge.predicate, "uri", labelling)
+        new = render_entity(
+            kgclInstance.new_value, kgclInstance.new_object_type, labelling
+        )
+        old = render_entity(
+            kgclInstance.old_value, kgclInstance.old_object_type, labelling
+        )
 
         return (
             "move "
@@ -225,21 +213,19 @@ def render_instance(kgclInstance, labelling):
             return render_annotation_deletion(kgclInstance, labelling)
 
     if type(kgclInstance) is PredicateChange:
-        subject = render_entity(kgclInstance.about_edge.subject, "IRI", labelling)
-
-        if kgclInstance.about_edge.object_representation == "literal":
-            object = render_entity(kgclInstance.about_edge.object, "Literal", labelling)
-        if kgclInstance.about_edge.object_representation == "uri":
-            object = render_entity(kgclInstance.about_edge.object, "IRI", labelling)
-        if kgclInstance.about_edge.object_representation == "label":
-            object = render_entity(kgclInstance.about_edge.object, "Label", labelling)
+        subject = render_entity(kgclInstance.about_edge.subject, "uri", labelling)
+        object = render_entity(
+            kgclInstance.about_edge.object,
+            kgclInstance.about_edge.object_representation,
+            labelling,
+        )
 
         new = render_entity(
             kgclInstance.new_value,
-            "IRI",
+            "uri",
             labelling,
         )
-        old = render_entity(kgclInstance.old_value, "IRI", labelling)
+        old = render_entity(kgclInstance.old_value, "uri", labelling)
 
         if kgclInstance.language is not None:
             object += "@" + kgclInstance.language
@@ -259,20 +245,20 @@ def render_instance(kgclInstance, labelling):
         )
 
     if type(kgclInstance) is NodeCreation:
-        subject = render_entity(kgclInstance.about_node, "IRI", labelling)
-        label = render_entity(kgclInstance.name, "Label", labelling)
+        subject = render_entity(kgclInstance.about_node, "uri", labelling)
+        label = render_entity(kgclInstance.name, "label", labelling)
         if kgclInstance.name is not None:
             return "create node " + subject + " " + label
         else:
             return "create " + subject
 
     if type(kgclInstance) is ClassCreation:
-        subject = render_entity(kgclInstance.node_id, "IRI", labelling)
+        subject = render_entity(kgclInstance.node_id, "uri", labelling)
         return "create " + subject
 
     if type(kgclInstance) is NewSynonym:
-        subject = render_entity(kgclInstance.about_node, "IRI", labelling)
-        synonym = render_entity(kgclInstance.new_value, "Literal", labelling)
+        subject = render_entity(kgclInstance.about_node, "uri", labelling)
+        synonym = render_entity(kgclInstance.new_value, "label", labelling)
         qualifier = kgclInstance.qualifier
         language = kgclInstance.language
 
@@ -287,41 +273,35 @@ def render_instance(kgclInstance, labelling):
             return "create synonym " + synonym + " for " + subject
 
     if type(kgclInstance) is ExistentialRestrictionCreation:
-        subclass = render_entity(kgclInstance.subclass, "IRI", labelling)
-        property = render_entity(kgclInstance.property, "IRI", labelling)
-        filler = render_entity(kgclInstance.filler, "IRI", labelling)
+        subclass = render_entity(kgclInstance.subclass, "uri", labelling)
+        property = render_entity(kgclInstance.property, "uri", labelling)
+        filler = render_entity(kgclInstance.filler, "uri", labelling)
         return "add " + subclass + " SubClassOf " + property + " some " + filler
 
     if type(kgclInstance) is ExistentialRestrictionDeletion:
-        subclass = render_entity(kgclInstance.subclass, "IRI", labelling)
-        property = render_entity(kgclInstance.property, "IRI", labelling)
-        filler = render_entity(kgclInstance.filler, "IRI", labelling)
+        subclass = render_entity(kgclInstance.subclass, "uri", labelling)
+        property = render_entity(kgclInstance.property, "uri", labelling)
+        filler = render_entity(kgclInstance.filler, "uri", labelling)
         return "delete " + subclass + " SubClassOf " + property + " some " + filler
 
     if type(kgclInstance) is PlaceUnder:
-        subclass = render_entity(kgclInstance.subject, "IRI", labelling)
-        superclass = render_entity(kgclInstance.object, "IRI", labelling)
+        subclass = render_entity(kgclInstance.subject, "uri", labelling)
+        superclass = render_entity(kgclInstance.object, "uri", labelling)
         return "add " + subclass + " SubClassOf " + superclass
 
     if type(kgclInstance) is RemoveUnder:
-        subclass = render_entity(kgclInstance.subject, "IRI", labelling)
-        superclass = render_entity(kgclInstance.object, "IRI", labelling)
+        subclass = render_entity(kgclInstance.subject, "uri", labelling)
+        superclass = render_entity(kgclInstance.object, "uri", labelling)
         return "delete " + subclass + " SubClassOf " + superclass
 
 
 def render_annotation_creation(kgclInstance, labelling):
-    subject = render_entity(kgclInstance.subject, "IRI", labelling)
-    predicate = render_entity(kgclInstance.predicate, "IRI", labelling)
-
-    if kgclInstance.object_type == "literal":
-        object = render_entity(kgclInstance.object, "Literal", labelling)
-    if kgclInstance.object_type == "uri":
-        object = render_entity(kgclInstance.object, "IRI", labelling)
-    if kgclInstance.object_type == "label":
-        object = render_entity(kgclInstance.object, "Label", labelling)
+    subject = render_entity(kgclInstance.subject, "uri", labelling)
+    predicate = render_entity(kgclInstance.predicate, "uri", labelling)
+    object = render_entity(kgclInstance.object, kgclInstance.object_type, labelling)
 
     annotation = kgclInstance.annotation_set
-    annotation_property = render_entity(annotation.property, "IRI", labelling)
+    annotation_property = render_entity(annotation.property, "uri", labelling)
     annotation_filler = render_entity(
         annotation.filler, annotation.filler_type, labelling
     )
@@ -350,18 +330,12 @@ def render_annotation_creation(kgclInstance, labelling):
 
 
 def render_annotation_deletion(kgclInstance, labelling):
-    subject = render_entity(kgclInstance.subject, "IRI", labelling)
-    predicate = render_entity(kgclInstance.predicate, "IRI", labelling)
-
-    if kgclInstance.object_type == "literal":
-        object = render_entity(kgclInstance.object, "Literal", labelling)
-    if kgclInstance.object_type == "uri":
-        object = render_entity(kgclInstance.object, "IRI", labelling)
-    if kgclInstance.object_type == "label":
-        object = render_entity(kgclInstance.object, "Label", labelling)
+    subject = render_entity(kgclInstance.subject, "uri", labelling)
+    predicate = render_entity(kgclInstance.predicate, "uri", labelling)
+    object = render_entity(kgclInstance.object, kgclInstance.object_type, labelling)
 
     annotation = kgclInstance.annotation_set
-    annotation_property = render_entity(annotation.property, "IRI", labelling)
+    annotation_property = render_entity(annotation.property, "uri", labelling)
     annotation_filler = render_entity(
         annotation.filler, annotation.filler_type, labelling
     )
@@ -390,16 +364,9 @@ def render_annotation_deletion(kgclInstance, labelling):
 
 
 def render_edge_deletion(kgclInstance, labelling):
-    subject = render_entity(kgclInstance.subject, "IRI", labelling)
-    predicate = render_entity(kgclInstance.predicate, "IRI", labelling)
-
-    if kgclInstance.object_type == "literal":
-        object = render_entity(kgclInstance.object, "Literal", labelling)
-    if kgclInstance.object_type == "uri":
-        object = render_entity(kgclInstance.object, "IRI", labelling)
-    if kgclInstance.object_type == "label":
-        object = render_entity(kgclInstance.object, "Label", labelling)
-    # object = render_entity(repr(kgclInstance.object)[1:-1])
+    subject = render_entity(kgclInstance.subject, "uri", labelling)
+    predicate = render_entity(kgclInstance.predicate, "uri", labelling)
+    object = render_entity(kgclInstance.object, kgclInstance.object_type, labelling)
 
     language = kgclInstance.language
     datatype = kgclInstance.datatype
@@ -415,15 +382,9 @@ def render_edge_deletion(kgclInstance, labelling):
 
 
 def render_edge_creation(kgclInstance, labelling):
-    subject = render_entity(kgclInstance.subject, "IRI", labelling)
-    predicate = render_entity(kgclInstance.predicate, "IRI", labelling)
-
-    if kgclInstance.object_type == "literal":
-        object = render_entity(kgclInstance.object, "Literal", labelling)
-    if kgclInstance.object_type == "uri":
-        object = render_entity(kgclInstance.object, "IRI", labelling)
-    if kgclInstance.object_type == "label":
-        object = render_entity(kgclInstance.object, "Label", labelling)
+    subject = render_entity(kgclInstance.subject, "uri", labelling)
+    predicate = render_entity(kgclInstance.predicate, "uri", labelling)
+    object = render_entity(kgclInstance.object, kgclInstance.object_type, labelling)
 
     language = kgclInstance.language
     datatype = kgclInstance.datatype
