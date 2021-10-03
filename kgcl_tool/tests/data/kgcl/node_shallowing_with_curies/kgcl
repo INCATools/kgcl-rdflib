@@ -1,1 +1,0 @@
-shallow ex:targetClass from <http://example.org/subclass> to <http://example.org/superclass>

@@ -1,1 +1,0 @@
-move <http://example.org/targetClass> <http://www.w3.org/2000/01/rdf-schema#subClassOf> <http://example.org/A> from <http://example.org/A> to <http://example.org/B>
