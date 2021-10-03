@@ -71,7 +71,8 @@ def build_curie_prefix(entity):
 
 
 def escape_literal(literal):
-    return literal.replace('"', '\\"').replace("\\'", "\\\\'")
+    return literal.replace("\\", "\\\\").replace('"', '\\"')  # .replace("\\'", "\\\\'")
+    # return literal.replace("\\", "\\\\").replace('"', '\\"').replace("\\'", "\\\\'")
 
 
 def convert(kgclInstance):
