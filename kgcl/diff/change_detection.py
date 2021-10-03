@@ -253,10 +253,16 @@ def detect_predicate_changes(added, deleted):
 
                 # create KGCL edge object
                 edge = Edge(subject=str(s), object=str(i))
-                language = i.language
-                datatype = i.datatype
-                if datatype is not None:
-                    datatype = "<" + datatype + ">"  # expect data types without curies
+
+                language = None
+                datatype = None
+                if isinstance(i, Literal):
+                    language = i.language
+                    datatype = i.datatype
+                    if datatype is not None:
+                        datatype = (
+                            "<" + datatype + ">"
+                        )  # expect data types without curies
 
                 # if i.language is not None:
                 #    language = str(i.language)
