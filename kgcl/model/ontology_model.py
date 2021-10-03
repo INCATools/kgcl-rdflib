@@ -1,5 +1,5 @@
 # Auto generated from ontology_model.yaml by pythongen.py version: 0.9.0
-# Generation date: 2021-06-25 07:49
+# Generation date: 2021-09-23 19:44
 # Schema: kgcl-ontology-model
 #
 # id: https://w3id.org/kgcl/ontology
@@ -10,7 +10,7 @@
 import dataclasses
 import sys
 import re
-from jsonasobj2 import JsonObj
+from jsonasobj2 import JsonObj, as_dict
 from typing import Optional, List, Union, Dict, ClassVar, Any
 from dataclasses import dataclass
 from linkml_runtime.linkml_model.meta import EnumDefinition, PermissibleValue, PvFormulaOptions
@@ -107,6 +107,8 @@ class Annotation(PropertyValue):
     property: Optional[Union[str, NodeId]] = None
     filler: Optional[str] = None
     annotation_set: Optional[Union[dict, "Annotation"]] = None
+    property_type: Optional[str] = None
+    filler_type: Optional[str] = None
 
     def __post_init__(self, *_: List[str], **kwargs: Dict[str, Any]):
         if self.property is not None and not isinstance(self.property, NodeId):
@@ -116,7 +118,13 @@ class Annotation(PropertyValue):
             self.filler = str(self.filler)
 
         if self.annotation_set is not None and not isinstance(self.annotation_set, Annotation):
-            self.annotation_set = Annotation(**self.annotation_set)
+            self.annotation_set = Annotation(**as_dict(self.annotation_set))
+
+        if self.property_type is not None and not isinstance(self.property_type, str):
+            self.property_type = str(self.property_type)
+
+        if self.filler_type is not None and not isinstance(self.filler_type, str):
+            self.filler_type = str(self.filler_type)
 
         super().__post_init__(**kwargs)
 
@@ -148,7 +156,7 @@ class Node(OntologyElement):
             self.name = str(self.name)
 
         if self.annotation_set is not None and not isinstance(self.annotation_set, Annotation):
-            self.annotation_set = Annotation(**self.annotation_set)
+            self.annotation_set = Annotation(**as_dict(self.annotation_set))
 
         if self.owl_type is not None and not isinstance(self.owl_type, OwlTypeEnum):
             self.owl_type = OwlTypeEnum(self.owl_type)
@@ -217,6 +225,9 @@ class Edge(OntologyElement):
     subject: Optional[Union[str, NodeId]] = None
     predicate: Optional[Union[str, NodeId]] = None
     object: Optional[Union[str, NodeId]] = None
+    subject_representation: Optional[str] = None
+    predicate_representation: Optional[str] = None
+    object_representation: Optional[str] = None
     annotation_set: Optional[Union[dict, Annotation]] = None
 
     def __post_init__(self, *_: List[str], **kwargs: Dict[str, Any]):
@@ -229,8 +240,17 @@ class Edge(OntologyElement):
         if self.object is not None and not isinstance(self.object, NodeId):
             self.object = NodeId(self.object)
 
+        if self.subject_representation is not None and not isinstance(self.subject_representation, str):
+            self.subject_representation = str(self.subject_representation)
+
+        if self.predicate_representation is not None and not isinstance(self.predicate_representation, str):
+            self.predicate_representation = str(self.predicate_representation)
+
+        if self.object_representation is not None and not isinstance(self.object_representation, str):
+            self.object_representation = str(self.object_representation)
+
         if self.annotation_set is not None and not isinstance(self.annotation_set, Annotation):
-            self.annotation_set = Annotation(**self.annotation_set)
+            self.annotation_set = Annotation(**as_dict(self.annotation_set))
 
         super().__post_init__(**kwargs)
 
@@ -309,6 +329,21 @@ slots.property = Slot(uri=OM.property, name="property", curie=OM.curie('property
 
 slots.filler = Slot(uri=OM.filler, name="filler", curie=OM.curie('filler'),
                    model_uri=OM.filler, domain=None, range=Optional[str])
+
+slots.property_type = Slot(uri=OM.property_type, name="property type", curie=OM.curie('property_type'),
+                   model_uri=OM.property_type, domain=None, range=Optional[str])
+
+slots.filler_type = Slot(uri=OM.filler_type, name="filler type", curie=OM.curie('filler_type'),
+                   model_uri=OM.filler_type, domain=None, range=Optional[str])
+
+slots.subject_representation = Slot(uri=OM.subject_representation, name="subject representation", curie=OM.curie('subject_representation'),
+                   model_uri=OM.subject_representation, domain=None, range=Optional[str])
+
+slots.predicate_representation = Slot(uri=OM.predicate_representation, name="predicate representation", curie=OM.curie('predicate_representation'),
+                   model_uri=OM.predicate_representation, domain=None, range=Optional[str])
+
+slots.object_representation = Slot(uri=OM.object_representation, name="object representation", curie=OM.curie('object_representation'),
+                   model_uri=OM.object_representation, domain=None, range=Optional[str])
 
 slots.property_value_set = Slot(uri=OM.property_value_set, name="property value set", curie=OM.curie('property_value_set'),
                    model_uri=OM.property_value_set, domain=None, range=Optional[Union[Union[dict, PropertyValue], List[Union[dict, PropertyValue]]]])
