@@ -45,6 +45,8 @@ classes:
       - property
       - filler
       - annotation set
+      - property type
+      - filler type
     mappings:
       - owl:Annotation
       
@@ -92,6 +94,9 @@ classes:
       - subject
       - predicate
       - object
+      - subject representation
+      - predicate representation
+      - object representation
       - annotation set
 
   logical definition:
@@ -124,6 +129,16 @@ slots:
     range: node
 
   filler: {}
+
+  property type: {}
+
+  filler type: {}
+
+  subject representation: {}
+
+  predicate representation: {}
+
+  object representation: {}
 
   property value set:
     range: property value
