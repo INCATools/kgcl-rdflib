@@ -5,6 +5,7 @@ from diff.pretty_print_kgcl import render_instances
 import diff.diff_2_kgcl_single as single
 import diff.diff_2_kgcl_existential as existential
 import os
+from rdflib.util import guess_format
 
 
 def ts():
@@ -20,11 +21,11 @@ def run(ingraph, outgraph, output):
     # load graphs
     g1 = rdflib.Graph()
     g2 = rdflib.Graph()
-    g1.load(ingraph, format="nt")
     # g1.parse(ingraph)
+    g1.load(ingraph, format=guess_format(ingraph))
     print(ts() + "Loaded Graph 1")
     # g2.parse(outgraph)
-    g2.load(outgraph, format="nt")
+    g2.load(outgraph, format=guess_format(outgraph))
     print(ts() + "Loaded Graph 2")
 
     # compute diff
