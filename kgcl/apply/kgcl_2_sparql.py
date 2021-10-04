@@ -157,7 +157,6 @@ def convert(kgclInstance):
     if type(kgclInstance) is NewSynonym:
         representation = kgclInstance.about_node_representation
 
-        # if is_id(kgclInstance.about_node) and is_label(kgclInstance.new_value):
         if representation == "uri":
             return new_synonym_for_uri(kgclInstance)
         if representation == "label":
