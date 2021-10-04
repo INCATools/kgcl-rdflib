@@ -1,10 +1,6 @@
 import rdflib
-from rdflib.namespace import (
-    RDFS,
-    RDF,
-    OWL,
-)
-from rdflib import BNode, URIRef, Literal
+from rdflib.namespace import RDFS
+from rdflib import URIRef, Literal
 from model.kgcl import (
     NodeRename,
     NodeObsoletion,
@@ -19,14 +15,8 @@ from model.kgcl import (
     NodeCreation,
     ClassCreation,
     NewSynonym,
-    RemovedNodeFromSubset,
 )
 from model.ontology_model import Edge
-from diff.owlstar_sublanguage import (
-    get_bnodes_2_atomic_existentials,
-    get_bnodes_2_triple_annotations,
-)
-import time
 
 
 def id_generator():

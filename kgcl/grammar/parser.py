@@ -1,5 +1,4 @@
 from lark import Lark, Token
-import re
 from model.kgcl import (
     NodeRename,
     NodeObsoletion,

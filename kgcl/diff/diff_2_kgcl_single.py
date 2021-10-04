@@ -4,7 +4,7 @@ from rdflib.namespace import (
     RDF,
     OWL,
 )
-from rdflib import BNode, URIRef, Literal
+from rdflib import URIRef, Literal
 from model.kgcl import (
     NodeRename,
     NodeMove,

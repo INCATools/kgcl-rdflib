@@ -4,7 +4,7 @@ from rdflib.namespace import (
     OWL,
     RDF,
 )
-from rdflib import BNode, URIRef
+from rdflib import BNode
 import time
 
 

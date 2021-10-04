@@ -1,10 +1,5 @@
 import rdflib
-from rdflib.namespace import (
-    RDFS,
-    RDF,
-    OWL,
-)
-from rdflib import BNode, URIRef, Literal
+from rdflib import URIRef, Literal
 from model.kgcl import (
     NodeRename,
     NodeObsoletion,
@@ -25,15 +20,6 @@ from model.kgcl import (
     ExistentialRestrictionCreation,
     ExistentialRestrictionDeletion,
 )
-from diff.change_detection import (
-    detect_renamings,
-    detect_node_moves,
-    detect_predicate_changes,
-)
-from diff.owlstar_sublanguage import (
-    get_triple_annotations,
-    get_bnodes_2_triple_annotations,
-)
 from diff.graph_diff import (
     get_added_triple_annotations,
     get_deleted_triple_annotations,
@@ -41,7 +27,7 @@ from diff.graph_diff import (
     get_deleted_existentials,
 )
 from diff.render_operations import render
-from model.ontology_model import Edge, Annotation
+from model.ontology_model import Annotation
 
 
 def id_generator():

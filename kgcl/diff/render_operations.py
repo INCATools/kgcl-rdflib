@@ -18,8 +18,6 @@ from model.kgcl import (
     ExistentialRestrictionCreation,
     ExistentialRestrictionDeletion,
 )
-from model.ontology_model import Edge
-import re
 
 
 def render_entity(entity, rdf_type):
