@@ -472,6 +472,7 @@ classes:
     slots:
       - about node
       - about node representation
+      - language
 
   node rename:
     is_a: node change
