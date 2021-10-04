@@ -1,10 +1,4 @@
-import rdflib
-from rdflib.namespace import (
-    RDFS,
-    RDF,
-    OWL,
-)
-from rdflib import BNode, URIRef, Literal
+from rdflib.namespace import RDFS
 from model.kgcl import (
     NodeRename,
     NodeObsoletion,
@@ -25,7 +19,6 @@ from model.kgcl import (
     ExistentialRestrictionCreation,
     ExistentialRestrictionDeletion,
 )
-from model.ontology_model import Edge
 import grammar.parser
 
 
