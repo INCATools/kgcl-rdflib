@@ -72,128 +72,132 @@ def build_curie_prefix(entity):
 
 # TODO proper escape handling
 def escape_literal(literal):
-    return literal.replace("\\", "\\\\").replace('"', '\\"')  # .replace("\\'", "\\\\'")
+    return literal.replace("\\", "\\\\").replace('"', '\\"')
+    # .replace("\\'", "\\\\'")
 
 
-def convert(kgclInstance):
+def convert(kgcl_instance):
+    """Given a KGCL dataclass,
+    return a SPARQL UPDATE query corresponding to the encoded change.
+    """
 
     # label renaming
-    if type(kgclInstance) is NodeRename:
-        if is_label(kgclInstance.old_value) and is_label(kgclInstance.new_value):
-            return rename(kgclInstance)
+    if type(kgcl_instance) is NodeRename:
+        if is_label(kgcl_instance.old_value) and is_label(kgcl_instance.new_value):
+            return rename(kgcl_instance)
 
     # node obsoletion
-    if type(kgclInstance) is NodeObsoletion:
-        representation = kgclInstance.about_node_representation
+    if type(kgcl_instance) is NodeObsoletion:
+        representation = kgcl_instance.about_node_representation
         if representation == "uri":
-            return obsolete_by_id(kgclInstance)
+            return obsolete_by_id(kgcl_instance)
         if representation == "label":
-            return obsolete_by_label(kgclInstance)
+            return obsolete_by_label(kgcl_instance)
         if representation == "curie":
-            return obsolete_curie(kgclInstance)
+            return obsolete_curie(kgcl_instance)
 
     # node obsoletion
-    if type(kgclInstance) is NodeUnobsoletion:
-        representation = kgclInstance.about_node_representation
+    if type(kgcl_instance) is NodeUnobsoletion:
+        representation = kgcl_instance.about_node_representation
         if representation == "uri":
-            return unobsolete_by_id(kgclInstance)
+            return unobsolete_by_id(kgcl_instance)
         if representation == "label":
-            return unobsolete_by_label(kgclInstance)
+            return unobsolete_by_label(kgcl_instance)
         if representation == "curie":
-            return unobsolete_curie(kgclInstance)
+            return unobsolete_curie(kgcl_instance)
 
     # node deletion
-    if type(kgclInstance) is NodeDeletion:
-        representation = kgclInstance.about_node_representation
+    if type(kgcl_instance) is NodeDeletion:
+        representation = kgcl_instance.about_node_representation
         if representation == "uri":
-            return delete_by_id(kgclInstance)
+            return delete_by_id(kgcl_instance)
         if representation == "label":
-            return delete_by_label(kgclInstance)
+            return delete_by_label(kgcl_instance)
         if representation == "curie":
-            return delete_curie(kgclInstance)
+            return delete_curie(kgcl_instance)
 
     # node creation
-    if type(kgclInstance) is NodeCreation:
-        if is_id(kgclInstance.node_id) and is_label(kgclInstance.name):
-            return create_node(kgclInstance)
+    if type(kgcl_instance) is NodeCreation:
+        if is_id(kgcl_instance.node_id) and is_label(kgcl_instance.name):
+            return create_node(kgcl_instance)
 
     # class creation
-    if type(kgclInstance) is ClassCreation:
-        if is_id(kgclInstance.node_id):
-            return create_class(kgclInstance)
+    if type(kgcl_instance) is ClassCreation:
+        if is_id(kgcl_instance.node_id):
+            return create_class(kgcl_instance)
 
     # node deepending
-    if type(kgclInstance) is NodeDeepening:
-        return node_deepening(kgclInstance)
+    if type(kgcl_instance) is NodeDeepening:
+        return node_deepening(kgcl_instance)
 
     # node shallowing
-    if type(kgclInstance) is NodeShallowing:
-        return node_shallowing(kgclInstance)
+    if type(kgcl_instance) is NodeShallowing:
+        return node_shallowing(kgcl_instance)
 
     # edge creation
-    if type(kgclInstance) is EdgeCreation:
-        if kgclInstance.annotation_set is None:
-            return edge_creation(kgclInstance)
+    if type(kgcl_instance) is EdgeCreation:
+        if kgcl_instance.annotation_set is None:
+            return edge_creation(kgcl_instance)
         else:
-            return edge_annotation_creation(kgclInstance)
+            return edge_annotation_creation(kgcl_instance)
 
-    if type(kgclInstance) is PlaceUnder:
-        return edge_creation(kgclInstance)
+    if type(kgcl_instance) is PlaceUnder:
+        return edge_creation(kgcl_instance)
 
-    if type(kgclInstance) is RemoveUnder:
-        return edge_deletion(kgclInstance)
+    if type(kgcl_instance) is RemoveUnder:
+        return edge_deletion(kgcl_instance)
 
     # edge deletion
-    if type(kgclInstance) is EdgeDeletion:
-        if kgclInstance.annotation_set is None:
-            return edge_deletion(kgclInstance)
+    if type(kgcl_instance) is EdgeDeletion:
+        if kgcl_instance.annotation_set is None:
+            return edge_deletion(kgcl_instance)
         else:
-            return edge_annotation_deletion(kgclInstance)
+            return edge_annotation_deletion(kgcl_instance)
 
     # node move
-    if type(kgclInstance) is NodeMove:
-        return node_move(kgclInstance)
+    if type(kgcl_instance) is NodeMove:
+        return node_move(kgcl_instance)
 
-    if type(kgclInstance) is NewSynonym:
-        representation = kgclInstance.about_node_representation
+    if type(kgcl_instance) is NewSynonym:
+        representation = kgcl_instance.about_node_representation
 
         if representation == "uri":
-            return new_synonym_for_uri(kgclInstance)
+            return new_synonym_for_uri(kgcl_instance)
         if representation == "label":
-            return new_synonym_for_label(kgclInstance)
+            return new_synonym_for_label(kgcl_instance)
         if representation == "curie":
-            return new_synonym_for_curie(kgclInstance)
+            return new_synonym_for_curie(kgcl_instance)
 
-    if type(kgclInstance) is PredicateChange:
-        return change_predicate(kgclInstance)
+    if type(kgcl_instance) is PredicateChange:
+        return change_predicate(kgcl_instance)
 
-    if type(kgclInstance) is RemovedNodeFromSubset:
-        if is_id(kgclInstance.about_node) and is_id(kgclInstance.subset):
-            return remove_node_from_subset(kgclInstance)
+    if type(kgcl_instance) is RemovedNodeFromSubset:
+        if is_id(kgcl_instance.about_node) and is_id(kgcl_instance.subset):
+            return remove_node_from_subset(kgcl_instance)
 
-    if type(kgclInstance) is ExistentialRestrictionCreation:
-        return create_existential_restriction(kgclInstance)
+    if type(kgcl_instance) is ExistentialRestrictionCreation:
+        return create_existential_restriction(kgcl_instance)
 
-    if type(kgclInstance) is ExistentialRestrictionDeletion:
-        return delete_existential_restriction(kgclInstance)
+    if type(kgcl_instance) is ExistentialRestrictionDeletion:
+        return delete_existential_restriction(kgcl_instance)
 
 
-def node_move(kgclInstance):
+def node_move(kgcl_instance):
 
     # NB: object and old_value are the (necessarily) the same
-    subject = kgclInstance.about_edge.subject
-    predicate = kgclInstance.about_edge.predicate
-    object = kgclInstance.about_edge.object
+    subject = kgcl_instance.about_edge.subject
+    predicate = kgcl_instance.about_edge.predicate
+    object = kgcl_instance.about_edge.object
 
-    subject_type = kgclInstance.about_edge.subject_representation
-    predicate_type = kgclInstance.about_edge.predicate_representation
-    object_type = kgclInstance.about_edge.object_representation
+    subject_type = kgcl_instance.about_edge.subject_representation
+    predicate_type = kgcl_instance.about_edge.predicate_representation
+    object_type = kgcl_instance.about_edge.object_representation
 
-    old_value = kgclInstance.old_value
-    new_value = kgclInstance.new_value
+    old_value = kgcl_instance.old_value
+    new_value = kgcl_instance.new_value
 
-    old_type = kgclInstance.old_object_type
-    new_type = kgclInstance.new_object_type
+    old_type = kgcl_instance.old_object_type
+    new_type = kgcl_instance.new_object_type
 
     prefix = "PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>  "
     prefix += "PREFIX owl: <http://www.w3.org/2002/07/owl#>  "
@@ -262,10 +266,10 @@ def node_move(kgclInstance):
     return updateQuery
 
 
-def remove_node_from_subset(kgclInstance):
+def remove_node_from_subset(kgcl_instance):
 
-    about = kgclInstance.about_node
-    subset = kgclInstance.subset
+    about = kgcl_instance.about_node
+    subset = kgcl_instance.subset
 
     updateQuery = (
         f"PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>"
@@ -290,22 +294,22 @@ def remove_node_from_subset(kgclInstance):
     return updateQuery
 
 
-def change_predicate(kgclInstance):
+def change_predicate(kgcl_instance):
 
-    subject = kgclInstance.about_edge.subject
-    object = kgclInstance.about_edge.object
+    subject = kgcl_instance.about_edge.subject
+    object = kgcl_instance.about_edge.object
 
-    old_value = kgclInstance.old_value
-    new_value = kgclInstance.new_value
+    old_value = kgcl_instance.old_value
+    new_value = kgcl_instance.new_value
 
-    language = kgclInstance.language
-    datatype = kgclInstance.datatype
+    language = kgcl_instance.language
+    datatype = kgcl_instance.datatype
 
-    subject_type = kgclInstance.about_edge.subject_representation
-    object_type = kgclInstance.about_edge.object_representation
+    subject_type = kgcl_instance.about_edge.subject_representation
+    object_type = kgcl_instance.about_edge.object_representation
 
-    old_value_type = kgclInstance.old_value_type
-    new_value_type = kgclInstance.new_value_type
+    old_value_type = kgcl_instance.old_value_type
+    new_value_type = kgcl_instance.new_value_type
 
     prefix = "PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>  "
 
@@ -376,15 +380,15 @@ def change_predicate(kgclInstance):
     return updateQuery
 
 
-def node_deepening(kgclInstance):
+def node_deepening(kgcl_instance):
 
-    entity = kgclInstance.about_edge.subject
-    old_value = kgclInstance.old_value
-    new_value = kgclInstance.new_value
+    entity = kgcl_instance.about_edge.subject
+    old_value = kgcl_instance.old_value
+    new_value = kgcl_instance.new_value
 
-    entity_type = kgclInstance.about_edge.subject_representation
-    old_type = kgclInstance.old_object_type
-    new_type = kgclInstance.new_object_type
+    entity_type = kgcl_instance.about_edge.subject_representation
+    old_type = kgcl_instance.old_object_type
+    new_type = kgcl_instance.new_object_type
 
     prefix = "PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>  "
     prefix += "PREFIX owl: <http://www.w3.org/2002/07/owl#>  "
@@ -438,15 +442,15 @@ def node_deepening(kgclInstance):
     return updateQuery
 
 
-def node_shallowing(kgclInstance):
+def node_shallowing(kgcl_instance):
 
-    entity = kgclInstance.about_edge.subject
-    old_value = kgclInstance.old_value
-    new_value = kgclInstance.new_value
+    entity = kgcl_instance.about_edge.subject
+    old_value = kgcl_instance.old_value
+    new_value = kgcl_instance.new_value
 
-    entity_type = kgclInstance.about_edge.subject_representation
-    old_type = kgclInstance.old_object_type
-    new_type = kgclInstance.new_object_type
+    entity_type = kgcl_instance.about_edge.subject_representation
+    old_type = kgcl_instance.old_object_type
+    new_type = kgcl_instance.new_object_type
 
     prefix = "PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>  "
     prefix += "PREFIX owl: <http://www.w3.org/2002/07/owl#>  "
@@ -505,8 +509,8 @@ def node_shallowing(kgclInstance):
 
 # TODO: handling of language tags
 # look things up at https://www.ebi.ac.uk/ols/ontologies/iao
-def unobsolete_by_id(kgclInstance):
-    about = kgclInstance.about_node
+def unobsolete_by_id(kgcl_instance):
+    about = kgcl_instance.about_node
     # http://wiki.geneontology.org/index.php/Restoring_an_Obsolete_Ontology_Term
     # 1. remove 'obsolete' from label
     # 2. remove 'OBSOLETE' from definition
@@ -560,8 +564,8 @@ def unobsolete_by_id(kgclInstance):
     return updateQuery
 
 
-def unobsolete_by_label(kgclInstance):
-    about = kgclInstance.about_node
+def unobsolete_by_label(kgcl_instance):
+    about = kgcl_instance.about_node
     # http://wiki.geneontology.org/index.php/Restoring_an_Obsolete_Ontology_Term
     # 1. remove 'obsolete' from label
     # 2. remove 'OBSOLETE' from definition
@@ -619,8 +623,8 @@ def unobsolete_by_label(kgclInstance):
     return updateQuery
 
 
-def unobsolete_curie(kgclInstance):
-    about = kgclInstance.about_node
+def unobsolete_curie(kgcl_instance):
+    about = kgcl_instance.about_node
     # http://wiki.geneontology.org/index.php/Restoring_an_Obsolete_Ontology_Term
     # 1. remove 'obsolete' from label
     # 2. remove 'OBSOLETE' from definition
@@ -679,21 +683,21 @@ def unobsolete_curie(kgclInstance):
 
 
 # NB this does not preserve language tags
-def rename(kgclInstance):
-    oldValue = kgclInstance.old_value
-    newValue = kgclInstance.new_value
+def rename(kgcl_instance):
+    oldValue = kgcl_instance.old_value
+    newValue = kgcl_instance.new_value
 
     # strip label's single quotes
     oldValue = oldValue[1:-1]
     newValue = newValue[1:-1]
 
-    old_language = kgclInstance.old_language
-    new_language = kgclInstance.new_language
+    old_language = kgcl_instance.old_language
+    new_language = kgcl_instance.new_language
 
-    if kgclInstance.about_node is None:
+    if kgcl_instance.about_node is None:
         subject = "?entity"
     else:
-        subject = kgclInstance.about_node
+        subject = kgcl_instance.about_node
 
     prefix = "PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>"
     deleteQuery = subject + " rdfs:label ?oldlabel ."
@@ -730,18 +734,18 @@ def rename(kgclInstance):
 # TODO: this implementation is buggy
 # this implementation should preserve language tags
 # note that this cannot be used for diffing
-def rename_preserve(kgclInstance):
-    oldValue = kgclInstance.old_value
-    newValue = kgclInstance.new_value
+def rename_preserve(kgcl_instance):
+    oldValue = kgcl_instance.old_value
+    newValue = kgcl_instance.new_value
     oldValue = oldValue.replace("'", "")
-    old_language = kgclInstance.old_language
-    new_language = kgclInstance.new_language
+    old_language = kgcl_instance.old_language
+    new_language = kgcl_instance.new_language
 
     # initialise subject
-    if kgclInstance.about_node is None:
+    if kgcl_instance.about_node is None:
         subject = "?entity"
     else:
-        subject = kgclInstance.about_node
+        subject = kgcl_instance.about_node
 
     prefix = "PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>"
     deleteQuery = subject + " rdfs:label ?tag ."
@@ -775,8 +779,8 @@ def rename_preserve(kgclInstance):
     return updateQuery
 
 
-def delete_by_id(kgclInstance):
-    about = kgclInstance.about_node  # this needs to be an ID - not a label
+def delete_by_id(kgcl_instance):
+    about = kgcl_instance.about_node  # this needs to be an ID - not a label
 
     deleteQuery = (
         "?s1 ?p1 " + about + " . "
@@ -800,8 +804,8 @@ def delete_by_id(kgclInstance):
     return updateQuery
 
 
-def delete_curie(kgclInstance):
-    about = kgclInstance.about_node
+def delete_curie(kgcl_instance):
+    about = kgcl_instance.about_node
 
     prefix = build_curie_prefix(about)
 
@@ -825,8 +829,8 @@ def delete_curie(kgclInstance):
     return updateQuery
 
 
-def delete_by_label(kgclInstance):
-    about = kgclInstance.about_node
+def delete_by_label(kgcl_instance):
+    about = kgcl_instance.about_node
 
     prefix = "PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>"
 
@@ -846,8 +850,8 @@ def delete_by_label(kgclInstance):
     return updateQuery
 
 
-def create_class(kgclInstance):
-    termId = kgclInstance.node_id
+def create_class(kgcl_instance):
+    termId = kgcl_instance.node_id
 
     prefix = "PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>  "
     prefix += "PREFIX owl: <http://www.w3.org/2002/07/owl#>  "
@@ -860,10 +864,10 @@ def create_class(kgclInstance):
     return updateQuery
 
 
-def create_node(kgclInstance):
-    termId = kgclInstance.node_id
-    label = kgclInstance.name
-    language = kgclInstance.language
+def create_node(kgcl_instance):
+    termId = kgcl_instance.node_id
+    label = kgcl_instance.name
+    language = kgcl_instance.language
 
     prefix = "PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>  "
 
@@ -885,16 +889,16 @@ def create_node(kgclInstance):
     return updateQuery
 
 
-def edge_annotation_creation(kgclInstance):
-    subject = kgclInstance.subject
-    predicate = kgclInstance.predicate
-    object = kgclInstance.object
+def edge_annotation_creation(kgcl_instance):
+    subject = kgcl_instance.subject
+    predicate = kgcl_instance.predicate
+    object = kgcl_instance.object
 
-    subject_type = kgclInstance.subject_type
-    predicate_type = kgclInstance.predicate_type
-    object_type = kgclInstance.object_type
+    subject_type = kgcl_instance.subject_type
+    predicate_type = kgcl_instance.predicate_type
+    object_type = kgcl_instance.object_type
 
-    annotation = kgclInstance.annotation_set
+    annotation = kgcl_instance.annotation_set
 
     # annotation.property_type
     # annotation.filler_type
@@ -970,17 +974,17 @@ def edge_annotation_creation(kgclInstance):
     return updateQuery
 
 
-def edge_creation(kgclInstance):
-    subject = kgclInstance.subject
-    predicate = kgclInstance.predicate
-    object = kgclInstance.object
+def edge_creation(kgcl_instance):
+    subject = kgcl_instance.subject
+    predicate = kgcl_instance.predicate
+    object = kgcl_instance.object
 
-    subject_type = kgclInstance.subject_type
-    predicate_type = kgclInstance.predicate_type
-    object_type = kgclInstance.object_type
+    subject_type = kgcl_instance.subject_type
+    predicate_type = kgcl_instance.predicate_type
+    object_type = kgcl_instance.object_type
 
-    language = kgclInstance.language
-    datatype = kgclInstance.datatype  # TODO: currently only accepting full IRIs
+    language = kgcl_instance.language
+    datatype = kgcl_instance.datatype  # TODO: currently only accepting full IRIs
 
     prefix = "PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>  "
     prefix += "PREFIX owl: <http://www.w3.org/2002/07/owl#>  "
@@ -1037,16 +1041,16 @@ def edge_creation(kgclInstance):
 
 
 # TODO: language tags + data types
-def edge_annotation_deletion(kgclInstance):
-    subject = kgclInstance.subject
-    predicate = kgclInstance.predicate
-    object = kgclInstance.object
+def edge_annotation_deletion(kgcl_instance):
+    subject = kgcl_instance.subject
+    predicate = kgcl_instance.predicate
+    object = kgcl_instance.object
 
-    subject_type = kgclInstance.subject_type
-    predicate_type = kgclInstance.predicate_type
-    object_type = kgclInstance.object_type
+    subject_type = kgcl_instance.subject_type
+    predicate_type = kgcl_instance.predicate_type
+    object_type = kgcl_instance.object_type
 
-    annotation = kgclInstance.annotation_set
+    annotation = kgcl_instance.annotation_set
 
     # NB: we need to distinguish between two cases
     # (a) the entire reification needs to be deleted
@@ -1189,17 +1193,17 @@ def edge_annotation_deletion(kgclInstance):
     return updateQuery
 
 
-def edge_deletion(kgclInstance):
-    subject = kgclInstance.subject
-    predicate = kgclInstance.predicate
-    object = kgclInstance.object
+def edge_deletion(kgcl_instance):
+    subject = kgcl_instance.subject
+    predicate = kgcl_instance.predicate
+    object = kgcl_instance.object
 
-    subject_type = kgclInstance.subject_type
-    predicate_type = kgclInstance.predicate_type
-    object_type = kgclInstance.object_type
+    subject_type = kgcl_instance.subject_type
+    predicate_type = kgcl_instance.predicate_type
+    object_type = kgcl_instance.object_type
 
-    language = kgclInstance.language
-    datatype = kgclInstance.datatype
+    language = kgcl_instance.language
+    datatype = kgcl_instance.datatype
 
     prefix = "PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>  "
     prefix += "PREFIX owl: <http://www.w3.org/2002/07/owl#>  "
@@ -1256,9 +1260,9 @@ def edge_deletion(kgclInstance):
     return updateQuery
 
 
-def obsolete_by_id(kgclInstance):
-    about = kgclInstance.about_node
-    replacement = kgclInstance.has_direct_replacement
+def obsolete_by_id(kgcl_instance):
+    about = kgcl_instance.about_node
+    replacement = kgcl_instance.has_direct_replacement
 
     prefix = "PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>  "
     prefix += "PREFIX owl: <http://www.w3.org/2002/07/owl#>  "
@@ -1277,7 +1281,7 @@ def obsolete_by_id(kgclInstance):
     insertQuery += about + ' owl:deprecated "true"^^xsd:boolean . '
     insertQuery += "?entity rdfs:subClassOf oboInOwl:ObsoleteClass . "
 
-    if kgclInstance.has_direct_replacement is not None:
+    if kgcl_instance.has_direct_replacement is not None:
         insertQuery += about + " obo:IAO_0100001 " + replacement + "  .  "
 
     insert = "INSERT {" + insertQuery + "}"
@@ -1300,8 +1304,8 @@ def obsolete_by_id(kgclInstance):
     return updateQuery
 
 
-def obsolete_by_label(kgclInstance):
-    about = kgclInstance.about_node
+def obsolete_by_label(kgcl_instance):
+    about = kgcl_instance.about_node
 
     prefix = "PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>  "
     prefix += "PREFIX owl: <http://www.w3.org/2002/07/owl#>  "
@@ -1363,9 +1367,9 @@ def obsolete_by_label(kgclInstance):
     return updateQuery
 
 
-def obsolete_curie(kgclInstance):
-    about = kgclInstance.about_node
-    replacement = kgclInstance.has_direct_replacement
+def obsolete_curie(kgcl_instance):
+    about = kgcl_instance.about_node
+    replacement = kgcl_instance.has_direct_replacement
 
     curie_prefix = get_prefix(about)
     curie_uri = prefix_2_uri[curie_prefix]
@@ -1388,7 +1392,7 @@ def obsolete_curie(kgclInstance):
     insertQuery += about + ' owl:deprecated "true"^^xsd:boolean . '
     insertQuery += "?entity rdfs:subClassOf oboInOwl:ObsoleteClass . "
 
-    if kgclInstance.has_direct_replacement is not None:
+    if kgcl_instance.has_direct_replacement is not None:
         insertQuery += about + " obo:IAO_0100001 " + replacement + "  .  "
 
     insert = "INSERT {" + insertQuery + "}"
@@ -1411,12 +1415,12 @@ def obsolete_curie(kgclInstance):
     return updateQuery
 
 
-def new_synonym_for_uri(kgclInstance):
+def new_synonym_for_uri(kgcl_instance):
 
-    about = kgclInstance.about_node
-    synonym = kgclInstance.new_value
-    language = kgclInstance.language
-    qualifier = kgclInstance.qualifier
+    about = kgcl_instance.about_node
+    synonym = kgcl_instance.new_value
+    language = kgcl_instance.language
+    qualifier = kgcl_instance.qualifier
 
     prefix = "PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>  "
     prefix += "PREFIX owl: <http://www.w3.org/2002/07/owl#>  "
@@ -1449,11 +1453,11 @@ def new_synonym_for_uri(kgclInstance):
     return updateQuery
 
 
-def new_synonym_for_label(kgclInstance):
-    about = kgclInstance.about_node  # this is a label for a node
-    synonym = kgclInstance.new_value
-    language = kgclInstance.language
-    qualifier = kgclInstance.qualifier
+def new_synonym_for_label(kgcl_instance):
+    about = kgcl_instance.about_node  # this is a label for a node
+    synonym = kgcl_instance.new_value
+    language = kgcl_instance.language
+    qualifier = kgcl_instance.qualifier
 
     prefix = "PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>  "
     prefix += "PREFIX owl: <http://www.w3.org/2002/07/owl#>  "
@@ -1489,11 +1493,11 @@ def new_synonym_for_label(kgclInstance):
     return updateQuery
 
 
-def new_synonym_for_curie(kgclInstance):
-    about = kgclInstance.about_node  # this is a curie
-    synonym = kgclInstance.new_value
-    language = kgclInstance.language
-    qualifier = kgclInstance.qualifier
+def new_synonym_for_curie(kgcl_instance):
+    about = kgcl_instance.about_node  # this is a curie
+    synonym = kgcl_instance.new_value
+    language = kgcl_instance.language
+    qualifier = kgcl_instance.qualifier
 
     curie_prefix = get_prefix(about)
     curie_uri = prefix_2_uri[curie_prefix]
@@ -1530,14 +1534,14 @@ def new_synonym_for_curie(kgclInstance):
     return updateQuery
 
 
-def create_existential_restriction(kgclInstance):
-    subclass = kgclInstance.subclass
-    property = kgclInstance.property
-    filler = kgclInstance.filler
+def create_existential_restriction(kgcl_instance):
+    subclass = kgcl_instance.subclass
+    property = kgcl_instance.property
+    filler = kgcl_instance.filler
 
-    subclass_type = kgclInstance.subclass_type
-    property_type = kgclInstance.property_type
-    filler_type = kgclInstance.filler_type
+    subclass_type = kgcl_instance.subclass_type
+    property_type = kgcl_instance.property_type
+    filler_type = kgcl_instance.filler_type
 
     prefix = "PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>  "
     prefix += "PREFIX owl: <http://www.w3.org/2002/07/owl#>  "
@@ -1584,14 +1588,14 @@ def create_existential_restriction(kgclInstance):
     return updateQuery
 
 
-def delete_existential_restriction(kgclInstance):
-    subclass = kgclInstance.subclass
-    property = kgclInstance.property
-    filler = kgclInstance.filler
+def delete_existential_restriction(kgcl_instance):
+    subclass = kgcl_instance.subclass
+    property = kgcl_instance.property
+    filler = kgcl_instance.filler
 
-    subclass_type = kgclInstance.subclass_type
-    property_type = kgclInstance.property_type
-    filler_type = kgclInstance.filler_type
+    subclass_type = kgcl_instance.subclass_type
+    property_type = kgcl_instance.property_type
+    filler_type = kgcl_instance.filler_type
 
     prefix = "PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>  "
     prefix += "PREFIX owl: <http://www.w3.org/2002/07/owl#>  "

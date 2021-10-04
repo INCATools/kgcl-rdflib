@@ -1,7 +1,7 @@
 import diff.diff_2_kgcl_triple_annotation as annotation
 import rdflib
 from datetime import datetime
-from pretty_print_kgcl import render_instances
+from diff.pretty_print_kgcl import render_instances
 import diff.diff_2_kgcl_single as single
 import diff.diff_2_kgcl_existential as existential
 import os
@@ -20,11 +20,11 @@ def run(ingraph, outgraph, output):
     # load graphs
     g1 = rdflib.Graph()
     g2 = rdflib.Graph()
-    # g1.load(ingraph, format="nt")
-    g1.parse(ingraph)
+    g1.load(ingraph, format="nt")
+    # g1.parse(ingraph)
     print(ts() + "Loaded Graph 1")
-    g2.parse(outgraph)
-    # g2.load(outgraph, format="nt")
+    # g2.parse(outgraph)
+    g2.load(outgraph, format="nt")
     print(ts() + "Loaded Graph 2")
 
     # compute diff
