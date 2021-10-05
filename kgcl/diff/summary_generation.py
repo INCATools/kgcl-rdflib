@@ -1,9 +1,9 @@
-import diff.diff_2_kgcl_triple_annotation as annotation
+import kgcl.diff.diff_2_kgcl_triple_annotation as annotation
 import rdflib
 from datetime import datetime
-from diff.pretty_print_kgcl import render_instances
-import diff.diff_2_kgcl_single as single
-import diff.diff_2_kgcl_existential as existential
+from kgcl.diff.pretty_print_kgcl import render_instances
+import kgcl.diff.diff_2_kgcl_single as single
+import kgcl.diff.diff_2_kgcl_existential as existential
 import os
 from rdflib.util import guess_format
 

@@ -1,5 +1,5 @@
 from lark import Lark, Token
-from model.kgcl import (
+from kgcl.model.kgcl import (
     NodeRename,
     NodeObsoletion,
     NodeUnobsoletion,
@@ -19,7 +19,7 @@ from model.kgcl import (
     ExistentialRestrictionCreation,
     ExistentialRestrictionDeletion,
 )
-from model.ontology_model import Edge, Annotation
+from kgcl.model.ontology_model import Edge, Annotation
 from pathlib import Path
 
 

@@ -1,6 +1,6 @@
 import rdflib
 from rdflib import URIRef, Literal
-from model.kgcl import (
+from kgcl.model.kgcl import (
     NodeRename,
     NodeObsoletion,
     NodeUnobsoletion,
@@ -20,14 +20,14 @@ from model.kgcl import (
     ExistentialRestrictionCreation,
     ExistentialRestrictionDeletion,
 )
-from diff.graph_diff import (
+from kgcl.diff.graph_diff import (
     get_added_triple_annotations,
     get_deleted_triple_annotations,
     get_added_existentials,
     get_deleted_existentials,
 )
-from diff.render_operations import render
-from model.ontology_model import Annotation
+from kgcl.diff.render_operations import render
+from kgcl.model.ontology_model import Annotation
 
 
 def id_generator():

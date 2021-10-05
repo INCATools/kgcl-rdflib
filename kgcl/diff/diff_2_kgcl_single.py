@@ -5,7 +5,7 @@ from rdflib.namespace import (
     OWL,
 )
 from rdflib import URIRef, Literal
-from model.kgcl import (
+from kgcl.model.kgcl import (
     NodeRename,
     NodeMove,
     NodeDeepening,
@@ -21,15 +21,15 @@ from model.kgcl import (
     RemovedNodeFromSubset,
 )
 
-from diff.change_detection import (
+from kgcl.diff.change_detection import (
     detect_renamings,
     detect_node_moves,
     detect_predicate_changes,
 )
 
-from diff.render_operations import render
+from kgcl.diff.render_operations import render
 
-from diff.graph_diff import (
+from kgcl.diff.graph_diff import (
     get_added_thin_triples,
     get_deleted_thin_triples,
 )

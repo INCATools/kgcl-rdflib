@@ -1,5 +1,5 @@
 from rdflib.namespace import RDFS
-from model.kgcl import (
+from kgcl.model.kgcl import (
     NodeRename,
     NodeObsoletion,
     NodeUnobsoletion,
@@ -19,7 +19,7 @@ from model.kgcl import (
     ExistentialRestrictionCreation,
     ExistentialRestrictionDeletion,
 )
-import grammar.parser
+import kgcl.grammar.parser
 
 
 # TODO: maintain this dictionary in a file

@@ -1,5 +1,5 @@
 import re
-from model.kgcl import (
+from kgcl.model.kgcl import (
     NodeRename,
     NodeObsoletion,
     NodeUnobsoletion,

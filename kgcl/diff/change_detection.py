@@ -1,7 +1,7 @@
 import rdflib
 from rdflib.namespace import RDFS
 from rdflib import URIRef, Literal
-from model.kgcl import (
+from kgcl.model.kgcl import (
     NodeRename,
     NodeObsoletion,
     NodeUnobsoletion,
@@ -16,7 +16,7 @@ from model.kgcl import (
     ClassCreation,
     NewSynonym,
 )
-from model.ontology_model import Edge
+from kgcl.model.ontology_model import Edge
 
 
 def id_generator():

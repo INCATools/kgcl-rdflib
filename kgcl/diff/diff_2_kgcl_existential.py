@@ -1,5 +1,5 @@
 import rdflib
-from model.kgcl import (
+from kgcl.model.kgcl import (
     NodeRename,
     NodeObsoletion,
     NodeUnobsoletion,
@@ -19,11 +19,11 @@ from model.kgcl import (
     ExistentialRestrictionCreation,
     ExistentialRestrictionDeletion,
 )
-from diff.graph_diff import (
+from kgcl.diff.graph_diff import (
     get_added_existentials,
     get_deleted_existentials,
 )
-from diff.render_operations import render
+from kgcl.diff.render_operations import render
 
 
 def id_generator():
