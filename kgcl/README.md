@@ -5,6 +5,79 @@ This folder contains tooling for handling change operations in ontologies accord
 
 **Feedback and PRs are welcome! There is always more to do and things to improve.**
 
+## tl;dr
+
+Example code for applying a KGCL patch to a graph:
+
+```
+import rdflib
+from rdflib.util import guess_format
+import kgcl.grammar.parser
+import kgcl.apply.graph_transformer
+
+#graph: path to an RDF graph
+#kgcl: path to a KGCL patch
+#output: path to an output destination
+
+# read kgcl commands from file
+patch = kgcl.read() 
+
+# parse kgcl commands
+parsed_patch = kgcl.grammar.parser.parse(patch)
+
+#load RDF graph
+g = rdflib.Graph()
+g.load(graph, format=guess_format(graph))
+
+# apply kgcl commands as SPARQL UPDATE queries to graph
+kgcl.apply.graph_transformer.apply_patch(parsed_patch, g)
+
+# save updated graph
+g.serialize(destination=output, format="nt") 
+
+```
+
+Example code for generating a KGCL Diff between two graphs:
+
+```
+from kgcl.diff.summary_generation import run
+
+#graph_1: path to an RDF graph
+#graph_2: path to an RDF graph
+#output: path to an output destination (which must not exist as a folder)
+
+run(graph_1, graph_2, output)
+```
+
+Example code for generating a KGCL Diff between two graphs (without writing a summary to an output folder): 
+
+```
+import rdflib
+
+import kgcl.diff.diff_2_kgcl_single as single
+import kgcl.diff.diff_2_kgcl_existential as existential
+import kgcl.diff.diff_2_kgcl_triple_annotation as annotation
+
+#graph_1: path to an RDF graph
+#graph_2: path to an RDF graph
+#output: path to an output destination (which must not exist as a folder)
+
+#load RDF graphs
+g_1 = rdflib.Graph()
+g_1.load(graph_1, format=guess_format(graph_1))
+g_2 = rdflib.Graph()
+g_2.load(graph_2, format=guess_format(graph_2))
+
+#generate diff
+single_triple_summary = single.generate_thin_triple_commands(g1, g2)
+existential_summary = existential.generate_atomic_existential_commands(g1, g2) 
+triple_annotation_summary = annotation.generate_triple_annotation_commands(g1, g2) 
+
+# get KGCL commands
+kgcl_commands = existential_summary.get_commands()
+kgcl_commands += triple_annotation_summary.get_commands()
+kgcl_commands += single_triple_summary.get_commands()
+``` 
 
 ## What are KGCL change operations?
 
@@ -59,13 +132,9 @@ of the form `rename node from x to x@en`. The current implementation provides a 
 
 # Installation
 
-1. `git clone https://github.com/ckindermann/knowledge-graph-change-language.git`
-2. `git checkout origin/parser`
-4. `cd knowledge-graph-change-language` 
-4. `pipenv install linkml` (used by the data model for KGCL) 
-5. `pipenv shell` (activate virtualenv for the project)
-6. `pip install lark` (parsing library)
-7. `pip install click` (CLI library)
+This project uses [pipenv](https://pipenv-fork.readthedocs.io/en/latest/) for installation.
+
+ `pipenv install kgcl`
 
 # How to contribute?
 
