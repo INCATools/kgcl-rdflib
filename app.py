@@ -34,6 +34,8 @@ from kgcl.diff.diff_2_kgcl_existential import ExistentialChangeSummary
 import kgcl.diff.diff_2_kgcl_triple_annotation as annotation
 from kgcl.diff.diff_2_kgcl_triple_annotation import TripleAnnotationChangeSummary
 
+from kgcl.diff.pretty_print_kgcl import render_instances
+
 # from diff.example_kgcl_operations import generate_diff
 from kgcl.render_kgcl import render
 
@@ -292,6 +294,9 @@ def kgcl_diff(graph1, graph2):
     kgcl_commands = existential_summary.get_commands()
     kgcl_commands += triple_annotation_summary.get_commands()
     kgcl_commands += single_triple_summary.get_commands()
+
+    # pretty printing of KGCL commands
+    kgcl_commands = render_instances(kgcl_commands, g1)
 
     # write KGCL commands
     with open("examples/kgcl/tmp/patch.kgcl", "w") as f:
