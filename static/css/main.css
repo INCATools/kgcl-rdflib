@@ -1,0 +1,26 @@
+body, html {
+    margin: 50px;
+    font-family: sans-serif;
+}
+
+.content {
+    margin: 0 auto;
+    width: 1000px;
+}
+
+p { 
+    text-align: left;
+    white-space: pre-wrap;
+}
+
+.form {
+    margin-top: 10px;
+}
+
+h1 {
+  text-align: center;
+}
+
+#content {
+    width: 100%;
+}

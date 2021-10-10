@@ -1,0 +1,5 @@
+_:N21088129e79d457c952ec747c2124281 <http://example.org/annotationPredicate> <http://example.org/annotation> .
+_:N21088129e79d457c952ec747c2124281 <http://www.w3.org/2002/07/owl#annotatedProperty> <http://example.org/predicate> .
+_:N21088129e79d457c952ec747c2124281 <http://www.w3.org/2002/07/owl#annotatedSource> <http://example.org/subject> .
+_:N21088129e79d457c952ec747c2124281 <http://www.w3.org/2002/07/owl#annotatedTarget> <http://example.org/object> .
+_:N21088129e79d457c952ec747c2124281 <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/2002/07/owl#Axiom> .

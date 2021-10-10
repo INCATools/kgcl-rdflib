@@ -1,0 +1,4 @@
+_:Ndb451c3aad3841c88d7042f29b20bea8 <http://www.w3.org/2002/07/owl#onProperty> <http://example.org/predicate> .
+_:Ndb451c3aad3841c88d7042f29b20bea8 <http://www.w3.org/2002/07/owl#someValuesFrom> <http://example.org/object> .
+_:Ndb451c3aad3841c88d7042f29b20bea8 <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/2002/07/owl#Restriction> .
+<http://example.org/subject> <http://www.w3.org/2000/01/rdf-schema#subClassOf> _:Ndb451c3aad3841c88d7042f29b20bea8 .

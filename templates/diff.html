@@ -1,0 +1,31 @@
+{% extends 'base.html' %}
+
+{% block head %}
+{% endblock %}
+
+{% block body %} 
+<h1>KGCL Web App (Demo)</h1>
+
+<div class="content">
+    <form action="/diff" method="POST">
+        <!-- <input type="text" name="content" id="content"> -->
+        <p><b>Graph 1</b></p>
+        <textarea name="graph1" id="content" rows="10" cols="30">{{ inputGraph1 }}</textarea>
+        <p><b>Graph 2</b></p>
+        <textarea name="graph2" id="content" rows="10" cols="30">{{ inputGraph2 }}</textarea>
+        <input type="submit" name="generate_diff" value="Generate Diff"> 
+        <input type="submit" name="load_example_diff" value="Load Example"> 
+
+        <select name="comp_select" class="selectpicker form-control">
+          {% for o in examples %}
+              <!-- <option value="{{ o.name }}">{{ o.name }}</option> -->
+               <option value="{{ o }}">{{ o }}</option>
+          {% endfor %}
+        </select>
+    </form> 
+
+    <p><b>KGCL Diff:</b> <br>{{ kgclDiff }}</p>
+</div> 
+<p> <a href="{{ url_for('index') }}">Test KGCL</a> </p>
+
+{% endblock %}
