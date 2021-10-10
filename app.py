@@ -27,15 +27,15 @@ from kgcl.apply.graph_transformer import apply_patch
 import rdflib
 from kgcl.grammar.parser import parse
 
-import diff.diff_2_kgcl_single as single
-from diff.diff_2_kgcl_single import SingleTripleChangeSummary
-import diff.diff_2_kgcl_existential as existential
-from diff.diff_2_kgcl_existential import ExistentialChangeSummary
-import diff.diff_2_kgcl_triple_annotation as annotation
-from diff.diff_2_kgcl_triple_annotation import TripleAnnotationChangeSummary
+import kgcl.diff.diff_2_kgcl_single as single
+from kgcl.diff.diff_2_kgcl_single import SingleTripleChangeSummary
+import kgcl.diff.diff_2_kgcl_existential as existential
+from kgcl.diff.diff_2_kgcl_existential import ExistentialChangeSummary
+import kgcl.diff.diff_2_kgcl_triple_annotation as annotation
+from kgcl.diff.diff_2_kgcl_triple_annotation import TripleAnnotationChangeSummary
 
 # from diff.example_kgcl_operations import generate_diff
-from render_kgcl import render
+from kgcl.render_kgcl import render
 
 
 def generate_diff():
