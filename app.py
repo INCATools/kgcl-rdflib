@@ -225,7 +225,7 @@ def diff():
 
         kgcl_diff(graph1, graph2)
 
-        f = open("diff/stats/all", "r")
+        f = open("examples/kgcl/tmp/patch.kgcl", "r")
         kgcl = f.read()
         f.close()
 
