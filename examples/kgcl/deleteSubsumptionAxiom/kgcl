@@ -1,1 +1,1 @@
-delete <http://example.org/targetClass> SubClassOf <http://example.org/A>
+delete ex:targetClass SubClassOf ex:A

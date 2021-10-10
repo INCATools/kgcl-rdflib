@@ -1,1 +1,1 @@
-delete edge <<<http://example.org/subject> <http://example.org/predicate> <http://example.org/object>>> <http://example.org/annotationPredicate> <http://example.org/annotation>
+delete edge <<ex:subject ex:predicate ex:object>> ex:annotationPredicate ex:annotation

@@ -1,1 +1,1 @@
-move <http://example.org/targetClass> from <http://example.org/A> to <http://example.org/B>
+move ex:targetClass from ex:A to ex:B

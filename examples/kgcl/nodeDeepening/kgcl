@@ -1,1 +1,1 @@
-deepen <http://example.org/targetClass> from <http://example.org/superclass> to <http://example.org/subclass>
+deepen ex:targetClass from ex:superclass to ex:subclass
