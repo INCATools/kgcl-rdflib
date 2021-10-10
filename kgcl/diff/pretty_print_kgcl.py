@@ -68,7 +68,7 @@ def get_labels(graph):
     return entity_2_label
 
 
-def render_instances(kgcl, graph):
+def render_instances(kgcl_patch, graph):
     """
     Takes a KGCL patch for a graph and
     returns a more readable patch
@@ -76,15 +76,15 @@ def render_instances(kgcl, graph):
     """
     labelling = get_labels(graph)
 
-    pretty_print_kgcl = []
-    for k in kgcl:
+    pretty_print_kgcl_patch = []
+    for k in kgcl_patch:
         # print(k)
-        kgcl_instance = grammar.parser.parse_statement(k)
+        kgcl_instance = kgcl.grammar.parser.parse_statement(k)
         # print(render_instance(kgcl_instance, labelling))  # pretty print
         # render_instance(kgcl_instance, labelling)
-        pretty_print_kgcl.append(render_instance(kgcl_instance, labelling))
+        pretty_print_kgcl_patch.append(render_instance(kgcl_instance, labelling))
 
-    return pretty_print_kgcl
+    return pretty_print_kgcl_patch
 
 
 def has_label(entity, labelling):
