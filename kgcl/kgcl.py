@@ -1,7 +1,8 @@
 import click
-import grammar.parser
-import apply.graph_transformer
+import kgcl.grammar.parser
+import kgcl.apply.graph_transformer
 import rdflib
+from rdflib.util import guess_format
 
 import sys
 
@@ -33,9 +34,8 @@ def cli(config, graph, kgcl, output):
 
     # apply kgcl commands as SPARQL UPDATE queries to graph
     g = rdflib.Graph()
-    # TODO: change this to 'parse' in order to support all formats
-    # g.load(graph, format="nt")
-    g.parse(graph)  # , format="nt") #TODO: this doesn't always work
+    g.load(graph, format=guess_format(graph))
+    # g.parse(graph)  # , format="nt") #TODO: this doesn't always work
     apply.graph_transformer.apply_patch(parsed_patch, g)
 
     # save updated graph
