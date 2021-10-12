@@ -1,5 +1,5 @@
 # Auto generated from kgcl.yaml by pythongen.py version: 0.9.0
-# Generation date: 2021-09-25 20:26
+# Generation date: 2021-10-12 20:49
 # Schema: kgcl
 #
 # id: https://w3id.org/kgcl
@@ -1399,12 +1399,20 @@ class NodeAnnotationChange(NodeChange):
     class_model_uri: ClassVar[URIRef] = KGCL.NodeAnnotationChange
 
     id: Union[str, NodeAnnotationChangeId] = None
+    annotation_property: Optional[str] = None
+    annotation_property_type: Optional[str] = None
 
     def __post_init__(self, *_: List[str], **kwargs: Dict[str, Any]):
         if self._is_empty(self.id):
             self.MissingRequiredField("id")
         if not isinstance(self.id, NodeAnnotationChangeId):
             self.id = NodeAnnotationChangeId(self.id)
+
+        if self.annotation_property is not None and not isinstance(self.annotation_property, str):
+            self.annotation_property = str(self.annotation_property)
+
+        if self.annotation_property_type is not None and not isinstance(self.annotation_property_type, str):
+            self.annotation_property_type = str(self.annotation_property_type)
 
         super().__post_init__(**kwargs)
 
@@ -2293,6 +2301,12 @@ slots.predicate_type = Slot(uri=KGCL.predicate_type, name="predicate type", curi
 
 slots.in_subset = Slot(uri=KGCL.in_subset, name="in subset", curie=KGCL.curie('in_subset'),
                    model_uri=KGCL.in_subset, domain=None, range=Optional[Union[dict, OntologySubset]])
+
+slots.annotation_property = Slot(uri=KGCL.annotation_property, name="annotation property", curie=KGCL.curie('annotation_property'),
+                   model_uri=KGCL.annotation_property, domain=None, range=Optional[str])
+
+slots.annotation_property_type = Slot(uri=KGCL.annotation_property_type, name="annotation property type", curie=KGCL.curie('annotation_property_type'),
+                   model_uri=KGCL.annotation_property_type, domain=None, range=Optional[str])
 
 slots.change_description = Slot(uri=KGCL.change_description, name="change description", curie=KGCL.curie('change_description'),
                    model_uri=KGCL.change_description, domain=None, range=Optional[str])

@@ -7,6 +7,7 @@ from kgcl.model.kgcl import (
     NodeMove,
     NodeDeepening,
     NodeShallowing,
+    NodeAnnotationChange,
     EdgeCreation,
     EdgeDeletion,
     PredicateChange,
@@ -133,6 +134,9 @@ def convert(kgcl_instance):
     # node shallowing
     if type(kgcl_instance) is NodeShallowing:
         return node_shallowing(kgcl_instance)
+
+    if type(kgcl_instance) is NodeAnnotationChange:
+        return node_annotation_change(kgcl_instance)
 
     # edge creation
     if type(kgcl_instance) is EdgeCreation:
@@ -885,6 +889,115 @@ def create_node(kgcl_instance):
         where = "WHERE {" + whereQuery + "}"
 
     updateQuery = prefix + " " + insert + " " + where
+
+    return updateQuery
+
+
+def node_annotation_change(kgcl_instance):
+    subject = kgcl_instance.about_node
+    predicate = kgcl_instance.annotation_property
+    old_object = kgcl_instance.old_value
+    new_object = kgcl_instance.new_value
+
+    subject_type = kgcl_instance.about_node_representation
+    predicate_type = kgcl_instance.annotation_property_type
+    old_type = kgcl_instance.old_value_type
+    new_type = kgcl_instance.new_value_type
+
+    # TODO: allow language tags and datattypes for
+    # both the old and new annotation value
+    # language = kgcl_instance.language
+    # datatype = kgcl_instance.datatype
+
+    prefix = "PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>  "
+    prefix += "PREFIX owl: <http://www.w3.org/2002/07/owl#>  "
+
+    if subject_type == "curie":
+        prefix += build_curie_prefix(subject)
+
+    if predicate_type == "curie":
+        prefix += build_curie_prefix(predicate)
+
+    if old_type == "curie":
+        prefix += build_curie_prefix(old_object)
+
+    if new_type == "curie":
+        prefix += build_curie_prefix(new_object)
+
+        # todo: delete query
+    deleteQuery = "?subject ?predicate ?old_object . "
+
+    delete = "DELETE {" + deleteQuery + "}"
+
+    insertQuery = "?subject ?predicate ?new_object . "
+
+    insert = "INSERT {" + insertQuery + "}"
+
+    whereQuery = ""
+    if subject_type == "label":
+        whereQuery += "?subject rdfs:label ?subject_label . "
+        whereQuery += ' FILTER(STR(?subject_label)="' + subject + '") '
+    else:
+        whereQuery += " BIND(" + subject + " AS ?subject)"
+
+    if predicate_type == "label":
+        whereQuery += "?predicate rdfs:label ?predicate_label . "
+        whereQuery += ' FILTER(STR(?predicate_label)="' + predicate + '") '
+    else:
+        whereQuery += "?predicate rdf:type owl:AnnotationProperty . "
+        whereQuery += " BIND(" + predicate + " AS ?predicate)"
+
+    if old_type == "label":
+        whereQuery += "?old_object rdfs:label ?old_object_label . "
+        whereQuery += ' FILTER(STR(?old_object_label)="' + old_object + '") '
+
+    if old_type == "uri" or old_type == "curie":
+        whereQuery += " BIND(" + old_object + " AS ?old_object) "
+
+    if old_type == "literal":
+        old_object = escape_literal(old_object)
+        if datatype is not None:
+            whereQuery += (
+                ' BIND(STRDT("' + old_object + '",' + datatype + ") AS ?old_object) "
+            )
+        elif language is not None:
+            whereQuery += (
+                ' BIND(STRLANG("'
+                + old_object
+                + '","'
+                + language
+                + '") AS ?old_object) '
+            )
+        else:
+            whereQuery += ' BIND("' + old_object + '" AS ?old_object)'
+
+    if new_type == "label":
+        whereQuery += "?new_object rdfs:label ?new_object_label . "
+        whereQuery += ' FILTER(STR(?new_object_label)="' + new_object + '") '
+
+    if new_type == "uri" or old_type == "curie":
+        whereQuery += " BIND(" + new_object + " AS ?new_object) "
+
+    if new_type == "literal":
+        new_object = escape_literal(new_object)
+        if datatype is not None:
+            whereQuery += (
+                ' BIND(STRDT("' + new_object + '",' + datatype + ") AS ?new_object) "
+            )
+        elif language is not None:
+            whereQuery += (
+                ' BIND(STRLANG("'
+                + new_object
+                + '","'
+                + language
+                + '") AS ?new_object) '
+            )
+        else:
+            whereQuery += ' BIND("' + new_object + '" AS ?new_object)'
+
+    where = "WHERE { " + whereQuery + " }"
+
+    updateQuery = prefix + " " + delete + " " + insert + " " + where
 
     return updateQuery
 

@@ -8,6 +8,7 @@
            | deepen
            | shallow
            | change_relationship
+           | change_annotation
            | create_edge
            | delete_edge 
            | create_synonym 
@@ -49,6 +50,8 @@ create_annotated_edge : "create edge <<" entity_subject _WS entity_predicate _WS
 delete_annotated_edge : "delete edge <<" entity_subject _WS entity_predicate _WS entity_object ">>" _WS annotation_property _WS annotation
 
 change_relationship: "change relationship between" _WS entity_subject _WS "and" _WS entity_object _WS "from" _WS old_entity _WS "to" _WS new_entity 
+
+change_annotation: "change annotation of" _WS entity_subject _WS "with" _WS entity_predicate _WS "from" _WS old_entity _WS "to" _WS new_entity
 
 add_subsumption_axiom: "add" _WS subclass _WS "SubClassOf" _WS superclass
 add_existential_restriction_axiom: "add" _WS subclass _WS "SubClassOf" _WS property _WS "some" _WS filler

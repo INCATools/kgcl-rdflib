@@ -10,6 +10,7 @@ from kgcl.model.kgcl import (
     EdgeCreation,
     EdgeDeletion,
     PredicateChange,
+    NodeAnnotationChange,
     NodeCreation,
     ClassCreation,
     NewSynonym,
@@ -90,6 +91,8 @@ def parse_statement(input):
         return parse_delete_annotated_edge(tree, id)
     elif command == "change_relationship":
         return parse_change_relationship(tree, id)
+    elif command == "change_annotation":
+        return parse_change_annotation(tree, id)
     elif command == "create":
         return parse_create(tree, id)
     elif command == "create_class":
@@ -264,6 +267,37 @@ def parse_create(tree, id):
         node_id=term_id_token,
         name=label_token,
         language=language_token,
+    )
+
+
+def parse_change_annotation(tree, id):
+    subject_token = extract(tree, "entity_subject")
+    predicate_token = extract(tree, "entity_predicate")
+
+    subject, s_representation = get_entity_representation(subject_token)
+    predicate, p_representation = get_entity_representation(predicate_token)
+
+    old_token = extract(tree, "old_entity")
+    new_token = extract(tree, "new_entity")
+
+    old, old_representation = get_entity_representation(old_token)
+    new, new_representation = get_entity_representation(new_token)
+
+    # language_token = extract(tree, "language")
+    # datatype_token = extract(tree, "datatype")
+
+    return NodeAnnotationChange(
+        id=id,
+        about_node=subject,
+        about_node_representation=s_representation,
+        annotation_property=predicate,
+        annotation_property_type=p_representation,
+        old_value=old,
+        new_value=new,
+        old_value_type=old_representation,
+        new_value_type=new_representation,
+        # language=language_token,
+        # datatype=datatype_token,
     )
 
 
