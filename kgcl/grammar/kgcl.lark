@@ -14,14 +14,6 @@
            | create_synonym 
            | remove_from_subset
            | add_to_subset 
-           | create_annotated_edge
-           | delete_annotated_edge
-           | add_subsumption_axiom
-           | add_existential_restriction_axiom
-           | delete_subsumption_axiom
-           | delete_existential_restriction_axiom
-
-
 
 rename : "rename" _WS [id _WS "from" _WS] old_label ["@" old_language] _WS ("to"|"as"|"->") _WS new_label ["@" new_language]
 
@@ -43,21 +35,13 @@ shallow : "shallow" _WS entity _WS "from" _WS old_entity _WS ("to"|"->") _WS new
 
 move : "move" _WS entity_subject _WS entity_predicate _WS entity_object _WS "from" _WS old_entity _WS ("to"|"as"|"->") _WS new_entity 
 
-create_edge : "create edge" _WS entity_subject _WS entity_predicate _WS entity_object 
-delete_edge : "delete edge" _WS entity_subject _WS entity_predicate _WS entity_object 
-
-create_annotated_edge : "create edge <<" entity_subject _WS entity_predicate _WS entity_object ">>" _WS annotation_property _WS annotation 
-delete_annotated_edge : "delete edge <<" entity_subject _WS entity_predicate _WS entity_object ">>" _WS annotation_property _WS annotation
+create_edge : "create edge" _WS entity_subject _WS entity_predicate _WS entity_object_id
+delete_edge : "delete edge" _WS entity_subject _WS entity_predicate _WS entity_object_id 
 
 change_relationship: "change relationship between" _WS entity_subject _WS "and" _WS entity_object _WS "from" _WS old_entity _WS "to" _WS new_entity 
 
 change_annotation: "change annotation of" _WS entity_subject _WS "with" _WS entity_predicate _WS "from" _WS old_entity _WS "to" _WS new_entity
 
-add_subsumption_axiom: "add" _WS subclass _WS "SubClassOf" _WS superclass
-add_existential_restriction_axiom: "add" _WS subclass _WS "SubClassOf" _WS property _WS "some" _WS filler
-
-delete_subsumption_axiom: "delete" _WS subclass _WS "SubClassOf" _WS superclass
-delete_existential_restriction_axiom: "delete" _WS subclass _WS "SubClassOf" _WS property _WS "some" _WS filler
 
 remove_from_subset :  "remove" _WS id _WS "from subset" _WS subset
 add_to_subset :  "add" _WS id _WS "to subset" _WS subset
@@ -102,6 +86,7 @@ old_entity: _entity
 new_entity: _entity
 entity_subject: _entity
 entity_predicate: _entity
+entity_object_id: _entity
 entity_object: _entity
               | TERM ["@" language | datatype] 
 

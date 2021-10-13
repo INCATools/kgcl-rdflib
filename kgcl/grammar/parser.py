@@ -85,10 +85,6 @@ def parse_statement(input):
         return parse_create_edge(tree, id)
     elif command == "delete_edge":
         return parse_delete_edge(tree, id)
-    elif command == "create_annotated_edge":
-        return parse_create_annotated_edge(tree, id)
-    elif command == "delete_annotated_edge":
-        return parse_delete_annotated_edge(tree, id)
     elif command == "change_relationship":
         return parse_change_relationship(tree, id)
     elif command == "change_annotation":
@@ -99,14 +95,6 @@ def parse_statement(input):
         return parse_create_class(tree, id)
     elif command == "create_synonym":
         return parse_create_synonym(tree, id)
-    elif command == "add_subsumption_axiom":
-        return parse_add_subsumption_axiom(tree, id)
-    elif command == "delete_subsumption_axiom":
-        return parse_delete_subsumption_axiom(tree, id)
-    elif command == "add_existential_restriction_axiom":
-        return parse_add_existential_restriction_axiom(tree, id)
-    elif command == "delete_existential_restriction_axiom":
-        return parse_delete_existential_restriction_axiom(tree, id)
     elif command == "remove_from_subset":
         return parse_remove_from_subset(tree, id)
     else:
@@ -142,82 +130,6 @@ def parse_remove_from_subset(tree, id):
 
     return RemovedNodeFromSubset(
         id=id, subset=subset_id_token, about_node=term_id_token
-    )
-
-
-def parse_delete_existential_restriction_axiom(tree, id):
-    subclass_token = extract(tree, "subclass")
-    property_token = extract(tree, "property")
-    filler_token = extract(tree, "filler")
-
-    subclass, s_representation = get_entity_representation(subclass_token)
-    property, p_representation = get_entity_representation(property_token)
-    filler, f_representation = get_entity_representation(filler_token)
-
-    return ExistentialRestrictionDeletion(
-        id=id,
-        subclass=subclass,
-        property=property,
-        filler=filler,
-        subclass_type=s_representation,
-        property_type=p_representation,
-        filler_type=f_representation,
-    )
-
-
-def parse_add_existential_restriction_axiom(tree, id):
-    subclass_token = extract(tree, "subclass")
-    property_token = extract(tree, "property")
-    filler_token = extract(tree, "filler")
-
-    subclass, s_representation = get_entity_representation(subclass_token)
-    property, p_representation = get_entity_representation(property_token)
-    filler, f_representation = get_entity_representation(filler_token)
-
-    return ExistentialRestrictionCreation(
-        id=id,
-        subclass=subclass,
-        property=property,
-        filler=filler,
-        subclass_type=s_representation,
-        property_type=p_representation,
-        filler_type=f_representation,
-    )
-
-
-def parse_delete_subsumption_axiom(tree, id):
-    subclass_token = extract(tree, "subclass")
-    superclass_token = extract(tree, "superclass")
-
-    subclass, sub_representation = get_entity_representation(subclass_token)
-    superclass, sup_representation = get_entity_representation(superclass_token)
-
-    # TODO the hardcoded owl:subClassOf should be part of the data model
-    return RemoveUnder(
-        id=id,
-        subject=subclass,
-        predicate="<http://www.w3.org/2000/01/rdf-schema#subClassOf>",
-        object=superclass,
-        subject_type=sub_representation,
-        object_type=sup_representation,
-    )
-
-
-def parse_add_subsumption_axiom(tree, id):
-    subclass_token = extract(tree, "subclass")
-    superclass_token = extract(tree, "superclass")
-
-    subclass, sub_representation = get_entity_representation(subclass_token)
-    superclass, sup_representation = get_entity_representation(superclass_token)
-
-    # TODO the hardcoded owl:subClassOf should be part of the data model
-    return PlaceUnder(
-        id=id,
-        subject=subclass,
-        predicate="<http://www.w3.org/2000/01/rdf-schema#subClassOf>",
-        object=superclass,
-        subject_type=sub_representation,
-        object_type=sup_representation,
     )
 
 
@@ -338,126 +250,72 @@ def parse_change_relationship(tree, id):
     )
 
 
-def parse_delete_annotated_edge(tree, id):
-    subject_token = extract(tree, "entity_subject")
-    predicate_token = extract(tree, "entity_predicate")
-    object_token = extract(tree, "entity_object")
-
-    subject, s_representation = get_entity_representation(subject_token)
-    predicate, p_representation = get_entity_representation(predicate_token)
-    object, o_representation = get_entity_representation(object_token)
-
-    annotation_property_token = extract(tree, "annotation_property")
-    annotation_token = extract(tree, "annotation")
-
-    annotation_property, prop_representation = get_entity_representation(
-        annotation_property_token
-    )
-    annotation, a_representation = get_entity_representation(annotation_token)
-
-    annotation_set = Annotation(
-        property=annotation_property,
-        filler=annotation,
-        property_type=prop_representation,
-        filler_type=a_representation,
-    )
-
-    return EdgeDeletion(
-        id=id,
-        subject=subject,
-        predicate=predicate,
-        object=object,
-        subject_type=s_representation,
-        predicate_type=p_representation,
-        object_type=o_representation,
-        annotation_set=annotation_set,
-    )
-
-
-def parse_create_annotated_edge(tree, id):
-    subject_token = extract(tree, "entity_subject")
-    predicate_token = extract(tree, "entity_predicate")
-    object_token = extract(tree, "entity_object")
-
-    subject, s_representation = get_entity_representation(subject_token)
-    predicate, p_representation = get_entity_representation(predicate_token)
-    object, o_representation = get_entity_representation(object_token)
-
-    annotation_property_token = extract(tree, "annotation_property")
-    annotation_token = extract(tree, "annotation")
-
-    annotation_property, prop_representation = get_entity_representation(
-        annotation_property_token
-    )
-    annotation, a_representation = get_entity_representation(annotation_token)
-
-    annotation_set = Annotation(
-        property=annotation_property,
-        filler=annotation,
-        property_type=prop_representation,
-        filler_type=a_representation,
-    )
-
-    return EdgeCreation(
-        id=id,
-        subject=subject,
-        predicate=predicate,
-        object=object,
-        subject_type=s_representation,
-        predicate_type=p_representation,
-        object_type=o_representation,
-        annotation_set=annotation_set,
-    )
-
-
 def parse_delete_edge(tree, id):
     subject_token = extract(tree, "entity_subject")
     predicate_token = extract(tree, "entity_predicate")
-    object_token = extract(tree, "entity_object")
+    object_token = extract(tree, "entity_object_id")
 
     subject, s_representation = get_entity_representation(subject_token)
     predicate, p_representation = get_entity_representation(predicate_token)
     object, o_representation = get_entity_representation(object_token)
 
-    language_token = extract(tree, "language")
-    datatype_token = extract(tree, "datatype")
-
-    return EdgeDeletion(
-        id=id,
-        subject=subject,
-        predicate=predicate,
-        object=object,
-        subject_type=s_representation,
-        predicate_type=p_representation,
-        object_type=o_representation,
-        language=language_token,
-        datatype=datatype_token,
-    )
+    if (
+        predicate == "rdfs:subClassOf"
+        or predicate == "<http://www.w3.org/2000/01/rdf-schema#subClassOf>"
+    ):
+        return RemoveUnder(
+            id=id,
+            subject=subject,
+            predicate=predicate,
+            object=object,
+            subject_type=s_representation,
+            predicate_type=p_representation,
+            object_type=o_representation,
+        )
+    else:
+        return EdgeDeletion(
+            id=id,
+            subject=subject,
+            predicate=predicate,
+            object=object,
+            subject_type=s_representation,
+            predicate_type=p_representation,
+            object_type=o_representation,
+        )
 
 
 def parse_create_edge(tree, id):
     subject_token = extract(tree, "entity_subject")
     predicate_token = extract(tree, "entity_predicate")
-    object_token = extract(tree, "entity_object")
+    object_token = extract(tree, "entity_object_id")
 
     subject, s_representation = get_entity_representation(subject_token)
     predicate, p_representation = get_entity_representation(predicate_token)
     object, o_representation = get_entity_representation(object_token)
 
-    language_token = extract(tree, "language")
-    datatype_token = extract(tree, "datatype")
-
-    return EdgeCreation(
-        id=id,
-        subject=subject,
-        predicate=predicate,
-        object=object,
-        subject_type=s_representation,
-        predicate_type=p_representation,
-        object_type=o_representation,
-        language=language_token,
-        datatype=datatype_token,
-    )
+    if (
+        predicate == "rdfs:subClassOf"
+        or predicate == "<http://www.w3.org/2000/01/rdf-schema#subClassOf>"
+    ):
+        return PlaceUnder(
+            id=id,
+            subject=subject,
+            predicate=predicate,
+            object=object,
+            subject_type=s_representation,
+            predicate_type=p_representation,
+            object_type=o_representation,
+        )
+    else:
+        return EdgeCreation(
+            id=id,
+            subject=subject,
+            predicate=predicate,
+            object=object,
+            subject_type=s_representation,
+            predicate_type=p_representation,
+            object_type=o_representation,
+        )
 
 
 def parse_shallow(tree, id):

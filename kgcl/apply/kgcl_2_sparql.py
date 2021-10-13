@@ -138,26 +138,6 @@ def convert(kgcl_instance):
     if type(kgcl_instance) is NodeAnnotationChange:
         return node_annotation_change(kgcl_instance)
 
-    # edge creation
-    if type(kgcl_instance) is EdgeCreation:
-        if kgcl_instance.annotation_set is None:
-            return edge_creation(kgcl_instance)
-        else:
-            return edge_annotation_creation(kgcl_instance)
-
-    if type(kgcl_instance) is PlaceUnder:
-        return edge_creation(kgcl_instance)
-
-    if type(kgcl_instance) is RemoveUnder:
-        return edge_deletion(kgcl_instance)
-
-    # edge deletion
-    if type(kgcl_instance) is EdgeDeletion:
-        if kgcl_instance.annotation_set is None:
-            return edge_deletion(kgcl_instance)
-        else:
-            return edge_annotation_deletion(kgcl_instance)
-
     # node move
     if type(kgcl_instance) is NodeMove:
         return node_move(kgcl_instance)
@@ -179,10 +159,16 @@ def convert(kgcl_instance):
         if is_id(kgcl_instance.about_node) and is_id(kgcl_instance.subset):
             return remove_node_from_subset(kgcl_instance)
 
-    if type(kgcl_instance) is ExistentialRestrictionCreation:
+    if type(kgcl_instance) is PlaceUnder:
+        return triple_creation(kgcl_instance)
+
+    if type(kgcl_instance) is RemoveUnder:
+        return triple_deletion(kgcl_instance)
+
+    if type(kgcl_instance) is EdgeCreation:
         return create_existential_restriction(kgcl_instance)
 
-    if type(kgcl_instance) is ExistentialRestrictionDeletion:
+    if type(kgcl_instance) is EdgeDeletion:
         return delete_existential_restriction(kgcl_instance)
 
 
@@ -1087,7 +1073,7 @@ def edge_annotation_creation(kgcl_instance):
     return updateQuery
 
 
-def edge_creation(kgcl_instance):
+def triple_creation(kgcl_instance):
     subject = kgcl_instance.subject
     predicate = kgcl_instance.predicate
     object = kgcl_instance.object
@@ -1306,7 +1292,7 @@ def edge_annotation_deletion(kgcl_instance):
     return updateQuery
 
 
-def edge_deletion(kgcl_instance):
+def triple_deletion(kgcl_instance):
     subject = kgcl_instance.subject
     predicate = kgcl_instance.predicate
     object = kgcl_instance.object
@@ -1648,13 +1634,13 @@ def new_synonym_for_curie(kgcl_instance):
 
 
 def create_existential_restriction(kgcl_instance):
-    subclass = kgcl_instance.subclass
-    property = kgcl_instance.property
-    filler = kgcl_instance.filler
+    subclass = kgcl_instance.subject
+    property = kgcl_instance.predicate
+    filler = kgcl_instance.object
 
-    subclass_type = kgcl_instance.subclass_type
-    property_type = kgcl_instance.property_type
-    filler_type = kgcl_instance.filler_type
+    subclass_type = kgcl_instance.subject_type
+    property_type = kgcl_instance.predicate_type
+    filler_type = kgcl_instance.object_type
 
     prefix = "PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>  "
     prefix += "PREFIX owl: <http://www.w3.org/2002/07/owl#>  "
@@ -1702,13 +1688,13 @@ def create_existential_restriction(kgcl_instance):
 
 
 def delete_existential_restriction(kgcl_instance):
-    subclass = kgcl_instance.subclass
-    property = kgcl_instance.property
-    filler = kgcl_instance.filler
+    subclass = kgcl_instance.subject
+    property = kgcl_instance.predicate
+    filler = kgcl_instance.object
 
-    subclass_type = kgcl_instance.subclass_type
-    property_type = kgcl_instance.property_type
-    filler_type = kgcl_instance.filler_type
+    subclass_type = kgcl_instance.subject_type
+    property_type = kgcl_instance.predicate_type
+    filler_type = kgcl_instance.object_type
 
     prefix = "PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>  "
     prefix += "PREFIX owl: <http://www.w3.org/2002/07/owl#>  "
