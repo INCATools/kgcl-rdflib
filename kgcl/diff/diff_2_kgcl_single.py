@@ -25,6 +25,7 @@ from kgcl.diff.change_detection import (
     detect_renamings,
     detect_node_moves,
     detect_predicate_changes,
+    detect_annotation_changes,
 )
 
 from kgcl.diff.render_operations import render
@@ -60,8 +61,7 @@ class SingleTripleChangeSummary:
         self.predicate_changes = []
         self.node_moves = []
         self.synonym_creations = []
-        self.edge_creations = []
-        self.edge_deletions = []
+        self.annotation_changes = []
 
         # RDF data
         self.covered_triples_renamings = []
@@ -73,11 +73,13 @@ class SingleTripleChangeSummary:
         self.covered_triples_synonym_creations = []
         self.covered_triples_edge_creations = []
         self.covered_triples_edge_deletions = []
+        self.covered_triples_annotation_changes = []
 
         # non-deterministic data
         self.non_deterministic_node_moves = []
         self.non_deterministic_predicate_changes = []
         self.non_deterministic_renamings = []
+        self.non_deterministic_annotation_changes = []
 
     def get_commands(self):
         kgcl_commands = []
@@ -87,10 +89,6 @@ class SingleTripleChangeSummary:
             kgcl_commands.append(k)
         for k in self.predicate_changes:
             kgcl_commands.append(k)
-        for k in self.edge_creations:
-            kgcl_commands.append(k)
-        for k in self.edge_deletions:
-            kgcl_commands.append(k)
         for k in self.renamings:
             kgcl_commands.append(k)
         for k in self.class_creations:
@@ -98,6 +96,8 @@ class SingleTripleChangeSummary:
         for k in self.subsumption_creations:
             kgcl_commands.append(k)
         for k in self.subsumption_deletions:
+            kgcl_commands.append(k)
+        for k in self.annotation_changes:
             kgcl_commands.append(k)
 
         return kgcl_commands
@@ -123,11 +123,8 @@ class SingleTripleChangeSummary:
     def get_synonym_creations(self):
         return self.synonym_creations
 
-    def get_edge_creations(self):
-        return self.edge_creations
-
-    def get_edge_deletions(self):
-        return self.edge_deletions
+    def get_annotation_changes(self):
+        return self.annotation_changes
 
     def get_summary_KGCL_commands(self):
         out = (
@@ -154,11 +151,8 @@ class SingleTripleChangeSummary:
             + "SynonymCreations: "
             + str(len(self.synonym_creations))
             + "\n"
-            + "EdgeCreations: "
-            + str(len(self.edge_creations))
-            + "\n"
-            + "EdgeDeletions: "
-            + str(len(self.edge_deletions))
+            + "NodeAnnotationChanges: "
+            + str(len(self.annotation_changes))
             + "\n"
         )
         return out
@@ -188,11 +182,8 @@ class SingleTripleChangeSummary:
             + "SynonymCreations: "
             + str(len(self.covered_triples_synonym_creations))
             + "\n"
-            + "EdgeCreations: "
-            + str(len(self.covered_triples_edge_creations))
-            + "\n"
-            + "EdgeDeletions: "
-            + str(len(self.covered_triples_edge_deletions))
+            + "NodeAnnotationChanges: "
+            + str(len(self.covered_triples_annotation_changes))
             + "\n"
         )
         return out
@@ -248,19 +239,12 @@ class SingleTripleChangeSummary:
         for t in triples:
             self.covered_triples_synonym_creations.append(t)
 
-    def get_covered_triples_edge_creations(self):
-        return self.covered_triples_edge_creations
+    def get_covered_triples_annotation_changes(self):
+        return self.covered_triples_annotation_changes
 
-    def add_covered_triples_edge_creations(self, triples):
+    def add_covered_triples_annotation_changes(self, triples):
         for t in triples:
-            self.covered_triples_edge_creations.append(t)
-
-    def get_covered_triples_edge_deletions(self):
-        return self.covered_triples_edge_deletions
-
-    def add_covered_triples_edge_deletions(self, triples):
-        for t in triples:
-            self.covered_triples_edge_deletions.append(t)
+            self.covered_triples_annotation_changes.append(t)
 
     # KGCL data
 
@@ -315,6 +299,9 @@ class SingleTripleChangeSummary:
     def add_synonym_creation(self, i):
         self.synonym_creations.append(i)
 
+    def add_annotation_change(self, i):
+        self.annotation_changes.append(i)
+
     # non-deterministic data
     def add_non_deterministic_node_moves(self, ls):
         self.non_deterministic_node_moves += ls
@@ -325,6 +312,9 @@ class SingleTripleChangeSummary:
     def add_non_deterministic_renamings(self, ls):
         self.non_deterministic_renamings += ls
 
+    def add_non_deterministic_annotation_changes(self, ls):
+        self.non_deterministic_annotation_changes += ls
+
     def get_non_deterministic_node_moves(self):
         return self.non_deterministic_node_moves
 
@@ -333,6 +323,9 @@ class SingleTripleChangeSummary:
 
     def get_non_deterministic_renamings(self):
         return self.non_deterministic_renamings
+
+    def get_non_deterministic_annotation_changes(self):
+        return self.non_deterministic_annotation_changes
 
 
 def generate_thin_triple_commands(g1, g2):
@@ -393,11 +386,16 @@ def generate_thin_triple_commands(g1, g2):
     summary.add_covered_triples_class_creations(covered)
     added = added - covered
 
-    # everything else
-    edge_creations, covered = generate_edge_creations(added)
-    summary.add_covered_triples_edge_creations(covered)
-    edge_deletions, covered = generate_edge_deletions(deleted)
-    summary.add_covered_triples_edge_deletions(covered)
+    # create annotation changes
+    old_annotation_properties = get_annotation_properties(g1)
+    new_annotation_properties = get_annotation_properties(g2)
+    annotation_changes, covered, non_deterministic = detect_annotation_changes(
+        added, deleted, new_annotation_properties, old_annotation_properties
+    )
+    summary.add_covered_triples_annotation_changes(covered)
+    summary.add_non_deterministic_annotation_changes(non_deterministic)
+    added = added - covered
+    deleted = deleted - covered
 
     for s in synonym_additions:
         summary.add_synonym_creation(render(s))
@@ -413,12 +411,17 @@ def generate_thin_triple_commands(g1, g2):
         summary.add_subsumption_deletion(render(s))
     for r in renamings:
         summary.add_renaming(render(r))
-    for e in edge_creations:
-        summary.add_edge_creation(render(e))
-    for e in edge_deletions:
-        summary.add_edge_deletion(render(e))
+    for c in annotation_changes:
+        summary.add_annotation_change(render(c))
 
     return summary
+
+
+def get_annotation_properties(graph):
+    properties = set()
+    for s, p, o in graph.triples((None, RDF.type, OWL.AnnotationProperty)):
+        properties.add(s)
+    return properties
 
 
 def get_type(rdf_entity):
@@ -599,63 +602,6 @@ def generate_subsumption_deletions(deleted):
             subject=subclass,
             predicate="<http://www.w3.org/2000/01/rdf-schema#subClassOf>",
             object=superclass,
-        )
-
-        kgcl.append(node)
-        covered.add((s, p, o))
-
-    return kgcl, covered
-
-
-def generate_edge_creations(added):
-    covered = rdflib.Graph()
-
-    kgcl = []
-    for s, p, o in added:
-
-        id = "test_id_" + str(next(id_gen))
-        object_type = get_type(o)
-        language_tag = get_language_tag(o)
-        datatype = get_datatype(o)
-        if datatype is not None:
-            datatype = "<" + datatype + ">"  # expect data types without curies
-
-        node = EdgeCreation(
-            id=id,
-            subject=str(s),
-            predicate=str(p),
-            object=str(o),
-            object_type=str(object_type),
-            language=language_tag,
-            datatype=datatype,
-        )
-
-        kgcl.append(node)
-        covered.add((s, p, o))
-
-    return kgcl, covered
-
-
-def generate_edge_deletions(deleted):
-    covered = rdflib.Graph()
-    kgcl = []
-    for s, p, o in deleted:
-
-        id = "test_id_" + str(next(id_gen))
-        object_type = get_type(o)
-        language_tag = get_language_tag(o)
-        datatype = get_datatype(o)
-        if datatype is not None:
-            datatype = "<" + datatype + ">"
-
-        node = EdgeDeletion(
-            id=id,
-            subject=str(s),
-            predicate=str(p),
-            object=str(o),
-            object_type=object_type,
-            language=language_tag,
-            datatype=datatype,
         )
 
         kgcl.append(node)

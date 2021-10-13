@@ -1,4 +1,3 @@
-import kgcl.diff.diff_2_kgcl_triple_annotation as annotation
 import rdflib
 from datetime import datetime
 from kgcl.diff.pretty_print_kgcl import render_instances
@@ -31,15 +30,12 @@ def run(ingraph, outgraph, output):
     # compute diff
     existential_summary = existential.generate_atomic_existential_commands(g1, g2)
     print(ts() + "Generated Diff for Existentials")
-    triple_annotation_summary = annotation.generate_triple_annotation_commands(g1, g2)
-    print(ts() + "Generated Diff for Triple Annotations")
     single_triple_summary = single.generate_thin_triple_commands(g1, g2)
     print(ts() + "Generated Diff for Thin Triples")
 
     # write summary report
     with open(output + "/kgcl_summary.txt", "w") as f:
         f.write(existential_summary.get_summary_KGCL_commands())
-        f.write(triple_annotation_summary.get_summary_KGCL_commands())
         f.write(single_triple_summary.get_summary_KGCL_commands())
 
     # write non-deterministic diff report
@@ -48,6 +44,9 @@ def run(ingraph, outgraph, output):
         single_triple_summary.get_non_deterministic_predicate_changes()
     )
     nd_renamings = single_triple_summary.get_non_deterministic_renamings()
+    nd_annotation_changes = (
+        single_triple_summary.get_non_deterministic_annotation_changes()
+    )
 
     non_deterministic_folder = os.path.join(output, "non_deterministic")
     os.mkdir(non_deterministic_folder)
@@ -57,10 +56,11 @@ def run(ingraph, outgraph, output):
         f.write(render_non_deterministic_diff(nd_predicate_changes))
     with open(non_deterministic_folder + "/renamings.txt", "w") as f:
         f.write(render_non_deterministic_diff(nd_renamings))
+    with open(non_deterministic_folder + "/annotation_changes.txt", "w") as f:
+        f.write(render_non_deterministic_diff(nd_annotation_changes))
 
     # get KGCL commands
     kgcl_commands = existential_summary.get_commands()
-    kgcl_commands += triple_annotation_summary.get_commands()
     kgcl_commands += single_triple_summary.get_commands()
 
     # write KGCL commands
@@ -80,16 +80,6 @@ def run(ingraph, outgraph, output):
 
     with open(patch_folder + "/existential_deletions.txt", "w") as f:
         for k in existential_summary.get_existential_deletions():
-            f.write(k)
-            f.write("\n")
-
-    with open(patch_folder + "/triple_annotation_additions.txt", "w") as f:
-        for k in triple_annotation_summary.get_triple_annotation_additions():
-            f.write(k)
-            f.write("\n")
-
-    with open(patch_folder + "/triple_annotation_deletions.txt", "w") as f:
-        for k in triple_annotation_summary.get_triple_annotation_deletions():
             f.write(k)
             f.write("\n")
 
@@ -128,16 +118,12 @@ def run(ingraph, outgraph, output):
             f.write(k)
             f.write("\n")
 
-    with open(patch_folder + "/edge_creations.txt", "w") as f:
-        for k in single_triple_summary.get_edge_creations():
+    with open(patch_folder + "/node_annotation_changes.txt", "w") as f:
+        for k in single_triple_summary.get_annotation_changes():
             f.write(k)
             f.write("\n")
 
-    with open(patch_folder + "/edge_deletions.txt", "w") as f:
-        for k in single_triple_summary.get_edge_deletions():
-            f.write(k)
-            f.write("\n")
-
+    # TODO pretty printing
     pp_kgcl_commands = render_instances(kgcl_commands, g1)
     with open(output + "/pp_patch.kgcl", "w") as f:
         for a in pp_kgcl_commands:

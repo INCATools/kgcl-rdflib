@@ -5,6 +5,7 @@ from kgcl.model.kgcl import (
     NodeRename,
     NodeObsoletion,
     NodeUnobsoletion,
+    NodeAnnotationChange,
     NodeDeletion,
     NodeMove,
     NodeDeepening,
@@ -107,6 +108,100 @@ def detect_renamings(added, deleted):
 
                 covered.add((subject, RDFS.label, new))
                 covered.add((subject, RDFS.label, old))
+
+    return kgcl, covered, nonDeterministic
+
+
+def detect_annotation_changes(added, deleted, new_annotations, old_annotations):
+    covered = rdflib.Graph()
+
+    # maps from subjects to lists of annotation properties
+    s_2_aps_deleted = {}
+    s_2_aps_added = {}
+
+    kgcl = []
+    for s, p, o in added:
+        if p in new_annotations:
+            if s not in s_2_aps_added:
+                s_2_aps_added[s] = []
+            s_2_aps_added[s].append(p)
+
+    for s, p, o in deleted:
+        if p in old_annotations:
+            if s not in s_2_aps_deleted:
+                s_2_aps_deleted[s] = []
+            s_2_aps_deleted[s].append(p)
+
+    kgcl = []
+    nonDeterministic = []  # list of non-deterministic choices
+    for s in s_2_aps_added:
+        if s in s_2_aps_deleted:
+
+            # get properties as sets
+            added_properties = set(s_2_aps_added[s])
+            deleted_properties = set(s_2_aps_deleted[s])
+
+            # get intersection of relevant objects
+            shared_properties = added_properties & deleted_properties
+
+            for i in shared_properties:
+                # get corresponding predicates
+                changed_to = set()
+                changed_from = set()
+                for s, p, o in added.triples((s, i, None)):
+                    changed_to.add((s, p, o))
+                for s, p, o in deleted.triples((s, i, None)):
+                    changed_from.add((s, p, o))
+
+                if len(changed_to) > 1 or len(changed_from) > 1:
+                    nonDeterministic.append((set(changed_from), set(changed_to)))
+
+                # match potential annotation changes
+                m = min(len(changed_to), len(changed_from))
+
+                for x in range(m):
+                    id = "test_id_" + str(next(id_gen))
+                    old = (changed_from.pop())[2]
+                    new = (changed_to.pop())[2]
+
+                    old_language = None
+                    old_datatype = None
+                    if isinstance(old, Literal):
+                        old_language = old.language
+                        old_datatype = old.datatype
+                        if old_datatype is not None:
+                            old_datatype = (
+                                "<" + old_datatype + ">"
+                            )  # expect data types without curies
+
+                    new_language = None
+                    new_datatype = None
+                    if isinstance(new, Literal):
+                        new_language = new.language
+                        new_datatype = new.datatype
+                        if new_datatype is not None:
+                            new_datatype = (
+                                "<" + new_datatype + ">"
+                            )  # expect data types without curies
+
+                    change = NodeAnnotationChange(
+                        id=id,
+                        about_node=str(s),
+                        about_node_representation=get_type(s),
+                        annotation_property=str(i),
+                        annotation_property_type=get_type(i),
+                        old_value=str(old),
+                        new_value=str(new),
+                        old_value_type=get_type(old),
+                        new_value_type=get_type(new),
+                        old_language=old_language,
+                        new_language=new_language,
+                        old_datatype=old_datatype,
+                        new_datatype=new_datatype,
+                    )
+                    kgcl.append(change)
+                    covered.add((s, i, old))
+                    covered.add((s, i, new))
 
     return kgcl, covered, nonDeterministic
 

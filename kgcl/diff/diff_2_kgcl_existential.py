@@ -16,8 +16,6 @@ from kgcl.model.kgcl import (
     RemoveUnder,
     NewSynonym,
     RemovedNodeFromSubset,
-    ExistentialRestrictionCreation,
-    ExistentialRestrictionDeletion,
 )
 from kgcl.diff.graph_diff import (
     get_added_existentials,
@@ -64,21 +62,17 @@ class ExistentialChangeSummary:
 
     def get_summary_KGCL_commands(self):
         out = (
-            "ExistentialRestrictionCreations: "
-            + str(len(self.existential_additions))
-            + "\n"
-            "ExistentialRestrictionDeletions: "
-            + str(len(self.existential_deletions))
-            + "\n"
+            "EdgeCreation (existential): " + str(len(self.existential_additions)) + "\n"
+            "EdgeDeletion (existential): " + str(len(self.existential_deletions)) + "\n"
         )
         return out
 
     def get_summary_RDF_triples(self):
         out = (
-            "ExistentialRestrictionCreations"
+            "EdgeCreation (existential)"
             + str(len(self.covered_triples_triple_existential_additions))
             + "\n"
-            "ExistentialRestrictionDeletions"
+            "EdgeDeletion (existential)"
             + str(len(self.covered_triples_triple_existential_deletions))
             + "\n"
         )
@@ -112,8 +106,7 @@ class ExistentialChangeSummary:
 def generate_atomic_existential_commands(g1, g2):
     """
     Given two graphs g1 and g2,
-    return all ExistentialRestrictionCreation and
-    ExistentialRestrictionDeletion to account for their diff.
+    return all edge creations and edge deletions.
     """
     summary = ExistentialChangeSummary()
 
@@ -136,7 +129,7 @@ def generate_atomic_existential_commands(g1, g2):
 
 def generate_existential_deletions(deleted):
     """
-    Return ExistentialRestrictionDeletion instances for given (deleted) triples.
+    Return EdgeDeletion instances for given (deleted) triples.
     """
     covered = rdflib.Graph()
     kgcl = []
@@ -148,8 +141,14 @@ def generate_existential_deletions(deleted):
 
         id = "test_id_" + str(next(id_gen))
 
-        node = ExistentialRestrictionDeletion(
-            id=id, subclass=subclass, property=property, filler=filler
+        node = EdgeDeletion(
+            id=id,
+            subject=subclass,
+            predicate=property,
+            object=filler,
+            subject_type="uri",
+            predicate_type="uri",
+            object_type="uri",
         )
 
         kgcl.append(node)
@@ -161,7 +160,7 @@ def generate_existential_deletions(deleted):
 
 def generate_existential_additions(added):
     """
-    Return ExistentialRestrictionCreation instances for given (added) triples.
+    Return EdgeCreation instances for given (added) triples.
     """
     covered = rdflib.Graph()
     kgcl = []
@@ -173,8 +172,14 @@ def generate_existential_additions(added):
 
         id = "test_id_" + str(next(id_gen))
 
-        node = ExistentialRestrictionCreation(
-            id=id, subclass=subclass, property=property, filler=filler
+        node = EdgeCreation(
+            id=id,
+            subject=subclass,
+            predicate=property,
+            object=filler,
+            subject_type="uri",
+            predicate_type="uri",
+            object_type="uri",
         )
 
         kgcl.append(node)

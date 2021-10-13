@@ -17,8 +17,6 @@ from kgcl.model.kgcl import (
     RemovedNodeFromSubset,
     PlaceUnder,
     RemoveUnder,
-    ExistentialRestrictionCreation,
-    ExistentialRestrictionDeletion,
 )
 
 
@@ -892,8 +890,10 @@ def node_annotation_change(kgcl_instance):
 
     # TODO: allow language tags and datattypes for
     # both the old and new annotation value
-    # language = kgcl_instance.language
-    # datatype = kgcl_instance.datatype
+    old_language = kgcl_instance.old_language
+    new_language = kgcl_instance.new_language
+    old_datatype = kgcl_instance.old_datatype
+    new_datatype = kgcl_instance.new_datatype
 
     prefix = "PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>  "
     prefix += "PREFIX owl: <http://www.w3.org/2002/07/owl#>  "
@@ -942,16 +942,20 @@ def node_annotation_change(kgcl_instance):
 
     if old_type == "literal":
         old_object = escape_literal(old_object)
-        if datatype is not None:
+        if old_datatype is not None:
             whereQuery += (
-                ' BIND(STRDT("' + old_object + '",' + datatype + ") AS ?old_object) "
+                ' BIND(STRDT("'
+                + old_object
+                + '",'
+                + old_datatype
+                + ") AS ?old_object) "
             )
-        elif language is not None:
+        elif old_language is not None:
             whereQuery += (
                 ' BIND(STRLANG("'
                 + old_object
                 + '","'
-                + language
+                + old_language
                 + '") AS ?old_object) '
             )
         else:
@@ -966,16 +970,20 @@ def node_annotation_change(kgcl_instance):
 
     if new_type == "literal":
         new_object = escape_literal(new_object)
-        if datatype is not None:
+        if new_datatype is not None:
             whereQuery += (
-                ' BIND(STRDT("' + new_object + '",' + datatype + ") AS ?new_object) "
+                ' BIND(STRDT("'
+                + new_object
+                + '",'
+                + new_datatype
+                + ") AS ?new_object) "
             )
-        elif language is not None:
+        elif new_language is not None:
             whereQuery += (
                 ' BIND(STRLANG("'
                 + new_object
                 + '","'
-                + language
+                + new_language
                 + '") AS ?new_object) '
             )
         else:

@@ -17,8 +17,6 @@ from kgcl.model.kgcl import (
     RemoveUnder,
     NewSynonym,
     RemovedNodeFromSubset,
-    ExistentialRestrictionCreation,
-    ExistentialRestrictionDeletion,
 )
 from kgcl.diff.graph_diff import (
     get_added_triple_annotations,

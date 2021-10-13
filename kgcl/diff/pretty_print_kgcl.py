@@ -7,6 +7,7 @@ from kgcl.model.kgcl import (
     NodeMove,
     NodeDeepening,
     NodeShallowing,
+    NodeAnnotationChange,
     EdgeCreation,
     EdgeDeletion,
     PredicateChange,
@@ -16,8 +17,6 @@ from kgcl.model.kgcl import (
     PlaceUnder,
     RemoveUnder,
     RemovedNodeFromSubset,
-    ExistentialRestrictionCreation,
-    ExistentialRestrictionDeletion,
 )
 import kgcl.grammar.parser
 
@@ -78,9 +77,7 @@ def render_instances(kgcl_patch, graph):
 
     pretty_print_kgcl_patch = []
     for k in kgcl_patch:
-        # print(k)
         kgcl_instance = kgcl.grammar.parser.parse_statement(k)
-        # print(render_instance(kgcl_instance, labelling))  # pretty print
         # render_instance(kgcl_instance, labelling)
         pretty_print_kgcl_patch.append(render_instance(kgcl_instance, labelling))
 
@@ -213,16 +210,10 @@ def render_instance(kgcl_instance, labelling):
         )
 
     if type(kgcl_instance) is EdgeCreation:
-        if kgcl_instance.annotation_set is None:
-            return render_edge_creation(kgcl_instance, labelling)
-        else:
-            return render_annotation_creation(kgcl_instance, labelling)
+        return render_edge_creation(kgcl_instance, labelling)
 
     if type(kgcl_instance) is EdgeDeletion:
-        if kgcl_instance.annotation_set is None:
-            return render_edge_deletion(kgcl_instance, labelling)
-        else:
-            return render_annotation_deletion(kgcl_instance, labelling)
+        return render_edge_deletion(kgcl_instance, labelling)
 
     if type(kgcl_instance) is PredicateChange:
         subject = render_entity(kgcl_instance.about_edge.subject, "uri", labelling)
@@ -284,95 +275,58 @@ def render_instance(kgcl_instance, labelling):
         else:
             return "create synonym " + synonym + " for " + subject
 
-    if type(kgcl_instance) is ExistentialRestrictionCreation:
-        subclass = render_entity(kgcl_instance.subclass, "uri", labelling)
-        property = render_entity(kgcl_instance.property, "uri", labelling)
-        filler = render_entity(kgcl_instance.filler, "uri", labelling)
-        return "add " + subclass + " SubClassOf " + property + " some " + filler
-
-    if type(kgcl_instance) is ExistentialRestrictionDeletion:
-        subclass = render_entity(kgcl_instance.subclass, "uri", labelling)
-        property = render_entity(kgcl_instance.property, "uri", labelling)
-        filler = render_entity(kgcl_instance.filler, "uri", labelling)
-        return "delete " + subclass + " SubClassOf " + property + " some " + filler
-
     if type(kgcl_instance) is PlaceUnder:
         subclass = render_entity(kgcl_instance.subject, "uri", labelling)
         superclass = render_entity(kgcl_instance.object, "uri", labelling)
-        return "add " + subclass + " SubClassOf " + superclass
+        return "create edge " + subclass + " rdfs:subClassOf " + superclass
 
     if type(kgcl_instance) is RemoveUnder:
         subclass = render_entity(kgcl_instance.subject, "uri", labelling)
         superclass = render_entity(kgcl_instance.object, "uri", labelling)
-        return "delete " + subclass + " SubClassOf " + superclass
+        return "delete edge " + subclass + " rdfs:subClassOf " + superclass
 
+    if type(kgcl_instance) is NodeAnnotationChange:
+        subject = render_entity(
+            kgcl_instance.about_node, kgcl_instance.about_node_representation, labelling
+        )
+        predicate = render_entity(
+            kgcl_instance.annotation_property,
+            kgcl_instance.annotation_property_type,
+            labelling,
+        )
+        old_object = render_entity(
+            kgcl_instance.old_value,
+            kgcl_instance.old_value_type,
+            labelling,
+        )
+        new_object = render_entity(
+            kgcl_instance.new_value,
+            kgcl_instance.new_value_type,
+            labelling,
+        )
 
-def render_annotation_creation(kgcl_instance, labelling):
-    subject = render_entity(kgcl_instance.subject, "uri", labelling)
-    predicate = render_entity(kgcl_instance.predicate, "uri", labelling)
-    object = render_entity(kgcl_instance.object, kgcl_instance.object_type, labelling)
+        if kgcl_instance.old_language is not None:
+            old_object += "@" + kgcl_instance.old_language
 
-    annotation = kgcl_instance.annotation_set
-    annotation_property = render_entity(annotation.property, "uri", labelling)
-    annotation_filler = render_entity(
-        annotation.filler, annotation.filler_type, labelling
-    )
+        if kgcl_instance.new_language is not None:
+            new_object += "@" + kgcl_instance.new_language
 
-    language = kgcl_instance.language
-    datatype = kgcl_instance.datatype
+        if kgcl_instance.old_datatype is not None:
+            old_object += "^^" + kgcl_instance.old_datatype
 
-    if language is not None:
-        object = object + "@" + language
-    if datatype is not None:
-        object = object + "^^" + datatype
+        if kgcl_instance.new_datatype is not None:
+            new_object += "^^" + kgcl_instance.new_datatype
 
-    return (
-        "create edge <<"
-        + subject
-        + " "
-        + predicate
-        + " "
-        + object
-        + ">>"
-        + " "
-        + annotation_property
-        + " "
-        + annotation_filler
-    )
-
-
-def render_annotation_deletion(kgcl_instance, labelling):
-    subject = render_entity(kgcl_instance.subject, "uri", labelling)
-    predicate = render_entity(kgcl_instance.predicate, "uri", labelling)
-    object = render_entity(kgcl_instance.object, kgcl_instance.object_type, labelling)
-
-    annotation = kgcl_instance.annotation_set
-    annotation_property = render_entity(annotation.property, "uri", labelling)
-    annotation_filler = render_entity(
-        annotation.filler, annotation.filler_type, labelling
-    )
-
-    language = kgcl_instance.language
-    datatype = kgcl_instance.datatype
-
-    if language is not None:
-        object = object + "@" + language
-    if datatype is not None:
-        object = object + "^^" + datatype
-
-    return (
-        "delete edge <<"
-        + subject
-        + " "
-        + predicate
-        + " "
-        + object
-        + ">>"
-        + " "
-        + annotation_property
-        + " "
-        + annotation_filler
-    )
+        return (
+            "change annotation of "
+            + subject
+            + " with "
+            + predicate
+            + " from "
+            + old_object
+            + " to "
+            + new_object
+        )
 
 
 def render_edge_deletion(kgcl_instance, labelling):

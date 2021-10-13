@@ -55,7 +55,7 @@ def get_deleted_subsumptions(g1, g2):
     return sub1 - sub2
 
 
-# NB: this returns a set of 'ExistentialRestrictions'
+# NB: this returns a set of 'ExistentialRestrictions' (defined in owlstar_sublanguage)
 def get_added_existentials(g1, g2):
     """
     Given two graphs g1 and g2,
@@ -80,7 +80,7 @@ def get_deleted_existentials(g1, g2):
     return ex1 - ex2
 
 
-# NB this returns a set of 'TripleAnnotation's
+# NB this returns a set of 'TripleAnnotation's (defined in owlstar_sublanguage)
 def get_added_triple_annotations(g1, g2):
     """
     Given two graphs g1 and g2,
@@ -112,4 +112,4 @@ if __name__ == "__main__":
     g1.load("n3/obi/obi_1.nt", format="nt")
     g2.load("n3/obi/obi_2.nt", format="nt")
 
-    deleted = get_deleted_triples(g1, g2)
+    # deleted = get_deleted_triples(g1, g2)

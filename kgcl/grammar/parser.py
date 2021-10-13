@@ -17,8 +17,6 @@ from kgcl.model.kgcl import (
     RemovedNodeFromSubset,
     PlaceUnder,
     RemoveUnder,
-    ExistentialRestrictionCreation,
-    ExistentialRestrictionDeletion,
 )
 from kgcl.model.ontology_model import Edge, Annotation
 from pathlib import Path
@@ -189,14 +187,17 @@ def parse_change_annotation(tree, id):
     subject, s_representation = get_entity_representation(subject_token)
     predicate, p_representation = get_entity_representation(predicate_token)
 
-    old_token = extract(tree, "old_entity")
-    new_token = extract(tree, "new_entity")
+    old_token = extract(tree, "old_entity_object")
+    new_token = extract(tree, "new_entity_object")
 
     old, old_representation = get_entity_representation(old_token)
     new, new_representation = get_entity_representation(new_token)
 
-    # language_token = extract(tree, "language")
-    # datatype_token = extract(tree, "datatype")
+    old_language_token = extract(tree, "old_language")
+    new_language_token = extract(tree, "new_language")
+
+    old_datatype_token = extract(tree, "old_datatype")
+    new_datatype_token = extract(tree, "new_datatype")
 
     return NodeAnnotationChange(
         id=id,
@@ -208,8 +209,10 @@ def parse_change_annotation(tree, id):
         new_value=new,
         old_value_type=old_representation,
         new_value_type=new_representation,
-        # language=language_token,
-        # datatype=datatype_token,
+        old_language=old_language_token,
+        new_language=new_language_token,
+        old_datatype=old_datatype_token,
+        new_datatype=new_datatype_token,
     )
 
 

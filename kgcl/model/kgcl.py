@@ -1,5 +1,5 @@
 # Auto generated from kgcl.yaml by pythongen.py version: 0.9.0
-# Generation date: 2021-10-12 20:49
+# Generation date: 2021-10-13 18:55
 # Schema: kgcl
 #
 # id: https://w3id.org/kgcl
@@ -128,35 +128,7 @@ class EdgeLogicalInterpretationChangeId(EdgeChangeId):
     pass
 
 
-class ComplexExistentialRestrictionChangeId(ComplexChangeId):
-    pass
-
-
 class LogicalAxiomChangeId(SimpleChangeId):
-    pass
-
-
-class ExistentialRestrictionChangeId(LogicalAxiomChangeId):
-    pass
-
-
-class ExistentialRestrictionCreationId(ExistentialRestrictionChangeId):
-    pass
-
-
-class ExistentialRestrictionDeletionId(ExistentialRestrictionChangeId):
-    pass
-
-
-class ExistentialRestrictionSubclassChangeId(ExistentialRestrictionChangeId):
-    pass
-
-
-class ExistentialRestrictionPropertyChangeId(ExistentialRestrictionChangeId):
-    pass
-
-
-class ExistentialRestrictionFillerChangeId(ExistentialRestrictionChangeId):
     pass
 
 
@@ -328,6 +300,10 @@ class SimpleChange(Change):
     new_value: Optional[str] = None
     old_value_type: Optional[str] = None
     new_value_type: Optional[str] = None
+    new_language: Optional[str] = None
+    old_language: Optional[str] = None
+    new_datatype: Optional[str] = None
+    old_datatype: Optional[str] = None
 
     def __post_init__(self, *_: List[str], **kwargs: Dict[str, Any]):
         if self.old_value is not None and not isinstance(self.old_value, str):
@@ -341,6 +317,18 @@ class SimpleChange(Change):
 
         if self.new_value_type is not None and not isinstance(self.new_value_type, str):
             self.new_value_type = str(self.new_value_type)
+
+        if self.new_language is not None and not isinstance(self.new_language, str):
+            self.new_language = str(self.new_language)
+
+        if self.old_language is not None and not isinstance(self.old_language, str):
+            self.old_language = str(self.old_language)
+
+        if self.new_datatype is not None and not isinstance(self.new_datatype, str):
+            self.new_datatype = str(self.new_datatype)
+
+        if self.old_datatype is not None and not isinstance(self.old_datatype, str):
+            self.old_datatype = str(self.old_datatype)
 
         super().__post_init__(**kwargs)
 
@@ -1076,53 +1064,6 @@ class EdgeLogicalInterpretationChange(EdgeChange):
 
 
 @dataclass
-class ComplexExistentialRestrictionChange(ComplexChange):
-    """
-    A complex change where an existential restriction axiom is changed
-    """
-    _inherited_slots: ClassVar[List[str]] = []
-
-    class_class_uri: ClassVar[URIRef] = KGCL.ComplexExistentialRestrictionChange
-    class_class_curie: ClassVar[str] = "kgcl:ComplexExistentialRestrictionChange"
-    class_name: ClassVar[str] = "complex existential restriction change"
-    class_model_uri: ClassVar[URIRef] = KGCL.ComplexExistentialRestrictionChange
-
-    id: Union[str, ComplexExistentialRestrictionChangeId] = None
-    subclass: Optional[str] = None
-    property: Optional[Union[str, NodeId]] = None
-    filler: Optional[str] = None
-    new_subclass: Optional[str] = None
-    new_property: Optional[str] = None
-    new_filler: Optional[str] = None
-
-    def __post_init__(self, *_: List[str], **kwargs: Dict[str, Any]):
-        if self._is_empty(self.id):
-            self.MissingRequiredField("id")
-        if not isinstance(self.id, ComplexExistentialRestrictionChangeId):
-            self.id = ComplexExistentialRestrictionChangeId(self.id)
-
-        if self.subclass is not None and not isinstance(self.subclass, str):
-            self.subclass = str(self.subclass)
-
-        if self.property is not None and not isinstance(self.property, NodeId):
-            self.property = NodeId(self.property)
-
-        if self.filler is not None and not isinstance(self.filler, str):
-            self.filler = str(self.filler)
-
-        if self.new_subclass is not None and not isinstance(self.new_subclass, str):
-            self.new_subclass = str(self.new_subclass)
-
-        if self.new_property is not None and not isinstance(self.new_property, str):
-            self.new_property = str(self.new_property)
-
-        if self.new_filler is not None and not isinstance(self.new_filler, str):
-            self.new_filler = str(self.new_filler)
-
-        super().__post_init__(**kwargs)
-
-
-@dataclass
 class LogicalAxiomChange(SimpleChange):
     """
     A simple change where a logical axiom is changed, where the logical axiom cannot be represented as an edge
@@ -1141,174 +1082,6 @@ class LogicalAxiomChange(SimpleChange):
             self.MissingRequiredField("id")
         if not isinstance(self.id, LogicalAxiomChangeId):
             self.id = LogicalAxiomChangeId(self.id)
-
-        super().__post_init__(**kwargs)
-
-
-@dataclass
-class ExistentialRestrictionChange(LogicalAxiomChange):
-    """
-    A simple change where an existential restriction axiom is changed
-    """
-    _inherited_slots: ClassVar[List[str]] = []
-
-    class_class_uri: ClassVar[URIRef] = KGCL.ExistentialRestrictionChange
-    class_class_curie: ClassVar[str] = "kgcl:ExistentialRestrictionChange"
-    class_name: ClassVar[str] = "existential restriction change"
-    class_model_uri: ClassVar[URIRef] = KGCL.ExistentialRestrictionChange
-
-    id: Union[str, ExistentialRestrictionChangeId] = None
-    subclass: Optional[str] = None
-    property: Optional[Union[str, NodeId]] = None
-    filler: Optional[str] = None
-    subclass_type: Optional[str] = None
-    property_type: Optional[str] = None
-    filler_type: Optional[str] = None
-
-    def __post_init__(self, *_: List[str], **kwargs: Dict[str, Any]):
-        if self._is_empty(self.id):
-            self.MissingRequiredField("id")
-        if not isinstance(self.id, ExistentialRestrictionChangeId):
-            self.id = ExistentialRestrictionChangeId(self.id)
-
-        if self.subclass is not None and not isinstance(self.subclass, str):
-            self.subclass = str(self.subclass)
-
-        if self.property is not None and not isinstance(self.property, NodeId):
-            self.property = NodeId(self.property)
-
-        if self.filler is not None and not isinstance(self.filler, str):
-            self.filler = str(self.filler)
-
-        if self.subclass_type is not None and not isinstance(self.subclass_type, str):
-            self.subclass_type = str(self.subclass_type)
-
-        if self.property_type is not None and not isinstance(self.property_type, str):
-            self.property_type = str(self.property_type)
-
-        if self.filler_type is not None and not isinstance(self.filler_type, str):
-            self.filler_type = str(self.filler_type)
-
-        super().__post_init__(**kwargs)
-
-
-@dataclass
-class ExistentialRestrictionCreation(ExistentialRestrictionChange):
-    _inherited_slots: ClassVar[List[str]] = []
-
-    class_class_uri: ClassVar[URIRef] = KGCL.ExistentialRestrictionCreation
-    class_class_curie: ClassVar[str] = "kgcl:ExistentialRestrictionCreation"
-    class_name: ClassVar[str] = "existential restriction creation"
-    class_model_uri: ClassVar[URIRef] = KGCL.ExistentialRestrictionCreation
-
-    id: Union[str, ExistentialRestrictionCreationId] = None
-
-    def __post_init__(self, *_: List[str], **kwargs: Dict[str, Any]):
-        if self._is_empty(self.id):
-            self.MissingRequiredField("id")
-        if not isinstance(self.id, ExistentialRestrictionCreationId):
-            self.id = ExistentialRestrictionCreationId(self.id)
-
-        super().__post_init__(**kwargs)
-
-
-@dataclass
-class ExistentialRestrictionDeletion(ExistentialRestrictionChange):
-    _inherited_slots: ClassVar[List[str]] = []
-
-    class_class_uri: ClassVar[URIRef] = KGCL.ExistentialRestrictionDeletion
-    class_class_curie: ClassVar[str] = "kgcl:ExistentialRestrictionDeletion"
-    class_name: ClassVar[str] = "existential restriction deletion"
-    class_model_uri: ClassVar[URIRef] = KGCL.ExistentialRestrictionDeletion
-
-    id: Union[str, ExistentialRestrictionDeletionId] = None
-
-    def __post_init__(self, *_: List[str], **kwargs: Dict[str, Any]):
-        if self._is_empty(self.id):
-            self.MissingRequiredField("id")
-        if not isinstance(self.id, ExistentialRestrictionDeletionId):
-            self.id = ExistentialRestrictionDeletionId(self.id)
-
-        super().__post_init__(**kwargs)
-
-
-@dataclass
-class ExistentialRestrictionSubclassChange(ExistentialRestrictionChange):
-    """
-    A simple change where an existential restriction axiom is changed
-    """
-    _inherited_slots: ClassVar[List[str]] = []
-
-    class_class_uri: ClassVar[URIRef] = KGCL.ExistentialRestrictionSubclassChange
-    class_class_curie: ClassVar[str] = "kgcl:ExistentialRestrictionSubclassChange"
-    class_name: ClassVar[str] = "existential restriction subclass change"
-    class_model_uri: ClassVar[URIRef] = KGCL.ExistentialRestrictionSubclassChange
-
-    id: Union[str, ExistentialRestrictionSubclassChangeId] = None
-    new_subclass: Optional[str] = None
-
-    def __post_init__(self, *_: List[str], **kwargs: Dict[str, Any]):
-        if self._is_empty(self.id):
-            self.MissingRequiredField("id")
-        if not isinstance(self.id, ExistentialRestrictionSubclassChangeId):
-            self.id = ExistentialRestrictionSubclassChangeId(self.id)
-
-        if self.new_subclass is not None and not isinstance(self.new_subclass, str):
-            self.new_subclass = str(self.new_subclass)
-
-        super().__post_init__(**kwargs)
-
-
-@dataclass
-class ExistentialRestrictionPropertyChange(ExistentialRestrictionChange):
-    """
-    A simple change where an existential restriction axiom is changed
-    """
-    _inherited_slots: ClassVar[List[str]] = []
-
-    class_class_uri: ClassVar[URIRef] = KGCL.ExistentialRestrictionPropertyChange
-    class_class_curie: ClassVar[str] = "kgcl:ExistentialRestrictionPropertyChange"
-    class_name: ClassVar[str] = "existential restriction property change"
-    class_model_uri: ClassVar[URIRef] = KGCL.ExistentialRestrictionPropertyChange
-
-    id: Union[str, ExistentialRestrictionPropertyChangeId] = None
-    new_property: Optional[str] = None
-
-    def __post_init__(self, *_: List[str], **kwargs: Dict[str, Any]):
-        if self._is_empty(self.id):
-            self.MissingRequiredField("id")
-        if not isinstance(self.id, ExistentialRestrictionPropertyChangeId):
-            self.id = ExistentialRestrictionPropertyChangeId(self.id)
-
-        if self.new_property is not None and not isinstance(self.new_property, str):
-            self.new_property = str(self.new_property)
-
-        super().__post_init__(**kwargs)
-
-
-@dataclass
-class ExistentialRestrictionFillerChange(ExistentialRestrictionChange):
-    """
-    A simple change where an existential restriction axiom is changed
-    """
-    _inherited_slots: ClassVar[List[str]] = []
-
-    class_class_uri: ClassVar[URIRef] = KGCL.ExistentialRestrictionFillerChange
-    class_class_curie: ClassVar[str] = "kgcl:ExistentialRestrictionFillerChange"
-    class_name: ClassVar[str] = "existential restriction filler change"
-    class_model_uri: ClassVar[URIRef] = KGCL.ExistentialRestrictionFillerChange
-
-    id: Union[str, ExistentialRestrictionFillerChangeId] = None
-    new_filler: Optional[str] = None
-
-    def __post_init__(self, *_: List[str], **kwargs: Dict[str, Any]):
-        if self._is_empty(self.id):
-            self.MissingRequiredField("id")
-        if not isinstance(self.id, ExistentialRestrictionFillerChangeId):
-            self.id = ExistentialRestrictionFillerChangeId(self.id)
-
-        if self.new_filler is not None and not isinstance(self.new_filler, str):
-            self.new_filler = str(self.new_filler)
 
         super().__post_init__(**kwargs)
 
@@ -2250,6 +2023,12 @@ slots.language = Slot(uri=KGCL.language, name="language", curie=KGCL.curie('lang
 
 slots.datatype = Slot(uri=KGCL.datatype, name="datatype", curie=KGCL.curie('datatype'),
                    model_uri=KGCL.datatype, domain=None, range=Optional[str])
+
+slots.new_datatype = Slot(uri=KGCL.new_datatype, name="new datatype", curie=KGCL.curie('new_datatype'),
+                   model_uri=KGCL.new_datatype, domain=None, range=Optional[str])
+
+slots.old_datatype = Slot(uri=KGCL.old_datatype, name="old datatype", curie=KGCL.curie('old_datatype'),
+                   model_uri=KGCL.old_datatype, domain=None, range=Optional[str])
 
 slots.new_language = Slot(uri=KGCL.new_language, name="new language", curie=KGCL.curie('new_language'),
                    model_uri=KGCL.new_language, domain=None, range=Optional[str])
