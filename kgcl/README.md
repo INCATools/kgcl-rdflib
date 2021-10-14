@@ -20,14 +20,16 @@ import kgcl.apply.graph_transformer
 #output: path to an output destination
 
 # read kgcl commands from file
-patch = kgcl.read() 
+patch_file = open("examples/kgcl/demo/example_patch.kgcl", "r")
+patch = patch_file.read()
 
 # parse kgcl commands
 parsed_patch = kgcl.grammar.parser.parse(patch)
 
 #load RDF graph
+path_to_graph = "examples/kgcl/demo/example_graph.nt"
 g = rdflib.Graph()
-g.load(graph, format=guess_format(graph))
+g.load(path_to_graph, format=guess_format(path_to_graph))
 
 # apply kgcl commands as SPARQL UPDATE queries to graph
 kgcl.apply.graph_transformer.apply_patch(parsed_patch, g)
