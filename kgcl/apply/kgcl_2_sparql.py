@@ -82,8 +82,7 @@ def convert(kgcl_instance):
 
     # label renaming
     if type(kgcl_instance) is NodeRename:
-        if is_label(kgcl_instance.old_value) and is_label(kgcl_instance.new_value):
-            return rename(kgcl_instance)
+        return rename(kgcl_instance)
 
     # node obsoletion
     if type(kgcl_instance) is NodeObsoletion:
@@ -117,13 +116,11 @@ def convert(kgcl_instance):
 
     # node creation
     if type(kgcl_instance) is NodeCreation:
-        if is_id(kgcl_instance.node_id) and is_label(kgcl_instance.name):
-            return create_node(kgcl_instance)
+        return create_node(kgcl_instance)
 
     # class creation
     if type(kgcl_instance) is ClassCreation:
-        if is_id(kgcl_instance.node_id):
-            return create_class(kgcl_instance)
+        return create_class(kgcl_instance)
 
     # node deepending
     if type(kgcl_instance) is NodeDeepening:
@@ -682,12 +679,15 @@ def rename(kgcl_instance):
     old_language = kgcl_instance.old_language
     new_language = kgcl_instance.new_language
 
+    prefix = "PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>"
+
     if kgcl_instance.about_node is None:
         subject = "?entity"
     else:
         subject = kgcl_instance.about_node
+        if kgcl_instance.about_node_representation == "curie":
+            prefix += build_curie_prefix(subject)
 
-    prefix = "PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>"
     deleteQuery = subject + " rdfs:label ?oldlabel ."
     delete = "DELETE {" + deleteQuery + "}"
 
@@ -840,9 +840,14 @@ def delete_by_label(kgcl_instance):
 
 def create_class(kgcl_instance):
     termId = kgcl_instance.node_id
+    id_type = kgcl_instance.about_node_representation
 
     prefix = "PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>  "
     prefix += "PREFIX owl: <http://www.w3.org/2002/07/owl#>  "
+
+    if id_type == "curie":
+        prefix += build_curie_prefix(termId)
+
     insertQuery = termId + " rdf:type owl:Class  . "
     insert = "INSERT {" + insertQuery + "}"
     where = "WHERE {}"
@@ -856,8 +861,12 @@ def create_node(kgcl_instance):
     termId = kgcl_instance.node_id
     label = kgcl_instance.name
     language = kgcl_instance.language
+    id_type = kgcl_instance.about_node_representation
 
     prefix = "PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>  "
+
+    if id_type == "curie":
+        prefix += build_curie_prefix(termId)
 
     if language is None:
         insertQuery = termId + " rdfs:label " + label + "  . "
