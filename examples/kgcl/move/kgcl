@@ -1,1 +1,1 @@
-move ex:targetClass from ex:A to ex:B
+move ex:targetClass rdfs:subClassOf ex:A from ex:A to ex:B

@@ -1,1 +1,0 @@
-create edge <<ex:subject ex:predicate ex:object>> ex:annotationPredicate ex:annotation

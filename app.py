@@ -61,15 +61,11 @@ def index():
         "nodeDeepening",
         "nodeShallowing",
         "move",
-        "edgeCreation",
-        "edgeDeletion",
-        "addExistential",
-        "addSubsumptionAxiom",
-        "annotatedEdgeCreation",
-        "annotatedEdgeDeletion",
         "changeRelationship",
         "createSynonym",
-        "deleteExistential",
+        "edgeCreation",
+        "edgeDeletion",
+        "addSubsumptionAxiom",
         "deleteSubsumptionAxiom",
     ]
 

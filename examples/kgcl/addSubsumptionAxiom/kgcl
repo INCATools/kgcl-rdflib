@@ -1,1 +1,1 @@
-add ex:subclass SubClassOf ex:superclass
+create edge ex:subclass rdfs:subClassOf ex:superclass

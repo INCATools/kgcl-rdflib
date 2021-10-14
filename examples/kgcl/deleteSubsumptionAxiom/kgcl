@@ -1,1 +1,1 @@
-delete ex:targetClass SubClassOf ex:A
+delete edge ex:targetClass rdfs:subClassOf ex:A
