@@ -1554,8 +1554,8 @@ def new_synonym_for_uri(kgcl_instance):
     if qualifier == "related":
         insertQuery = about + " oboInOwl:hasRelatedSynonym "  # + synonym + " . "
 
+    whereQuery = ""
     if language is None:
-        whereQuery = ""
         insertQuery += '"' + synonym + '" .'
     else:
         insertQuery += "?tag ."
@@ -1635,8 +1635,8 @@ def new_synonym_for_curie(kgcl_instance):
     if qualifier == "related":
         insertQuery = about + " oboInOwl:hasRelatedSynonym "  # + synonym + " . "
 
+    whereQuery = ""
     if language is None:
-        whereQuery = ""
         insertQuery += '"' + synonym + '" .'
     else:
         insertQuery += "?tag ."
