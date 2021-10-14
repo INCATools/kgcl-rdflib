@@ -76,6 +76,10 @@ classes:
       - new value
       - old value type
       - new value type
+      - new language
+      - old language
+      - new datatype
+      - old datatype
 
   complex change:
     abstract: true
@@ -405,63 +409,10 @@ classes:
     examples:
       - value: changing a SubClassOf r some b to a subClassOf r only b
 
-  complex existential restriction change:
-      is_a: complex change
-      description: >-
-          A complex change where an existential restriction axiom is changed
-      slots:
-          - subclass
-          - property
-          - filler
-          - new subclass
-          - new property
-          - new filler
-
-
   logical axiom change:
     is_a: simple change
     description: >-
       A simple change where a logical axiom is changed, where the logical axiom cannot be represented as an edge
-
-  existential restriction change:
-      is_a: logical axiom change
-      description: >-
-          A simple change where an existential restriction axiom is changed
-      slots:
-          - subclass
-          - property
-          - filler
-          - subclass type
-          - property type
-          - filler type
-
-  existential restriction creation:
-      is_a: existential restriction change
-
-  existential restriction deletion:
-      is_a: existential restriction change
-
-  existential restriction subclass change:
-      is_a: existential restriction change
-      description: >-
-          A simple change where an existential restriction axiom is changed
-      slots:
-          - new subclass
-
-  existential restriction property change:
-      is_a: existential restriction change
-      description: >-
-          A simple change where an existential restriction axiom is changed
-      slots:
-          - new property
-
-  existential restriction filler change:
-      is_a: existential restriction change
-      description: >-
-          A simple change where an existential restriction axiom is changed
-      slots:
-          - new filler
-
 
         
   node change:
@@ -472,7 +423,6 @@ classes:
     slots:
       - about node
       - about node representation
-      - language
 
   node rename:
     is_a: node change
@@ -484,6 +434,7 @@ classes:
       - has textual diff      
       - new language
       - old language
+
     slot_usage:
       old value:
         multivalued: false
@@ -499,6 +450,9 @@ classes:
     description: >-
       A node change where the change alters node properties/annotations. TODO
     is_a: node change
+    slots:
+      - annotation property
+      - annotation property type
 
   node annotation replacement:
     is_a: node annotation change
@@ -857,6 +811,14 @@ slots:
     description: >-
       The datatype of a literal
 
+  new datatype:
+    description: >-
+      The new datatype of a literal
+
+  old datatype:
+    description: >-
+      The old datatype of a literal
+
   new language:
     description: >-
       The new language tag of a literal
@@ -925,6 +887,14 @@ slots:
     description: >-
       The subset that pertains to this change
     range: ontology subset
+
+  annotation property:
+    description: >-
+      An annotation property
+
+  annotation property type:
+    description: >-
+      The type of a property (URI, CURIE, label) 
 
   change description:
     description: >-
