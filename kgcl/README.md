@@ -7,7 +7,9 @@ This folder contains tooling for handling change operations in ontologies accord
 
 ## tl;dr
 
-Example code for applying a KGCL patch to a graph:
+Example code for applying a KGCL patch to a graph.
+The examples make use of relative paths.
+So, they need to be located in the root folder of this project (i.e., knowledge-graph-change-language - the parent folder of this folder).
 
 ```
 import rdflib
@@ -16,7 +18,7 @@ import kgcl.grammar.parser
 import kgcl.apply.graph_transformer
 
 #graph: path to an RDF graph
-#kgcl: path to a KGCL patch
+#patch_file: file containing a set of KGCL commands
 #output: path to an output destination
 
 # read kgcl commands from file
@@ -37,7 +39,6 @@ kgcl.apply.graph_transformer.apply_patch(parsed_patch, g)
 # save updated graph
 output = "output.nt"
 g.serialize(destination=output, format="nt") 
-
 ```
 
 Example code for generating a KGCL Diff between two graphs:
@@ -49,6 +50,10 @@ from kgcl.diff.summary_generation import run
 #graph_2: path to an RDF graph
 #output: path to an output destination (which must not exist as a folder)
 
+graph_1 = "examples/kgcl/demo/example_graph.nt"
+graph_2 = "examples/kgcl/demo/example_graph_version_2.nt"
+output = "output"
+
 run(graph_1, graph_2, output)
 ```
 
@@ -59,11 +64,13 @@ import rdflib
 
 import kgcl.diff.diff_2_kgcl_single as single
 import kgcl.diff.diff_2_kgcl_existential as existential
-import kgcl.diff.diff_2_kgcl_triple_annotation as annotation
 
 #graph_1: path to an RDF graph
 #graph_2: path to an RDF graph
 #output: path to an output destination (which must not exist as a folder)
+
+graph_1 = "examples/kgcl/demo/example_graph.nt"
+graph_2 = "examples/kgcl/demo/example_graph_version_2.nt"
 
 #load RDF graphs
 g_1 = rdflib.Graph()
@@ -74,11 +81,9 @@ g_2.load(graph_2, format=guess_format(graph_2))
 #generate diff
 single_triple_summary = single.generate_thin_triple_commands(g1, g2)
 existential_summary = existential.generate_atomic_existential_commands(g1, g2) 
-triple_annotation_summary = annotation.generate_triple_annotation_commands(g1, g2) 
 
 # get KGCL commands
 kgcl_commands = existential_summary.get_commands()
-kgcl_commands += triple_annotation_summary.get_commands()
 kgcl_commands += single_triple_summary.get_commands()
 ``` 
 
