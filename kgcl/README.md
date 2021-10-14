@@ -35,6 +35,7 @@ g.load(path_to_graph, format=guess_format(path_to_graph))
 kgcl.apply.graph_transformer.apply_patch(parsed_patch, g)
 
 # save updated graph
+output = "output.nt"
 g.serialize(destination=output, format="nt") 
 
 ```
