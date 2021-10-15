@@ -87,6 +87,29 @@ kgcl_commands = existential_summary.get_commands()
 kgcl_commands += single_triple_summary.get_commands()
 ``` 
 
+Example code for converting a KGCL patch into RDF:
+```
+from kgcl.grammar.kgcl_2_rdf import kgcl_2_yaml
+from kgcl.utils import from_yaml, to_rdf
+from rdflib import Graph
+
+patch_file = open("examples/kgcl/demo/example_patch_2.kgcl", "r")
+patch = patch_file.read() 
+output = "output"
+
+#this parses a KGCL into KGCL instances of the KGCL data model
+#encodes them in YAML,
+#and writes them to output
+kgcl_2_yaml(patch, output)
+
+#this loads the YAML encoding
+#and translates it into RDF
+session = from_yaml("output")
+G: Graph
+G = to_rdf(session)
+G.serialize("kgcl_patch.rdf", format="turtle") 
+```
+
 ## What are KGCL change operations?
 
 A KGCL change operation is a statement that specifies a change for a knowledge graph (or ontology). 
