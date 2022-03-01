@@ -9,3 +9,9 @@ venv/
 docs/*md
 docs/types/
 */my_schema.*
+*/__pycache__/*
+tests/output/*
+csv/*
+graphql/*
+jsonschema/*
+model/*
