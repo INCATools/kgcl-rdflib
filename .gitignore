@@ -17,3 +17,4 @@ jsonschema/*
 model/*
 */__pycache__/*
 tests/outputs/*
+kgcl/model/__pycache__/*
