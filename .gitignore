@@ -15,3 +15,5 @@ csv/*
 graphql/*
 jsonschema/*
 model/*
+*/__pycache__/*
+tests/outputs/*

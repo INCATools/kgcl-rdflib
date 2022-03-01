@@ -25,7 +25,7 @@ echo:
 test: all test_framework
 
 test_framework:
-	python -m unittest discover -p 'test_*.py'
+	python -m unittest tests/test_*.py
 
 install:
 	. environment.sh
