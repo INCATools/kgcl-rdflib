@@ -74,6 +74,12 @@ classes:
     slots:
       - old value
       - new value
+      - old value type
+      - new value type
+      - new language
+      - old language
+      - new datatype
+      - old datatype
 
   complex change:
     abstract: true
@@ -255,6 +261,9 @@ classes:
       A change in which the element that is the focus of the change is an edge.
     slots:
       - about edge
+      - object type
+      - language
+      - datatype
     slot_usage:
       subject:
         comments:
@@ -274,6 +283,9 @@ classes:
       - subject
       - predicate
       - object
+      - subject type
+      - predicate type
+      - object type
       - annotation set
     slot_usage:
       change description:
@@ -298,10 +310,18 @@ classes:
       - subject
       - predicate
       - object
+      - subject type
+      - predicate type
+      - object type
       - annotation set
     slot_usage:
       change description:
         string_serialization: "deleting edge {edge}"
+
+  remove under:
+    is_a: edge deletion
+    description: >-
+      An edge deletion where the predicate is owl:subClassOf
         
   edge obsoletion:
     aliases:
@@ -363,6 +383,9 @@ classes:
     is_a: edge change
     description: >-
       A node move is a combination of deleting a parent edge and adding a parent edge, where the predicate is preserved and the object/parent node changes
+    slots:
+      - old object type
+      - new object type
     examples:
       - value: changing a is-a b to a is-a c
     slot_usage:
@@ -411,6 +434,7 @@ classes:
     is_a: simple change
     description: >-
       A simple change where a logical axiom is changed, where the logical axiom cannot be represented as an edge
+
         
   node change:
     abstract: true
@@ -419,6 +443,7 @@ classes:
       A simple change where the change is about a node
     slots:
       - about node
+      - about node representation
       - language
 
   node rename:
@@ -429,6 +454,9 @@ classes:
       - old value
       - new value
       - has textual diff      
+      - new language
+      - old language
+
     slot_usage:
       old value:
         multivalued: false
@@ -457,6 +485,9 @@ classes:
     description: >-
       A node change where the change alters node properties/annotations. TODO
     is_a: node change
+    slots:
+      - annotation property
+      - annotation property type
 
   node annotation replacement:
     is_a: node annotation change
@@ -472,6 +503,8 @@ classes:
     is_a: node synonym change
     slots:
       - new value
+      - language
+      - qualifier
 
   name becomes synonym:
     is_a: node synonym change
@@ -636,6 +669,7 @@ classes:
       - name
       - owl type
       - annotation set
+      - language
     slot_usage:
       change description:
         string_serialization: "creating node {id} {label} with {annotation set}"
@@ -787,6 +821,10 @@ slots:
     multivalued: false
     range: edge
 
+  about node representation:
+    description: >-
+      The representation of a node (URI, CURIE, label) 
+
   target:
     description: >-
       The secondary entity on which the change operates
@@ -799,10 +837,98 @@ slots:
     description: >-
       The value of a property held in the new instance of the ontology
 
+  language:
+    description: >-
+      The language tag of a literal
+
+  datatype:
+    description: >-
+      The datatype of a literal
+
+  new datatype:
+    description: >-
+      The new datatype of a literal
+
+  old datatype:
+    description: >-
+      The old datatype of a literal
+
+  new language:
+    description: >-
+      The new language tag of a literal
+
+  old language:
+    description: >-
+      The old language tag of a literal
+
+  qualifier:
+    description: >-
+      The qualifier of a change operation
+
+  subclass:
+    description: >-
+      The subclass of a subsumption axiom
+
+  new subclass:
+    description: >-
+      The new subclass of a subsumption axiom
+
+  new property:
+    description: >-
+      The new property of an OWL restriction
+
+  new filler:
+    description: >-
+      The new filler of an OWL restriction
+
+  object type:
+    description: >-
+      The type (IRI or Literal) of an object
+
+  new object type:
+    description: >-
+      The type (IRI or Literal) of a new object
+
+  old object type:
+    description: >-
+      The type (IRI or Literal) of an old object
+
+  new value type:
+    description: >-
+      The type (IRI or Literal) of a new value
+
+  old value type:
+    description: >-
+      The type (IRI or Literal) of an old value
+
+  subject type:
+    description: >-
+      The type (IRI or Literal) of an edge's subject
+
+  subclass type:
+    description: >-
+      The type of a subclass
+
+  superclass type:
+    description: >-
+      The type of a superclass
+
+  predicate type:
+    description: >-
+      The type (IRI or Literal) of an edge's subject
+
   in subset:
     description: >-
       The subset that pertains to this change
     range: ontology subset
+
+  annotation property:
+    description: >-
+      An annotation property
+
+  annotation property type:
+    description: >-
+      The type of a property (URI, CURIE, label) 
 
   change description:
     description: >-

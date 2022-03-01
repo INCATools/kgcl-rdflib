@@ -1,0 +1,16 @@
+rename 'aaa' to 'bbb'
+obsolete obo:Limb
+unobsolete obo:Limb
+delete obo:Limb
+move ex:S ex:P ex:O from ex:O to ex:B
+deepen ex:target from ex:old to ex:new
+shallow ex:target from ex:old to ex:new
+create edge ex:S ex:P ex:O
+delete edge ex:S ex:P ex:O
+change relationship between ex:S and ex:O from ex:X to ex:Y
+change annotation of ex:S with ex:P from ex:X to ex:Y
+create node ex:S 'new node'
+create ex:S
+create exact synonym 'new synonym' for ex:S
+create edge ex:S rdfs:subClassOf ex:O
+delete edge ex:S rdfs:subClassOf ex:O

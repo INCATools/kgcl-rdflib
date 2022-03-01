@@ -1,0 +1,32 @@
+{% extends 'base.html' %}
+
+{% block head %}
+{% endblock %}
+
+{% block body %} 
+<h1>KGCL Web App (Demo)</h1>
+
+<div class="content">
+    <form action="/" method="POST">
+        <!-- <input type="text" name="content" id="content"> -->
+        <p><b>Input Graph</b></p>
+        <textarea name="graph" id="content" rows="10" cols="30">{{ inputGraph }}</textarea>
+        <p><b>Input KGCL Statements</b></p>
+        <textarea name="kgcl" id="content" rows="10" cols="30">{{ inputKGCL }}</textarea>
+        <input type="submit" name="apply_changes" value="Apply Changes"> 
+        <input type="submit" name="load_example" value="Load Example"> 
+
+        <select name="comp_select" class="selectpicker form-control">
+          {% for o in examples %}
+              <!-- <option value="{{ o.name }}">{{ o.name }}</option> -->
+               <option value="{{ o }}">{{ o }}</option>
+          {% endfor %}
+        </select>
+    </form> 
+
+    <p><b>KGCL Model:</b> <br>{{ parsedKGCL }}</p>
+    <p><b>Output Graph:</b> <br>{{ outputGraph }}</p>
+</div> 
+    <p> <a href="diff">Test KGCL Diff</a> </p>
+
+{% endblock %}

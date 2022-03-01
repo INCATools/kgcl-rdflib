@@ -1,5 +1,5 @@
 # Auto generated from kgcl.yaml by pythongen.py version: 0.9.0
-# Generation date: 2021-10-13 18:55
+# Generation date: 2021-07-16 20:38
 # Schema: kgcl
 #
 # id: https://w3id.org/kgcl
@@ -12,7 +12,7 @@
 import dataclasses
 import sys
 import re
-from jsonasobj2 import JsonObj, as_dict
+from jsonasobj2 import JsonObj
 from typing import Optional, List, Union, Dict, ClassVar, Any
 from dataclasses import dataclass
 from linkml_runtime.linkml_model.meta import EnumDefinition, PermissibleValue, PvFormulaOptions
@@ -25,7 +25,6 @@ from linkml_runtime.utils.formatutils import camelcase, underscore, sfx
 from linkml_runtime.utils.enumerations import EnumDefinitionImpl
 from rdflib import Namespace, URIRef
 from linkml_runtime.utils.curienamespace import CurieNamespace
-from . basics import LanguageTag
 from . ontology_model import Annotation, Edge, NodeId, OntologyElement, OntologySubset, OwlTypeEnum, PropertyValue
 from . prov import Activity, ActivityId
 from linkml_runtime.linkml_model.types import Integer, String, Uriorcurie
@@ -93,19 +92,11 @@ class EdgeDeletionId(EdgeChangeId):
     pass
 
 
-class RemoveUnderId(EdgeDeletionId):
-    pass
-
-
 class EdgeObsoletionId(EdgeChangeId):
     pass
 
 
 class EdgeRewiringId(EdgeChangeId):
-    pass
-
-
-class MappingCreationId(EdgeCreationId):
     pass
 
 
@@ -138,10 +129,6 @@ class NodeChangeId(SimpleChangeId):
 
 
 class NodeRenameId(NodeChangeId):
-    pass
-
-
-class SetLanguageForNameId(NodeChangeId):
     pass
 
 
@@ -190,6 +177,10 @@ class RemoveTextDefinitionId(NodeTextDefinitionChangeId):
 
 
 class TextDefinitionReplacementId(NodeTextDefinitionChangeId):
+    pass
+
+
+class DatatypeChangeId(SimpleChangeId):
     pass
 
 
@@ -299,12 +290,6 @@ class SimpleChange(Change):
     id: Union[str, SimpleChangeId] = None
     old_value: Optional[str] = None
     new_value: Optional[str] = None
-    old_value_type: Optional[str] = None
-    new_value_type: Optional[str] = None
-    new_language: Optional[str] = None
-    old_language: Optional[str] = None
-    new_datatype: Optional[str] = None
-    old_datatype: Optional[str] = None
 
     def __post_init__(self, *_: List[str], **kwargs: Dict[str, Any]):
         if self.old_value is not None and not isinstance(self.old_value, str):
@@ -312,24 +297,6 @@ class SimpleChange(Change):
 
         if self.new_value is not None and not isinstance(self.new_value, str):
             self.new_value = str(self.new_value)
-
-        if self.old_value_type is not None and not isinstance(self.old_value_type, str):
-            self.old_value_type = str(self.old_value_type)
-
-        if self.new_value_type is not None and not isinstance(self.new_value_type, str):
-            self.new_value_type = str(self.new_value_type)
-
-        if self.new_language is not None and not isinstance(self.new_language, str):
-            self.new_language = str(self.new_language)
-
-        if self.old_language is not None and not isinstance(self.old_language, str):
-            self.old_language = str(self.old_language)
-
-        if self.new_datatype is not None and not isinstance(self.new_datatype, str):
-            self.new_datatype = str(self.new_datatype)
-
-        if self.old_datatype is not None and not isinstance(self.old_datatype, str):
-            self.old_datatype = str(self.old_datatype)
 
         super().__post_init__(**kwargs)
 
@@ -440,7 +407,7 @@ class ChangeSetSummaryStatistic(YAMLRoot):
 
         if not isinstance(self.property_value_set, list):
             self.property_value_set = [self.property_value_set] if self.property_value_set is not None else []
-        self.property_value_set = [v if isinstance(v, PropertyValue) else PropertyValue(**as_dict(v)) for v in self.property_value_set]
+        self.property_value_set = [v if isinstance(v, PropertyValue) else PropertyValue(**v) for v in self.property_value_set]
 
         super().__post_init__(**kwargs)
 
@@ -477,53 +444,9 @@ class Obsoletion(ChangeMixin):
             self.about = OntologyElement()
 
         if self.has_undo is not None and not isinstance(self.has_undo, Obsoletion):
-            self.has_undo = Obsoletion(**as_dict(self.has_undo))
+            self.has_undo = Obsoletion(**self.has_undo)
 
         super().__post_init__(**kwargs)
-
-
-class DatatypeOrLanguageTagChange(ChangeMixin):
-    """
-    A change in a value assertion where the value remain unchanged but either the datatype or language changes
-    """
-    _inherited_slots: ClassVar[List[str]] = []
-
-    class_class_uri: ClassVar[URIRef] = KGCL.DatatypeOrLanguageTagChange
-    class_class_curie: ClassVar[str] = "kgcl:DatatypeOrLanguageTagChange"
-    class_name: ClassVar[str] = "datatype or language tag change"
-    class_model_uri: ClassVar[URIRef] = KGCL.DatatypeOrLanguageTagChange
-
-
-@dataclass
-class LanguageTagChange(DatatypeOrLanguageTagChange):
-    _inherited_slots: ClassVar[List[str]] = []
-
-    class_class_uri: ClassVar[URIRef] = KGCL.LanguageTagChange
-    class_class_curie: ClassVar[str] = "kgcl:LanguageTagChange"
-    class_name: ClassVar[str] = "language tag change"
-    class_model_uri: ClassVar[URIRef] = KGCL.LanguageTagChange
-
-    old_value: Optional[str] = None
-    new_value: Optional[str] = None
-
-    def __post_init__(self, *_: List[str], **kwargs: Dict[str, Any]):
-        if self.old_value is not None and not isinstance(self.old_value, str):
-            self.old_value = str(self.old_value)
-
-        if self.new_value is not None and not isinstance(self.new_value, str):
-            self.new_value = str(self.new_value)
-
-
-        super().__post_init__(**kwargs)
-
-
-class DatatypeChange(DatatypeOrLanguageTagChange):
-    _inherited_slots: ClassVar[List[str]] = []
-
-    class_class_uri: ClassVar[URIRef] = KGCL.DatatypeChange
-    class_class_curie: ClassVar[str] = "kgcl:DatatypeChange"
-    class_name: ClassVar[str] = "datatype change"
-    class_model_uri: ClassVar[URIRef] = KGCL.DatatypeChange
 
 
 class AllowsAutomaticReplacementOfEdges(Obsoletion):
@@ -555,7 +478,7 @@ class Unobsoletion(ChangeMixin):
 
     def __post_init__(self, *_: List[str], **kwargs: Dict[str, Any]):
         if self.has_undo is not None and not isinstance(self.has_undo, Obsoletion):
-            self.has_undo = Obsoletion(**as_dict(self.has_undo))
+            self.has_undo = Obsoletion(**self.has_undo)
 
         super().__post_init__(**kwargs)
 
@@ -655,7 +578,7 @@ class RemoveFromSubset(SubsetMembershipChange):
             self.in_subset = OntologySubset()
 
         if self.has_undo is not None and not isinstance(self.has_undo, AddToSubset):
-            self.has_undo = AddToSubset(**as_dict(self.has_undo))
+            self.has_undo = AddToSubset(**self.has_undo)
 
         super().__post_init__(**kwargs)
 
@@ -674,23 +597,11 @@ class EdgeChange(SimpleChange):
 
     id: Union[str, EdgeChangeId] = None
     about_edge: Optional[Union[dict, Edge]] = None
-    object_type: Optional[str] = None
-    language: Optional[str] = None
-    datatype: Optional[str] = None
     subject: Optional[Union[str, NodeId]] = None
 
     def __post_init__(self, *_: List[str], **kwargs: Dict[str, Any]):
         if self.about_edge is not None and not isinstance(self.about_edge, Edge):
-            self.about_edge = Edge(**as_dict(self.about_edge))
-
-        if self.object_type is not None and not isinstance(self.object_type, str):
-            self.object_type = str(self.object_type)
-
-        if self.language is not None and not isinstance(self.language, str):
-            self.language = str(self.language)
-
-        if self.datatype is not None and not isinstance(self.datatype, str):
-            self.datatype = str(self.datatype)
+            self.about_edge = Edge(**self.about_edge)
 
         if self.subject is not None and not isinstance(self.subject, NodeId):
             self.subject = NodeId(self.subject)
@@ -714,9 +625,6 @@ class EdgeCreation(EdgeChange):
     subject: Optional[Union[str, NodeId]] = None
     predicate: Optional[Union[str, NodeId]] = None
     object: Optional[Union[str, NodeId]] = None
-    subject_type: Optional[str] = None
-    predicate_type: Optional[str] = None
-    object_type: Optional[str] = None
     annotation_set: Optional[Union[dict, Annotation]] = None
     change_description: Optional[str] = None
 
@@ -735,17 +643,8 @@ class EdgeCreation(EdgeChange):
         if self.object is not None and not isinstance(self.object, NodeId):
             self.object = NodeId(self.object)
 
-        if self.subject_type is not None and not isinstance(self.subject_type, str):
-            self.subject_type = str(self.subject_type)
-
-        if self.predicate_type is not None and not isinstance(self.predicate_type, str):
-            self.predicate_type = str(self.predicate_type)
-
-        if self.object_type is not None and not isinstance(self.object_type, str):
-            self.object_type = str(self.object_type)
-
         if self.annotation_set is not None and not isinstance(self.annotation_set, Annotation):
-            self.annotation_set = Annotation(**as_dict(self.annotation_set))
+            self.annotation_set = Annotation(**self.annotation_set)
 
         if self.change_description is not None and not isinstance(self.change_description, str):
             self.change_description = str(self.change_description)
@@ -792,9 +691,6 @@ class EdgeDeletion(EdgeChange):
     subject: Optional[Union[str, NodeId]] = None
     predicate: Optional[Union[str, NodeId]] = None
     object: Optional[Union[str, NodeId]] = None
-    subject_type: Optional[str] = None
-    predicate_type: Optional[str] = None
-    object_type: Optional[str] = None
     annotation_set: Optional[Union[dict, Annotation]] = None
     change_description: Optional[str] = None
 
@@ -813,43 +709,11 @@ class EdgeDeletion(EdgeChange):
         if self.object is not None and not isinstance(self.object, NodeId):
             self.object = NodeId(self.object)
 
-        if self.subject_type is not None and not isinstance(self.subject_type, str):
-            self.subject_type = str(self.subject_type)
-
-        if self.predicate_type is not None and not isinstance(self.predicate_type, str):
-            self.predicate_type = str(self.predicate_type)
-
-        if self.object_type is not None and not isinstance(self.object_type, str):
-            self.object_type = str(self.object_type)
-
         if self.annotation_set is not None and not isinstance(self.annotation_set, Annotation):
-            self.annotation_set = Annotation(**as_dict(self.annotation_set))
+            self.annotation_set = Annotation(**self.annotation_set)
 
         if self.change_description is not None and not isinstance(self.change_description, str):
             self.change_description = str(self.change_description)
-
-        super().__post_init__(**kwargs)
-
-
-@dataclass
-class RemoveUnder(EdgeDeletion):
-    """
-    An edge deletion where the predicate is owl:subClassOf
-    """
-    _inherited_slots: ClassVar[List[str]] = []
-
-    class_class_uri: ClassVar[URIRef] = KGCL.RemoveUnder
-    class_class_curie: ClassVar[str] = "kgcl:RemoveUnder"
-    class_name: ClassVar[str] = "remove under"
-    class_model_uri: ClassVar[URIRef] = KGCL.RemoveUnder
-
-    id: Union[str, RemoveUnderId] = None
-
-    def __post_init__(self, *_: List[str], **kwargs: Dict[str, Any]):
-        if self._is_empty(self.id):
-            self.MissingRequiredField("id")
-        if not isinstance(self.id, RemoveUnderId):
-            self.id = RemoveUnderId(self.id)
 
         super().__post_init__(**kwargs)
 
@@ -890,7 +754,7 @@ class EdgeObsoletion(EdgeChange):
             self.object = NodeId(self.object)
 
         if self.annotation_set is not None and not isinstance(self.annotation_set, Annotation):
-            self.annotation_set = Annotation(**as_dict(self.annotation_set))
+            self.annotation_set = Annotation(**self.annotation_set)
 
         if self.change_description is not None and not isinstance(self.change_description, str):
             self.change_description = str(self.change_description)
@@ -925,49 +789,6 @@ class EdgeRewiring(EdgeChange):
 
 
 @dataclass
-class MappingCreation(EdgeCreation):
-    """
-    A specific kind of edge creation in which the created edge is a mapping.
-    """
-    _inherited_slots: ClassVar[List[str]] = []
-
-    class_class_uri: ClassVar[URIRef] = KGCL.MappingCreation
-    class_class_curie: ClassVar[str] = "kgcl:MappingCreation"
-    class_name: ClassVar[str] = "mapping creation"
-    class_model_uri: ClassVar[URIRef] = KGCL.MappingCreation
-
-    id: Union[str, MappingCreationId] = None
-    subject: Optional[Union[str, NodeId]] = None
-    predicate: Optional[Union[str, NodeId]] = None
-    object: Optional[Union[str, NodeId]] = None
-    annotation_set: Optional[Union[dict, Annotation]] = None
-    change_description: Optional[str] = None
-
-    def __post_init__(self, *_: List[str], **kwargs: Dict[str, Any]):
-        if self._is_empty(self.id):
-            self.MissingRequiredField("id")
-        if not isinstance(self.id, MappingCreationId):
-            self.id = MappingCreationId(self.id)
-
-        if self.subject is not None and not isinstance(self.subject, NodeId):
-            self.subject = NodeId(self.subject)
-
-        if self.predicate is not None and not isinstance(self.predicate, NodeId):
-            self.predicate = NodeId(self.predicate)
-
-        if self.object is not None and not isinstance(self.object, NodeId):
-            self.object = NodeId(self.object)
-
-        if self.annotation_set is not None and not isinstance(self.annotation_set, Annotation):
-            self.annotation_set = Annotation(**as_dict(self.annotation_set))
-
-        if self.change_description is not None and not isinstance(self.change_description, str):
-            self.change_description = str(self.change_description)
-
-        super().__post_init__(**kwargs)
-
-
-@dataclass
 class NodeMove(EdgeChange):
     """
     A node move is a combination of deleting a parent edge and adding a parent edge, where the predicate is preserved
@@ -981,8 +802,6 @@ class NodeMove(EdgeChange):
     class_model_uri: ClassVar[URIRef] = KGCL.NodeMove
 
     id: Union[str, NodeMoveId] = None
-    old_object_type: Optional[str] = None
-    new_object_type: Optional[str] = None
     change_description: Optional[str] = None
 
     def __post_init__(self, *_: List[str], **kwargs: Dict[str, Any]):
@@ -990,12 +809,6 @@ class NodeMove(EdgeChange):
             self.MissingRequiredField("id")
         if not isinstance(self.id, NodeMoveId):
             self.id = NodeMoveId(self.id)
-
-        if self.old_object_type is not None and not isinstance(self.old_object_type, str):
-            self.old_object_type = str(self.old_object_type)
-
-        if self.new_object_type is not None and not isinstance(self.new_object_type, str):
-            self.new_object_type = str(self.new_object_type)
 
         if self.change_description is not None and not isinstance(self.change_description, str):
             self.change_description = str(self.change_description)
@@ -1145,17 +958,10 @@ class NodeChange(SimpleChange):
 
     id: Union[str, NodeChangeId] = None
     about_node: Optional[Union[str, NodeId]] = None
-    about_node_representation: Optional[str] = None
-    language: Optional[str] = None
 
     def __post_init__(self, *_: List[str], **kwargs: Dict[str, Any]):
         if self.about_node is not None and not isinstance(self.about_node, NodeId):
             self.about_node = NodeId(self.about_node)
-
-        if self.about_node_representation is not None and not isinstance(self.about_node_representation, str):
-            self.about_node_representation = str(self.about_node_representation)
-        if self.language is not None and not isinstance(self.language, str):
-            self.language = str(self.language)
 
         super().__post_init__(**kwargs)
 
@@ -1176,8 +982,6 @@ class NodeRename(NodeChange):
     old_value: Optional[str] = None
     new_value: Optional[str] = None
     has_textual_diff: Optional[Union[dict, "TextualDiff"]] = None
-    new_language: Optional[str] = None
-    old_language: Optional[str] = None
     change_description: Optional[str] = None
 
     def __post_init__(self, *_: List[str], **kwargs: Dict[str, Any]):
@@ -1194,47 +998,6 @@ class NodeRename(NodeChange):
 
         if self.has_textual_diff is not None and not isinstance(self.has_textual_diff, TextualDiff):
             self.has_textual_diff = TextualDiff()
-
-        if self.new_language is not None and not isinstance(self.new_language, str):
-            self.new_language = str(self.new_language)
-
-        if self.old_language is not None and not isinstance(self.old_language, str):
-            self.old_language = str(self.old_language)
-
-        if self.change_description is not None and not isinstance(self.change_description, str):
-            self.change_description = str(self.change_description)
-
-        super().__post_init__(**kwargs)
-
-
-@dataclass
-class SetLanguageForName(NodeChange):
-    """
-    A node change where the string value for the name is unchanged but the language tag is set
-    """
-    _inherited_slots: ClassVar[List[str]] = []
-
-    class_class_uri: ClassVar[URIRef] = KGCL.SetLanguageForName
-    class_class_curie: ClassVar[str] = "kgcl:SetLanguageForName"
-    class_name: ClassVar[str] = "set language for name"
-    class_model_uri: ClassVar[URIRef] = KGCL.SetLanguageForName
-
-    id: Union[str, SetLanguageForNameId] = None
-    old_value: Optional[str] = None
-    new_value: Optional[str] = None
-    change_description: Optional[str] = None
-
-    def __post_init__(self, *_: List[str], **kwargs: Dict[str, Any]):
-        if self._is_empty(self.id):
-            self.MissingRequiredField("id")
-        if not isinstance(self.id, SetLanguageForNameId):
-            self.id = SetLanguageForNameId(self.id)
-
-        if self.old_value is not None and not isinstance(self.old_value, str):
-            self.old_value = str(self.old_value)
-
-        if self.new_value is not None and not isinstance(self.new_value, str):
-            self.new_value = str(self.new_value)
 
         if self.change_description is not None and not isinstance(self.change_description, str):
             self.change_description = str(self.change_description)
@@ -1255,20 +1018,12 @@ class NodeAnnotationChange(NodeChange):
     class_model_uri: ClassVar[URIRef] = KGCL.NodeAnnotationChange
 
     id: Union[str, NodeAnnotationChangeId] = None
-    annotation_property: Optional[str] = None
-    annotation_property_type: Optional[str] = None
 
     def __post_init__(self, *_: List[str], **kwargs: Dict[str, Any]):
         if self._is_empty(self.id):
             self.MissingRequiredField("id")
         if not isinstance(self.id, NodeAnnotationChangeId):
             self.id = NodeAnnotationChangeId(self.id)
-
-        if self.annotation_property is not None and not isinstance(self.annotation_property, str):
-            self.annotation_property = str(self.annotation_property)
-
-        if self.annotation_property_type is not None and not isinstance(self.annotation_property_type, str):
-            self.annotation_property_type = str(self.annotation_property_type)
 
         super().__post_init__(**kwargs)
 
@@ -1330,8 +1085,6 @@ class NewSynonym(NodeSynonymChange):
 
     id: Union[str, NewSynonymId] = None
     new_value: Optional[str] = None
-    language: Optional[str] = None
-    qualifier: Optional[str] = None
 
     def __post_init__(self, *_: List[str], **kwargs: Dict[str, Any]):
         if self._is_empty(self.id):
@@ -1341,12 +1094,6 @@ class NewSynonym(NodeSynonymChange):
 
         if self.new_value is not None and not isinstance(self.new_value, str):
             self.new_value = str(self.new_value)
-
-        if self.language is not None and not isinstance(self.language, str):
-            self.language = str(self.language)
-
-        if self.qualifier is not None and not isinstance(self.qualifier, str):
-            self.qualifier = str(self.qualifier)
 
         super().__post_init__(**kwargs)
 
@@ -1590,6 +1337,26 @@ class TextDefinitionReplacement(NodeTextDefinitionChange):
 
 
 @dataclass
+class DatatypeChange(SimpleChange):
+    _inherited_slots: ClassVar[List[str]] = []
+
+    class_class_uri: ClassVar[URIRef] = KGCL.DatatypeChange
+    class_class_curie: ClassVar[str] = "kgcl:DatatypeChange"
+    class_name: ClassVar[str] = "datatype change"
+    class_model_uri: ClassVar[URIRef] = KGCL.DatatypeChange
+
+    id: Union[str, DatatypeChangeId] = None
+
+    def __post_init__(self, *_: List[str], **kwargs: Dict[str, Any]):
+        if self._is_empty(self.id):
+            self.MissingRequiredField("id")
+        if not isinstance(self.id, DatatypeChangeId):
+            self.id = DatatypeChangeId(self.id)
+
+        super().__post_init__(**kwargs)
+
+
+@dataclass
 class AddNodeToSubset(NodeChange):
     """
     Places a node inside a subset, by annotating that node
@@ -1750,7 +1517,6 @@ class NodeCreation(NodeChange):
     name: Optional[str] = None
     owl_type: Optional[Union[str, "OwlTypeEnum"]] = None
     annotation_set: Optional[Union[dict, Annotation]] = None
-    language: Optional[str] = None
     change_description: Optional[str] = None
 
     def __post_init__(self, *_: List[str], **kwargs: Dict[str, Any]):
@@ -1769,10 +1535,7 @@ class NodeCreation(NodeChange):
             self.owl_type = OwlTypeEnum(self.owl_type)
 
         if self.annotation_set is not None and not isinstance(self.annotation_set, Annotation):
-            self.annotation_set = Annotation(**as_dict(self.annotation_set))
-
-        if self.language is not None and not isinstance(self.language, str):
-            self.language = str(self.language)
+            self.annotation_set = Annotation(**self.annotation_set)
 
         if self.change_description is not None and not isinstance(self.change_description, str):
             self.change_description = str(self.change_description)
@@ -2060,9 +1823,6 @@ slots.node_id = Slot(uri=KGCL.node_id, name="node id", curie=KGCL.curie('node_id
 slots.superclass = Slot(uri=KGCL.superclass, name="superclass", curie=KGCL.curie('superclass'),
                    model_uri=KGCL.superclass, domain=None, range=Optional[Union[str, NodeId]])
 
-slots.language = Slot(uri=KGCL.language, name="language", curie=KGCL.curie('language'),
-                   model_uri=KGCL.language, domain=None, range=Optional[str])
-
 slots.about = Slot(uri=KGCL.about, name="about", curie=KGCL.curie('about'),
                    model_uri=KGCL.about, domain=None, range=Optional[Union[dict, OntologyElement]])
 
@@ -2071,9 +1831,6 @@ slots.about_node = Slot(uri=KGCL.about_node, name="about node", curie=KGCL.curie
 
 slots.about_edge = Slot(uri=KGCL.about_edge, name="about edge", curie=KGCL.curie('about_edge'),
                    model_uri=KGCL.about_edge, domain=None, range=Optional[Union[dict, Edge]])
-
-slots.about_node_representation = Slot(uri=KGCL.about_node_representation, name="about node representation", curie=KGCL.curie('about_node_representation'),
-                   model_uri=KGCL.about_node_representation, domain=None, range=Optional[str])
 
 slots.target = Slot(uri=KGCL.target, name="target", curie=KGCL.curie('target'),
                    model_uri=KGCL.target, domain=None, range=Optional[str])
@@ -2084,74 +1841,8 @@ slots.old_value = Slot(uri=KGCL.old_value, name="old value", curie=KGCL.curie('o
 slots.new_value = Slot(uri=KGCL.new_value, name="new value", curie=KGCL.curie('new_value'),
                    model_uri=KGCL.new_value, domain=None, range=Optional[str])
 
-slots.language = Slot(uri=KGCL.language, name="language", curie=KGCL.curie('language'),
-                   model_uri=KGCL.language, domain=None, range=Optional[str])
-
-slots.datatype = Slot(uri=KGCL.datatype, name="datatype", curie=KGCL.curie('datatype'),
-                   model_uri=KGCL.datatype, domain=None, range=Optional[str])
-
-slots.new_datatype = Slot(uri=KGCL.new_datatype, name="new datatype", curie=KGCL.curie('new_datatype'),
-                   model_uri=KGCL.new_datatype, domain=None, range=Optional[str])
-
-slots.old_datatype = Slot(uri=KGCL.old_datatype, name="old datatype", curie=KGCL.curie('old_datatype'),
-                   model_uri=KGCL.old_datatype, domain=None, range=Optional[str])
-
-slots.new_language = Slot(uri=KGCL.new_language, name="new language", curie=KGCL.curie('new_language'),
-                   model_uri=KGCL.new_language, domain=None, range=Optional[str])
-
-slots.old_language = Slot(uri=KGCL.old_language, name="old language", curie=KGCL.curie('old_language'),
-                   model_uri=KGCL.old_language, domain=None, range=Optional[str])
-
-slots.qualifier = Slot(uri=KGCL.qualifier, name="qualifier", curie=KGCL.curie('qualifier'),
-                   model_uri=KGCL.qualifier, domain=None, range=Optional[str])
-
-slots.subclass = Slot(uri=KGCL.subclass, name="subclass", curie=KGCL.curie('subclass'),
-                   model_uri=KGCL.subclass, domain=None, range=Optional[str])
-
-slots.new_subclass = Slot(uri=KGCL.new_subclass, name="new subclass", curie=KGCL.curie('new_subclass'),
-                   model_uri=KGCL.new_subclass, domain=None, range=Optional[str])
-
-slots.new_property = Slot(uri=KGCL.new_property, name="new property", curie=KGCL.curie('new_property'),
-                   model_uri=KGCL.new_property, domain=None, range=Optional[str])
-
-slots.new_filler = Slot(uri=KGCL.new_filler, name="new filler", curie=KGCL.curie('new_filler'),
-                   model_uri=KGCL.new_filler, domain=None, range=Optional[str])
-
-slots.object_type = Slot(uri=KGCL.object_type, name="object type", curie=KGCL.curie('object_type'),
-                   model_uri=KGCL.object_type, domain=None, range=Optional[str])
-
-slots.new_object_type = Slot(uri=KGCL.new_object_type, name="new object type", curie=KGCL.curie('new_object_type'),
-                   model_uri=KGCL.new_object_type, domain=None, range=Optional[str])
-
-slots.old_object_type = Slot(uri=KGCL.old_object_type, name="old object type", curie=KGCL.curie('old_object_type'),
-                   model_uri=KGCL.old_object_type, domain=None, range=Optional[str])
-
-slots.new_value_type = Slot(uri=KGCL.new_value_type, name="new value type", curie=KGCL.curie('new_value_type'),
-                   model_uri=KGCL.new_value_type, domain=None, range=Optional[str])
-
-slots.old_value_type = Slot(uri=KGCL.old_value_type, name="old value type", curie=KGCL.curie('old_value_type'),
-                   model_uri=KGCL.old_value_type, domain=None, range=Optional[str])
-
-slots.subject_type = Slot(uri=KGCL.subject_type, name="subject type", curie=KGCL.curie('subject_type'),
-                   model_uri=KGCL.subject_type, domain=None, range=Optional[str])
-
-slots.subclass_type = Slot(uri=KGCL.subclass_type, name="subclass type", curie=KGCL.curie('subclass_type'),
-                   model_uri=KGCL.subclass_type, domain=None, range=Optional[str])
-
-slots.superclass_type = Slot(uri=KGCL.superclass_type, name="superclass type", curie=KGCL.curie('superclass_type'),
-                   model_uri=KGCL.superclass_type, domain=None, range=Optional[str])
-
-slots.predicate_type = Slot(uri=KGCL.predicate_type, name="predicate type", curie=KGCL.curie('predicate_type'),
-                   model_uri=KGCL.predicate_type, domain=None, range=Optional[str])
-
 slots.in_subset = Slot(uri=KGCL.in_subset, name="in subset", curie=KGCL.curie('in_subset'),
                    model_uri=KGCL.in_subset, domain=None, range=Optional[Union[dict, OntologySubset]])
-
-slots.annotation_property = Slot(uri=KGCL.annotation_property, name="annotation property", curie=KGCL.curie('annotation_property'),
-                   model_uri=KGCL.annotation_property, domain=None, range=Optional[str])
-
-slots.annotation_property_type = Slot(uri=KGCL.annotation_property_type, name="annotation property type", curie=KGCL.curie('annotation_property_type'),
-                   model_uri=KGCL.annotation_property_type, domain=None, range=Optional[str])
 
 slots.change_description = Slot(uri=KGCL.change_description, name="change description", curie=KGCL.curie('change_description'),
                    model_uri=KGCL.change_description, domain=None, range=Optional[str])
@@ -2258,12 +1949,6 @@ slots.obsoletion_about = Slot(uri=KGCL.about, name="obsoletion_about", curie=KGC
 slots.obsoletion_has_undo = Slot(uri=KGCL.has_undo, name="obsoletion_has undo", curie=KGCL.curie('has_undo'),
                    model_uri=KGCL.obsoletion_has_undo, domain=None, range=Optional[Union[dict, "Obsoletion"]])
 
-slots.language_tag_change_old_value = Slot(uri=KGCL.old_value, name="language tag change_old value", curie=KGCL.curie('old_value'),
-                   model_uri=KGCL.language_tag_change_old_value, domain=LanguageTagChange, range=Optional[str])
-
-slots.language_tag_change_new_value = Slot(uri=KGCL.new_value, name="language tag change_new value", curie=KGCL.curie('new_value'),
-                   model_uri=KGCL.language_tag_change_new_value, domain=LanguageTagChange, range=Optional[str])
-
 slots.unobsoletion_has_undo = Slot(uri=KGCL.has_undo, name="unobsoletion_has undo", curie=KGCL.curie('has_undo'),
                    model_uri=KGCL.unobsoletion_has_undo, domain=None, range=Optional[Union[dict, Obsoletion]])
 
@@ -2291,18 +1976,6 @@ slots.edge_deletion_change_description = Slot(uri=KGCL.change_description, name=
 slots.edge_obsoletion_change_description = Slot(uri=KGCL.change_description, name="edge obsoletion_change description", curie=KGCL.curie('change_description'),
                    model_uri=KGCL.edge_obsoletion_change_description, domain=EdgeObsoletion, range=Optional[str])
 
-slots.mapping_creation_change_description = Slot(uri=KGCL.change_description, name="mapping creation_change description", curie=KGCL.curie('change_description'),
-                   model_uri=KGCL.mapping_creation_change_description, domain=MappingCreation, range=Optional[str])
-
-slots.mapping_creation_subject = Slot(uri=KGCL.subject, name="mapping creation_subject", curie=KGCL.curie('subject'),
-                   model_uri=KGCL.mapping_creation_subject, domain=MappingCreation, range=Optional[Union[str, NodeId]])
-
-slots.mapping_creation_predicate = Slot(uri=KGCL.predicate, name="mapping creation_predicate", curie=KGCL.curie('predicate'),
-                   model_uri=KGCL.mapping_creation_predicate, domain=MappingCreation, range=Optional[Union[str, NodeId]])
-
-slots.mapping_creation_object = Slot(uri=KGCL.object, name="mapping creation_object", curie=KGCL.curie('object'),
-                   model_uri=KGCL.mapping_creation_object, domain=MappingCreation, range=Optional[Union[str, NodeId]])
-
 slots.node_move_change_description = Slot(uri=KGCL.change_description, name="node move_change description", curie=KGCL.curie('change_description'),
                    model_uri=KGCL.node_move_change_description, domain=NodeMove, range=Optional[str])
 
@@ -2323,9 +1996,6 @@ slots.node_rename_new_value = Slot(uri=KGCL.new_value, name="node rename_new val
 
 slots.node_rename_change_description = Slot(uri=KGCL.change_description, name="node rename_change description", curie=KGCL.curie('change_description'),
                    model_uri=KGCL.node_rename_change_description, domain=NodeRename, range=Optional[str])
-
-slots.set_language_for_name_change_description = Slot(uri=KGCL.change_description, name="set language for name_change description", curie=KGCL.curie('change_description'),
-                   model_uri=KGCL.set_language_for_name_change_description, domain=SetLanguageForName, range=Optional[str])
 
 slots.name_becomes_synonym_change_1 = Slot(uri=KGCL.change_1, name="name becomes synonym_change 1", curie=KGCL.curie('change_1'),
                    model_uri=KGCL.name_becomes_synonym_change_1, domain=NameBecomesSynonym, range=Optional[Union[str, NodeRenameId]])

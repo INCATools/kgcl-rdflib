@@ -1,0 +1,2 @@
+create node obo:NCBITaxon_2 'Bacteria'
+create obo:NCBITaxon_4

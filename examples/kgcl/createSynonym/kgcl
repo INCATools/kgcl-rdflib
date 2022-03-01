@@ -1,0 +1,5 @@
+create synonym 'Virus' for obo:NCBITaxon_2
+create exact synonym 'Eubacteria' for obo:NCBITaxon_2
+create related synonym 'Disease' for obo:NCBITaxon_2
+create narrow synonym 'Bacterium' for obo:NCBITaxon_2
+create broad synonym 'Infection'@en for obo:NCBITaxon_2
