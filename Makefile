@@ -5,7 +5,7 @@ SCHEMA_NAMES = $(patsubst $(SCHEMA_DIR)/%.yaml, %, $(SOURCE_FILES))
 
 SCHEMA_NAME = kgcl
 SCHEMA_SRC = $(SCHEMA_DIR)/$(SCHEMA_NAME).yaml
-TGTS = graphql jsonschema ldcontext docs  owl csv graphql python shex sql
+TGTS = graphql jsonschema ldcontext docs  owl csv graphql python shex
 
 #GEN_OPTS = --no-mergeimports
 GEN_OPTS = 
@@ -25,7 +25,7 @@ echo:
 test: all test_framework
 
 test_framework:
-	pipenv run python -m unittest discover -p 'test_*.py'
+	python -m unittest discover -p 'test_*.py'
 
 install:
 	. environment.sh
