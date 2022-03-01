@@ -6,6 +6,8 @@ PREFIX om: <http://w3id.org/kgcl/om/>
 PREFIX prov: <http://www.w3.org/ns/prov#>
 PREFIX dc: <http://purl.org/dc/terms/>
 PREFIX owl: <http://www.w3.org/2002/07/owl#>
+PREFIX basics: <https://w3id.org/kgcl/basics/>
+PREFIX xml1: <http://example.org/UNKNOWN/xml/>
 
 
 <ChangeClassType> IRI
@@ -37,6 +39,8 @@ linkml:Ncname xsd:string
 linkml:Objectidentifier IRI
 
 linkml:Nodeidentifier NONLITERAL
+
+basics:LanguageTag xml1:lang
 
 prov:Activity CLOSED {
     (  $prov:Activity_tes (  prov:startedAtTime @linkml:String ? ;
@@ -113,7 +117,7 @@ om:Annotation CLOSED {
 }
 
 <ChangeMixin>  (
-    @<Creation> OR @<Deletion> OR @<Obsoletion> OR @<SubsetMembershipChange> OR @<Unobsoletion>
+    @<Creation> OR @<DatatypeOrLanguageTagChange> OR @<Deletion> OR @<Obsoletion> OR @<SubsetMembershipChange> OR @<Unobsoletion>
 )
 
 <ChangeMixin_struct> {
@@ -184,10 +188,22 @@ om:ClassNode CLOSED {
 }
 
 <DatatypeChange> CLOSED {
-    (  $<DatatypeChange_tes> (  &<SimpleChange_tes> ;
-          rdf:type [ <SimpleChange> ] ?
+    (  $<DatatypeChange_tes> (  &<DatatypeOrLanguageTagChange_tes> ;
+          rdf:type [ <DatatypeOrLanguageTagChange> ] ?
        ) ;
-       rdf:type [ <DatatypeChange> ]
+       rdf:type [ <DatatypeChange> ] ?
+    )
+}
+
+<DatatypeOrLanguageTagChange>  (
+    @<DatatypeChange> OR @<LanguageTagChange>
+)
+
+<DatatypeOrLanguageTagChange_struct> {
+    (  $<DatatypeOrLanguageTagChange_tes> (  &<ChangeMixin_tes> ;
+          rdf:type [ <ChangeMixin> ] ?
+       ) ;
+       rdf:type [ <DatatypeOrLanguageTagChange> ] ?
     )
 }
 
@@ -240,7 +256,7 @@ om:Edge CLOSED {
           ) ;
           rdf:type [ <EdgeCreation> ]
        )
-    } OR @<PlaceUnder>
+    } OR @<MappingCreation> OR @<PlaceUnder>
 )
 
 <EdgeDeletion> CLOSED {
@@ -298,6 +314,16 @@ om:InstanceNode CLOSED {
     )
 }
 
+<LanguageTagChange> CLOSED {
+    (  $<LanguageTagChange_tes> (  &<DatatypeOrLanguageTagChange_tes> ;
+          rdf:type [ <DatatypeOrLanguageTagChange> ] ? ;
+          <old_value> @basics:LanguageTag ? ;
+          <new_value> @basics:LanguageTag ?
+       ) ;
+       rdf:type [ <LanguageTagChange> ] ?
+    )
+}
+
 <LogicalAxiomChange> CLOSED {
     (  $<LogicalAxiomChange_tes> (  &<SimpleChange_tes> ;
           rdf:type [ <SimpleChange> ] ?
@@ -311,6 +337,20 @@ om:LogicalDefinition CLOSED {
           rdf:type [ om:OntologyElement ] ?
        ) ;
        rdf:type [ om:LogicalDefinition ] ?
+    )
+}
+
+<MappingCreation> CLOSED {
+    (  $<MappingCreation_tes> (  &<EdgeCreation_tes> ;
+          rdf:type [ <EdgeCreation> ] ? ;
+          &<Creation_tes> ;
+          rdf:type [ <Creation> ] ? ;
+          <subject> @om:Node ? ;
+          <predicate> @om:Node ? ;
+          <object> @om:Node ? ;
+          <change_description> @linkml:String ?
+       ) ;
+       rdf:type [ <MappingCreation> ]
     )
 }
 
@@ -385,13 +425,14 @@ om:Node  (
 
 <NodeChange>  (
     @<AddNodeToSubset> OR @<NodeAnnotationChange> OR @<NodeCreation> OR @<NodeDeletion> OR @<NodeObsoletion> OR @<NodeRename> OR
-    @<NodeSynonymChange> OR @<NodeTextDefinitionChange> OR @<NodeUnobsoletion> OR @<RemovedNodeFromSubset>
+    @<NodeSynonymChange> OR @<NodeTextDefinitionChange> OR @<NodeUnobsoletion> OR @<RemovedNodeFromSubset> OR @<SetLanguageForName>
 )
 
 <NodeChange_struct> {
     (  $<NodeChange_tes> (  &<SimpleChange_tes> ;
           rdf:type [ <SimpleChange> ] ? ;
-          <about_node> @om:Node ?
+          <about_node> @om:Node ? ;
+          <language> @basics:LanguageTag ?
        ) ;
        rdf:type [ <NodeChange> ]
     )
@@ -658,8 +699,19 @@ om:PropertyValue  (
     )
 }
 
+<SetLanguageForName> CLOSED {
+    (  $<SetLanguageForName_tes> (  &<NodeChange_tes> ;
+          rdf:type [ <NodeChange> ] ? ;
+          &<LanguageTagChange_tes> ;
+          rdf:type [ <LanguageTagChange> ] ? ;
+          <change_description> @linkml:String ?
+       ) ;
+       rdf:type [ <SetLanguageForName> ]
+    )
+}
+
 <SimpleChange>  (
-    @<DatatypeChange> OR @<EdgeChange> OR @<LogicalAxiomChange> OR @<NodeChange>
+    @<EdgeChange> OR @<LogicalAxiomChange> OR @<NodeChange>
 )
 
 <SimpleChange_struct> {

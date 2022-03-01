@@ -1,2 +1,2 @@
-linkml >= 1.0.1
+linkml >= 1.0.4
 mkdocs

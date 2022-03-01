@@ -22,6 +22,7 @@ type AddNodeToSubset implements AddToSubset
     oldValue: String
     newValue: String
     aboutNode: Node
+    language: LanguageTag
     inSubset: OntologySubset
   }
 
@@ -86,6 +87,7 @@ type ClassCreation
     oldValue: String
     newValue: String
     aboutNode: Node
+    language: LanguageTag
     nodeId: Node
     name: String
     owlType: OwlTypeEnum
@@ -134,16 +136,10 @@ interface Creation
 
 type DatatypeChange
   {
-    id: String!
-    wasGeneratedBy: Activity
-    seeAlso: String
-    pullRequest: String
-    creator: String
-    changeDate: String
-    contributor: String
-    hasUndo: Change
-    oldValue: String
-    newValue: String
+  }
+
+interface DatatypeOrLanguageTagChange
+  {
   }
 
 interface Deletion
@@ -275,6 +271,12 @@ type InstanceNode
     owlType: OwlTypeEnum
   }
 
+type LanguageTagChange
+  {
+    oldValue: LanguageTag
+    newValue: LanguageTag
+  }
+
 type LogicalAxiomChange
   {
     id: String!
@@ -291,6 +293,26 @@ type LogicalAxiomChange
 
 type LogicalDefinition
   {
+  }
+
+type MappingCreation implements Creation
+  {
+    id: String!
+    wasGeneratedBy: Activity
+    seeAlso: String
+    pullRequest: String
+    creator: String
+    changeDate: String
+    contributor: String
+    hasUndo: Change
+    oldValue: String
+    newValue: String
+    aboutEdge: Edge
+    subject: Node
+    predicate: Node
+    object: Node
+    annotationSet: Annotation
+    changeDescription: String
   }
 
 type MultiNodeObsoletion
@@ -321,6 +343,7 @@ type NameBecomesSynonym
     oldValue: String
     newValue: String
     aboutNode: Node
+    language: LanguageTag
     change1: NodeRename
     change2: NewSynonym
     changeDescription: String
@@ -338,6 +361,7 @@ type NewSynonym
     hasUndo: Change
     oldValue: String
     aboutNode: Node
+    language: LanguageTag
     newValue: String
   }
 
@@ -353,6 +377,7 @@ type NewTextDefinition
     hasUndo: Change
     oldValue: String
     aboutNode: Node
+    language: LanguageTag
     newValue: String
   }
 
@@ -377,6 +402,7 @@ type NodeAnnotationChange
     oldValue: String
     newValue: String
     aboutNode: Node
+    language: LanguageTag
   }
 
 type NodeAnnotationReplacement
@@ -392,6 +418,7 @@ type NodeAnnotationReplacement
     oldValue: String
     newValue: String
     aboutNode: Node
+    language: LanguageTag
   }
 
 interface NodeChange
@@ -407,6 +434,7 @@ interface NodeChange
     oldValue: String
     newValue: String
     aboutNode: Node
+    language: LanguageTag
   }
 
 type NodeCreation implements Creation
@@ -422,6 +450,7 @@ type NodeCreation implements Creation
     oldValue: String
     newValue: String
     aboutNode: Node
+    language: LanguageTag
     nodeId: Node
     name: String
     owlType: OwlTypeEnum
@@ -459,6 +488,7 @@ type NodeDeletion implements Deletion
     oldValue: String
     newValue: String
     aboutNode: Node
+    language: LanguageTag
     changeDescription: String
   }
 
@@ -474,6 +504,7 @@ type NodeDirectMerge implements AllowsAutomaticReplacementOfEdges
     hasUndo: Change
     oldValue: String
     newValue: String
+    language: LanguageTag
     hasNondirectReplacement: [Node]
     associatedChangeSet: [Change]
     about: OntologyElement
@@ -512,6 +543,7 @@ type NodeObsoletion implements Obsoletion
     oldValue: String
     newValue: String
     aboutNode: Node
+    language: LanguageTag
     hasDirectReplacement: Node
     hasNondirectReplacement: [Node]
     changeDescription: String
@@ -532,6 +564,7 @@ type NodeObsoletionWithDirectReplacement implements AllowsAutomaticReplacementOf
     oldValue: String
     newValue: String
     aboutNode: Node
+    language: LanguageTag
     hasNondirectReplacement: [Node]
     associatedChangeSet: [Change]
     about: OntologyElement
@@ -552,6 +585,7 @@ type NodeObsoletionWithNoDirectReplacement
     oldValue: String
     newValue: String
     aboutNode: Node
+    language: LanguageTag
     hasDirectReplacement: Node
     associatedChangeSet: [Change]
     about: OntologyElement
@@ -570,6 +604,7 @@ type NodeRename
     contributor: String
     hasUndo: Change
     aboutNode: Node
+    language: LanguageTag
     oldValue: String
     newValue: String
     hasTextualDiff: TextualDiff
@@ -606,6 +641,7 @@ type NodeSynonymChange
     oldValue: String
     newValue: String
     aboutNode: Node
+    language: LanguageTag
   }
 
 interface NodeTextDefinitionChange
@@ -621,6 +657,7 @@ interface NodeTextDefinitionChange
     oldValue: String
     newValue: String
     aboutNode: Node
+    language: LanguageTag
   }
 
 type NodeUnobsoletion implements Unobsoletion
@@ -636,6 +673,7 @@ type NodeUnobsoletion implements Unobsoletion
     oldValue: String
     newValue: String
     aboutNode: Node
+    language: LanguageTag
     changeDescription: String
     replacedBy: Node
     consider: Node
@@ -716,6 +754,7 @@ type RemoveSynonym
     hasUndo: Change
     newValue: String
     aboutNode: Node
+    language: LanguageTag
     oldValue: String
   }
 
@@ -731,6 +770,7 @@ type RemoveTextDefinition
     hasUndo: Change
     newValue: String
     aboutNode: Node
+    language: LanguageTag
     oldValue: String
   }
 
@@ -746,6 +786,7 @@ type RemovedNodeFromSubset implements RemoveFromSubset
     hasUndo: Change
     oldValue: String
     newValue: String
+    language: LanguageTag
     changeDescription: String
     aboutNode: Node
     subset: String
@@ -756,6 +797,23 @@ type Session
   {
     changeSet: [Change]
     activitySet: [Activity]
+  }
+
+type SetLanguageForName implements LanguageTagChange
+  {
+    id: String!
+    wasGeneratedBy: Activity
+    seeAlso: String
+    pullRequest: String
+    creator: String
+    changeDate: String
+    contributor: String
+    hasUndo: Change
+    aboutNode: Node
+    language: LanguageTag
+    oldValue: String
+    newValue: String
+    changeDescription: String
   }
 
 interface SimpleChange
@@ -788,6 +846,7 @@ type SynonymPredicateChange
     contributor: String
     hasUndo: Change
     aboutNode: Node
+    language: LanguageTag
     oldValue: String
     newValue: String
     hasTextualDiff: TextualDiff
@@ -804,6 +863,7 @@ type SynonymReplacement
     contributor: String
     hasUndo: Change
     aboutNode: Node
+    language: LanguageTag
     oldValue: String
     newValue: String
     hasTextualDiff: TextualDiff
@@ -820,6 +880,7 @@ type TextDefinitionReplacement
     contributor: String
     hasUndo: Change
     aboutNode: Node
+    language: LanguageTag
     oldValue: String
     newValue: String
     hasTextualDiff: TextualDiff

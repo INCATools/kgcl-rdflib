@@ -18,6 +18,11 @@ default_curi_maps:
 imports:
   - linkml:types
 
+types:
+  language tag:
+    base: str
+    uri: xml:lang
+
 slots:
   id:
     identifier: true

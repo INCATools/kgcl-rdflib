@@ -1,5 +1,5 @@
 # Auto generated from basics.yaml by pythongen.py version: 0.9.0
-# Generation date: 2021-05-11 09:08
+# Generation date: 2021-08-19 15:44
 # Schema: basics
 #
 # id: https://w3id.org/kgcl/basics
@@ -9,7 +9,7 @@
 import dataclasses
 import sys
 import re
-from jsonasobj2 import JsonObj
+from jsonasobj2 import JsonObj, as_dict
 from typing import Optional, List, Union, Dict, ClassVar, Any
 from dataclasses import dataclass
 from linkml_runtime.linkml_model.meta import EnumDefinition, PermissibleValue, PvFormulaOptions
@@ -22,7 +22,7 @@ from linkml_runtime.utils.formatutils import camelcase, underscore, sfx
 from linkml_runtime.utils.enumerations import EnumDefinitionImpl
 from rdflib import Namespace, URIRef
 from linkml_runtime.utils.curienamespace import CurieNamespace
-from linkml_model.types import String
+from linkml_runtime.linkml_model.types import String
 
 metamodel_version = "1.7.0"
 
@@ -33,10 +33,17 @@ dataclasses._init_fn = dataclasses_init_fn_with_kwargs
 BASICS = CurieNamespace('basics', 'https://w3id.org/kgcl/basics/')
 DCTERMS = CurieNamespace('dcterms', 'http://purl.org/dc/terms/')
 LINKML = CurieNamespace('linkml', 'https://w3id.org/linkml/')
+XML = CurieNamespace('xml', 'http://example.org/UNKNOWN/xml/')
 DEFAULT_ = BASICS
 
 
 # Types
+class LanguageTag(str):
+    type_class_uri = XML.lang
+    type_class_curie = "xml:lang"
+    type_name = "language tag"
+    type_model_uri = BASICS.LanguageTag
+
 
 # Class references
 

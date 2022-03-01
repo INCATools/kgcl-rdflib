@@ -5,7 +5,7 @@ SCHEMA_NAMES = $(patsubst $(SCHEMA_DIR)/%.yaml, %, $(SOURCE_FILES))
 
 SCHEMA_NAME = kgcl
 SCHEMA_SRC = $(SCHEMA_DIR)/$(SCHEMA_NAME).yaml
-TGTS = graphql jsonschema ldcontext docs  owl csv graphql python shex
+TGTS = graphql jsonschema ldcontext docs  owl csv graphql python shex sql
 
 #GEN_OPTS = --no-mergeimports
 GEN_OPTS = 
@@ -22,10 +22,10 @@ t:
 echo:
 	echo $(patsubst %,gen-%,$(TGTS))
 
-test: all pytest
+test: all test_framework
 
-pytest:
-	pytest
+test_framework:
+	pipenv run python -m unittest discover -p 'test_*.py'
 
 install:
 	. environment.sh
@@ -80,7 +80,7 @@ target/ldcontext/%.context.jsonld: $(SCHEMA_DIR)/%.yaml tdir-ldcontext
 
 ###  -- SQL schema --
 # TODO: modularize imports. For now imports are merged.
-gen-sqlddl: target/sql/$(SCHEMA_NAME).schema.sql
+gen-sql: target/sql/$(SCHEMA_NAME).schema.sql
 target/sql/%.schema.sql: $(SCHEMA_DIR)/%.yaml tdir-sql
 	gen-sqlddl $(GEN_OPTS) --dialect sqlite $< > $@
 

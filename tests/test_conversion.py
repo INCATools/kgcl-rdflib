@@ -16,16 +16,16 @@ class ConversionTestSuite(unittest.TestCase):
     def setUp(self) -> None:
         self.session = from_yaml(f'{EXAMPLE_DIR}/de-novo.yaml')
 
-    #def test_convert(self):
-    #    session = from_yaml(f'{EXAMPLE_DIR}/de-novo.yaml')
-    #    print(f'Session: {session}')
-    #    json = to_json(session)
-    #    ofn = os.path.join(OUTPUT_DIR, "test.json")
-    #    with open(ofn, "w") as stream:
-    #        stream.write(json)
-    #    with open(os.path.join(OUTPUT_DIR, "test.jsonld"), "w") as stream:
-    #        stream.write(to_jsonld(session))
-    #    G: Graph
-    #    G = to_rdf(session)
-    #    G.serialize(os.path.join(OUTPUT_DIR, "test.rdf"), format='turtle')
+    def test_convert(self):
+        session = from_yaml(f'{EXAMPLE_DIR}/de-novo.yaml')
+        print(f'Session: {session}')
+        json = to_json(session)
+        ofn = os.path.join(OUTPUT_DIR, "test.json")
+        with open(ofn, "w") as stream:
+            stream.write(json)
+        with open(os.path.join(OUTPUT_DIR, "test.jsonld"), "w") as stream:
+            stream.write(to_jsonld(session))
+        G: Graph
+        G = to_rdf(session)
+        G.serialize(os.path.join(OUTPUT_DIR, "test.rdf"), format='turtle')
 
