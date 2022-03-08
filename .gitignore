@@ -9,7 +9,7 @@ venv/
 docs/*md
 docs/types/
 */my_schema.*
-*/__pycache__/*
+**/__pycache__/**
 tests/output/*
 csv/*
 graphql/*
@@ -18,3 +18,6 @@ model/*
 */__pycache__/*
 tests/outputs/*
 kgcl/model/__pycache__/*
+build/*
+dist/*
+kgcl.egg-info/**
