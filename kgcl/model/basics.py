@@ -7,22 +7,25 @@
 # license: https://creativecommons.org/publicdomain/zero/1.0/
 
 import dataclasses
-import sys
 import re
-from jsonasobj2 import JsonObj, as_dict
-from typing import Optional, List, Union, Dict, ClassVar, Any
+import sys
 from dataclasses import dataclass
-from linkml_runtime.linkml_model.meta import EnumDefinition, PermissibleValue, PvFormulaOptions
+from typing import Any, ClassVar, Dict, List, Optional, Union
 
-from linkml_runtime.utils.slot import Slot
-from linkml_runtime.utils.metamodelcore import empty_list, empty_dict, bnode
-from linkml_runtime.utils.yamlutils import YAMLRoot, extended_str, extended_float, extended_int
-from linkml_runtime.utils.dataclass_extensions_376 import dataclasses_init_fn_with_kwargs
-from linkml_runtime.utils.formatutils import camelcase, underscore, sfx
-from linkml_runtime.utils.enumerations import EnumDefinitionImpl
-from rdflib import Namespace, URIRef
-from linkml_runtime.utils.curienamespace import CurieNamespace
+from jsonasobj2 import JsonObj, as_dict
+from linkml_runtime.linkml_model.meta import (EnumDefinition, PermissibleValue,
+                                              PvFormulaOptions)
 from linkml_runtime.linkml_model.types import String
+from linkml_runtime.utils.curienamespace import CurieNamespace
+from linkml_runtime.utils.dataclass_extensions_376 import \
+    dataclasses_init_fn_with_kwargs
+from linkml_runtime.utils.enumerations import EnumDefinitionImpl
+from linkml_runtime.utils.formatutils import camelcase, sfx, underscore
+from linkml_runtime.utils.metamodelcore import bnode, empty_dict, empty_list
+from linkml_runtime.utils.slot import Slot
+from linkml_runtime.utils.yamlutils import (YAMLRoot, extended_float,
+                                            extended_int, extended_str)
+from rdflib import Namespace, URIRef
 
 metamodel_version = "1.7.0"
 
@@ -30,10 +33,10 @@ metamodel_version = "1.7.0"
 dataclasses._init_fn = dataclasses_init_fn_with_kwargs
 
 # Namespaces
-BASICS = CurieNamespace('basics', 'https://w3id.org/kgcl/basics/')
-DCTERMS = CurieNamespace('dcterms', 'http://purl.org/dc/terms/')
-LINKML = CurieNamespace('linkml', 'https://w3id.org/linkml/')
-XML = CurieNamespace('xml', 'http://example.org/UNKNOWN/xml/')
+BASICS = CurieNamespace("basics", "https://w3id.org/kgcl/basics/")
+DCTERMS = CurieNamespace("dcterms", "http://purl.org/dc/terms/")
+LINKML = CurieNamespace("linkml", "https://w3id.org/linkml/")
+XML = CurieNamespace("xml", "http://example.org/UNKNOWN/xml/")
 DEFAULT_ = BASICS
 
 
@@ -48,8 +51,6 @@ class LanguageTag(str):
 # Class references
 
 
-
-
 # Enumerations
 
 
@@ -57,8 +58,21 @@ class LanguageTag(str):
 class slots:
     pass
 
-slots.id = Slot(uri=BASICS.id, name="id", curie=BASICS.curie('id'),
-                   model_uri=BASICS.id, domain=None, range=URIRef)
 
-slots.description = Slot(uri=DCTERMS.description, name="description", curie=DCTERMS.curie('description'),
-                   model_uri=BASICS.description, domain=None, range=Optional[str])
+slots.id = Slot(
+    uri=BASICS.id,
+    name="id",
+    curie=BASICS.curie("id"),
+    model_uri=BASICS.id,
+    domain=None,
+    range=URIRef,
+)
+
+slots.description = Slot(
+    uri=DCTERMS.description,
+    name="description",
+    curie=DCTERMS.curie("description"),
+    model_uri=BASICS.description,
+    domain=None,
+    range=Optional[str],
+)

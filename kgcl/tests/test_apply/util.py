@@ -1,5 +1,6 @@
-from rdflib.compare import to_isomorphic, graph_diff
-from rdflib import URIRef, Literal, Graph
+from rdflib import Graph, Literal, URIRef
+from rdflib.compare import graph_diff, to_isomorphic
+
 from kgcl.apply.graph_transformer import apply_patch
 from kgcl.grammar.parser import parse
 

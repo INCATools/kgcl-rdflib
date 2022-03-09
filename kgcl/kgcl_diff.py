@@ -1,19 +1,18 @@
-import click
 import os
-import grammar.parser
-import apply.graph_transformer
-import rdflib
-from datetime import datetime
-from pretty_print_kgcl import render_instances
-
-import diff.diff_2_kgcl_single as single
-from diff.diff_2_kgcl_single import SingleTripleChangeSummary
-import diff.diff_2_kgcl_existential as existential
-from diff.diff_2_kgcl_existential import ExistentialChangeSummary
-import diff.diff_2_kgcl_triple_annotation as annotation
-from diff.diff_2_kgcl_triple_annotation import TripleAnnotationChangeSummary
-
 import sys
+from datetime import datetime
+
+import apply.graph_transformer
+import click
+import diff.diff_2_kgcl_existential as existential
+import diff.diff_2_kgcl_single as single
+import diff.diff_2_kgcl_triple_annotation as annotation
+import grammar.parser
+import rdflib
+from diff.diff_2_kgcl_existential import ExistentialChangeSummary
+from diff.diff_2_kgcl_single import SingleTripleChangeSummary
+from diff.diff_2_kgcl_triple_annotation import TripleAnnotationChangeSummary
+from pretty_print_kgcl import render_instances
 
 
 class Config(object):

@@ -1,23 +1,11 @@
 import re
-from kgcl.model.kgcl import (
-    NodeRename,
-    NodeObsoletion,
-    NodeUnobsoletion,
-    NodeDeletion,
-    NodeMove,
-    NodeDeepening,
-    NodeShallowing,
-    NodeAnnotationChange,
-    EdgeCreation,
-    EdgeDeletion,
-    PredicateChange,
-    NodeCreation,
-    ClassCreation,
-    NewSynonym,
-    RemovedNodeFromSubset,
-    PlaceUnder,
-    RemoveUnder,
-)
+
+from kgcl.model.kgcl import (ClassCreation, EdgeCreation, EdgeDeletion,
+                             NewSynonym, NodeAnnotationChange, NodeCreation,
+                             NodeDeepening, NodeDeletion, NodeMove,
+                             NodeObsoletion, NodeRename, NodeShallowing,
+                             NodeUnobsoletion, PlaceUnder, PredicateChange,
+                             RemovedNodeFromSubset, RemoveUnder)
 
 
 def get_prefix(curie):

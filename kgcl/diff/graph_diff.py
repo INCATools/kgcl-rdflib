@@ -1,10 +1,8 @@
 import rdflib
-from .owlstar_sublanguage import (
-    get_thin_triples,
-    get_atomic_existentials,
-    get_triple_annotations,
-    get_atomic_subsumptions,
-)
+
+from .owlstar_sublanguage import (get_atomic_existentials,
+                                  get_atomic_subsumptions, get_thin_triples,
+                                  get_triple_annotations)
 
 
 def get_added_thin_triples(g1, g2):

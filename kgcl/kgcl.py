@@ -1,10 +1,11 @@
+import sys
+
 import click
-import kgcl.grammar.parser
-import kgcl.apply.graph_transformer
 import rdflib
 from rdflib.util import guess_format
 
-import sys
+import kgcl.apply.graph_transformer
+import kgcl.grammar.parser
 
 sys.path.append("../")
 import python.kgcl

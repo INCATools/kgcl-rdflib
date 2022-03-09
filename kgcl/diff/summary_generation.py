@@ -1,10 +1,12 @@
-import rdflib
-from datetime import datetime
-from kgcl.diff.pretty_print_kgcl import render_instances
-import kgcl.diff.diff_2_kgcl_single as single
-import kgcl.diff.diff_2_kgcl_existential as existential
 import os
+from datetime import datetime
+
+import rdflib
 from rdflib.util import guess_format
+
+import kgcl.diff.diff_2_kgcl_existential as existential
+import kgcl.diff.diff_2_kgcl_single as single
+from kgcl.diff.pretty_print_kgcl import render_instances
 
 
 def ts():

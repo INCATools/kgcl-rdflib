@@ -8,22 +8,25 @@
 # license: https://creativecommons.org/publicdomain/zero/1.0/
 
 import dataclasses
-import sys
 import re
-from jsonasobj2 import JsonObj
-from typing import Optional, List, Union, Dict, ClassVar, Any
+import sys
 from dataclasses import dataclass
-from linkml_runtime.linkml_model.meta import EnumDefinition, PermissibleValue, PvFormulaOptions
+from typing import Any, ClassVar, Dict, List, Optional, Union
 
-from linkml_runtime.utils.slot import Slot
-from linkml_runtime.utils.metamodelcore import empty_list, empty_dict, bnode
-from linkml_runtime.utils.yamlutils import YAMLRoot, extended_str, extended_float, extended_int
-from linkml_runtime.utils.dataclass_extensions_376 import dataclasses_init_fn_with_kwargs
-from linkml_runtime.utils.formatutils import camelcase, underscore, sfx
-from linkml_runtime.utils.enumerations import EnumDefinitionImpl
-from rdflib import Namespace, URIRef
-from linkml_runtime.utils.curienamespace import CurieNamespace
+from jsonasobj2 import JsonObj
+from linkml_runtime.linkml_model.meta import (EnumDefinition, PermissibleValue,
+                                              PvFormulaOptions)
 from linkml_runtime.linkml_model.types import String
+from linkml_runtime.utils.curienamespace import CurieNamespace
+from linkml_runtime.utils.dataclass_extensions_376 import \
+    dataclasses_init_fn_with_kwargs
+from linkml_runtime.utils.enumerations import EnumDefinitionImpl
+from linkml_runtime.utils.formatutils import camelcase, sfx, underscore
+from linkml_runtime.utils.metamodelcore import bnode, empty_dict, empty_list
+from linkml_runtime.utils.slot import Slot
+from linkml_runtime.utils.yamlutils import (YAMLRoot, extended_float,
+                                            extended_int, extended_str)
+from rdflib import Namespace, URIRef
 
 metamodel_version = "1.7.0"
 
@@ -31,12 +34,12 @@ metamodel_version = "1.7.0"
 dataclasses._init_fn = dataclasses_init_fn_with_kwargs
 
 # Namespaces
-DCTERMS = CurieNamespace('dcterms', 'http://purl.org/dc/terms/')
-LINKML = CurieNamespace('linkml', 'https://w3id.org/linkml/')
-OIO = CurieNamespace('oio', 'http://www.geneontology.org/formats/oboInOwl#')
-OM = CurieNamespace('om', 'http://w3id.org/kgcl/om/')
-OWL = CurieNamespace('owl', 'http://www.w3.org/2002/07/owl#')
-RDF = CurieNamespace('rdf', 'http://www.w3.org/1999/02/22-rdf-syntax-ns#')
+DCTERMS = CurieNamespace("dcterms", "http://purl.org/dc/terms/")
+LINKML = CurieNamespace("linkml", "https://w3id.org/linkml/")
+OIO = CurieNamespace("oio", "http://www.geneontology.org/formats/oboInOwl#")
+OM = CurieNamespace("om", "http://w3id.org/kgcl/om/")
+OWL = CurieNamespace("owl", "http://www.w3.org/2002/07/owl#")
+RDF = CurieNamespace("rdf", "http://www.w3.org/1999/02/22-rdf-syntax-ns#")
 DEFAULT_ = OM
 
 
@@ -59,6 +62,7 @@ class OntologyElement(YAMLRoot):
     """
     Any component of an ontology or knowledge graph
     """
+
     _inherited_slots: ClassVar[List[str]] = []
 
     class_class_uri: ClassVar[URIRef] = OM.OntologyElement
@@ -72,6 +76,7 @@ class PropertyValue(OntologyElement):
     """
     a property-value pair
     """
+
     _inherited_slots: ClassVar[List[str]] = []
 
     class_class_uri: ClassVar[URIRef] = OM.PropertyValue
@@ -97,6 +102,7 @@ class Annotation(PropertyValue):
     """
     owl annotations. Not to be confused with annotations sensu GO
     """
+
     _inherited_slots: ClassVar[List[str]] = []
 
     class_class_uri: ClassVar[URIRef] = OM.Annotation
@@ -115,7 +121,9 @@ class Annotation(PropertyValue):
         if self.filler is not None and not isinstance(self.filler, str):
             self.filler = str(self.filler)
 
-        if self.annotation_set is not None and not isinstance(self.annotation_set, Annotation):
+        if self.annotation_set is not None and not isinstance(
+            self.annotation_set, Annotation
+        ):
             self.annotation_set = Annotation(**self.annotation_set)
 
         super().__post_init__(**kwargs)
@@ -126,6 +134,7 @@ class Node(OntologyElement):
     """
     Any named entity in an ontology. May be a class, individual, property
     """
+
     _inherited_slots: ClassVar[List[str]] = []
 
     class_class_uri: ClassVar[URIRef] = OM.Node
@@ -147,7 +156,9 @@ class Node(OntologyElement):
         if self.name is not None and not isinstance(self.name, str):
             self.name = str(self.name)
 
-        if self.annotation_set is not None and not isinstance(self.annotation_set, Annotation):
+        if self.annotation_set is not None and not isinstance(
+            self.annotation_set, Annotation
+        ):
             self.annotation_set = Annotation(**self.annotation_set)
 
         if self.owl_type is not None and not isinstance(self.owl_type, OwlTypeEnum):
@@ -161,6 +172,7 @@ class ClassNode(Node):
     """
     A node that is a class
     """
+
     _inherited_slots: ClassVar[List[str]] = []
 
     class_class_uri: ClassVar[URIRef] = OWL.Class
@@ -184,6 +196,7 @@ class InstanceNode(Node):
     """
     A node that is an individual
     """
+
     _inherited_slots: ClassVar[List[str]] = []
 
     class_class_uri: ClassVar[URIRef] = OWL.NamedIndividual
@@ -207,6 +220,7 @@ class Edge(OntologyElement):
     """
     A relationship between two nodes. We assume owlstar or similar for existential restrictions
     """
+
     _inherited_slots: ClassVar[List[str]] = []
 
     class_class_uri: ClassVar[URIRef] = OM.Edge
@@ -229,7 +243,9 @@ class Edge(OntologyElement):
         if self.object is not None and not isinstance(self.object, NodeId):
             self.object = NodeId(self.object)
 
-        if self.annotation_set is not None and not isinstance(self.annotation_set, Annotation):
+        if self.annotation_set is not None and not isinstance(
+            self.annotation_set, Annotation
+        ):
             self.annotation_set = Annotation(**self.annotation_set)
 
         super().__post_init__(**kwargs)
@@ -256,59 +272,113 @@ class OntologySubset(OntologyElement):
 # Enumerations
 class OwlTypeEnum(EnumDefinitionImpl):
 
-    CLASS = PermissibleValue(text="CLASS",
-                                 meaning=OWL.Class)
-    OBJECT_PROPERTY = PermissibleValue(text="OBJECT_PROPERTY",
-                                                     meaning=OWL.ObjectProperty)
-    NAMED_INDIVIDUAL = PermissibleValue(text="NAMED_INDIVIDUAL",
-                                                       meaning=OWL.NamedIndividual)
+    CLASS = PermissibleValue(text="CLASS", meaning=OWL.Class)
+    OBJECT_PROPERTY = PermissibleValue(
+        text="OBJECT_PROPERTY", meaning=OWL.ObjectProperty
+    )
+    NAMED_INDIVIDUAL = PermissibleValue(
+        text="NAMED_INDIVIDUAL", meaning=OWL.NamedIndividual
+    )
 
     _defn = EnumDefinition(
         name="OwlTypeEnum",
     )
 
+
 class SynonymScopeEnum(EnumDefinitionImpl):
 
-    related = PermissibleValue(text="related",
-                                     meaning=OIO.hasNarrowSynonym)
-    broad = PermissibleValue(text="broad",
-                                 meaning=OIO.hasBroadSynonym)
-    narrow = PermissibleValue(text="narrow",
-                                   meaning=OIO.hasNarrowSynonym)
-    exact = PermissibleValue(text="exact",
-                                 meaning=OIO.hasExactSynonym)
+    related = PermissibleValue(text="related", meaning=OIO.hasNarrowSynonym)
+    broad = PermissibleValue(text="broad", meaning=OIO.hasBroadSynonym)
+    narrow = PermissibleValue(text="narrow", meaning=OIO.hasNarrowSynonym)
+    exact = PermissibleValue(text="exact", meaning=OIO.hasExactSynonym)
 
     _defn = EnumDefinition(
         name="SynonymScopeEnum",
     )
 
+
 # Slots
 class slots:
     pass
 
-slots.owl_type = Slot(uri=OM.owl_type, name="owl type", curie=OM.curie('owl_type'),
-                   model_uri=OM.owl_type, domain=None, range=Optional[Union[str, "OwlTypeEnum"]])
 
-slots.name = Slot(uri=OM.name, name="name", curie=OM.curie('name'),
-                   model_uri=OM.name, domain=None, range=Optional[str])
+slots.owl_type = Slot(
+    uri=OM.owl_type,
+    name="owl type",
+    curie=OM.curie("owl_type"),
+    model_uri=OM.owl_type,
+    domain=None,
+    range=Optional[Union[str, "OwlTypeEnum"]],
+)
 
-slots.subject = Slot(uri=OM.subject, name="subject", curie=OM.curie('subject'),
-                   model_uri=OM.subject, domain=None, range=Optional[Union[str, NodeId]])
+slots.name = Slot(
+    uri=OM.name,
+    name="name",
+    curie=OM.curie("name"),
+    model_uri=OM.name,
+    domain=None,
+    range=Optional[str],
+)
 
-slots.object = Slot(uri=OM.object, name="object", curie=OM.curie('object'),
-                   model_uri=OM.object, domain=None, range=Optional[Union[str, NodeId]])
+slots.subject = Slot(
+    uri=OM.subject,
+    name="subject",
+    curie=OM.curie("subject"),
+    model_uri=OM.subject,
+    domain=None,
+    range=Optional[Union[str, NodeId]],
+)
 
-slots.predicate = Slot(uri=OM.predicate, name="predicate", curie=OM.curie('predicate'),
-                   model_uri=OM.predicate, domain=None, range=Optional[Union[str, NodeId]])
+slots.object = Slot(
+    uri=OM.object,
+    name="object",
+    curie=OM.curie("object"),
+    model_uri=OM.object,
+    domain=None,
+    range=Optional[Union[str, NodeId]],
+)
 
-slots.annotation_set = Slot(uri=OM.annotation_set, name="annotation set", curie=OM.curie('annotation_set'),
-                   model_uri=OM.annotation_set, domain=None, range=Optional[Union[dict, Annotation]])
+slots.predicate = Slot(
+    uri=OM.predicate,
+    name="predicate",
+    curie=OM.curie("predicate"),
+    model_uri=OM.predicate,
+    domain=None,
+    range=Optional[Union[str, NodeId]],
+)
 
-slots.property = Slot(uri=OM.property, name="property", curie=OM.curie('property'),
-                   model_uri=OM.property, domain=None, range=Optional[Union[str, NodeId]])
+slots.annotation_set = Slot(
+    uri=OM.annotation_set,
+    name="annotation set",
+    curie=OM.curie("annotation_set"),
+    model_uri=OM.annotation_set,
+    domain=None,
+    range=Optional[Union[dict, Annotation]],
+)
 
-slots.filler = Slot(uri=OM.filler, name="filler", curie=OM.curie('filler'),
-                   model_uri=OM.filler, domain=None, range=Optional[str])
+slots.property = Slot(
+    uri=OM.property,
+    name="property",
+    curie=OM.curie("property"),
+    model_uri=OM.property,
+    domain=None,
+    range=Optional[Union[str, NodeId]],
+)
 
-slots.property_value_set = Slot(uri=OM.property_value_set, name="property value set", curie=OM.curie('property_value_set'),
-                   model_uri=OM.property_value_set, domain=None, range=Optional[Union[Union[dict, PropertyValue], List[Union[dict, PropertyValue]]]])
+slots.filler = Slot(
+    uri=OM.filler,
+    name="filler",
+    curie=OM.curie("filler"),
+    model_uri=OM.filler,
+    domain=None,
+    range=Optional[str],
+)
+
+slots.property_value_set = Slot(
+    uri=OM.property_value_set,
+    name="property value set",
+    curie=OM.curie("property_value_set"),
+    model_uri=OM.property_value_set,
+    domain=None,
+    range=Optional[Union[Union[dict, PropertyValue], List[Union[dict, PropertyValue]]]],
+)

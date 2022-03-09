@@ -1,27 +1,14 @@
 import rdflib
-from kgcl.model.kgcl import (
-    NodeRename,
-    NodeObsoletion,
-    NodeUnobsoletion,
-    NodeDeletion,
-    NodeMove,
-    NodeDeepening,
-    NodeShallowing,
-    EdgeCreation,
-    EdgeDeletion,
-    PredicateChange,
-    NodeCreation,
-    ClassCreation,
-    PlaceUnder,
-    RemoveUnder,
-    NewSynonym,
-    RemovedNodeFromSubset,
-)
-from kgcl.diff.graph_diff import (
-    get_added_existentials,
-    get_deleted_existentials,
-)
+
+from kgcl.diff.graph_diff import (get_added_existentials,
+                                  get_deleted_existentials)
 from kgcl.diff.render_operations import render
+from kgcl.model.kgcl import (ClassCreation, EdgeCreation, EdgeDeletion,
+                             NewSynonym, NodeCreation, NodeDeepening,
+                             NodeDeletion, NodeMove, NodeObsoletion,
+                             NodeRename, NodeShallowing, NodeUnobsoletion,
+                             PlaceUnder, PredicateChange,
+                             RemovedNodeFromSubset, RemoveUnder)
 
 
 def id_generator():
