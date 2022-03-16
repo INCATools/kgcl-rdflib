@@ -326,7 +326,9 @@ def change_predicate(kgcl_instance):
         object = escape_literal(object)
         if datatype is not None:
             # TODO: accept CURIES for data types
-            where__query += ' BIND( STRDT("' + object + '",' + datatype + ") AS ?object) "
+            where__query += (
+                ' BIND( STRDT("' + object + '",' + datatype + ") AS ?object) "
+            )
         elif language is not None:
             where__query += (
                 'BIND( STRLANG("' + object + '","' + language + '") AS ?object) '
@@ -1349,7 +1351,9 @@ def triple_deletion(kgcl_instance):
     if object_type == "literal":
         object = escape_literal(object)
         if datatype is not None:
-            where_query += ' BIND( STRDT("' + object + '",' + datatype + ") AS ?object) "
+            where_query += (
+                ' BIND( STRDT("' + object + '",' + datatype + ") AS ?object) "
+            )
         elif language is not None:
             where_query += (
                 'BIND( STRLANG("' + object + '","' + language + '") AS ?object) '
