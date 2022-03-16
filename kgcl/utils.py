@@ -43,7 +43,7 @@ def get_context() -> str:
 
 
 def to_json(session: Session) -> Graph:
-    """Converts a session object to plain json."""
+    """Convert a session object to plain json."""
     dumper = JSONDumper()
     jsons = dumper.dumps(session)
     return jsons
@@ -57,7 +57,7 @@ def to_jsonld(session: Session) -> str:
 
 
 def to_rdf(session: Session) -> Graph:
-    """Converts a session object to an rdflib Graph."""
+    """Convert a session object to an rdflib Graph."""
     dumper = RDFDumper()
     g = dumper.as_rdf_graph(element=session, contexts=get_context())
     return g
@@ -65,7 +65,7 @@ def to_rdf(session: Session) -> Graph:
 
 def from_yaml(filename: str) -> Session:
     """
-    This parses a slight variant of the standard serialization of the model into YAML.
+    Parse a slight variant of the standard serialization of the model into YAML.
 
     See de-novo.yaml as an example
 
@@ -76,7 +76,7 @@ def from_yaml(filename: str) -> Session:
     session = Session()
     loader = YAMLLoader()
     with open(filename, "r") as stream:
-        obj = yaml.load(stream)
+        obj = yaml.safe_load(stream)
         for a in obj["activity_set"]:
             activity = loader.load(source=a, target_class=Activity)
             session.activity_set.append(activity)
