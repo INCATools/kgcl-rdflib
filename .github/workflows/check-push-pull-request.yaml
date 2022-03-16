@@ -2,18 +2,15 @@ name: Check Push and Pull Request
 
 on:
   pull_request:
-    branches:
-      - main
+    branches: [master]
   push:
-    branches:
-      - main
-      - parser
-  repository_dispatch:
-    types: trigger-check-pull-request
+    branches: [master]
+  # repository_dispatch:
+  #   types: trigger-check-pull-request
 
 jobs:
   build:
-    runs-on: ubuntu-latest
+    runs-on: runs-on: ${{ matrix.os }}
     strategy:
     matrix:
       python-version: [3.7, 3.8, 3.9]
@@ -29,12 +26,12 @@ jobs:
       run: |
         pip install --upgrade pip
         pip install --upgrade tox
-        pip install mkdocs
-        pip install linkml
-        pip install Flask
-        pip install lark
-        pip install click  #used for CLI later on 
-        pip install pytest
+#        pip install mkdocs
+#        pip install linkml
+#        pip install Flask
+#        pip install lark
+#        pip install click  #used for CLI later on 
+#        pip install pytest
 
     # - name: Check manifest
     #   run: tox -e manifest
