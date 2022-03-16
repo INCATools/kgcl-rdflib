@@ -1,11 +1,10 @@
-"""
-convenience wrappers around linkml runtime, for doing basic conversion between objects
-and serialization formats.
+"""Convenience wrappers around linkml runtime.
 
+Needed for doing basic conversion between objects and serialization formats.
 The top level class is a Session object
-
 Some of this will become unnecessary in the future
 """
+
 import json
 import logging
 import os
@@ -20,7 +19,7 @@ from linkml_runtime.loaders.yaml_loader import YAMLLoader
 from rdflib import Graph
 
 import kgcl.model as model
-from kgcl.model.kgcl import Change, Session
+from kgcl.model.kgcl import Session
 from kgcl.model.prov import Activity
 
 THIS_DIR = os.path.abspath(os.path.dirname(__file__))
@@ -28,9 +27,7 @@ LD = os.path.join(THIS_DIR, "../ldcontext/kgcl.context.jsonld")
 
 
 def get_context() -> str:
-    """
-    gets the JSON-LD context
-    """
+    """Get JSON-LD context."""
     with open(LD) as stream:
         context = json.load(stream)
         context["@context"]["ANAT"] = {
@@ -46,27 +43,21 @@ def get_context() -> str:
 
 
 def to_json(session: Session) -> Graph:
-    """
-    converts a session object to plain json
-    """
+    """Converts a session object to plain json."""
     dumper = JSONDumper()
     jsons = dumper.dumps(session)
     return jsons
 
 
 def to_jsonld(session: Session) -> str:
-    """
-    converts a session object to JSON-LD
-    """
+    """Convert a session object to JSON-LD."""
     dumper = JSONDumper()
     jsons = dumper.dumps(session, get_context())
     return jsons
 
 
 def to_rdf(session: Session) -> Graph:
-    """
-    converts a session object to an rdflib Graph
-    """
+    """Converts a session object to an rdflib Graph."""
     dumper = RDFDumper()
     g = dumper.as_rdf_graph(element=session, contexts=get_context())
     return g
@@ -74,7 +65,7 @@ def to_rdf(session: Session) -> Graph:
 
 def from_yaml(filename: str) -> Session:
     """
-    This parses a slight variant of the standard serialization of the model into YAML
+    This parses a slight variant of the standard serialization of the model into YAML.
 
     See de-novo.yaml as an example
 

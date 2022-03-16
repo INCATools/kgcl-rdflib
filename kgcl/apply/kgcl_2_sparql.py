@@ -65,7 +65,7 @@ def escape_literal(literal):
 
 def convert(kgcl_instance):
     """Given a KGCL dataclass,
-    return a SPARQL UPDATE query corresponding to the encoded change.
+    return a SPARQL UPDATE _query corresponding to the encoded change.
     """
 
     # label renaming
@@ -192,51 +192,51 @@ def node_move(kgcl_instance):
     if new_type == "curie":
         prefix += build_curie_prefix(new_value)
 
-    deleteQuery = "?subject ?predicate ?old . "
+    delete__query = "?subject ?predicate ?old . "
 
-    delete = "DELETE {" + deleteQuery + "}"
+    delete = "DELETE {" + delete__query + "}"
 
-    insertQuery = "?subject ?predicate ?new . "
+    insert__query = "?subject ?predicate ?new . "
 
-    insert = "INSERT {" + insertQuery + "}"
+    insert = "INSERT {" + insert__query + "}"
 
-    whereQuery = ""
+    where__query = ""
 
     if old_type == "label":
-        whereQuery += "?old rdfs:label ?old_label . "
-        whereQuery += ' FILTER(STR(?old_label)="' + old_value + '") '
+        where__query += "?old rdfs:label ?old_label . "
+        where__query += ' FILTER(STR(?old_label)="' + old_value + '") '
     else:
-        whereQuery += " BIND(" + old_value + " AS ?old) "
+        where__query += " BIND(" + old_value + " AS ?old) "
 
     if new_type == "label":
-        whereQuery += "?new rdfs:label ?new_label . "
-        whereQuery += ' FILTER(STR(?new_label)="' + new_value + '") '
+        where__query += "?new rdfs:label ?new_label . "
+        where__query += ' FILTER(STR(?new_label)="' + new_value + '") '
     else:
-        whereQuery += " BIND(" + new_value + " AS ?new) "
+        where__query += " BIND(" + new_value + " AS ?new) "
 
     if subject_type == "label":
-        whereQuery += "?subject rdfs:label ?entity_label . "
-        whereQuery += ' FILTER(STR(?entity_label)="' + subject + '") '
+        where__query += "?subject rdfs:label ?entity_label . "
+        where__query += ' FILTER(STR(?entity_label)="' + subject + '") '
     else:
-        whereQuery += " BIND(" + subject + " AS ?subject) "
+        where__query += " BIND(" + subject + " AS ?subject) "
 
     if predicate_type == "label":
-        whereQuery += "?predicate rdfs:label ?predicate_label . "
-        whereQuery += ' FILTER(STR(?predicate_label)="' + predicate + '") '
+        where__query += "?predicate rdfs:label ?predicate_label . "
+        where__query += ' FILTER(STR(?predicate_label)="' + predicate + '") '
     else:
-        whereQuery += " BIND(" + predicate + " AS ?predicate) "
+        where__query += " BIND(" + predicate + " AS ?predicate) "
 
-    whereQuery += "?subject ?predicate ?old . "
+    where__query += "?subject ?predicate ?old . "
 
-    where = "WHERE {" + whereQuery + "}"
+    where = "WHERE {" + where__query + "}"
 
-    updateQuery = prefix + " " + delete + " " + insert + " " + where
+    update__query = prefix + " " + delete + " " + insert + " " + where
 
-    return updateQuery
+    return update__query
 
-    updateQuery = prefix + " " + delete + " " + insert + " " + where
+    update__query = prefix + " " + delete + " " + insert + " " + where
 
-    return updateQuery
+    return update__query
 
 
 def remove_node_from_subset(kgcl_instance):
@@ -244,7 +244,7 @@ def remove_node_from_subset(kgcl_instance):
     about = kgcl_instance.about_node
     subset = kgcl_instance.subset
 
-    updateQuery = (
+    update__query = (
         f"PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>"
         f"PREFIX obo: <http://purl.obolibrary.org/obo/>"
         f"DELETE {{ {about} obo:inSubset {subset} }}"
@@ -254,17 +254,17 @@ def remove_node_from_subset(kgcl_instance):
     # prefix = "PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>  "
     # prefix += "PREFIX obo: <http://purl.obolibrary.org/obo/> "
 
-    # deleteQuery = about + " obo:inSubset " + subset + " . "
+    # delete_query = about + " obo:inSubset " + subset + " . "
 
-    # delete = "DELETE {" + deleteQuery + "}"
+    # delete = "DELETE {" + delete_query + "}"
 
-    # whereQuery = about + " obo:inSubset " + subset + " . "
+    # where_query = about + " obo:inSubset " + subset + " . "
 
-    # where = "WHERE { " + whereQuery + " }"
+    # where = "WHERE { " + where_query + " }"
 
-    # updateQuery = prefix + " " + delete + " " + where
+    # update_query = prefix + " " + delete + " " + where
 
-    return updateQuery
+    return update__query
 
 
 def change_predicate(kgcl_instance):
@@ -298,59 +298,59 @@ def change_predicate(kgcl_instance):
     if new_value_type == "curie":
         prefix += build_curie_prefix(new_value)
 
-    deleteQuery = "?subject ?old ?object . "
+    delete__query = "?subject ?old ?object . "
 
-    delete = "DELETE {" + deleteQuery + "}"
+    delete = "DELETE {" + delete__query + "}"
 
-    insertQuery = "?subject ?new ?object . "
+    insert__query = "?subject ?new ?object . "
 
-    insert = "INSERT {" + insertQuery + "}"
+    insert = "INSERT {" + insert__query + "}"
 
-    whereQuery = deleteQuery
+    where__query = delete__query
 
     if subject_type == "label":
-        whereQuery += "?subject rdfs:label ?subject_label . "
-        whereQuery += ' FILTER(STR(?subject_label)="' + subject + '") '
+        where__query += "?subject rdfs:label ?subject_label . "
+        where__query += ' FILTER(STR(?subject_label)="' + subject + '") '
 
     if subject_type == "uri" or subject_type == "curie":
-        whereQuery += " BIND(" + subject + " AS ?subject) "
+        where__query += " BIND(" + subject + " AS ?subject) "
 
     if object_type == "label":
-        whereQuery += "?object rdfs:label ?object_label . "
-        whereQuery += ' FILTER(STR(?object_label)="' + object + '") '
+        where__query += "?object rdfs:label ?object_label . "
+        where__query += ' FILTER(STR(?object_label)="' + object + '") '
 
     if object_type == "uri" or object_type == "curie":
-        whereQuery += " BIND(" + object + " AS ?object) "
+        where__query += " BIND(" + object + " AS ?object) "
 
     if object_type == "literal":
         object = escape_literal(object)
         if datatype is not None:
             # TODO: accept CURIES for data types
-            whereQuery += ' BIND( STRDT("' + object + '",' + datatype + ") AS ?object) "
+            where__query += ' BIND( STRDT("' + object + '",' + datatype + ") AS ?object) "
         elif language is not None:
-            whereQuery += (
+            where__query += (
                 'BIND( STRLANG("' + object + '","' + language + '") AS ?object) '
             )
         else:
-            whereQuery += 'BIND("' + object + '" AS ?object)'
+            where__query += 'BIND("' + object + '" AS ?object)'
 
     if new_value_type == "label":
-        whereQuery += "?new rdfs:label ?new_label . "
-        whereQuery += ' FILTER(STR(?new_label)="' + new_value + '") '
+        where__query += "?new rdfs:label ?new_label . "
+        where__query += ' FILTER(STR(?new_label)="' + new_value + '") '
     else:
-        whereQuery += " BIND(" + new_value + " AS ?new) "
+        where__query += " BIND(" + new_value + " AS ?new) "
 
     if old_value_type == "label":
-        whereQuery += "?old rdfs:label ?old_label . "
-        whereQuery += ' FILTER(STR(?old_label)="' + old_value + '") '
+        where__query += "?old rdfs:label ?old_label . "
+        where__query += ' FILTER(STR(?old_label)="' + old_value + '") '
     else:
-        whereQuery += " BIND(" + old_value + " AS ?old) "
+        where__query += " BIND(" + old_value + " AS ?old) "
 
-    where = "WHERE {" + whereQuery + "}"
+    where = "WHERE {" + where__query + "}"
 
-    updateQuery = prefix + " " + delete + " " + insert + " " + where
+    update__query = prefix + " " + delete + " " + insert + " " + where
 
-    return updateQuery
+    return update__query
 
 
 def node_deepening(kgcl_instance):
@@ -377,42 +377,42 @@ def node_deepening(kgcl_instance):
     if new_type == "curie":
         prefix += build_curie_prefix(new_value)
 
-    deleteQuery = "?entity ?relation ?old . "
+    delete__query = "?entity ?relation ?old . "
 
-    delete = "DELETE {" + deleteQuery + "}"
+    delete = "DELETE {" + delete__query + "}"
 
-    insertQuery = "?entity ?relation ?new . "
+    insert__query = "?entity ?relation ?new . "
 
-    insert = "INSERT {" + insertQuery + "}"
+    insert = "INSERT {" + insert__query + "}"
 
-    whereQuery = ""
+    where__query = ""
 
     if old_type == "label":
-        whereQuery += "?old rdfs:label ?old_label . "
-        whereQuery += ' FILTER(STR(?old_label)="' + old_value + '") '
+        where__query += "?old rdfs:label ?old_label . "
+        where__query += ' FILTER(STR(?old_label)="' + old_value + '") '
     else:
-        whereQuery += " BIND(" + old_value + " AS ?old) "
+        where__query += " BIND(" + old_value + " AS ?old) "
 
     if new_type == "label":
-        whereQuery += "?new rdfs:label ?new_label . "
-        whereQuery += ' FILTER(STR(?new_label)="' + new_value + '") '
+        where__query += "?new rdfs:label ?new_label . "
+        where__query += ' FILTER(STR(?new_label)="' + new_value + '") '
     else:
-        whereQuery += " BIND(" + new_value + " AS ?new) "
+        where__query += " BIND(" + new_value + " AS ?new) "
 
     if entity_type == "label":
-        whereQuery += "?entity rdfs:label ?entity_label . "
-        whereQuery += ' FILTER(STR(?entity_label)="' + entity + '") '
+        where__query += "?entity rdfs:label ?entity_label . "
+        where__query += ' FILTER(STR(?entity_label)="' + entity + '") '
     else:
-        whereQuery += " BIND(" + entity + " AS ?entity) "
+        where__query += " BIND(" + entity + " AS ?entity) "
 
-    whereQuery += "?entity ?relation ?old . "
-    whereQuery += "?new ?relation ?old . "
+    where__query += "?entity ?relation ?old . "
+    where__query += "?new ?relation ?old . "
 
-    where = "WHERE {" + whereQuery + "}"
+    where = "WHERE {" + where__query + "}"
 
-    updateQuery = prefix + " " + delete + " " + insert + " " + where
+    update__query = prefix + " " + delete + " " + insert + " " + where
 
-    return updateQuery
+    return update__query
 
 
 def node_shallowing(kgcl_instance):
@@ -438,46 +438,46 @@ def node_shallowing(kgcl_instance):
     if new_type == "curie":
         prefix += build_curie_prefix(new_value)
 
-    deleteQuery = "?entity ?relation ?old . "
+    delete__query = "?entity ?relation ?old . "
 
-    delete = "DELETE {" + deleteQuery + "}"
+    delete = "DELETE {" + delete__query + "}"
 
-    insertQuery = "?entity ?relation ?new . "
+    insert__query = "?entity ?relation ?new . "
 
-    insert = "INSERT {" + insertQuery + "}"
+    insert = "INSERT {" + insert__query + "}"
 
-    whereQuery = ""
+    where__query = ""
 
     if old_type == "label":
-        whereQuery += "?old rdfs:label ?old_label . "
-        whereQuery += ' FILTER(STR(?old_label)="' + old_value + '") '
+        where__query += "?old rdfs:label ?old_label . "
+        where__query += ' FILTER(STR(?old_label)="' + old_value + '") '
     else:
-        whereQuery += " BIND(" + old_value + " AS ?old) "
+        where__query += " BIND(" + old_value + " AS ?old) "
 
     if new_type == "label":
-        whereQuery += "?new rdfs:label ?new_label . "
-        whereQuery += ' FILTER(STR(?new_label)="' + new_value + '") '
+        where__query += "?new rdfs:label ?new_label . "
+        where__query += ' FILTER(STR(?new_label)="' + new_value + '") '
     else:
-        whereQuery += " BIND(" + new_value + " AS ?new) "
+        where__query += " BIND(" + new_value + " AS ?new) "
 
     if entity_type == "label":
-        whereQuery += "?entity rdfs:label ?entity_label . "
-        whereQuery += ' FILTER(STR(?entity_label)="' + entity + '") '
+        where__query += "?entity rdfs:label ?entity_label . "
+        where__query += ' FILTER(STR(?entity_label)="' + entity + '") '
     else:
-        whereQuery += " BIND(" + entity + " AS ?entity) "
+        where__query += " BIND(" + entity + " AS ?entity) "
 
-    whereQuery += "?entity ?relation ?old . "
-    whereQuery += "?old ?relation ?new . "
+    where__query += "?entity ?relation ?old . "
+    where__query += "?old ?relation ?new . "
 
-    where = "WHERE {" + whereQuery + "}"
+    where = "WHERE {" + where__query + "}"
 
-    updateQuery = prefix + " " + delete + " " + insert + " " + where
+    update__query = prefix + " " + delete + " " + insert + " " + where
 
-    return updateQuery
+    return update__query
 
-    updateQuery = prefix + " " + delete + " " + insert + " " + where
+    update__query = prefix + " " + delete + " " + insert + " " + where
 
-    return updateQuery
+    return update__query
 
 
 # TODO: handling of language tags
@@ -498,43 +498,43 @@ def unobsolete_by_id(kgcl_instance):
     prefix += "PREFIX obo: <http://purl.obolibrary.org/obo/> "
     prefix += "PREFIX oboInOwl: <http://www.geneontology.org/formats/oboInOwl#> "
 
-    deleteQuery = about + " rdfs:label ?label . "
-    deleteQuery += about + ' owl:deprecated "true"^^xsd:boolean . '
-    deleteQuery += about + " obo:IAO_0000115 ?unobsolete_definition . "
-    deleteQuery += about + " obo:IAO_0100001 ?replacedBy .  "
-    deleteQuery += about + " oboInOwl:consider ?consider . "
-    deleteQuery += about + " rdfs:subClassOf oboInOwl:ObsoleteClass . "
+    delete__query = about + " rdfs:label ?label . "
+    delete__query += about + ' owl:deprecated "true"^^xsd:boolean . '
+    delete__query += about + " obo:IAO_0000115 ?unobsolete_definition . "
+    delete__query += about + " obo:IAO_0100001 ?replacedBy .  "
+    delete__query += about + " oboInOwl:consider ?consider . "
+    delete__query += about + " rdfs:subClassOf oboInOwl:ObsoleteClass . "
 
-    delete = "DELETE {" + deleteQuery + "}"
+    delete = "DELETE {" + delete__query + "}"
 
-    insertQuery = about + " rdfs:label ?unobsolete_label . "
-    insertQuery += about + " obo:IAO_0000115 ?unobsolete_definition . "
-    insertQuery += (
+    insert__query = about + " rdfs:label ?unobsolete_label . "
+    insert__query += about + " obo:IAO_0000115 ?unobsolete_definition . "
+    insert__query += (
         '?entity rdfs:comment "Note that this term was reinstated from obsolete." . '
     )
 
-    insert = "INSERT {" + insertQuery + "}"
+    insert = "INSERT {" + insert__query + "}"
 
-    whereQuery = "{ " + about + " rdfs:label ?label . "
-    whereQuery += 'BIND(IF(STRSTARTS(?label, "obsolete "),'
-    whereQuery += "SUBSTR(?label,10),?label) AS ?unobsolete_label ) } "
-    whereQuery += " UNION "
-    whereQuery += "{ " + about + " rdfs:label ?label . "
-    whereQuery += about + " obo:IAO_0000115 ?definition . "
-    whereQuery += 'BIND(IF(STRSTARTS(?definition, "OBSOLETE "),'
-    whereQuery += "SUBSTR(?definition,10),?definition) AS ?unobsolete_definition ) } "
-    whereQuery += " UNION "
-    whereQuery += "{ " + about + " rdfs:label ?label . "
-    whereQuery += about + " obo:IAO_0100001 ?replacedBy . } "
-    whereQuery += " UNION "
-    whereQuery += "{ " + about + " rdfs:label ?label . "
-    whereQuery += about + " oboInOwl:consider ?consider . } "
+    where__query = "{ " + about + " rdfs:label ?label . "
+    where__query += 'BIND(IF(STRSTARTS(?label, "obsolete "),'
+    where__query += "SUBSTR(?label,10),?label) AS ?unobsolete_label ) } "
+    where__query += " UNION "
+    where__query += "{ " + about + " rdfs:label ?label . "
+    where__query += about + " obo:IAO_0000115 ?definition . "
+    where__query += 'BIND(IF(STRSTARTS(?definition, "OBSOLETE "),'
+    where__query += "SUBSTR(?definition,10),?definition) AS ?unobsolete_definition ) } "
+    where__query += " UNION "
+    where__query += "{ " + about + " rdfs:label ?label . "
+    where__query += about + " obo:IAO_0100001 ?replacedBy . } "
+    where__query += " UNION "
+    where__query += "{ " + about + " rdfs:label ?label . "
+    where__query += about + " oboInOwl:consider ?consider . } "
 
-    where = "WHERE {" + whereQuery + "}"
+    where = "WHERE {" + where__query + "}"
 
-    updateQuery = prefix + " " + delete + " " + insert + " " + where
+    update__query = prefix + " " + delete + " " + insert + " " + where
 
-    return updateQuery
+    return update__query
 
 
 def unobsolete_by_label(kgcl_instance):
@@ -553,47 +553,47 @@ def unobsolete_by_label(kgcl_instance):
     prefix += "PREFIX obo: <http://purl.obolibrary.org/obo/> "
     prefix += "PREFIX oboInOwl: <http://www.geneontology.org/formats/oboInOwl#> "
 
-    deleteQuery = " ?about rdfs:label ?label . "
-    deleteQuery += ' ?about owl:deprecated "true"^^xsd:boolean . '
-    deleteQuery += " ?about obo:IAO_0000115 ?unobsolete_definition . "
-    deleteQuery += " ?about obo:IAO_0100001 ?replacedBy .  "
-    deleteQuery += " ?about oboInOwl:consider ?consider . "
-    deleteQuery += " ?about rdfs:subClassOf oboInOwl:ObsoleteClass . "
+    delete__query = " ?about rdfs:label ?label . "
+    delete__query += ' ?about owl:deprecated "true"^^xsd:boolean . '
+    delete__query += " ?about obo:IAO_0000115 ?unobsolete_definition . "
+    delete__query += " ?about obo:IAO_0100001 ?replacedBy .  "
+    delete__query += " ?about oboInOwl:consider ?consider . "
+    delete__query += " ?about rdfs:subClassOf oboInOwl:ObsoleteClass . "
 
-    delete = "DELETE {" + deleteQuery + "}"
+    delete = "DELETE {" + delete__query + "}"
 
-    insertQuery = "?about rdfs:label ?unobsolete_label . "
-    insertQuery += "?about obo:IAO_0000115 ?unobsolete_definition . "
-    insertQuery += (
+    insert__query = "?about rdfs:label ?unobsolete_label . "
+    insert__query += "?about obo:IAO_0000115 ?unobsolete_definition . "
+    insert__query += (
         '?entity rdfs:comment "Note that this term was reinstated from obsolete." . '
     )
 
-    insert = "INSERT {" + insertQuery + "}"
+    insert = "INSERT {" + insert__query + "}"
 
-    whereQuery = "{ ?about rdfs:label ?label . "
-    whereQuery += ' FILTER(STR(?label)="' + about + '") '
-    whereQuery += 'BIND(IF(STRSTARTS(?label, "obsolete "),'
-    whereQuery += "SUBSTR(?label,10),?label) AS ?unobsolete_label ) } "
-    whereQuery += " UNION "
-    whereQuery += "{ ?about rdfs:label ?label . "
-    whereQuery += ' FILTER(STR(?label)="' + about + '") '
-    whereQuery += "?about obo:IAO_0000115 ?definition . "
-    whereQuery += 'BIND(IF(STRSTARTS(?definition, "OBSOLETE "),'
-    whereQuery += "SUBSTR(?definition,10),?definition) AS ?unobsolete_definition ) } "
-    whereQuery += " UNION "
-    whereQuery += "{ ?about rdfs:label ?label . "
-    whereQuery += ' FILTER(STR(?label)="' + about + '") '
-    whereQuery += "?about obo:IAO_0100001 ?replacedBy . } "
-    whereQuery += " UNION "
-    whereQuery += "{ ?about rdfs:label ?label . "
-    whereQuery += ' FILTER(STR(?label)="' + about + '") '
-    whereQuery += "?about oboInOwl:consider ?consider . } "
+    where__query = "{ ?about rdfs:label ?label . "
+    where__query += ' FILTER(STR(?label)="' + about + '") '
+    where__query += 'BIND(IF(STRSTARTS(?label, "obsolete "),'
+    where__query += "SUBSTR(?label,10),?label) AS ?unobsolete_label ) } "
+    where__query += " UNION "
+    where__query += "{ ?about rdfs:label ?label . "
+    where__query += ' FILTER(STR(?label)="' + about + '") '
+    where__query += "?about obo:IAO_0000115 ?definition . "
+    where__query += 'BIND(IF(STRSTARTS(?definition, "OBSOLETE "),'
+    where__query += "SUBSTR(?definition,10),?definition) AS ?unobsolete_definition ) } "
+    where__query += " UNION "
+    where__query += "{ ?about rdfs:label ?label . "
+    where__query += ' FILTER(STR(?label)="' + about + '") '
+    where__query += "?about obo:IAO_0100001 ?replacedBy . } "
+    where__query += " UNION "
+    where__query += "{ ?about rdfs:label ?label . "
+    where__query += ' FILTER(STR(?label)="' + about + '") '
+    where__query += "?about oboInOwl:consider ?consider . } "
 
-    where = "WHERE {" + whereQuery + "}"
+    where = "WHERE {" + where__query + "}"
 
-    updateQuery = prefix + " " + delete + " " + insert + " " + where
+    update__query = prefix + " " + delete + " " + insert + " " + where
 
-    return updateQuery
+    return update__query
 
 
 def unobsolete_curie(kgcl_instance):
@@ -616,43 +616,43 @@ def unobsolete_curie(kgcl_instance):
     prefix += "PREFIX oboInOwl: <http://www.geneontology.org/formats/oboInOwl#> "
     prefix += "PREFIX " + curie_prefix + ": " + curie_uri + " "
 
-    deleteQuery = about + " rdfs:label ?label . "
-    deleteQuery += about + ' owl:deprecated "true"^^xsd:boolean . '
-    deleteQuery += about + " obo:IAO_0000115 ?unobsolete_definition . "
-    deleteQuery += about + " obo:IAO_0100001 ?replacedBy .  "
-    deleteQuery += about + " oboInOwl:consider ?consider . "
-    deleteQuery += about + " rdfs:subClassOf oboInOwl:ObsoleteClass . "
+    delete__query = about + " rdfs:label ?label . "
+    delete__query += about + ' owl:deprecated "true"^^xsd:boolean . '
+    delete__query += about + " obo:IAO_0000115 ?unobsolete_definition . "
+    delete__query += about + " obo:IAO_0100001 ?replacedBy .  "
+    delete__query += about + " oboInOwl:consider ?consider . "
+    delete__query += about + " rdfs:subClassOf oboInOwl:ObsoleteClass . "
 
-    delete = "DELETE {" + deleteQuery + "}"
+    delete = "DELETE {" + delete__query + "}"
 
-    insertQuery = about + " rdfs:label ?unobsolete_label . "
-    insertQuery += about + " obo:IAO_0000115 ?unobsolete_definition . "
-    insertQuery += (
+    insert__query = about + " rdfs:label ?unobsolete_label . "
+    insert__query += about + " obo:IAO_0000115 ?unobsolete_definition . "
+    insert__query += (
         '?entity rdfs:comment "Note that this term was reinstated from obsolete." . '
     )
 
-    insert = "INSERT {" + insertQuery + "}"
+    insert = "INSERT {" + insert__query + "}"
 
-    whereQuery = "{ " + about + " rdfs:label ?label . "
-    whereQuery += 'BIND(IF(STRSTARTS(?label, "obsolete "),'
-    whereQuery += "SUBSTR(?label,10),?label) AS ?unobsolete_label ) } "
-    whereQuery += " UNION "
-    whereQuery += "{ " + about + " rdfs:label ?label . "
-    whereQuery += about + " obo:IAO_0000115 ?definition . "
-    whereQuery += 'BIND(IF(STRSTARTS(?definition, "OBSOLETE "),'
-    whereQuery += "SUBSTR(?definition,10),?definition) AS ?unobsolete_definition ) } "
-    whereQuery += " UNION "
-    whereQuery += "{ " + about + " rdfs:label ?label . "
-    whereQuery += about + " obo:IAO_0100001 ?replacedBy . } "
-    whereQuery += " UNION "
-    whereQuery += "{ " + about + " rdfs:label ?label . "
-    whereQuery += about + " oboInOwl:consider ?consider . } "
+    where__query = "{ " + about + " rdfs:label ?label . "
+    where__query += 'BIND(IF(STRSTARTS(?label, "obsolete "),'
+    where__query += "SUBSTR(?label,10),?label) AS ?unobsolete_label ) } "
+    where__query += " UNION "
+    where__query += "{ " + about + " rdfs:label ?label . "
+    where__query += about + " obo:IAO_0000115 ?definition . "
+    where__query += 'BIND(IF(STRSTARTS(?definition, "OBSOLETE "),'
+    where__query += "SUBSTR(?definition,10),?definition) AS ?unobsolete_definition ) } "
+    where__query += " UNION "
+    where__query += "{ " + about + " rdfs:label ?label . "
+    where__query += about + " obo:IAO_0100001 ?replacedBy . } "
+    where__query += " UNION "
+    where__query += "{ " + about + " rdfs:label ?label . "
+    where__query += about + " oboInOwl:consider ?consider . } "
 
-    where = "WHERE {" + whereQuery + "}"
+    where = "WHERE {" + where__query + "}"
 
-    updateQuery = prefix + " " + delete + " " + insert + " " + where
+    update__query = prefix + " " + delete + " " + insert + " " + where
 
-    return updateQuery
+    return update__query
 
 
 # NB this does not preserve language tags
@@ -676,35 +676,35 @@ def rename(kgcl_instance):
         if kgcl_instance.about_node_representation == "curie":
             prefix += build_curie_prefix(subject)
 
-    deleteQuery = subject + " rdfs:label ?oldlabel ."
-    delete = "DELETE {" + deleteQuery + "}"
+    delete__query = subject + " rdfs:label ?oldlabel ."
+    delete = "DELETE {" + delete__query + "}"
 
-    insertQuery = subject + " rdfs:label ?newlabel ."
-    insert = "INSERT {" + insertQuery + "}"
+    insert_query = subject + " rdfs:label ?newlabel ."
+    insert = "INSERT {" + insert_query + "}"
 
-    whereQuery = subject + " rdfs:label ?label .  "
-    whereQuery += ' FILTER(STR(?label)="' + oldValue + '") '
+    where_query = subject + " rdfs:label ?label .  "
+    where_query += ' FILTER(STR(?label)="' + oldValue + '") '
 
     if old_language is None:
-        whereQuery += ' BIND("' + oldValue + '" AS ?oldlabel) '
+        where_query += ' BIND("' + oldValue + '" AS ?oldlabel) '
     else:
-        whereQuery += ' FILTER(LANG(?label) ="' + old_language + '")'
-        whereQuery += (
+        where_query += ' FILTER(LANG(?label) ="' + old_language + '")'
+        where_query += (
             ' BIND( STRLANG("' + oldValue + '","' + old_language + '") AS ?oldlabel) '
         )
 
     if new_language is None:
-        whereQuery += ' BIND("' + newValue + '" AS ?newlabel) '
+        where_query += ' BIND("' + newValue + '" AS ?newlabel) '
     else:
-        whereQuery += (
+        where_query += (
             ' BIND( STRLANG("' + newValue + '","' + new_language + '") AS ?newlabel) '
         )
 
-    where = "WHERE {" + whereQuery + "}"
+    where = "WHERE {" + where_query + "}"
 
-    updateQuery = prefix + " " + delete + " " + insert + " " + where
+    update_query = prefix + " " + delete + " " + insert + " " + where
 
-    return updateQuery
+    return update_query
 
 
 # TODO: this implementation is buggy
@@ -724,60 +724,60 @@ def rename_preserve(kgcl_instance):
         subject = kgcl_instance.about_node
 
     prefix = "PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>"
-    deleteQuery = subject + " rdfs:label ?tag ."
-    delete = "DELETE {" + deleteQuery + "}"
+    delete_query = subject + " rdfs:label ?tag ."
+    delete = "DELETE {" + delete_query + "}"
 
-    insertQuery = subject + " rdfs:label ?tag ."
-    insert = "INSERT {" + insertQuery + "}"
+    insert_query = subject + " rdfs:label ?tag ."
+    insert = "INSERT {" + insert_query + "}"
 
-    whereQuery = subject + " rdfs:label ?label .  "
-    whereQuery += " BIND( LANG(?label) AS ?language)  "
-    whereQuery += ' FILTER(STR(?label)="' + oldValue + '") '
+    where_query = subject + " rdfs:label ?label .  "
+    where_query += " BIND( LANG(?label) AS ?language)  "
+    where_query += ' FILTER(STR(?label)="' + oldValue + '") '
 
     # if old_Language tag is specified
     # then, we need to filter results according to the specified language tag
     if old_language is not None:
-        whereQuery += ' FILTER(LANG(?label) ="' + old_language + '")'
+        where_query += ' FILTER(LANG(?label) ="' + old_language + '")'
 
     # if new_language tag is specifed, then
-    # we need to add this tag to insert query
+    # we need to add this tag to insert _query
     if new_language is None:
-        whereQuery += " BIND( STRLANG(" + newValue + ",?language) AS ?tag) "
+        where_query += " BIND( STRLANG(" + newValue + ",?language) AS ?tag) "
     else:
-        whereQuery += (
+        where_query += (
             " BIND( STRLANG(" + newValue + ',"' + new_language + '") AS ?tag) '
         )
 
-    where = "WHERE {" + whereQuery + "}"
+    where = "WHERE {" + where_query + "}"
 
-    updateQuery = prefix + " " + delete + " " + insert + " " + where
+    update_query = prefix + " " + delete + " " + insert + " " + where
 
-    return updateQuery
+    return update_query
 
 
 def delete_by_id(kgcl_instance):
     about = kgcl_instance.about_node  # this needs to be an ID - not a label
 
-    deleteQuery = (
+    delete_query = (
         "?s1 ?p1 " + about + " . "
     )  # this does not delete triples with blank nodes
-    deleteQuery += "?s2 " + about + " ?o1 . "
-    deleteQuery += "?s2 " + about + " ?o1 . "
-    deleteQuery += about + " ?p2 ?o2 . "
+    delete_query += "?s2 " + about + " ?o1 . "
+    delete_query += "?s2 " + about + " ?o1 . "
+    delete_query += about + " ?p2 ?o2 . "
 
-    delete = "DELETE {" + deleteQuery + "}"
+    delete = "DELETE {" + delete_query + "}"
 
-    whereQuery = "{ ?s1 ?p1 " + about + " . } "
-    whereQuery += " UNION "
-    whereQuery = "{ ?s2 " + about + " ?o1 . } "
-    whereQuery += " UNION "
-    whereQuery += "{ " + about + " ?p2 ?o2 . } "
+    where_query = "{ ?s1 ?p1 " + about + " . } "
+    where_query += " UNION "
+    where_query = "{ ?s2 " + about + " ?o1 . } "
+    where_query += " UNION "
+    where_query += "{ " + about + " ?p2 ?o2 . } "
 
-    where = "WHERE {" + whereQuery + "}"
+    where = "WHERE {" + where_query + "}"
 
-    updateQuery = delete + " " + where
+    update_query = delete + " " + where
 
-    return updateQuery
+    return update_query
 
 
 def delete_curie(kgcl_instance):
@@ -786,23 +786,23 @@ def delete_curie(kgcl_instance):
     prefix = build_curie_prefix(about)
 
     # this does not delete triples with blank nodes
-    deleteQuery = "?s1 ?p1 " + about + " . "
-    deleteQuery += "?s2 " + about + " ?o1 . "
-    deleteQuery += about + " ?p2 ?o2 . "
+    delete_query = "?s1 ?p1 " + about + " . "
+    delete_query += "?s2 " + about + " ?o1 . "
+    delete_query += about + " ?p2 ?o2 . "
 
-    delete = "DELETE {" + deleteQuery + "}"
+    delete = "DELETE {" + delete_query + "}"
 
-    whereQuery = "{ ?s1 ?p1 " + about + " . } "
-    whereQuery += " UNION "
-    whereQuery = "{ ?s2 " + about + " ?o1 . } "
-    whereQuery += " UNION "
-    whereQuery += "{ " + about + " ?p2 ?o2 . } "
+    where_query = "{ ?s1 ?p1 " + about + " . } "
+    where_query += " UNION "
+    where_query = "{ ?s2 " + about + " ?o1 . } "
+    where_query += " UNION "
+    where_query += "{ " + about + " ?p2 ?o2 . } "
 
-    where = "WHERE {" + whereQuery + "}"
+    where = "WHERE {" + where_query + "}"
 
-    updateQuery = prefix + " " + delete + " " + where
+    update_query = prefix + " " + delete + " " + where
 
-    return updateQuery
+    return update_query
 
 
 def delete_by_label(kgcl_instance):
@@ -810,20 +810,20 @@ def delete_by_label(kgcl_instance):
 
     prefix = "PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>"
 
-    deleteQuery = "?s1 rdfs:label ?label . "
-    deleteQuery += "?s1 ?p2 ?o1 . "
+    delete_query = "?s1 rdfs:label ?label . "
+    delete_query += "?s1 ?p2 ?o1 . "
 
-    delete = "DELETE {" + deleteQuery + "}"
+    delete = "DELETE {" + delete_query + "}"
 
-    whereQuery = "?s1 rdfs:label ?label . "
-    whereQuery += "?s1 ?p2 ?o1 . "
-    whereQuery += ' FILTER(STR(?label)="' + about + '") '  # ignore language tags
+    where_query = "?s1 rdfs:label ?label . "
+    where_query += "?s1 ?p2 ?o1 . "
+    where_query += ' FILTER(STR(?label)="' + about + '") '  # ignore language tags
 
-    where = "WHERE {" + whereQuery + "}"
+    where = "WHERE {" + where_query + "}"
 
-    updateQuery = prefix + " " + delete + " " + where
+    update_query = prefix + " " + delete + " " + where
 
-    return updateQuery
+    return update_query
 
 
 def create_class(kgcl_instance):
@@ -836,13 +836,13 @@ def create_class(kgcl_instance):
     if id_type == "curie":
         prefix += build_curie_prefix(termId)
 
-    insertQuery = termId + " rdf:type owl:Class  . "
-    insert = "INSERT {" + insertQuery + "}"
+    insert_query = termId + " rdf:type owl:Class  . "
+    insert = "INSERT {" + insert_query + "}"
     where = "WHERE {}"
 
-    updateQuery = prefix + " " + insert + " " + where
+    update_query = prefix + " " + insert + " " + where
 
-    return updateQuery
+    return update_query
 
 
 def create_node(kgcl_instance):
@@ -857,21 +857,21 @@ def create_node(kgcl_instance):
         prefix += build_curie_prefix(termId)
 
     if language is None:
-        insertQuery = termId + " rdfs:label " + label + "  . "
+        insert_query = termId + " rdfs:label " + label + "  . "
     else:
-        insertQuery = termId + " rdfs:label ?tag  . "
+        insert_query = termId + " rdfs:label ?tag  . "
 
-    insert = "INSERT {" + insertQuery + "}"
+    insert = "INSERT {" + insert_query + "}"
 
     if language is None:
         where = "WHERE {}"
     else:
-        whereQuery = " BIND( STRLANG(" + label + ',"' + language + '") AS ?tag) '
-        where = "WHERE {" + whereQuery + "}"
+        where_query = " BIND( STRLANG(" + label + ',"' + language + '") AS ?tag) '
+        where = "WHERE {" + where_query + "}"
 
-    updateQuery = prefix + " " + insert + " " + where
+    update_query = prefix + " " + insert + " " + where
 
-    return updateQuery
+    return update_query
 
 
 def node_annotation_change(kgcl_instance):
@@ -907,40 +907,40 @@ def node_annotation_change(kgcl_instance):
     if new_type == "curie":
         prefix += build_curie_prefix(new_object)
 
-        # todo: delete query
-    deleteQuery = "?subject ?predicate ?old_object . "
+        # todo: delete _query
+    delete_query = "?subject ?predicate ?old_object . "
 
-    delete = "DELETE {" + deleteQuery + "}"
+    delete = "DELETE {" + delete_query + "}"
 
-    insertQuery = "?subject ?predicate ?new_object . "
+    insert_query = "?subject ?predicate ?new_object . "
 
-    insert = "INSERT {" + insertQuery + "}"
+    insert = "INSERT {" + insert_query + "}"
 
-    whereQuery = ""
+    where_query = ""
     if subject_type == "label":
-        whereQuery += "?subject rdfs:label ?subject_label . "
-        whereQuery += ' FILTER(STR(?subject_label)="' + subject + '") '
+        where_query += "?subject rdfs:label ?subject_label . "
+        where_query += ' FILTER(STR(?subject_label)="' + subject + '") '
     else:
-        whereQuery += " BIND(" + subject + " AS ?subject)"
+        where_query += " BIND(" + subject + " AS ?subject)"
 
     if predicate_type == "label":
-        whereQuery += "?predicate rdfs:label ?predicate_label . "
-        whereQuery += ' FILTER(STR(?predicate_label)="' + predicate + '") '
+        where_query += "?predicate rdfs:label ?predicate_label . "
+        where_query += ' FILTER(STR(?predicate_label)="' + predicate + '") '
     else:
-        whereQuery += "?predicate rdf:type owl:AnnotationProperty . "
-        whereQuery += " BIND(" + predicate + " AS ?predicate)"
+        where_query += "?predicate rdf:type owl:AnnotationProperty . "
+        where_query += " BIND(" + predicate + " AS ?predicate)"
 
     if old_type == "label":
-        whereQuery += "?old_object rdfs:label ?old_object_label . "
-        whereQuery += ' FILTER(STR(?old_object_label)="' + old_object + '") '
+        where_query += "?old_object rdfs:label ?old_object_label . "
+        where_query += ' FILTER(STR(?old_object_label)="' + old_object + '") '
 
     if old_type == "uri" or old_type == "curie":
-        whereQuery += " BIND(" + old_object + " AS ?old_object) "
+        where_query += " BIND(" + old_object + " AS ?old_object) "
 
     if old_type == "literal":
         old_object = escape_literal(old_object)
         if old_datatype is not None:
-            whereQuery += (
+            where_query += (
                 ' BIND(STRDT("'
                 + old_object
                 + '",'
@@ -948,7 +948,7 @@ def node_annotation_change(kgcl_instance):
                 + ") AS ?old_object) "
             )
         elif old_language is not None:
-            whereQuery += (
+            where_query += (
                 ' BIND(STRLANG("'
                 + old_object
                 + '","'
@@ -956,19 +956,19 @@ def node_annotation_change(kgcl_instance):
                 + '") AS ?old_object) '
             )
         else:
-            whereQuery += ' BIND("' + old_object + '" AS ?old_object)'
+            where_query += ' BIND("' + old_object + '" AS ?old_object)'
 
     if new_type == "label":
-        whereQuery += "?new_object rdfs:label ?new_object_label . "
-        whereQuery += ' FILTER(STR(?new_object_label)="' + new_object + '") '
+        where_query += "?new_object rdfs:label ?new_object_label . "
+        where_query += ' FILTER(STR(?new_object_label)="' + new_object + '") '
 
     if new_type == "uri" or old_type == "curie":
-        whereQuery += " BIND(" + new_object + " AS ?new_object) "
+        where_query += " BIND(" + new_object + " AS ?new_object) "
 
     if new_type == "literal":
         new_object = escape_literal(new_object)
         if new_datatype is not None:
-            whereQuery += (
+            where_query += (
                 ' BIND(STRDT("'
                 + new_object
                 + '",'
@@ -976,7 +976,7 @@ def node_annotation_change(kgcl_instance):
                 + ") AS ?new_object) "
             )
         elif new_language is not None:
-            whereQuery += (
+            where_query += (
                 ' BIND(STRLANG("'
                 + new_object
                 + '","'
@@ -984,13 +984,13 @@ def node_annotation_change(kgcl_instance):
                 + '") AS ?new_object) '
             )
         else:
-            whereQuery += ' BIND("' + new_object + '" AS ?new_object)'
+            where_query += ' BIND("' + new_object + '" AS ?new_object)'
 
-    where = "WHERE { " + whereQuery + " }"
+    where = "WHERE { " + where_query + " }"
 
-    updateQuery = prefix + " " + delete + " " + insert + " " + where
+    update_query = prefix + " " + delete + " " + insert + " " + where
 
-    return updateQuery
+    return update_query
 
 
 def edge_annotation_creation(kgcl_instance):
@@ -1025,57 +1025,57 @@ def edge_annotation_creation(kgcl_instance):
     if annotation.filler_type == "curie":
         prefix += build_curie_prefix(annotation.filler)
 
-    insertQuery = "?bnode owl:annotatedSource ?subject . "
-    insertQuery += "?bnode owl:annotatedProperty ?predicate . "
-    insertQuery += "?bnode owl:annotatedTarget ?object . "
-    insertQuery += "?bnode ?annotation_property ?filler . "
-    insertQuery += "?bnode rdf:type owl:Axiom ."
-    insert = "INSERT {" + insertQuery + "}"
+    insert_query = "?bnode owl:annotatedSource ?subject . "
+    insert_query += "?bnode owl:annotatedProperty ?predicate . "
+    insert_query += "?bnode owl:annotatedTarget ?object . "
+    insert_query += "?bnode ?annotation_property ?filler . "
+    insert_query += "?bnode rdf:type owl:Axiom ."
+    insert = "INSERT {" + insert_query + "}"
 
-    whereQuery = ' BIND(BNODE("reification") AS ?bnode) '
+    where_query = ' BIND(BNODE("reification") AS ?bnode) '
     if subject_type == "label":
-        whereQuery += "?subject rdfs:label ?subject_label . "
-        whereQuery += ' FILTER(STR(?subject_label)="' + subject + '") '
+        where_query += "?subject rdfs:label ?subject_label . "
+        where_query += ' FILTER(STR(?subject_label)="' + subject + '") '
     else:
-        whereQuery += "BIND(" + subject + " AS ?subject) "
+        where_query += "BIND(" + subject + " AS ?subject) "
 
     if predicate_type == "label":
-        whereQuery += "?predicate rdfs:label ?predicate_label . "
-        whereQuery += ' FILTER(STR(?predicate_label)="' + predicate + '") '
+        where_query += "?predicate rdfs:label ?predicate_label . "
+        where_query += ' FILTER(STR(?predicate_label)="' + predicate + '") '
     else:
-        whereQuery += "BIND(" + predicate + " AS ?predicate) "
+        where_query += "BIND(" + predicate + " AS ?predicate) "
 
     if annotation.property_type == "label":
-        whereQuery += "?annotation_property rdfs:label ?ap_label . "
-        whereQuery += ' FILTER(STR(?ap_label)="' + annotation.property + '") '
+        where_query += "?annotation_property rdfs:label ?ap_label . "
+        where_query += ' FILTER(STR(?ap_label)="' + annotation.property + '") '
     else:
-        whereQuery += "BIND(" + annotation.property + " AS ?annotation_property) "
+        where_query += "BIND(" + annotation.property + " AS ?annotation_property) "
 
     if annotation.filler_type == "label":
-        whereQuery += "?filler rdfs:label ?filler_label . "
-        whereQuery += ' FILTER(STR(?filler_label)="' + annotation.filler + '") '
+        where_query += "?filler rdfs:label ?filler_label . "
+        where_query += ' FILTER(STR(?filler_label)="' + annotation.filler + '") '
 
     if annotation.filler_type == "literal":
-        whereQuery += 'BIND("' + escape_literal(annotation.filler) + '" AS ?filler) '
+        where_query += 'BIND("' + escape_literal(annotation.filler) + '" AS ?filler) '
 
     if annotation.filler_type == "uri" or annotation.filler_type == "curie":
-        whereQuery += "BIND(" + annotation.filler + " AS ?filler) "
+        where_query += "BIND(" + annotation.filler + " AS ?filler) "
 
     if object_type == "label":
-        whereQuery += "?object rdfs:label ?object_label . "
-        whereQuery += ' FILTER(STR(?object_label)="' + object + '") '
+        where_query += "?object rdfs:label ?object_label . "
+        where_query += ' FILTER(STR(?object_label)="' + object + '") '
 
     if object_type == "literal":
-        whereQuery += 'BIND("' + escape_literal(object) + '" AS ?object) '
+        where_query += 'BIND("' + escape_literal(object) + '" AS ?object) '
 
     if object_type == "uri" or object_type == "curie":
-        whereQuery += "BIND(" + object + " AS ?object) "
+        where_query += "BIND(" + object + " AS ?object) "
 
-    where = "WHERE {" + whereQuery + "}"
+    where = "WHERE {" + where_query + "}"
 
-    updateQuery = prefix + " " + insert + " " + where
+    update_query = prefix + " " + insert + " " + where
 
-    return updateQuery
+    return update_query
 
 
 def triple_creation(kgcl_instance):
@@ -1102,46 +1102,46 @@ def triple_creation(kgcl_instance):
     if object_type == "curie":
         prefix += build_curie_prefix(object)
 
-    insertQuery = "?subject ?predicate ?object . "
+    insert_query = "?subject ?predicate ?object . "
 
-    insert = "INSERT {" + insertQuery + "}"
+    insert = "INSERT {" + insert_query + "}"
 
-    whereQuery = ""
+    where_query = ""
     if subject_type == "label":
-        whereQuery += "?subject rdfs:label ?subject_label . "
-        whereQuery += ' FILTER(STR(?subject_label)="' + subject + '") '
+        where_query += "?subject rdfs:label ?subject_label . "
+        where_query += ' FILTER(STR(?subject_label)="' + subject + '") '
     else:
-        whereQuery += " BIND(" + subject + " AS ?subject)"
+        where_query += " BIND(" + subject + " AS ?subject)"
 
     if predicate_type == "label":
-        whereQuery += "?predicate rdfs:label ?predicate_label . "
-        whereQuery += ' FILTER(STR(?predicate_label)="' + predicate + '") '
+        where_query += "?predicate rdfs:label ?predicate_label . "
+        where_query += ' FILTER(STR(?predicate_label)="' + predicate + '") '
     else:
-        whereQuery += " BIND(" + predicate + " AS ?predicate)"
+        where_query += " BIND(" + predicate + " AS ?predicate)"
 
     if object_type == "label":
-        whereQuery += "?object rdfs:label ?object_label . "
-        whereQuery += ' FILTER(STR(?object_label)="' + object + '") '
+        where_query += "?object rdfs:label ?object_label . "
+        where_query += ' FILTER(STR(?object_label)="' + object + '") '
 
     if object_type == "uri" or object_type == "curie":
-        whereQuery += " BIND(" + object + " AS ?object) "
+        where_query += " BIND(" + object + " AS ?object) "
 
     if object_type == "literal":
         object = escape_literal(object)
         if datatype is not None:
-            whereQuery += ' BIND(STRDT("' + object + '",' + datatype + ") AS ?object) "
+            where_query += ' BIND(STRDT("' + object + '",' + datatype + ") AS ?object) "
         elif language is not None:
-            whereQuery += (
+            where_query += (
                 ' BIND(STRLANG("' + object + '","' + language + '") AS ?object) '
             )
         else:
-            whereQuery += ' BIND("' + object + '" AS ?object)'
+            where_query += ' BIND("' + object + '" AS ?object)'
 
-    where = "WHERE { " + whereQuery + " }"
+    where = "WHERE { " + where_query + " }"
 
-    updateQuery = prefix + " " + insert + " " + where
+    update_query = prefix + " " + insert + " " + where
 
-    return updateQuery
+    return update_query
 
 
 # TODO: language tags + data types
@@ -1164,7 +1164,7 @@ def edge_annotation_deletion(kgcl_instance):
 
     # TODO: example
 
-    # Query for (a)
+    # _query for (a)
     # A reification for a single annotations will consist of 5 triples.
     # So, we use this size bound to determine whether we need to
     # delete the entire reification or not
@@ -1188,113 +1188,113 @@ def edge_annotation_deletion(kgcl_instance):
 
     insert = "INSERT { }"
 
-    deleteQuery = "?bnode owl:annotatedSource ?subject  . "
-    deleteQuery += "?bnode owl:annotatedProperty ?predicate . "
-    deleteQuery += "?bnode owl:annotatedTarget ?object . "
-    deleteQuery += "?bnode ?annotation_property ?filler . "
-    deleteQuery += "?bnode rdf:type owl:Axiom ."
+    delete_query = "?bnode owl:annotatedSource ?subject  . "
+    delete_query += "?bnode owl:annotatedProperty ?predicate . "
+    delete_query += "?bnode owl:annotatedTarget ?object . "
+    delete_query += "?bnode ?annotation_property ?filler . "
+    delete_query += "?bnode rdf:type owl:Axiom ."
 
-    delete = "DELETE {" + deleteQuery + "}"
+    delete = "DELETE {" + delete_query + "}"
 
-    whereQuery = "SELECT ?bnode ?subject ?predicate ?object ?filler ?annotation_property WHERE { "
-    whereQuery += "?bnode ?ap ?p . "
-    whereQuery += "?bnode owl:annotatedSource ?subject .  "
+    where_query = "SELECT ?bnode ?subject ?predicate ?object ?filler ?annotation_property WHERE { "
+    where_query += "?bnode ?ap ?p . "
+    where_query += "?bnode owl:annotatedSource ?subject .  "
 
     if subject_type == "label":
-        whereQuery += "?subject rdfs:label ?subject_label . "
-        whereQuery += ' FILTER(STR(?subject_label)="' + subject + '") '
+        where_query += "?subject rdfs:label ?subject_label . "
+        where_query += ' FILTER(STR(?subject_label)="' + subject + '") '
     else:
-        whereQuery += "BIND(" + subject + " AS ?subject) "
+        where_query += "BIND(" + subject + " AS ?subject) "
 
     if annotation.property_type == "label":
-        whereQuery += "?annotation_property rdfs:label ?ap_label . "
-        whereQuery += ' FILTER(STR(?ap_label)="' + annotation.property + '") '
+        where_query += "?annotation_property rdfs:label ?ap_label . "
+        where_query += ' FILTER(STR(?ap_label)="' + annotation.property + '") '
     else:
-        whereQuery += "BIND(" + annotation.property + " AS ?annotation_property) "
+        where_query += "BIND(" + annotation.property + " AS ?annotation_property) "
 
     if predicate_type == "label":
-        whereQuery += "?predicate rdfs:label ?predicate_label . "
-        whereQuery += ' FILTER(STR(?predicate_label)="' + predicate + '") '
+        where_query += "?predicate rdfs:label ?predicate_label . "
+        where_query += ' FILTER(STR(?predicate_label)="' + predicate + '") '
     else:
-        whereQuery += "BIND(" + predicate + " AS ?predicate) "
+        where_query += "BIND(" + predicate + " AS ?predicate) "
 
     if annotation.filler_type == "label":
-        whereQuery += "?filler rdfs:label ?filler_label . "
-        whereQuery += ' FILTER(STR(?filler_label)="' + annotation.filler + '") '
+        where_query += "?filler rdfs:label ?filler_label . "
+        where_query += ' FILTER(STR(?filler_label)="' + annotation.filler + '") '
 
     if annotation.filler_type == "uri" or annotation.filler_type == "curie":
-        whereQuery += "BIND(" + annotation.filler + " AS ?filler) "
+        where_query += "BIND(" + annotation.filler + " AS ?filler) "
 
     if annotation.filler_type == "literal":
-        whereQuery += 'BIND("' + escape_literal(annotation.filler) + '" AS ?filler) '
+        where_query += 'BIND("' + escape_literal(annotation.filler) + '" AS ?filler) '
 
     if object_type == "label":
-        whereQuery += "?object rdfs:label ?object_label . "
-        whereQuery += ' FILTER(STR(?object_label)="' + object + '") '
+        where_query += "?object rdfs:label ?object_label . "
+        where_query += ' FILTER(STR(?object_label)="' + object + '") '
 
     if object_type == "literal":
-        whereQuery += 'BIND("' + escape_literal(object) + '" AS ?object) '
+        where_query += 'BIND("' + escape_literal(object) + '" AS ?object) '
 
     if object_type == "uri" or object_type == "curie":
-        whereQuery += "BIND(" + object + " AS ?object)  "
+        where_query += "BIND(" + object + " AS ?object)  "
 
-    whereQuery += "} "
-    whereQuery += "HAVING((COUNT(?ap) <= 5) && (COUNT(?p) <= 5)) "
+    where_query += "} "
+    where_query += "HAVING((COUNT(?ap) <= 5) && (COUNT(?p) <= 5)) "
 
-    where = "WHERE {" + whereQuery + "}"
+    where = "WHERE {" + where_query + "}"
 
-    subquery1 = prefix + " " + delete + " " + insert + " " + where
+    sub_query1 = prefix + " " + delete + " " + insert + " " + where
 
-    # Query for (b)
-    deleteQuery = "?bnode ?annotation_property ?filler . "
-    delete = "DELETE {" + deleteQuery + "}"
+    # _query for (b)
+    delete_query = "?bnode ?annotation_property ?filler . "
+    delete = "DELETE {" + delete_query + "}"
 
-    whereQuery = "SELECT ?bnode ?subject ?object ?annotation_property ?filler WHERE {"
-    whereQuery += "?bnode ?ap ?p . "
-    whereQuery += "?bnode owl:annotatedSource ?subject .  "
+    where_query = "SELECT ?bnode ?subject ?object ?annotation_property ?filler WHERE {"
+    where_query += "?bnode ?ap ?p . "
+    where_query += "?bnode owl:annotatedSource ?subject .  "
 
     if subject_type == "label":
-        whereQuery += "?subject rdfs:label ?subject_label . "
-        whereQuery += ' FILTER(STR(?subject_label)="' + subject + '") '
+        where_query += "?subject rdfs:label ?subject_label . "
+        where_query += ' FILTER(STR(?subject_label)="' + subject + '") '
     else:
-        whereQuery += "BIND(" + subject + " AS ?subject) "
+        where_query += "BIND(" + subject + " AS ?subject) "
 
     if annotation.property_type == "label":
-        whereQuery += "?annotation_property rdfs:label ?ap_label . "
-        whereQuery += ' FILTER(STR(?ap_label)="' + annotation.property + '") '
+        where_query += "?annotation_property rdfs:label ?ap_label . "
+        where_query += ' FILTER(STR(?ap_label)="' + annotation.property + '") '
     else:
-        whereQuery += "BIND(" + annotation.property + " AS ?annotation_property) "
+        where_query += "BIND(" + annotation.property + " AS ?annotation_property) "
 
     if annotation.filler_type == "label":
-        whereQuery += "?filler rdfs:label ?filler_label . "
-        whereQuery += ' FILTER(STR(?filler_label)="' + annotation.filler + '") '
+        where_query += "?filler rdfs:label ?filler_label . "
+        where_query += ' FILTER(STR(?filler_label)="' + annotation.filler + '") '
 
     if annotation.filler_type == "uri" or annotation.filler_type == "curie":
-        whereQuery += "BIND(" + annotation.filler + " AS ?filler) "
+        where_query += "BIND(" + annotation.filler + " AS ?filler) "
     if annotation.filler_type == "literal":
-        whereQuery += 'BIND("' + escape_literal(annotation.filler) + '" AS ?filler) '
+        where_query += 'BIND("' + escape_literal(annotation.filler) + '" AS ?filler) '
 
     if object_type == "label":
-        whereQuery += "?object rdfs:label ?object_label . "
-        whereQuery += ' FILTER(STR(?object_label)="' + object + '") '
+        where_query += "?object rdfs:label ?object_label . "
+        where_query += ' FILTER(STR(?object_label)="' + object + '") '
 
     if object_type == "literal":
-        whereQuery += 'BIND("' + escape_literal(object) + '" AS ?object) '
+        where_query += 'BIND("' + escape_literal(object) + '" AS ?object) '
 
     if object_type == "uri" or object_type == "curie":
-        whereQuery += "BIND(" + object + " AS ?object)  "
+        where_query += "BIND(" + object + " AS ?object)  "
 
-    whereQuery += "} "
-    whereQuery += "HAVING((COUNT(?ap) > 5) || (COUNT(?ap) > 5)) "
+    where_query += "} "
+    where_query += "HAVING((COUNT(?ap) > 5) || (COUNT(?ap) > 5)) "
 
-    where = "WHERE {" + whereQuery + "}"
+    where = "WHERE {" + where_query + "}"
 
-    subquery2 = prefix + " " + delete + " " + insert + " " + where
+    sub_query2 = prefix + " " + delete + " " + insert + " " + where
 
     # putting (a) and (b) together
-    updateQuery = subquery1 + " ; " + subquery2
+    update_query = sub_query1 + " ; " + sub_query2
 
-    return updateQuery
+    return update_query
 
 
 def triple_deletion(kgcl_instance):
@@ -1321,47 +1321,47 @@ def triple_deletion(kgcl_instance):
     if object_type == "curie":
         prefix += build_curie_prefix(object)
 
-    deleteQuery = "?subject ?predicate ?object . "
-    delete = "DELETE {" + deleteQuery + "}"
+    delete_query = "?subject ?predicate ?object . "
+    delete = "DELETE {" + delete_query + "}"
 
-    whereQuery = ""
+    where_query = ""
 
-    whereQuery = ""
+    where_query = ""
     if subject_type == "label":
-        whereQuery += "?subject rdfs:label ?object_label . "
-        whereQuery += ' FILTER(STR(?object_label)="' + subject + '") '
+        where_query += "?subject rdfs:label ?object_label . "
+        where_query += ' FILTER(STR(?object_label)="' + subject + '") '
     else:
-        whereQuery += "BIND(" + subject + " AS ?subject)"
+        where_query += "BIND(" + subject + " AS ?subject)"
 
     if predicate_type == "label":
-        whereQuery += "?predicate rdfs:label ?predicate_label . "
-        whereQuery += ' FILTER(STR(?predicate_label)="' + predicate + '") '
+        where_query += "?predicate rdfs:label ?predicate_label . "
+        where_query += ' FILTER(STR(?predicate_label)="' + predicate + '") '
     else:
-        whereQuery += "BIND(" + predicate + " AS ?predicate)"
+        where_query += "BIND(" + predicate + " AS ?predicate)"
 
     if object_type == "label":
-        whereQuery += "?object rdfs:label ?object_label . "
-        whereQuery += ' FILTER(STR(?object_label)="' + object + '") '
+        where_query += "?object rdfs:label ?object_label . "
+        where_query += ' FILTER(STR(?object_label)="' + object + '") '
 
     if object_type == "uri" or object_type == "curie":
-        whereQuery += " BIND(" + object + " AS ?object) "
+        where_query += " BIND(" + object + " AS ?object) "
 
     if object_type == "literal":
         object = escape_literal(object)
         if datatype is not None:
-            whereQuery += ' BIND( STRDT("' + object + '",' + datatype + ") AS ?object) "
+            where_query += ' BIND( STRDT("' + object + '",' + datatype + ") AS ?object) "
         elif language is not None:
-            whereQuery += (
+            where_query += (
                 'BIND( STRLANG("' + object + '","' + language + '") AS ?object) '
             )
         else:
-            whereQuery += 'BIND("' + object + '" AS ?object)'
+            where_query += 'BIND("' + object + '" AS ?object)'
 
-    where = "WHERE { " + whereQuery + " }"
+    where = "WHERE { " + where_query + " }"
 
-    updateQuery = prefix + " " + delete + " " + where
+    update_query = prefix + " " + delete + " " + where
 
-    return updateQuery
+    return update_query
 
 
 def obsolete_by_id(kgcl_instance):
@@ -1374,38 +1374,38 @@ def obsolete_by_id(kgcl_instance):
     prefix += "PREFIX obo: <http://purl.obolibrary.org/obo/> "
     prefix += "PREFIX oboInOwl: <http://www.geneontology.org/formats/oboInOwl#> "
 
-    deleteQuery = about + "rdfs:label ?label . "
-    deleteQuery += about + " rdfs:subClassOf ?superclass . "
-    deleteQuery += about + " owl:equivalentClass ?rhs . "
-    deleteQuery += "?lhs owl:equivalentClass " + about + " ."
+    delete_query = about + "rdfs:label ?label . "
+    delete_query += about + " rdfs:subClassOf ?superclass . "
+    delete_query += about + " owl:equivalentClass ?rhs . "
+    delete_query += "?lhs owl:equivalentClass " + about + " ."
 
-    delete = "DELETE {" + deleteQuery + "}"
+    delete = "DELETE {" + delete_query + "}"
 
-    insertQuery = "?entity rdfs:label ?tag . "
-    insertQuery += about + ' owl:deprecated "true"^^xsd:boolean . '
-    insertQuery += "?entity rdfs:subClassOf oboInOwl:ObsoleteClass . "
+    insert_query = "?entity rdfs:label ?tag . "
+    insert_query += about + ' owl:deprecated "true"^^xsd:boolean . '
+    insert_query += "?entity rdfs:subClassOf oboInOwl:ObsoleteClass . "
 
     if kgcl_instance.has_direct_replacement is not None:
-        insertQuery += about + " obo:IAO_0100001 " + replacement + "  .  "
+        insert_query += about + " obo:IAO_0100001 " + replacement + "  .  "
 
-    insert = "INSERT {" + insertQuery + "}"
+    insert = "INSERT {" + insert_query + "}"
 
-    whereQuery = "{ " + about + " rdfs:subClassOf ?superclass . } "
-    whereQuery += " UNION "
-    whereQuery += "{ " + about + " owl:equivalentClass ?rhs . } "
-    whereQuery += " UNION "
-    whereQuery += "{ ?lhs owl:equivalentClass " + about + " . } "
-    whereQuery += " UNION "
-    whereQuery += "{ ?entity rdfs:label ?label . "
-    whereQuery += ' BIND(CONCAT("obsolete ", ?label) AS ?obsolete_label )  '
-    whereQuery += " BIND( LANG(?label) AS ?language)  "
-    whereQuery += " BIND( STRLANG(?obsolete_label,?language) AS ?tag) }  "
+    where_query = "{ " + about + " rdfs:subClassOf ?superclass . } "
+    where_query += " UNION "
+    where_query += "{ " + about + " owl:equivalentClass ?rhs . } "
+    where_query += " UNION "
+    where_query += "{ ?lhs owl:equivalentClass " + about + " . } "
+    where_query += " UNION "
+    where_query += "{ ?entity rdfs:label ?label . "
+    where_query += ' BIND(CONCAT("obsolete ", ?label) AS ?obsolete_label )  '
+    where_query += " BIND( LANG(?label) AS ?language)  "
+    where_query += " BIND( STRLANG(?obsolete_label,?language) AS ?tag) }  "
 
-    where = "WHERE {" + whereQuery + "}"
+    where = "WHERE {" + where_query + "}"
 
-    updateQuery = prefix + " " + delete + " " + insert + " " + where
+    update_query = prefix + " " + delete + " " + insert + " " + where
 
-    return updateQuery
+    return update_query
 
 
 def obsolete_by_label(kgcl_instance):
@@ -1416,59 +1416,59 @@ def obsolete_by_label(kgcl_instance):
     prefix += "PREFIX xsd:  <http://www.w3.org/2001/XMLSchema#> "
     prefix += "PREFIX oboInOwl: <http://www.geneontology.org/formats/oboInOwl#> "
 
-    deleteQuery = "?entity rdfs:label ?label . "
-    deleteQuery += "?entity rdfs:subClassOf ?superclass . "
-    deleteQuery += "?entity owl:equivalentClass ?rhs . "
-    deleteQuery += "?lhs owl:equivalentClass ?entity . "
+    delete_query = "?entity rdfs:label ?label . "
+    delete_query += "?entity rdfs:subClassOf ?superclass . "
+    delete_query += "?entity owl:equivalentClass ?rhs . "
+    delete_query += "?lhs owl:equivalentClass ?entity . "
 
-    delete = "DELETE {" + deleteQuery + "}"
+    delete = "DELETE {" + delete_query + "}"
 
     # inner_label = about.replace("'", "")
     obsolete_label = "obsolete " + about
 
-    insertQuery = "?entity rdfs:label ?tag . "
-    insertQuery += '?entity owl:deprecated "true"^^xsd:boolean . '
-    insertQuery += "?entity rdfs:subClassOf oboInOwl:ObsoleteClass . "
+    insert_query = "?entity rdfs:label ?tag . "
+    insert_query += '?entity owl:deprecated "true"^^xsd:boolean . '
+    insert_query += "?entity rdfs:subClassOf oboInOwl:ObsoleteClass . "
 
-    insert = "INSERT {" + insertQuery + "}"
+    insert = "INSERT {" + insert_query + "}"
 
     # TODO: handle the special case where only a label is present
-    # (in that case we need to query for a single triple)
-    whereQuery = "{ ?entity rdfs:label ?label .  "
-    whereQuery += " ?entity rdfs:subClassOf ?superclass .  "
-    whereQuery += " BIND( LANG(?label) AS ?language)  "
-    whereQuery += ' BIND( STRLANG("' + obsolete_label + '",?language) AS ?tag)  '
-    whereQuery += ' FILTER(STR(?label)="' + about + '") } '
+    # (in that case we need to _query for a single triple)
+    where_query = "{ ?entity rdfs:label ?label .  "
+    where_query += " ?entity rdfs:subClassOf ?superclass .  "
+    where_query += " BIND( LANG(?label) AS ?language)  "
+    where_query += ' BIND( STRLANG("' + obsolete_label + '",?language) AS ?tag)  '
+    where_query += ' FILTER(STR(?label)="' + about + '") } '
 
-    whereQuery += " UNION "
+    where_query += " UNION "
 
-    whereQuery += "{ ?entity rdfs:label ?label .  "
-    whereQuery += " ?entity owl:equivalentClass ?rhs . "
-    whereQuery += " BIND( LANG(?label) AS ?language) "
-    whereQuery += ' BIND( STRLANG("' + obsolete_label + '",?language) AS ?tag)  '
-    whereQuery += ' FILTER(STR(?label)="' + about + '") } '
+    where_query += "{ ?entity rdfs:label ?label .  "
+    where_query += " ?entity owl:equivalentClass ?rhs . "
+    where_query += " BIND( LANG(?label) AS ?language) "
+    where_query += ' BIND( STRLANG("' + obsolete_label + '",?language) AS ?tag)  '
+    where_query += ' FILTER(STR(?label)="' + about + '") } '
 
-    whereQuery += " UNION "
+    where_query += " UNION "
 
-    whereQuery += "{ ?entity rdfs:label ?label .  "
-    whereQuery += " ?lhs owl:equivalentClass ?entity . "
-    whereQuery += " BIND( LANG(?label) AS ?language) "
-    whereQuery += ' BIND( STRLANG("' + obsolete_label + '",?language) AS ?tag)  '
-    whereQuery += ' FILTER(STR(?label)="' + about + '") } '
+    where_query += "{ ?entity rdfs:label ?label .  "
+    where_query += " ?lhs owl:equivalentClass ?entity . "
+    where_query += " BIND( LANG(?label) AS ?language) "
+    where_query += ' BIND( STRLANG("' + obsolete_label + '",?language) AS ?tag)  '
+    where_query += ' FILTER(STR(?label)="' + about + '") } '
 
-    whereQuery += " UNION "
+    where_query += " UNION "
 
-    whereQuery += "{ ?entity rdfs:label ?label .  "
-    whereQuery += " ?entity rdf:type ?type .  "
-    whereQuery += " BIND( LANG(?label) AS ?language) "
-    whereQuery += ' BIND( STRLANG("' + obsolete_label + '",?language) AS ?tag)  '
-    whereQuery += ' FILTER(STR(?label)="' + about + '") } '
+    where_query += "{ ?entity rdfs:label ?label .  "
+    where_query += " ?entity rdf:type ?type .  "
+    where_query += " BIND( LANG(?label) AS ?language) "
+    where_query += ' BIND( STRLANG("' + obsolete_label + '",?language) AS ?tag)  '
+    where_query += ' FILTER(STR(?label)="' + about + '") } '
 
-    where = "WHERE {" + whereQuery + "}"
+    where = "WHERE {" + where_query + "}"
 
-    updateQuery = prefix + " " + delete + " " + insert + " " + where
+    update_query = prefix + " " + delete + " " + insert + " " + where
 
-    return updateQuery
+    return update_query
 
 
 def obsolete_curie(kgcl_instance):
@@ -1485,38 +1485,38 @@ def obsolete_curie(kgcl_instance):
     prefix += "PREFIX oboInOwl: <http://www.geneontology.org/formats/oboInOwl#> "
     prefix += "PREFIX " + curie_prefix + ": " + curie_uri + " "
 
-    deleteQuery = about + " rdfs:label ?label . "
-    deleteQuery += about + " rdfs:subClassOf ?superclass . "
-    deleteQuery += about + " owl:equivalentClass ?rhs . "
-    deleteQuery += "?lhs owl:equivalentClass " + about + " ."
+    delete_query = about + " rdfs:label ?label . "
+    delete_query += about + " rdfs:subClassOf ?superclass . "
+    delete_query += about + " owl:equivalentClass ?rhs . "
+    delete_query += "?lhs owl:equivalentClass " + about + " ."
 
-    delete = "DELETE {" + deleteQuery + "}"
+    delete = "DELETE {" + delete_query + "}"
 
-    insertQuery = "?entity rdfs:label ?tag . "
-    insertQuery += about + ' owl:deprecated "true"^^xsd:boolean . '
-    insertQuery += "?entity rdfs:subClassOf oboInOwl:ObsoleteClass . "
+    insert_query = "?entity rdfs:label ?tag . "
+    insert_query += about + ' owl:deprecated "true"^^xsd:boolean . '
+    insert_query += "?entity rdfs:subClassOf oboInOwl:ObsoleteClass . "
 
     if kgcl_instance.has_direct_replacement is not None:
-        insertQuery += about + " obo:IAO_0100001 " + replacement + "  .  "
+        insert_query += about + " obo:IAO_0100001 " + replacement + "  .  "
 
-    insert = "INSERT {" + insertQuery + "}"
+    insert = "INSERT {" + insert_query + "}"
 
-    whereQuery = "{ " + about + " rdfs:subClassOf ?superclass . } "
-    whereQuery += " UNION "
-    whereQuery += "{ " + about + " owl:equivalentClass ?rhs . } "
-    whereQuery += " UNION "
-    whereQuery += "{ ?lhs owl:equivalentClass " + about + " . } "
-    whereQuery += " UNION "
-    whereQuery += "{ ?entity rdfs:label ?label . "
-    whereQuery += ' BIND(CONCAT("obsolete ", ?label) AS ?obsolete_label )  '
-    whereQuery += " BIND( LANG(?label) AS ?language)  "
-    whereQuery += " BIND( STRLANG(?obsolete_label,?language) AS ?tag) }  "
+    where_query = "{ " + about + " rdfs:subClassOf ?superclass . } "
+    where_query += " UNION "
+    where_query += "{ " + about + " owl:equivalentClass ?rhs . } "
+    where_query += " UNION "
+    where_query += "{ ?lhs owl:equivalentClass " + about + " . } "
+    where_query += " UNION "
+    where_query += "{ ?entity rdfs:label ?label . "
+    where_query += ' BIND(CONCAT("obsolete ", ?label) AS ?obsolete_label )  '
+    where_query += " BIND( LANG(?label) AS ?language)  "
+    where_query += " BIND( STRLANG(?obsolete_label,?language) AS ?tag) }  "
 
-    where = "WHERE {" + whereQuery + "}"
+    where = "WHERE {" + where_query + "}"
 
-    updateQuery = prefix + " " + delete + " " + insert + " " + where
+    update_query = prefix + " " + delete + " " + insert + " " + where
 
-    return updateQuery
+    return update_query
 
 
 def new_synonym_for_uri(kgcl_instance):
@@ -1532,29 +1532,29 @@ def new_synonym_for_uri(kgcl_instance):
     prefix += "PREFIX oboInOwl: <http://www.geneontology.org/formats/oboInOwl#> "
 
     if qualifier is None:
-        insertQuery = about + " oboInOwl:hasSynonym "  # + synonym + " . "
+        insert_query = about + " oboInOwl:hasSynonym "  # + synonym + " . "
     if qualifier == "exact":
-        insertQuery = about + " oboInOwl:hasExactSynonym "  # + synonym + " . "
+        insert_query = about + " oboInOwl:hasExactSynonym "  # + synonym + " . "
     if qualifier == "narrow":
-        insertQuery = about + " oboInOwl:hasNarrowSynonym "  # + synonym + " . "
+        insert_query = about + " oboInOwl:hasNarrowSynonym "  # + synonym + " . "
     if qualifier == "broad":
-        insertQuery = about + " oboInOwl:hasBroadSynonym "  # + synonym + " . "
+        insert_query = about + " oboInOwl:hasBroadSynonym "  # + synonym + " . "
     if qualifier == "related":
-        insertQuery = about + " oboInOwl:hasRelatedSynonym "  # + synonym + " . "
+        insert_query = about + " oboInOwl:hasRelatedSynonym "  # + synonym + " . "
 
-    whereQuery = ""
+    where_query = ""
     if language is None:
-        insertQuery += '"' + synonym + '" .'
+        insert_query += '"' + synonym + '" .'
     else:
-        insertQuery += "?tag ."
-        whereQuery = ' BIND( STRLANG("' + synonym + '","' + language + '") AS ?tag) '
+        insert_query += "?tag ."
+        where_query = ' BIND( STRLANG("' + synonym + '","' + language + '") AS ?tag) '
 
-    insert = "INSERT {" + insertQuery + "}"
-    where = "WHERE {" + whereQuery + "}"
+    insert = "INSERT {" + insert_query + "}"
+    where = "WHERE {" + where_query + "}"
 
-    updateQuery = prefix + " " + insert + " " + where
+    update_query = prefix + " " + insert + " " + where
 
-    return updateQuery
+    return update_query
 
 
 def new_synonym_for_label(kgcl_instance):
@@ -1569,32 +1569,32 @@ def new_synonym_for_label(kgcl_instance):
     prefix += "PREFIX oboInOwl: <http://www.geneontology.org/formats/oboInOwl#> "
 
     if qualifier is None:
-        insertQuery = "?about oboInOwl:hasSynonym "  # + synonym + " . "
+        insert_query = "?about oboInOwl:hasSynonym "  # + synonym + " . "
     if qualifier == "exact":
-        insertQuery = "?about oboInOwl:hasExactSynonym "  # + synonym + " . "
+        insert_query = "?about oboInOwl:hasExactSynonym "  # + synonym + " . "
     if qualifier == "narrow":
-        insertQuery = "?about oboInOwl:hasNarrowSynonym "  # + synonym + " . "
+        insert_query = "?about oboInOwl:hasNarrowSynonym "  # + synonym + " . "
     if qualifier == "broad":
-        insertQuery = "?about oboInOwl:hasBroadSynonym "  # + synonym + " . "
+        insert_query = "?about oboInOwl:hasBroadSynonym "  # + synonym + " . "
     if qualifier == "related":
-        insertQuery = "?about oboInOwl:hasRelatedSynonym "  # + synonym + " . "
+        insert_query = "?about oboInOwl:hasRelatedSynonym "  # + synonym + " . "
 
     # this ignores language tags
-    whereQuery = " ?about rdfs:label ?label . "
-    whereQuery += ' FILTER(STR(?label)="' + about + '") '
+    where_query = " ?about rdfs:label ?label . "
+    where_query += ' FILTER(STR(?label)="' + about + '") '
 
     if language is None:
-        insertQuery += '"' + synonym + '" .'
+        insert_query += '"' + synonym + '" .'
     else:
-        insertQuery += "?tag ."
-        whereQuery += ' BIND( STRLANG("' + synonym + '","' + language + '") AS ?tag) '
+        insert_query += "?tag ."
+        where_query += ' BIND( STRLANG("' + synonym + '","' + language + '") AS ?tag) '
 
-    insert = "INSERT {" + insertQuery + "}"
-    where = "WHERE {" + whereQuery + "}"
+    insert = "INSERT {" + insert_query + "}"
+    where = "WHERE {" + where_query + "}"
 
-    updateQuery = prefix + " " + insert + " " + where
+    update_query = prefix + " " + insert + " " + where
 
-    return updateQuery
+    return update_query
 
 
 def new_synonym_for_curie(kgcl_instance):
@@ -1613,29 +1613,29 @@ def new_synonym_for_curie(kgcl_instance):
     prefix += "PREFIX " + curie_prefix + ": " + curie_uri + " "
 
     if qualifier is None:
-        insertQuery = about + " oboInOwl:hasSynonym "  # + synonym + " . "
+        insert_query = about + " oboInOwl:hasSynonym "  # + synonym + " . "
     if qualifier == "exact":
-        insertQuery = about + " oboInOwl:hasExactSynonym "  # + synonym + " . "
+        insert_query = about + " oboInOwl:hasExactSynonym "  # + synonym + " . "
     if qualifier == "narrow":
-        insertQuery = about + " oboInOwl:hasNarrowSynonym "  # + synonym + " . "
+        insert_query = about + " oboInOwl:hasNarrowSynonym "  # + synonym + " . "
     if qualifier == "broad":
-        insertQuery = about + " oboInOwl:hasBroadSynonym "  # + synonym + " . "
+        insert_query = about + " oboInOwl:hasBroadSynonym "  # + synonym + " . "
     if qualifier == "related":
-        insertQuery = about + " oboInOwl:hasRelatedSynonym "  # + synonym + " . "
+        insert_query = about + " oboInOwl:hasRelatedSynonym "  # + synonym + " . "
 
-    whereQuery = ""
+    where_query = ""
     if language is None:
-        insertQuery += '"' + synonym + '" .'
+        insert_query += '"' + synonym + '" .'
     else:
-        insertQuery += "?tag ."
-        whereQuery += ' BIND( STRLANG("' + synonym + '","' + language + '") AS ?tag) '
+        insert_query += "?tag ."
+        where_query += ' BIND( STRLANG("' + synonym + '","' + language + '") AS ?tag) '
 
-    insert = "INSERT {" + insertQuery + "}"
-    where = "WHERE {" + whereQuery + "}"
+    insert = "INSERT {" + insert_query + "}"
+    where = "WHERE {" + where_query + "}"
 
-    updateQuery = prefix + " " + insert + " " + where
+    update_query = prefix + " " + insert + " " + where
 
-    return updateQuery
+    return update_query
 
 
 def create_existential_restriction(kgcl_instance):
@@ -1658,38 +1658,38 @@ def create_existential_restriction(kgcl_instance):
     if filler_type == "curie":
         prefix += build_curie_prefix(filler)
 
-    insertQuery = "?subclass rdfs:subClassOf ?bnode . "
-    insertQuery += "?bnode owl:someValuesFrom ?filler . "
-    insertQuery += "?bnode owl:onProperty ?property . "
-    insertQuery += "?bnode rdf:type owl:Restriction ."
+    insert_query = "?subclass rdfs:subClassOf ?bnode . "
+    insert_query += "?bnode owl:someValuesFrom ?filler . "
+    insert_query += "?bnode owl:onProperty ?property . "
+    insert_query += "?bnode rdf:type owl:Restriction ."
 
-    insert = "INSERT {" + insertQuery + "}"
+    insert = "INSERT {" + insert_query + "}"
 
-    whereQuery = ""
+    where_query = ""
     if subclass_type == "label":
-        whereQuery += "?subclass rdfs:label ?subclass_label . "
-        whereQuery += ' FILTER(STR(?subclass_label)="' + subclass + '") '
+        where_query += "?subclass rdfs:label ?subclass_label . "
+        where_query += ' FILTER(STR(?subclass_label)="' + subclass + '") '
     else:
-        whereQuery += " BIND(" + subclass + " AS ?subclass) "
+        where_query += " BIND(" + subclass + " AS ?subclass) "
 
     if property_type == "label":
-        whereQuery += "?property rdfs:label ?property_label . "
-        whereQuery += ' FILTER(STR(?property_label)="' + property + '") '
+        where_query += "?property rdfs:label ?property_label . "
+        where_query += ' FILTER(STR(?property_label)="' + property + '") '
     else:
-        whereQuery += " BIND(" + property + " AS ?property) "
+        where_query += " BIND(" + property + " AS ?property) "
 
     if filler_type == "label":
-        whereQuery += "?filler rdfs:label ?filler_label . "
-        whereQuery += ' FILTER(STR(?filler_label)="' + filler + '") '
+        where_query += "?filler rdfs:label ?filler_label . "
+        where_query += ' FILTER(STR(?filler_label)="' + filler + '") '
     else:
-        whereQuery += " BIND(" + filler + " AS ?filler) "
+        where_query += " BIND(" + filler + " AS ?filler) "
 
-    whereQuery += ' BIND(BNODE("existential") AS ?bnode) '
-    where = "WHERE {" + whereQuery + "}"
+    where_query += ' BIND(BNODE("existential") AS ?bnode) '
+    where = "WHERE {" + where_query + "}"
 
-    updateQuery = prefix + " " + insert + " " + where
+    update_query = prefix + " " + insert + " " + where
 
-    return updateQuery
+    return update_query
 
 
 def delete_existential_restriction(kgcl_instance):
@@ -1713,35 +1713,35 @@ def delete_existential_restriction(kgcl_instance):
     if filler_type == "curie":
         prefix += build_curie_prefix(filler)
 
-    deleteQuery = "?subclass rdfs:subClassOf ?bnode . "
-    deleteQuery += "?bnode owl:someValuesFrom ?filler . "
-    deleteQuery += "?bnode owl:onProperty ?property . "
-    deleteQuery += "?bnode rdf:type owl:Restriction ."
+    delete_query = "?subclass rdfs:subClassOf ?bnode . "
+    delete_query += "?bnode owl:someValuesFrom ?filler . "
+    delete_query += "?bnode owl:onProperty ?property . "
+    delete_query += "?bnode rdf:type owl:Restriction ."
 
-    delete = "DELETE {" + deleteQuery + "}"
+    delete = "DELETE {" + delete_query + "}"
 
-    whereQuery = deleteQuery
+    where_query = delete_query
 
     if subclass_type == "label":
-        whereQuery += "?subclass rdfs:label ?subclass_label . "
-        whereQuery += ' FILTER(STR(?subclass_label)="' + subclass + '") '
+        where_query += "?subclass rdfs:label ?subclass_label . "
+        where_query += ' FILTER(STR(?subclass_label)="' + subclass + '") '
     else:
-        whereQuery += " BIND(" + subclass + " AS ?subclass) "
+        where_query += " BIND(" + subclass + " AS ?subclass) "
 
     if property_type == "label":
-        whereQuery += "?property rdfs:label ?property_label . "
-        whereQuery += ' FILTER(STR(?property_label)="' + property + '") '
+        where_query += "?property rdfs:label ?property_label . "
+        where_query += ' FILTER(STR(?property_label)="' + property + '") '
     else:
-        whereQuery += " BIND(" + property + " AS ?property) "
+        where_query += " BIND(" + property + " AS ?property) "
 
     if filler_type == "label":
-        whereQuery += "?filler rdfs:label ?filler_label . "
-        whereQuery += ' FILTER(STR(?filler_label)="' + filler + '") '
+        where_query += "?filler rdfs:label ?filler_label . "
+        where_query += ' FILTER(STR(?filler_label)="' + filler + '") '
     else:
-        whereQuery += " BIND(" + filler + " AS ?filler) "
+        where_query += " BIND(" + filler + " AS ?filler) "
 
-    where = "WHERE {" + whereQuery + "}"
+    where = "WHERE {" + where_query + "}"
 
-    updateQuery = prefix + " " + delete + " " + where
+    update_query = prefix + " " + delete + " " + where
 
-    return updateQuery
+    return update_query
