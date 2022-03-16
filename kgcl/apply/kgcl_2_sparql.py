@@ -657,12 +657,12 @@ def unobsolete_curie(kgcl_instance):
 
 # NB this does not preserve language tags
 def rename(kgcl_instance):
-    oldValue = kgcl_instance.old_value
-    newValue = kgcl_instance.new_value
+    old_value = kgcl_instance.old_value
+    new_value = kgcl_instance.new_value
 
     # strip label's single quotes
-    oldValue = oldValue[1:-1]
-    newValue = newValue[1:-1]
+    old_value = old_value[1:-1]
+    new_value = new_value[1:-1]
 
     old_language = kgcl_instance.old_language
     new_language = kgcl_instance.new_language
@@ -683,21 +683,21 @@ def rename(kgcl_instance):
     insert = "INSERT {" + insert_query + "}"
 
     where_query = subject + " rdfs:label ?label .  "
-    where_query += ' FILTER(STR(?label)="' + oldValue + '") '
+    where_query += ' FILTER(STR(?label)="' + old_value + '") '
 
     if old_language is None:
-        where_query += ' BIND("' + oldValue + '" AS ?oldlabel) '
+        where_query += ' BIND("' + old_value + '" AS ?oldlabel) '
     else:
         where_query += ' FILTER(LANG(?label) ="' + old_language + '")'
         where_query += (
-            ' BIND( STRLANG("' + oldValue + '","' + old_language + '") AS ?oldlabel) '
+            ' BIND( STRLANG("' + old_value + '","' + old_language + '") AS ?oldlabel) '
         )
 
     if new_language is None:
-        where_query += ' BIND("' + newValue + '" AS ?newlabel) '
+        where_query += ' BIND("' + new_value + '" AS ?newlabel) '
     else:
         where_query += (
-            ' BIND( STRLANG("' + newValue + '","' + new_language + '") AS ?newlabel) '
+            ' BIND( STRLANG("' + new_value + '","' + new_language + '") AS ?newlabel) '
         )
 
     where = "WHERE {" + where_query + "}"
@@ -711,9 +711,9 @@ def rename(kgcl_instance):
 # this implementation should preserve language tags
 # note that this cannot be used for diffing
 def rename_preserve(kgcl_instance):
-    oldValue = kgcl_instance.old_value
-    newValue = kgcl_instance.new_value
-    oldValue = oldValue.replace("'", "")
+    old_value = kgcl_instance.old_value
+    new_value = kgcl_instance.new_value
+    old_value = old_value.replace("'", "")
     old_language = kgcl_instance.old_language
     new_language = kgcl_instance.new_language
 
@@ -732,7 +732,7 @@ def rename_preserve(kgcl_instance):
 
     where_query = subject + " rdfs:label ?label .  "
     where_query += " BIND( LANG(?label) AS ?language)  "
-    where_query += ' FILTER(STR(?label)="' + oldValue + '") '
+    where_query += ' FILTER(STR(?label)="' + old_value + '") '
 
     # if old_Language tag is specified
     # then, we need to filter results according to the specified language tag
@@ -742,10 +742,10 @@ def rename_preserve(kgcl_instance):
     # if new_language tag is specifed, then
     # we need to add this tag to insert _query
     if new_language is None:
-        where_query += " BIND( STRLANG(" + newValue + ",?language) AS ?tag) "
+        where_query += " BIND( STRLANG(" + new_value + ",?language) AS ?tag) "
     else:
         where_query += (
-            " BIND( STRLANG(" + newValue + ',"' + new_language + '") AS ?tag) '
+            " BIND( STRLANG(" + new_value + ',"' + new_language + '") AS ?tag) '
         )
 
     where = "WHERE {" + where_query + "}"
@@ -827,16 +827,16 @@ def delete_by_label(kgcl_instance):
 
 
 def create_class(kgcl_instance):
-    termId = kgcl_instance.node_id
+    term_id = kgcl_instance.node_id
     id_type = kgcl_instance.about_node_representation
 
     prefix = "PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>  "
     prefix += "PREFIX owl: <http://www.w3.org/2002/07/owl#>  "
 
     if id_type == "curie":
-        prefix += build_curie_prefix(termId)
+        prefix += build_curie_prefix(term_id)
 
-    insert_query = termId + " rdf:type owl:Class  . "
+    insert_query = term_id + " rdf:type owl:Class  . "
     insert = "INSERT {" + insert_query + "}"
     where = "WHERE {}"
 
