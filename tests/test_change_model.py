@@ -1,12 +1,10 @@
-import logging
 import os
 import unittest
 
 from linkml_runtime.dumpers import JSONDumper
 
 from kgcl.model.kgcl import *
-from kgcl.model.ontology_model import Edge, Node, NodeId
-from kgcl.utils import from_yaml, to_json, to_rdf
+from kgcl.model.ontology_model import Edge
 
 cwd = os.path.abspath(os.path.dirname(__file__))
 EXAMPLE_DIR = os.path.join(cwd, "../examples")
