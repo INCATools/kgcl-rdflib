@@ -14,14 +14,21 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
+    strategy:
+    matrix:
+      python-version: [3.7, 3.8, 3.9]
+      os: [ ubuntu-latest, windows-latest ]
 
     steps:
     - name: Checkout
       uses: actions/checkout@v2
+      with:
+        python-version: ${{ matrix.python-version }}
 
     - name: Install Dependencies
       run: |
         pip install --upgrade pip
+        pip install --upgrade tox
         pip install mkdocs
         pip install linkml
         pip install Flask
@@ -29,8 +36,13 @@ jobs:
         pip install click  #used for CLI later on 
         pip install pytest
 
+    # - name: Check manifest
+    #   run: tox -e manifest
+    # - name: Lint with flake8
+    #   run: tox -e flake8
+    # - name: Test with MyPy
+    #   run: tox -e mypy
     - name: Test with pytest
-      run: |
-          python -m pytest
+      run: tox -e py
 
 
