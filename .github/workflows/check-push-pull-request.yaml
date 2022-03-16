@@ -14,14 +14,14 @@ jobs:
     
     strategy:
       matrix:
-        py-version: [3.7, 3.8, 3.9]
+        python-version: [3.7, 3.8, 3.9]
         os: [ ubuntu-latest, windows-latest ]
 
     steps:
-    - name: Set up Python ${{ matrix.py-version }}
+    - name: Set up Python ${{ matrix.python-version }}
       uses: actions/checkout@v2
       with:
-        python-version: ${{ matrix.py-version }}
+        submodules: ${{ matrix.python-version }}
 
     - name: Install Dependencies
       run: |
