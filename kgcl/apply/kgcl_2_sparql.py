@@ -64,10 +64,10 @@ def escape_literal(literal):
 
 
 def convert(kgcl_instance):
-    """Given a KGCL dataclass,
-    return a SPARQL UPDATE _query corresponding to the encoded change.
     """
-
+    Given a KGCL dataclass, return a SPARQL UPDATE _query.
+    This corresponding to the encoded change.
+    """
     # label renaming
     if type(kgcl_instance) is NodeRename:
         return rename(kgcl_instance)
