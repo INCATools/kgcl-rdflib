@@ -1,4 +1,4 @@
-from kgcl.tests.test_apply.util import run_test
+from util import run_test
 
 
 def test_node_shallowing_with_ids():

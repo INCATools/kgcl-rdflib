@@ -1,11 +1,8 @@
-import rdflib
-from rdflib.namespace import (
-    RDFS,
-    OWL,
-    RDF,
-)
-from rdflib import BNode
 import time
+
+import rdflib
+from rdflib import BNode
+from rdflib.namespace import OWL, RDF, RDFS
 
 
 class TripleAnnotation:

@@ -1,39 +1,19 @@
 import rdflib
-from rdflib.namespace import (
-    RDFS,
-    RDF,
-    OWL,
-)
-from rdflib import URIRef, Literal
-from kgcl.model.kgcl import (
-    NodeRename,
-    NodeMove,
-    NodeDeepening,
-    NodeShallowing,
-    EdgeCreation,
-    EdgeDeletion,
-    PredicateChange,
-    NodeCreation,
-    ClassCreation,
-    PlaceUnder,
-    RemoveUnder,
-    NewSynonym,
-    RemovedNodeFromSubset,
-)
+from rdflib import Literal, URIRef
+from rdflib.namespace import OWL, RDF, RDFS
 
-from kgcl.diff.change_detection import (
-    detect_renamings,
-    detect_node_moves,
-    detect_predicate_changes,
-    detect_annotation_changes,
-)
-
+from kgcl.diff.change_detection import (detect_annotation_changes,
+                                        detect_node_moves,
+                                        detect_predicate_changes,
+                                        detect_renamings)
+from kgcl.diff.graph_diff import (get_added_thin_triples,
+                                  get_deleted_thin_triples)
 from kgcl.diff.render_operations import render
-
-from kgcl.diff.graph_diff import (
-    get_added_thin_triples,
-    get_deleted_thin_triples,
-)
+from kgcl.model.kgcl import (ClassCreation, EdgeCreation, EdgeDeletion,
+                             NewSynonym, NodeCreation, NodeDeepening, NodeMove,
+                             NodeRename, NodeShallowing, PlaceUnder,
+                             PredicateChange, RemovedNodeFromSubset,
+                             RemoveUnder)
 
 
 def id_generator():

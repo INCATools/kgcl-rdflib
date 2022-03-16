@@ -1,13 +1,13 @@
+import sys
+
 import click
-import kgcl.grammar.parser
-import kgcl.apply.graph_transformer
 import rdflib
 from rdflib.util import guess_format
 
-import sys
+from kgcl.apply import graph_transformer
+from kgcl.grammar import parser
 
 sys.path.append("../")
-import python.kgcl
 
 
 class Config(object):
@@ -30,13 +30,13 @@ def cli(config, graph, kgcl, output):
     kgcl_patch = kgcl.read()
 
     # parser kgcl commands
-    parsed_patch = grammar.parser.parse(kgcl_patch)
+    parsed_patch = parser.parse(kgcl_patch)
 
     # apply kgcl commands as SPARQL UPDATE queries to graph
     g = rdflib.Graph()
     g.load(graph, format=guess_format(graph))
     # g.parse(graph)  # , format="nt") #TODO: this doesn't always work
-    apply.graph_transformer.apply_patch(parsed_patch, g)
+    graph_transformer.apply_patch(parsed_patch, g)
 
     # save updated graph
     g.serialize(destination=output, format="nt")

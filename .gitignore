@@ -21,3 +21,4 @@ kgcl/model/__pycache__/*
 build/*
 dist/*
 kgcl.egg-info/**
+.tox/*

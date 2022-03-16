@@ -1,24 +1,11 @@
 from kgcl.grammar.parser import parse
-from kgcl.utils import from_yaml, to_rdf, to_json
-from kgcl.model.kgcl import (
-    NodeRename,
-    NodeObsoletion,
-    NodeUnobsoletion,
-    NodeDeletion,
-    NodeAnnotationChange,
-    NodeMove,
-    NodeDeepening,
-    NodeShallowing,
-    EdgeCreation,
-    EdgeDeletion,
-    PredicateChange,
-    NodeCreation,
-    ClassCreation,
-    NewSynonym,
-    RemovedNodeFromSubset,
-    PlaceUnder,
-    RemoveUnder,
-)
+from kgcl.model.kgcl import (ClassCreation, EdgeCreation, EdgeDeletion,
+                             NewSynonym, NodeAnnotationChange, NodeCreation,
+                             NodeDeepening, NodeDeletion, NodeMove,
+                             NodeObsoletion, NodeRename, NodeShallowing,
+                             NodeUnobsoletion, PlaceUnder, PredicateChange,
+                             RemovedNodeFromSubset, RemoveUnder)
+from kgcl.utils import from_yaml, to_json, to_rdf
 
 # parse kgcl to python data class
 # serialse puython data class to yaml

@@ -1,25 +1,14 @@
-from lark import Lark, Token
-from kgcl.model.kgcl import (
-    NodeRename,
-    NodeObsoletion,
-    NodeUnobsoletion,
-    NodeDeletion,
-    NodeMove,
-    NodeDeepening,
-    NodeShallowing,
-    EdgeCreation,
-    EdgeDeletion,
-    PredicateChange,
-    NodeAnnotationChange,
-    NodeCreation,
-    ClassCreation,
-    NewSynonym,
-    RemovedNodeFromSubset,
-    PlaceUnder,
-    RemoveUnder,
-)
-from kgcl.model.ontology_model import Edge, Annotation
 from pathlib import Path
+
+from lark import Lark, Token
+
+from kgcl.model.kgcl import (ClassCreation, EdgeCreation, EdgeDeletion,
+                             NewSynonym, NodeAnnotationChange, NodeCreation,
+                             NodeDeepening, NodeDeletion, NodeMove,
+                             NodeObsoletion, NodeRename, NodeShallowing,
+                             NodeUnobsoletion, PlaceUnder, PredicateChange,
+                             RemovedNodeFromSubset, RemoveUnder)
+from kgcl.model.ontology_model import Annotation, Edge
 
 
 def id_generator():

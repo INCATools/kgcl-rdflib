@@ -1,19 +1,8 @@
-from kgcl.model.kgcl import (
-    NodeRename,
-    NodeObsoletion,
-    NodeUnobsoletion,
-    NodeDeletion,
-    NodeMove,
-    NodeDeepening,
-    NodeShallowing,
-    EdgeCreation,
-    EdgeDeletion,
-    PredicateChange,
-    NodeCreation,
-    ClassCreation,
-    NewSynonym,
-    RemovedNodeFromSubset,
-)
+from kgcl.model.kgcl import (ClassCreation, EdgeCreation, EdgeDeletion,
+                             NewSynonym, NodeCreation, NodeDeepening,
+                             NodeDeletion, NodeMove, NodeObsoletion,
+                             NodeRename, NodeShallowing, NodeUnobsoletion,
+                             PredicateChange, RemovedNodeFromSubset)
 
 
 def render(kgclInstance):

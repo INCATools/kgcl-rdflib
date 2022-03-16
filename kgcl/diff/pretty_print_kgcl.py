@@ -1,25 +1,12 @@
 from rdflib.namespace import RDFS
-from kgcl.model.kgcl import (
-    NodeRename,
-    NodeObsoletion,
-    NodeUnobsoletion,
-    NodeDeletion,
-    NodeMove,
-    NodeDeepening,
-    NodeShallowing,
-    NodeAnnotationChange,
-    EdgeCreation,
-    EdgeDeletion,
-    PredicateChange,
-    NodeCreation,
-    ClassCreation,
-    NewSynonym,
-    PlaceUnder,
-    RemoveUnder,
-    RemovedNodeFromSubset,
-)
-import kgcl.grammar.parser
 
+import kgcl.grammar.parser
+from kgcl.model.kgcl import (ClassCreation, EdgeCreation, EdgeDeletion,
+                             NewSynonym, NodeAnnotationChange, NodeCreation,
+                             NodeDeepening, NodeDeletion, NodeMove,
+                             NodeObsoletion, NodeRename, NodeShallowing,
+                             NodeUnobsoletion, PlaceUnder, PredicateChange,
+                             RemovedNodeFromSubset, RemoveUnder)
 
 # TODO: maintain this dictionary in a file
 prefix_2_uri = {
