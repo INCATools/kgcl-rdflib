@@ -532,7 +532,8 @@ class DatatypeOrLanguageTagChange(ChangeMixin):
     DataType or Language change without actual value.
 
     A change in a value assertion where the value remain
-    unchanged but either the datatype or language changes."""
+    unchanged but either the datatype or language changes.
+    """
 
     _inherited_slots: ClassVar[List[str]] = []
 
