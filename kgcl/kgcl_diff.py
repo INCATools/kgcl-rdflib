@@ -6,7 +6,7 @@ import diff.diff_2_kgcl_existential as existential
 import diff.diff_2_kgcl_single as single
 import diff.diff_2_kgcl_triple_annotation as annotation
 import rdflib
-from pretty_print_kgcl import render_instances
+from kgcl.diff.pretty_print_kgcl import render_instances
 
 
 class Config(object):
