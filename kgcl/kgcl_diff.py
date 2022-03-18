@@ -55,7 +55,7 @@ def cli(config, ingraph, outgraph, output):
     with open(output + "/kgcl_summary.txt", "w") as f:
         f.write(existential_summary.get_summary_kgcl_commands())
         f.write(triple_annotation_summary.get_summary_kgcl_commands())
-        f.write(single_triple_summary.get_summary_KGCL_commands())
+        f.write(single_triple_summary.get_summary_kgcl_commands())
 
     # write non-deterministic diff report
     nd_node_moves = single_triple_summary.get_non_deterministic_node_moves()

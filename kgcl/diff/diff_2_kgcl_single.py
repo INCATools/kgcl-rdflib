@@ -100,7 +100,7 @@ class SingleTripleChangeSummary:
     def get_annotation_changes(self):
         return self.annotation_changes
 
-    def get_summary_KGCL_commands(self):
+    def get_summary_kgcl_commands(self):
         out = (
             "Renamings: "
             + str(len(self.renamings))
@@ -131,7 +131,7 @@ class SingleTripleChangeSummary:
         )
         return out
 
-    def get_summary_RDF_triples(self):
+    def get_summary_rdf_triples(self):
         out = (
             "Renamings:"
             + str(len(self.covered_triples_renamings))
