@@ -8,7 +8,7 @@ from kgcl.model.kgcl import (ClassCreation, EdgeCreation, EdgeDeletion,
                              NodeObsoletion, NodeRename, NodeShallowing,
                              NodeUnobsoletion, PlaceUnder, PredicateChange,
                              RemovedNodeFromSubset, RemoveUnder)
-from kgcl.model.ontology_model import Annotation, Edge
+from kgcl.model.ontology_model import Edge
 
 
 def id_generator():

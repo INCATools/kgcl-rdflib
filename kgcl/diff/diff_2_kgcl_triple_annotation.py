@@ -93,7 +93,7 @@ class TripleAnnotationChangeSummary:
         self.triple_annotations_deletions.append(i)
 
 
-def generate_triple_annotation_commands(g1:Graph, g2:Graph)-> TripleAnnotationChangeSummary:
+def generate_triple_annotation_commands(g1: Graph, g2: Graph) -> TripleAnnotationChangeSummary:
     """
     Get differences.
 
