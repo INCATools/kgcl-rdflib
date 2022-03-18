@@ -23,9 +23,7 @@ id_gen = id_generator()
 
 
 class SingleTripleChangeSummary:
-    """
-    Dataclass holding information about (atomic) existential restriction changes.
-    """
+    """Dataclass holding information about (atomic) existential restriction changes."""
 
     def __init__(self):
 
@@ -397,7 +395,7 @@ def generate_thin_triple_commands(g1: Graph, g2: Graph):
 
 def get_annotation_properties(graph):
     properties = set()
-    for s, p, o in graph.triples((None, RDF.type, OWL.AnnotationProperty)):
+    for s, _, _ in graph.triples((None, RDF.type, OWL.AnnotationProperty)):
         properties.add(s)
     return properties
 
