@@ -412,7 +412,7 @@ class Transaction(Change):
     """
     Single or multiple changes.
 
-    A change that is a composition of a set of changes, 
+    A change that is a composition of a set of changes,
     where those changes are treated as a single unit.
     Could be a single change, or the results of an ontology diff
     """
@@ -531,7 +531,7 @@ class DatatypeOrLanguageTagChange(ChangeMixin):
     """
     DataType or Language change without actual value.
 
-    A change in a value assertion where the value remain 
+    A change in a value assertion where the value remain
     unchanged but either the datatype or language changes."""
 
     _inherited_slots: ClassVar[List[str]] = []
@@ -750,8 +750,8 @@ class EdgeChange(SimpleChange):
 @dataclass
 class EdgeCreation(EdgeChange):
     """
-    An edge change in which a de-novo edge is created. 
-    
+    An edge change in which a de-novo edge is created.
+
     The edge is potentially annotated in the same action.
     """
 
@@ -834,8 +834,8 @@ class PlaceUnder(EdgeCreation):
 @dataclass
 class EdgeDeletion(EdgeChange):
     """
-    An edge change in which an edge is removed. 
-    
+    An edge change in which an edge is removed.
+
     All edge annotations/properies are removed in the same action.
     """
 
@@ -1087,9 +1087,9 @@ class NodeMove(EdgeChange):
 @dataclass
 class NodeDeepening(NodeMove):
     """
-    A node move in which a node where the destination is a proper descendant of the original location. 
-    
-    Note that here descendant applied not just to 
+    A node move in which a node where the destination is a proper descendant of the original location.
+
+    Note that here descendant applied not just to
     subclass, but edges of any predicate in the relational graph
     """
 
@@ -1551,11 +1551,11 @@ class SynonymReplacement(NodeSynonymChange):
 @dataclass
 class SynonymPredicateChange(NodeSynonymChange):
     """
-    A node synonym change where the predicate of a synonym is changed. 
-    
+    A node synonym change where the predicate of a synonym is changed.
+
     Background: synonyms can be represented by a
-    variety of predicates. For example, many OBO 
-    ontologies make use of predicates such as 
+    variety of predicates. For example, many OBO
+    ontologies make use of predicates such as
     oio:hasExactSynonym, oio:hasRelatedSynonym, etc.
     """
 
@@ -1948,8 +1948,8 @@ class ClassCreation(NodeCreation):
 @dataclass
 class NodeDeletion(NodeChange):
     """
-    Deletion of a node from the graph. 
-    
+    Deletion of a node from the graph.
+
     Note it is recommended nodes are obsoleted and never merged, but this operation
     exists to represent deletions in ontologies, accidental or otherwise
     """
@@ -1983,8 +1983,8 @@ class NodeDirectMerge(NodeObsoletion):
     """
     Source node metadata => Target node on obsoletion.
 
-    An obsoletion change in which all metadata (including name/label) 
-    from the source node is deleted and added to the target node, 
+    An obsoletion change in which all metadata (including name/label)
+    from the source node is deleted and added to the target node,
     and edges can automatically be rewired to point to the target node.
     """
 
@@ -2108,8 +2108,8 @@ class NodeObsoletionWithNoDirectReplacement(NodeObsoletion):
 
 class TextualDiff(YAMLRoot):
     """
-    A summarizing of a change on a piece of text. 
-    
+    A summarizing of a change on a piece of text.
+
     This could be rendered in a number of different ways.
     """
 
@@ -2190,7 +2190,7 @@ class Session(YAMLRoot):
     """
     Change set generation session.
 
-    A session consists of a set of change sets bundled 
+    A session consists of a set of change sets bundled
     with the activities that generated those change sets.
     """
 

@@ -9,11 +9,12 @@
 import dataclasses
 from dataclasses import dataclass
 from typing import Any, ClassVar, Dict, List, Optional, Union
+
 from linkml_runtime.utils.curienamespace import CurieNamespace
 from linkml_runtime.utils.dataclass_extensions_376 import \
     dataclasses_init_fn_with_kwargs
 from linkml_runtime.utils.slot import Slot
-from linkml_runtime.utils.yamlutils import (YAMLRoot, extended_str)
+from linkml_runtime.utils.yamlutils import YAMLRoot, extended_str
 from rdflib import URIRef
 
 metamodel_version = "1.7.0"
