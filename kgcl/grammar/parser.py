@@ -12,7 +12,7 @@ from kgcl.model.ontology_model import Edge
 
 
 def id_generator():
-    """Returns a new ID for KGCL change operations."""
+    """Return a new ID for KGCL change operations."""
     id = 0
     while True:
         yield id
@@ -30,7 +30,7 @@ kgcl_parser = Lark.open(str(path) + "/kgcl.lark", start="expression")
 
 def parse(input):
     """
-    Parse a set of KGCL command separated by \n.
+    Parse a set of KGCL command separated by next-line operator.
 
     Returns instantiated dataclass objects from model.kgcl.
     """

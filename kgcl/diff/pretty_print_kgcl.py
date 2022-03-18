@@ -56,6 +56,8 @@ def get_labels(graph):
 
 def render_instances(kgcl_patch, graph):
     """
+    Returns patch with IRIs replaced by CURIEs.
+
     Takes a KGCL patch for a graph and
     returns a more readable patch
     in which IRI's are replaced by CURIEs and labels where possible.
