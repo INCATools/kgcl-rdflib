@@ -14,7 +14,8 @@ from typing import Any, ClassVar, Dict, List, Optional, Union
 from jsonasobj2 import as_dict
 from linkml_runtime.linkml_model.meta import EnumDefinition, PermissibleValue
 from linkml_runtime.utils.curienamespace import CurieNamespace
-from linkml_runtime.utils.dataclass_extensions_376 import dataclasses_init_fn_with_kwargs
+from linkml_runtime.utils.dataclass_extensions_376 import \
+    dataclasses_init_fn_with_kwargs
 from linkml_runtime.utils.enumerations import EnumDefinitionImpl
 from linkml_runtime.utils.slot import Slot
 from linkml_runtime.utils.yamlutils import YAMLRoot, extended_str
@@ -306,11 +307,11 @@ class SynonymScopeEnum(EnumDefinitionImpl):
 
 
 # Slots
-class slots:
+class Slots:
     pass
 
 
-slots.owl_type = Slot(
+Slots.owl_type = Slot(
     uri=OM.owl_type,
     name="owl type",
     curie=OM.curie("owl_type"),
@@ -319,7 +320,7 @@ slots.owl_type = Slot(
     range=Optional[Union[str, "OwlTypeEnum"]],
 )
 
-slots.name = Slot(
+Slots.name = Slot(
     uri=OM.name,
     name="name",
     curie=OM.curie("name"),
@@ -328,7 +329,7 @@ slots.name = Slot(
     range=Optional[str],
 )
 
-slots.subject = Slot(
+Slots.subject = Slot(
     uri=OM.subject,
     name="subject",
     curie=OM.curie("subject"),
@@ -337,7 +338,7 @@ slots.subject = Slot(
     range=Optional[Union[str, NodeId]],
 )
 
-slots.object = Slot(
+Slots.object = Slot(
     uri=OM.object,
     name="object",
     curie=OM.curie("object"),
@@ -346,7 +347,7 @@ slots.object = Slot(
     range=Optional[Union[str, NodeId]],
 )
 
-slots.predicate = Slot(
+Slots.predicate = Slot(
     uri=OM.predicate,
     name="predicate",
     curie=OM.curie("predicate"),
@@ -355,7 +356,7 @@ slots.predicate = Slot(
     range=Optional[Union[str, NodeId]],
 )
 
-slots.annotation_set = Slot(
+Slots.annotation_set = Slot(
     uri=OM.annotation_set,
     name="annotation set",
     curie=OM.curie("annotation_set"),
@@ -364,7 +365,7 @@ slots.annotation_set = Slot(
     range=Optional[Union[dict, Annotation]],
 )
 
-slots.property = Slot(
+Slots.property = Slot(
     uri=OM.property,
     name="property",
     curie=OM.curie("property"),
@@ -373,7 +374,7 @@ slots.property = Slot(
     range=Optional[Union[str, NodeId]],
 )
 
-slots.filler = Slot(
+Slots.filler = Slot(
     uri=OM.filler,
     name="filler",
     curie=OM.curie("filler"),
@@ -382,7 +383,7 @@ slots.filler = Slot(
     range=Optional[str],
 )
 
-slots.property_type = Slot(
+Slots.property_type = Slot(
     uri=OM.property_type,
     name="property type",
     curie=OM.curie("property_type"),
@@ -391,7 +392,7 @@ slots.property_type = Slot(
     range=Optional[str],
 )
 
-slots.filler_type = Slot(
+Slots.filler_type = Slot(
     uri=OM.filler_type,
     name="filler type",
     curie=OM.curie("filler_type"),
@@ -400,7 +401,7 @@ slots.filler_type = Slot(
     range=Optional[str],
 )
 
-slots.subject_representation = Slot(
+Slots.subject_representation = Slot(
     uri=OM.subject_representation,
     name="subject representation",
     curie=OM.curie("subject_representation"),
@@ -409,7 +410,7 @@ slots.subject_representation = Slot(
     range=Optional[str],
 )
 
-slots.predicate_representation = Slot(
+Slots.predicate_representation = Slot(
     uri=OM.predicate_representation,
     name="predicate representation",
     curie=OM.curie("predicate_representation"),
@@ -418,7 +419,7 @@ slots.predicate_representation = Slot(
     range=Optional[str],
 )
 
-slots.object_representation = Slot(
+Slots.object_representation = Slot(
     uri=OM.object_representation,
     name="object representation",
     curie=OM.curie("object_representation"),
@@ -427,7 +428,7 @@ slots.object_representation = Slot(
     range=Optional[str],
 )
 
-slots.property_value_set = Slot(
+Slots.property_value_set = Slot(
     uri=OM.property_value_set,
     name="property value set",
     curie=OM.curie("property_value_set"),
