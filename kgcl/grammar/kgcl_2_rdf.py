@@ -4,7 +4,7 @@ from kgcl.model.kgcl import (ClassCreation, EdgeCreation, EdgeDeletion,
                              NodeDeepening, NodeDeletion, NodeMove,
                              NodeObsoletion, NodeRename, NodeShallowing,
                              NodeUnobsoletion, PlaceUnder, PredicateChange,
-                            RemoveUnder)
+                             RemoveUnder)
 
 # parse kgcl to python data class
 # serialse puython data class to yaml

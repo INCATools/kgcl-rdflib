@@ -1,8 +1,8 @@
 from kgcl.model.kgcl import (ClassCreation, EdgeCreation, EdgeDeletion,
-                             NewSynonym, NodeAnnotationChange, NodeCreation, 
-                             NodeDeletion, NodeMove,NodeObsoletion, NodeRename,
-                             NodeUnobsoletion, PlaceUnder, PredicateChange,
-                            RemoveUnder)
+                             NewSynonym, NodeAnnotationChange, NodeCreation,
+                             NodeDeletion, NodeMove, NodeObsoletion,
+                             NodeRename, NodeUnobsoletion, PlaceUnder,
+                             PredicateChange, RemoveUnder)
 
 
 def render_entity(entity, rdf_type):

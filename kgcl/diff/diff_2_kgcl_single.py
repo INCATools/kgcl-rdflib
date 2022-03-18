@@ -1,5 +1,5 @@
 import rdflib
-from rdflib import Literal, URIRef, Graph
+from rdflib import Graph, Literal, URIRef
 from rdflib.namespace import OWL, RDF, RDFS
 
 from kgcl.diff.change_detection import (detect_annotation_changes,
@@ -308,10 +308,10 @@ class SingleTripleChangeSummary:
         return self.non_deterministic_annotation_changes
 
 
-def generate_thin_triple_commands(g1:Graph, g2: Graph):
+def generate_thin_triple_commands(g1: Graph, g2: Graph):
     """
     Return graph differences.
-    
+
     Given two graphs g1 and g2,
     return all KGCL data model instances to account for their diff.
     """
