@@ -95,7 +95,7 @@ def curie_entity(entity):
 
 def render_entity(entity, type, labelling):
     """
-    Returns an encoding of the given entity using either
+    Return an encoding of the given entity using either
     a CURIE, a label, a literal, or a URI.
     """
     entity = str(entity)
