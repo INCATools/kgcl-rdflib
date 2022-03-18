@@ -42,7 +42,7 @@ class TripleAnnotationChangeSummary:
     def get_triple_annotation_deletions(self):
         return self.triple_annotations_deletions
 
-    def get_summary_KGCL_commands(self):
+    def get_summary_kgcl_commands(self):
         out = (
             # "Triple Annotation Additions: "
             "EdgeCreations (with annotation): "
