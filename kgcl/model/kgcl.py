@@ -1335,10 +1335,7 @@ class SetLanguageForName(NodeChange):
 
 @dataclass
 class NodeAnnotationChange(NodeChange):
-    """
-    TODO: A node change where the change alters node properties/annotations. 
-    
-    """
+    """TODO: A node change where the change alters node properties/annotations."""
 
     _inherited_slots: ClassVar[List[str]] = []
 
@@ -1372,9 +1369,7 @@ class NodeAnnotationChange(NodeChange):
 
 @dataclass
 class NodeAnnotationReplacement(NodeAnnotationChange):
-    """
-    A node annotation change where the change replaces a particular property value. TODO
-    """
+    """TODO: A node annotation change where the change replaces a particular property value."""
 
     _inherited_slots: ClassVar[List[str]] = []
 
@@ -1416,9 +1411,7 @@ class NodeSynonymChange(NodeChange):
 
 @dataclass
 class NewSynonym(NodeSynonymChange):
-    """
-    A node synonym change where a de-novo synonym is created
-    """
+    """A node synonym change where a de-novo synonym is created."""
 
     _inherited_slots: ClassVar[List[str]] = []
 
@@ -1453,8 +1446,12 @@ class NewSynonym(NodeSynonymChange):
 @dataclass
 class NameBecomesSynonym(NodeSynonymChange):
     """
-    A node synonym where the name NAME of an node NODE moves to a synonym, and NODE receives a new name. This change
-    consists of compose of (1) a node rename where NAME is replaced by a different name (2) a new synonym
+    Rename and push old name to synonym.
+
+    A node synonym where the name NAME of an node NODE moves to a synonym,
+    and NODE receives a new name. This change consists of compose of:
+    (1) a node rename where NAME is replaced by a different name.
+    (2) a new synonym.
     """
 
     _inherited_slots: ClassVar[List[str]] = []
@@ -1491,9 +1488,7 @@ class NameBecomesSynonym(NodeSynonymChange):
 
 @dataclass
 class RemoveSynonym(NodeSynonymChange):
-    """
-    A node synonym change where a synonym is deleted
-    """
+    """A node synonym change where a synonym is deleted."""
 
     _inherited_slots: ClassVar[List[str]] = []
 
@@ -1519,9 +1514,7 @@ class RemoveSynonym(NodeSynonymChange):
 
 @dataclass
 class SynonymReplacement(NodeSynonymChange):
-    """
-    A node synonym change where the text of a synonym is changed
-    """
+    """A node synonym change where the text of a synonym is changed."""
 
     _inherited_slots: ClassVar[List[str]] = []
 
@@ -1558,9 +1551,12 @@ class SynonymReplacement(NodeSynonymChange):
 @dataclass
 class SynonymPredicateChange(NodeSynonymChange):
     """
-    A node synonym change where the predicate of a synonym is changed. Background: synonyms can be represented by a
-    variety of predicates. For example, many OBO ontologies make use of predicates such as oio:hasExactSynonym,
-    oio:hasRelatedSynonym, etc
+    A node synonym change where the predicate of a synonym is changed. 
+    
+    Background: synonyms can be represented by a
+    variety of predicates. For example, many OBO 
+    ontologies make use of predicates such as 
+    oio:hasExactSynonym, oio:hasRelatedSynonym, etc.
     """
 
     _inherited_slots: ClassVar[List[str]] = []
@@ -1597,9 +1593,7 @@ class SynonymPredicateChange(NodeSynonymChange):
 
 @dataclass
 class NodeTextDefinitionChange(NodeChange):
-    """
-    A node change where the text definition is changed
-    """
+    """A node change where the text definition is changed."""
 
     _inherited_slots: ClassVar[List[str]] = []
 
@@ -1613,9 +1607,7 @@ class NodeTextDefinitionChange(NodeChange):
 
 @dataclass
 class NewTextDefinition(NodeTextDefinitionChange):
-    """
-    A node change where a de-novo text definition is created
-    """
+    """A node change where a de-novo text definition is created."""
 
     _inherited_slots: ClassVar[List[str]] = []
 
@@ -1641,9 +1633,7 @@ class NewTextDefinition(NodeTextDefinitionChange):
 
 @dataclass
 class RemoveTextDefinition(NodeTextDefinitionChange):
-    """
-    A node change where a text definition is deleted
-    """
+    """A node change where a text definition is deleted."""
 
     _inherited_slots: ClassVar[List[str]] = []
 
@@ -1669,9 +1659,7 @@ class RemoveTextDefinition(NodeTextDefinitionChange):
 
 @dataclass
 class TextDefinitionReplacement(NodeTextDefinitionChange):
-    """
-    A node change where a text definition is modified
-    """
+    """A node change where a text definition is modified."""
 
     _inherited_slots: ClassVar[List[str]] = []
 
@@ -1707,9 +1695,7 @@ class TextDefinitionReplacement(NodeTextDefinitionChange):
 
 @dataclass
 class AddNodeToSubset(NodeChange):
-    """
-    Places a node inside a subset, by annotating that node
-    """
+    """Places a node inside a subset, by annotating that node."""
 
     _inherited_slots: ClassVar[List[str]] = []
 
@@ -1779,9 +1765,7 @@ class RemovedNodeFromSubset(NodeChange):
 
 @dataclass
 class NodeObsoletion(NodeChange):
-    """
-    Obsoletion of a node deprecates usage of that node, but does not delete it.
-    """
+    """Obsoletion of a node deprecates usage of that node, but does not delete it."""
 
     _inherited_slots: ClassVar[List[str]] = []
 
@@ -1845,9 +1829,7 @@ class NodeObsoletion(NodeChange):
 
 @dataclass
 class NodeUnobsoletion(NodeChange):
-    """
-    unobsoletion of a node deprecates usage of that node. Rarely applied.
-    """
+    """Unobsoletion of a node deprecates usage of that node. Rarely applied."""
 
     _inherited_slots: ClassVar[List[str]] = []
 
@@ -1883,9 +1865,7 @@ class NodeUnobsoletion(NodeChange):
 
 @dataclass
 class NodeCreation(NodeChange):
-    """
-    a node change in which a new node is created
-    """
+    """A node change in which a new node is created."""
 
     _inherited_slots: ClassVar[List[str]] = []
 
@@ -1968,7 +1948,9 @@ class ClassCreation(NodeCreation):
 @dataclass
 class NodeDeletion(NodeChange):
     """
-    Deletion of a node from the graph. Note it is recommended nodes are obsoleted and never merged, but this operation
+    Deletion of a node from the graph. 
+    
+    Note it is recommended nodes are obsoleted and never merged, but this operation
     exists to represent deletions in ontologies, accidental or otherwise
     """
 
@@ -2043,8 +2025,11 @@ class NodeDirectMerge(NodeObsoletion):
 @dataclass
 class NodeObsoletionWithDirectReplacement(NodeObsoletion):
     """
-    An obsoletion change in which information from the obsoleted node is selectively copied to a single target, and
-    edges can automatically be rewired to point to the target node
+    Node obsoletion rewiring.
+
+    An obsoletion change in which information from the obsoleted node is
+    selectively copied to a single target, and edges can automatically be
+    rewired to point to the target node.
     """
 
     _inherited_slots: ClassVar[List[str]] = []
@@ -2123,7 +2108,9 @@ class NodeObsoletionWithNoDirectReplacement(NodeObsoletion):
 
 class TextualDiff(YAMLRoot):
     """
-    A summarizing of a change on a piece of text. This could be rendered in a number of different ways
+    A summarizing of a change on a piece of text. 
+    
+    This could be rendered in a number of different ways.
     """
 
     _inherited_slots: ClassVar[List[str]] = []

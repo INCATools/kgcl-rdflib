@@ -17,9 +17,7 @@ id_gen = id_generator()
 
 
 class ExistentialChangeSummary:
-    """
-    Dataclass holding information about (atomic) existential restriction changes.
-    """
+    """Dataclass holding information about (atomic) existential restriction changes."""
 
     def __init__(self):
 
@@ -42,14 +40,14 @@ class ExistentialChangeSummary:
     def get_existential_deletions(self):
         return self.existential_deletions
 
-    def get_summary_KGCL_commands(self):
+    def get_summary_kgcl_commands(self):
         out = (
             "EdgeCreation (existential): " + str(len(self.existential_additions)) + "\n"
             "EdgeDeletion (existential): " + str(len(self.existential_deletions)) + "\n"
         )
         return out
 
-    def get_summary_RDF_triples(self):
+    def get_summary_rdf_triples(self):
         out = (
             "EdgeCreation (existential)"
             + str(len(self.covered_triples_triple_existential_additions))
@@ -87,7 +85,8 @@ class ExistentialChangeSummary:
 
 def generate_atomic_existential_commands(g1, g2):
     """
-    Given two graphs g1 and g2,
+    Given two graphs g1 and g2.
+
     return all edge creations and edge deletions.
     """
     summary = ExistentialChangeSummary()

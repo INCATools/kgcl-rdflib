@@ -145,7 +145,7 @@ def get_atomic_existentials(g):
     for i in intersection:
         existential_2_classes[i] = []
         if isinstance(i, BNode):  # this check should be unnecessary
-            for s, p, o in g.triples((None, RDFS.subClassOf, i)):
+            for s, _, o in g.triples((None, RDFS.subClassOf, i)):
                 if not isinstance(s, BNode):
                     existential_2_classes[i].append(str(s))
 
@@ -191,7 +191,7 @@ def get_bnodes_2_atomic_existentials(g):
     for i in intersection:
         existential_2_classes[i] = []
         if isinstance(i, BNode):  # this check should be unnecessary
-            for s, p, o in g.triples((None, RDFS.subClassOf, i)):
+            for s, _, o in g.triples((None, RDFS.subClassOf, i)):
                 if not isinstance(s, BNode):
                     existential_2_classes[i].append(s)
 
@@ -211,7 +211,7 @@ def get_bnodes_2_atomic_existentials(g):
                 bnode_property = False
 
         # get filler
-        for s, p, o in g.triples((i, OWL.someValuesFrom, None)):
+        for _, _, o in g.triples((i, OWL.someValuesFrom, None)):
             if not isinstance(o, BNode):
                 filler = o
                 bnode_filler = False
