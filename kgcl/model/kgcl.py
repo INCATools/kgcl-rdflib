@@ -2123,9 +2123,7 @@ class TextualDiff(YAMLRoot):
 
 @dataclass
 class Configuration(YAMLRoot):
-    """
-    The meaning of operations can be configured
-    """
+    """The meaning of operations can be configured."""
 
     _inherited_slots: ClassVar[List[str]] = []
 
