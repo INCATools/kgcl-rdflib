@@ -4,12 +4,7 @@ from rdflib import Literal, URIRef
 from kgcl.diff.graph_diff import (get_added_triple_annotations,
                                   get_deleted_triple_annotations)
 from kgcl.diff.render_operations import render
-from kgcl.model.kgcl import (ClassCreation, EdgeCreation, EdgeDeletion,
-                             NewSynonym, NodeCreation, NodeDeepening,
-                             NodeDeletion, NodeMove, NodeObsoletion,
-                             NodeRename, NodeShallowing, NodeUnobsoletion,
-                             PlaceUnder, PredicateChange,
-                             RemovedNodeFromSubset, RemoveUnder)
+from kgcl.model.kgcl import EdgeCreation, EdgeDeletion
 from kgcl.model.ontology_model import Annotation
 
 

@@ -10,28 +10,19 @@
 # license: https://creativecommons.org/publicdomain/zero/1.0/
 
 import dataclasses
-import re
-import sys
 from dataclasses import dataclass
 from typing import Any, ClassVar, Dict, List, Optional, Union
 
-from jsonasobj2 import JsonObj, as_dict
-from linkml_runtime.linkml_model.meta import (EnumDefinition, PermissibleValue,
-                                              PvFormulaOptions)
-from linkml_runtime.linkml_model.types import Integer, String, Uriorcurie
+from jsonasobj2 import as_dict
+from linkml_runtime.linkml_model.types import Uriorcurie
 from linkml_runtime.utils.curienamespace import CurieNamespace
 from linkml_runtime.utils.dataclass_extensions_376 import \
     dataclasses_init_fn_with_kwargs
-from linkml_runtime.utils.enumerations import EnumDefinitionImpl
-from linkml_runtime.utils.formatutils import camelcase, sfx, underscore
-from linkml_runtime.utils.metamodelcore import (URIorCURIE, bnode, empty_dict,
-                                                empty_list)
+from linkml_runtime.utils.metamodelcore import empty_dict, empty_list
 from linkml_runtime.utils.slot import Slot
-from linkml_runtime.utils.yamlutils import (YAMLRoot, extended_float,
-                                            extended_int, extended_str)
-from rdflib import Namespace, URIRef
+from linkml_runtime.utils.yamlutils import YAMLRoot, extended_str
+from rdflib import URIRef
 
-from .basics import LanguageTag
 from .ontology_model import (Annotation, Edge, NodeId, OntologyElement,
                              OntologySubset, OwlTypeEnum, PropertyValue)
 from .prov import Activity, ActivityId
@@ -54,7 +45,7 @@ DEFAULT_ = KGCL
 
 # Types
 class ChangeClassType(Uriorcurie):
-    """CURIE for a class within this datamodel. E.g. kgcl:NodeObsoletion"""
+    """CURIE for a class within this datamodel. E.g. kgcl:NodeObsoletion."""
 
     type_class_uri = XSD.anyURI
     type_class_curie = "xsd:anyURI"
@@ -241,9 +232,7 @@ class NodeObsoletionWithNoDirectReplacementId(NodeObsoletionId):
 
 @dataclass
 class Change(YAMLRoot):
-    """
-    Any change perform on an ontology or knowledge graph
-    """
+    """Any change perform on an ontology or knowledge graph."""
 
     _inherited_slots: ClassVar[List[str]] = []
 
@@ -295,9 +284,7 @@ class Change(YAMLRoot):
 
 @dataclass
 class SimpleChange(Change):
-    """
-    A change that is about a single ontology element
-    """
+    """A change that is about a single ontology element."""
 
     _inherited_slots: ClassVar[List[str]] = []
 
@@ -346,9 +333,7 @@ class SimpleChange(Change):
 
 @dataclass
 class ComplexChange(Change):
-    """
-    A change that is is a composition of other changes
-    """
+    """A change that is is a composition of other changes."""
 
     _inherited_slots: ClassVar[List[str]] = []
 
@@ -374,9 +359,7 @@ class ComplexChange(Change):
 
 @dataclass
 class MultiNodeObsoletion(ComplexChange):
-    """
-    A complex change consisting of multiple obsoletions.
-    """
+    """A complex change consisting of multiple obsoletions."""
 
     _inherited_slots: ClassVar[List[str]] = []
 
@@ -427,8 +410,9 @@ class MultiNodeObsoletion(ComplexChange):
 @dataclass
 class Transaction(Change):
     """
-    A change that is a composition of a set of changes, where those changes are treated as a single unit. Could be a
-    single change, or the results of an ontology diff
+    A change that is a composition of a set of changes, where those changes are treated as a single unit.
+
+    Could be a single change, or the results of an ontology diff
     """
 
     _inherited_slots: ClassVar[List[str]] = []
@@ -461,7 +445,10 @@ class Transaction(Change):
 @dataclass
 class ChangeSetSummaryStatistic(YAMLRoot):
     """
-    A summary statistic for a set of changes of the same type, grouped by zero or more node properties
+    Change summary statistic.
+
+    A summary statistic for a set of changes of the same type,
+    grouped by zero or more node properties.
     """
 
     _inherited_slots: ClassVar[List[str]] = []
@@ -499,9 +486,7 @@ class ChangeSetSummaryStatistic(YAMLRoot):
 
 
 class ChangeMixin(YAMLRoot):
-    """
-    root class for all change mixins
-    """
+    """Root class for all change mixins."""
 
     _inherited_slots: ClassVar[List[str]] = []
 
@@ -514,7 +499,10 @@ class ChangeMixin(YAMLRoot):
 @dataclass
 class Obsoletion(ChangeMixin):
     """
-    Obsoletion of an element deprecates usage of that element, but does not delete that element.
+    Deprecate obsolete element.
+
+    Obsoletion of an element deprecates usage of that element,
+    but does not delete that element.
     """
 
     _inherited_slots: ClassVar[List[str]] = []
