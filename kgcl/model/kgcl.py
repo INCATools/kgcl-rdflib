@@ -410,8 +410,10 @@ class MultiNodeObsoletion(ComplexChange):
 @dataclass
 class Transaction(Change):
     """
-    A change that is a composition of a set of changes, where those changes are treated as a single unit.
+    Single or multiple changes.
 
+    A change that is a composition of a set of changes, 
+    where those changes are treated as a single unit.
     Could be a single change, or the results of an ontology diff
     """
 
@@ -526,7 +528,11 @@ class Obsoletion(ChangeMixin):
 
 
 class DatatypeOrLanguageTagChange(ChangeMixin):
-    """A change in a value assertion where the value remain unchanged but either the datatype or language changes."""
+    """
+    DataType or Language change without actual value.
+
+    A change in a value assertion where the value remain 
+    unchanged but either the datatype or language changes."""
 
     _inherited_slots: ClassVar[List[str]] = []
 
@@ -569,8 +575,10 @@ class DatatypeChange(DatatypeOrLanguageTagChange):
 
 class AllowsAutomaticReplacementOfEdges(Obsoletion):
     """
-    Applies to an obsoletion in which annotations or edges pointing at the obsoleted node can be automatically rewired
-    to point to a target
+    Edge pointing to obsolete node directed to target node.
+
+    Applies to an obsoletion in which annotations or edges pointing
+    at the obsoleted node can be automatically rewired to point to a target.
     """
 
     _inherited_slots: ClassVar[List[str]] = []
@@ -583,9 +591,7 @@ class AllowsAutomaticReplacementOfEdges(Obsoletion):
 
 @dataclass
 class Unobsoletion(ChangeMixin):
-    """
-    Opposite operation of obsoletion. Rarely performed.
-    """
+    """Opposite operation of obsoletion. Rarely performed."""
 
     _inherited_slots: ClassVar[List[str]] = []
 
@@ -604,9 +610,7 @@ class Unobsoletion(ChangeMixin):
 
 
 class Deletion(ChangeMixin):
-    """
-    Removal of an element.
-    """
+    """Removal of an element."""
 
     _inherited_slots: ClassVar[List[str]] = []
 
@@ -618,9 +622,7 @@ class Deletion(ChangeMixin):
 
 @dataclass
 class Creation(ChangeMixin):
-    """
-    Creation of an element.
-    """
+    """Creation of an element."""
 
     _inherited_slots: ClassVar[List[str]] = []
 
@@ -640,9 +642,7 @@ class Creation(ChangeMixin):
 
 @dataclass
 class SubsetMembershipChange(ChangeMixin):
-    """
-    A change in the membership status of a node with respect to a subset (view)
-    """
+    """A change in the membership status of a node with respect to a subset (view)."""
 
     _inherited_slots: ClassVar[List[str]] = []
 
@@ -664,9 +664,7 @@ class SubsetMembershipChange(ChangeMixin):
 
 @dataclass
 class AddToSubset(SubsetMembershipChange):
-    """
-    placing an element inside a subset
-    """
+    """Placing an element inside a subset."""
 
     _inherited_slots: ClassVar[List[str]] = []
 
@@ -688,9 +686,7 @@ class AddToSubset(SubsetMembershipChange):
 
 @dataclass
 class RemoveFromSubset(SubsetMembershipChange):
-    """
-    removing an element from a subset
-    """
+    """Removing an element from a subset."""
 
     _inherited_slots: ClassVar[List[str]] = []
 
@@ -716,9 +712,7 @@ class RemoveFromSubset(SubsetMembershipChange):
 
 @dataclass
 class EdgeChange(SimpleChange):
-    """
-    A change in which the element that is the focus of the change is an edge.
-    """
+    """A change in which the element that is the focus of the change is an edge."""
 
     _inherited_slots: ClassVar[List[str]] = []
 
@@ -756,7 +750,9 @@ class EdgeChange(SimpleChange):
 @dataclass
 class EdgeCreation(EdgeChange):
     """
-    An edge change in which a de-novo edge is created. The edge is potentially annotated in the same action.
+    An edge change in which a de-novo edge is created. 
+    
+    The edge is potentially annotated in the same action.
     """
 
     _inherited_slots: ClassVar[List[str]] = []
@@ -815,9 +811,7 @@ class EdgeCreation(EdgeChange):
 
 @dataclass
 class PlaceUnder(EdgeCreation):
-    """
-    An edge creation where the predicate is owl:subClassOf
-    """
+    """An edge creation where the predicate is owl:subClassOf."""
 
     _inherited_slots: ClassVar[List[str]] = []
 
@@ -840,7 +834,9 @@ class PlaceUnder(EdgeCreation):
 @dataclass
 class EdgeDeletion(EdgeChange):
     """
-    An edge change in which an edge is removed. All edge annotations/properies are removed in the same action.
+    An edge change in which an edge is removed. 
+    
+    All edge annotations/properies are removed in the same action.
     """
 
     _inherited_slots: ClassVar[List[str]] = []
@@ -899,9 +895,7 @@ class EdgeDeletion(EdgeChange):
 
 @dataclass
 class RemoveUnder(EdgeDeletion):
-    """
-    An edge deletion where the predicate is owl:subClassOf
-    """
+    """An edge deletion where the predicate is owl:subClassOf."""
 
     _inherited_slots: ClassVar[List[str]] = []
 
@@ -923,9 +917,7 @@ class RemoveUnder(EdgeDeletion):
 
 @dataclass
 class EdgeObsoletion(EdgeChange):
-    """
-    An edge change in which an edge is obsoleted.
-    """
+    """An edge change in which an edge is obsoleted."""
 
     _inherited_slots: ClassVar[List[str]] = []
 
@@ -976,7 +968,10 @@ class EdgeObsoletion(EdgeChange):
 @dataclass
 class EdgeRewiring(EdgeChange):
     """
-    An edge change where one node is replaced with another, as in the case of obsoletion with replacement
+    Replacement of node on obsoletion.
+
+    An edge change where one node is replaced with another,
+    as in the case of obsoletion with replacement
     """
 
     _inherited_slots: ClassVar[List[str]] = []
@@ -999,9 +994,7 @@ class EdgeRewiring(EdgeChange):
 
 @dataclass
 class MappingCreation(EdgeCreation):
-    """
-    A specific kind of edge creation in which the created edge is a mapping.
-    """
+    """A specific kind of edge creation in which the created edge is a mapping."""
 
     _inherited_slots: ClassVar[List[str]] = []
 
@@ -1048,8 +1041,11 @@ class MappingCreation(EdgeCreation):
 @dataclass
 class NodeMove(EdgeChange):
     """
-    A node move is a combination of deleting a parent edge and adding a parent edge, where the predicate is preserved
-    and the object/parent node changes
+    Parent node and edge change.
+
+    A node move is a combination of deleting a parent edge and
+    adding a parent edge, where the predicate is preserved and
+    the object/parent node changes
     """
 
     _inherited_slots: ClassVar[List[str]] = []
@@ -1091,8 +1087,10 @@ class NodeMove(EdgeChange):
 @dataclass
 class NodeDeepening(NodeMove):
     """
-    A node move in which a node where the destination is a proper descendant of the original location. Note that here
-    descendant applied not just to subclass, but edges of any predicate in the relational graph
+    A node move in which a node where the destination is a proper descendant of the original location. 
+    
+    Note that here descendant applied not just to 
+    subclass, but edges of any predicate in the relational graph
     """
 
     _inherited_slots: ClassVar[List[str]] = []
@@ -1121,9 +1119,7 @@ class NodeDeepening(NodeMove):
 
 @dataclass
 class NodeShallowing(NodeMove):
-    """
-    The opposite of node deepening
-    """
+    """The opposite of node deepening."""
 
     _inherited_slots: ClassVar[List[str]] = []
 
@@ -1151,9 +1147,7 @@ class NodeShallowing(NodeMove):
 
 @dataclass
 class PredicateChange(EdgeChange):
-    """
-    An edge change where the predicate (relationship type) is modified.
-    """
+    """An edge change where the predicate (relationship type) is modified."""
 
     _inherited_slots: ClassVar[List[str]] = []
 
@@ -1181,9 +1175,7 @@ class PredicateChange(EdgeChange):
 
 @dataclass
 class EdgeLogicalInterpretationChange(EdgeChange):
-    """
-    An edge change where the subjet, object, and predicate are unchanged, but the logical interpretation changes
-    """
+    """An edge change where the subject, object, and predicate are unchanged, but the logical interpretation changes."""
 
     _inherited_slots: ClassVar[List[str]] = []
 
@@ -1205,9 +1197,7 @@ class EdgeLogicalInterpretationChange(EdgeChange):
 
 @dataclass
 class LogicalAxiomChange(SimpleChange):
-    """
-    A simple change where a logical axiom is changed, where the logical axiom cannot be represented as an edge
-    """
+    """A simple change where a logical axiom is changed, where the logical axiom cannot be represented as an edge."""
 
     _inherited_slots: ClassVar[List[str]] = []
 
@@ -1229,9 +1219,7 @@ class LogicalAxiomChange(SimpleChange):
 
 @dataclass
 class NodeChange(SimpleChange):
-    """
-    A simple change where the change is about a node
-    """
+    """A simple change where the change is about a node."""
 
     _inherited_slots: ClassVar[List[str]] = []
 
@@ -1261,9 +1249,7 @@ class NodeChange(SimpleChange):
 
 @dataclass
 class NodeRename(NodeChange):
-    """
-    A node change where the name (aka rdfs:label) of the node changes
-    """
+    """A node change where the name (aka rdfs:label) of the node changes."""
 
     _inherited_slots: ClassVar[List[str]] = []
 
@@ -1313,9 +1299,7 @@ class NodeRename(NodeChange):
 
 @dataclass
 class SetLanguageForName(NodeChange):
-    """
-    A node change where the string value for the name is unchanged but the language tag is set
-    """
+    """A node change where the string value for the name is unchanged but the language tag is set."""
 
     _inherited_slots: ClassVar[List[str]] = []
 
@@ -1352,7 +1336,8 @@ class SetLanguageForName(NodeChange):
 @dataclass
 class NodeAnnotationChange(NodeChange):
     """
-    A node change where the change alters node properties/annotations. TODO
+    TODO: A node change where the change alters node properties/annotations. 
+    
     """
 
     _inherited_slots: ClassVar[List[str]] = []
@@ -1752,9 +1737,7 @@ class AddNodeToSubset(NodeChange):
 
 @dataclass
 class RemovedNodeFromSubset(NodeChange):
-    """
-    Removes a node from a subset, by removing an annotation
-    """
+    """Removes a node from a subset, by removing an annotation."""
 
     _inherited_slots: ClassVar[List[str]] = []
 
@@ -1952,9 +1935,7 @@ class NodeCreation(NodeChange):
 
 @dataclass
 class ClassCreation(NodeCreation):
-    """
-    A node creation where the owl type is 'class'
-    """
+    """A node creation where the owl type is 'class'."""
 
     _inherited_slots: ClassVar[List[str]] = []
 
@@ -2018,8 +1999,11 @@ class NodeDeletion(NodeChange):
 @dataclass
 class NodeDirectMerge(NodeObsoletion):
     """
-    An obsoletion change in which all metadata (including name/label) from the source node is deleted and added to the
-    target node, and edges can automatically be rewired to point to the target node
+    Source node metadata => Target node on obsoletion.
+
+    An obsoletion change in which all metadata (including name/label) 
+    from the source node is deleted and added to the target node, 
+    and edges can automatically be rewired to point to the target node.
     """
 
     _inherited_slots: ClassVar[List[str]] = []
@@ -2095,9 +2079,7 @@ class NodeObsoletionWithDirectReplacement(NodeObsoletion):
 
 @dataclass
 class NodeObsoletionWithNoDirectReplacement(NodeObsoletion):
-    """
-    An obsoletion change in which there is no direct replacement
-    """
+    """An obsoletion change in which there is no direct replacement."""
 
     _inherited_slots: ClassVar[List[str]] = []
 

@@ -19,9 +19,7 @@ id_gen = id_generator()
 
 
 class TripleAnnotationChangeSummary:
-    """
-    Dataclass holding information about triple annotation axioms.
-    """
+    """Dataclass holding information about triple annotation axioms."""
 
     def __init__(self):
 
@@ -57,7 +55,7 @@ class TripleAnnotationChangeSummary:
         )
         return out
 
-    def get_summary_RDF_triples(self):
+    def get_summary_rdf_triples(self):
         out = (
             # "Triple Annotation Additions: "
             "EdgeCreations (with annotation): "
