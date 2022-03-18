@@ -8,25 +8,18 @@
 # license: https://creativecommons.org/publicdomain/zero/1.0/
 
 import dataclasses
-import re
-import sys
 from dataclasses import dataclass
 from typing import Any, ClassVar, Dict, List, Optional, Union
 
-from jsonasobj2 import JsonObj, as_dict
-from linkml_runtime.linkml_model.meta import (EnumDefinition, PermissibleValue,
-                                              PvFormulaOptions)
-from linkml_runtime.linkml_model.types import String
+from jsonasobj2 import as_dict
+from linkml_runtime.linkml_model.meta import EnumDefinition, PermissibleValue
 from linkml_runtime.utils.curienamespace import CurieNamespace
 from linkml_runtime.utils.dataclass_extensions_376 import \
     dataclasses_init_fn_with_kwargs
 from linkml_runtime.utils.enumerations import EnumDefinitionImpl
-from linkml_runtime.utils.formatutils import camelcase, sfx, underscore
-from linkml_runtime.utils.metamodelcore import bnode, empty_dict, empty_list
 from linkml_runtime.utils.slot import Slot
-from linkml_runtime.utils.yamlutils import (YAMLRoot, extended_float,
-                                            extended_int, extended_str)
-from rdflib import Namespace, URIRef
+from linkml_runtime.utils.yamlutils import YAMLRoot, extended_str
+from rdflib import URIRef
 
 metamodel_version = "1.7.0"
 
@@ -59,9 +52,7 @@ class InstanceNodeId(NodeId):
 
 
 class OntologyElement(YAMLRoot):
-    """
-    Any component of an ontology or knowledge graph
-    """
+    """Any component of an ontology or knowledge graph."""
 
     _inherited_slots: ClassVar[List[str]] = []
 
@@ -73,9 +64,7 @@ class OntologyElement(YAMLRoot):
 
 @dataclass
 class PropertyValue(OntologyElement):
-    """
-    a property-value pair
-    """
+    """A property-value pair."""
 
     _inherited_slots: ClassVar[List[str]] = []
 
@@ -99,9 +88,7 @@ class PropertyValue(OntologyElement):
 
 @dataclass
 class Annotation(PropertyValue):
-    """
-    owl annotations. Not to be confused with annotations sensu GO
-    """
+    """Owl annotations. Not to be confused with annotations sensu GO."""
 
     _inherited_slots: ClassVar[List[str]] = []
 
@@ -139,9 +126,7 @@ class Annotation(PropertyValue):
 
 @dataclass
 class Node(OntologyElement):
-    """
-    Any named entity in an ontology. May be a class, individual, property
-    """
+    """Any named entity in an ontology. May be a class, individual, property."""
 
     _inherited_slots: ClassVar[List[str]] = []
 
@@ -177,9 +162,7 @@ class Node(OntologyElement):
 
 @dataclass
 class ClassNode(Node):
-    """
-    A node that is a class
-    """
+    """A node that is a class."""
 
     _inherited_slots: ClassVar[List[str]] = []
 
@@ -201,9 +184,7 @@ class ClassNode(Node):
 
 @dataclass
 class InstanceNode(Node):
-    """
-    A node that is an individual
-    """
+    """A node that is an individual."""
 
     _inherited_slots: ClassVar[List[str]] = []
 
@@ -226,7 +207,9 @@ class InstanceNode(Node):
 @dataclass
 class Edge(OntologyElement):
     """
-    A relationship between two nodes. We assume owlstar or similar for existential restrictions
+    A relationship between two nodes.
+
+    We assume owlstar or similar for existential restrictions.
     """
 
     _inherited_slots: ClassVar[List[str]] = []

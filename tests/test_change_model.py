@@ -3,7 +3,7 @@ import unittest
 
 from linkml_runtime.dumpers import JSONDumper
 
-from kgcl.model.kgcl import *
+from kgcl.model.kgcl import NewSynonym, PredicateChange
 from kgcl.model.ontology_model import Edge
 
 cwd = os.path.abspath(os.path.dirname(__file__))

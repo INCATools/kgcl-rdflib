@@ -18,7 +18,7 @@ def test_node_move_with_curies():
 
 
 def test_node_move_with_labels():
-    input_graph = """<http://example.org/targetClass> <http://www.w3.org/2000/01/rdf-schema#subClassOf> <http://example.org/A> .  
+    input_graph = """<http://example.org/targetClass> <http://www.w3.org/2000/01/rdf-schema#subClassOf> <http://example.org/A> .
                      <http://example.org/targetClass> <http://www.w3.org/2000/01/rdf-schema#label> "targetClass" .
                      <http://example.org/A> <http://www.w3.org/2000/01/rdf-schema#label> "A" .
                      <http://example.org/B> <http://www.w3.org/2000/01/rdf-schema#label> "B" ."""
