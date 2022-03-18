@@ -2,11 +2,8 @@ import rdflib
 from rdflib import Literal, URIRef
 from rdflib.namespace import RDFS
 
-from kgcl.model.kgcl import (ClassCreation, EdgeCreation, EdgeDeletion,
-                             NewSynonym, NodeAnnotationChange, NodeCreation,
-                             NodeDeepening, NodeDeletion, NodeMove,
-                             NodeObsoletion, NodeRename, NodeShallowing,
-                             NodeUnobsoletion, PredicateChange)
+from kgcl.model.kgcl import (NodeAnnotationChange, NodeMove,
+                              NodeRename, PredicateChange)
 from kgcl.model.ontology_model import Edge
 
 
