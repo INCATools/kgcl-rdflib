@@ -246,6 +246,7 @@ def detect_node_moves(added, deleted):
 
             # TODO: impose an order to make this deterministic
             shared = min(len(moved_to), len(moved_from))
+            # TODO: What is x doing here?
             for x in range(shared):
                 id = "test_id_" + str(next(id_gen))
 
@@ -297,12 +298,12 @@ def detect_predicate_changes(added, deleted):
     s_2_os_deleted = {}
     s_2_os_added = {}
 
-    for s, p, o in added:
+    for s, _, o in added:
         if s not in s_2_os_added:
             s_2_os_added[s] = []
         s_2_os_added[s].append(o)
 
-    for s, p, o in deleted:
+    for s, _, o in deleted:
         if s not in s_2_os_deleted:
             s_2_os_deleted[s] = []
         s_2_os_deleted[s].append(o)
@@ -358,6 +359,7 @@ def detect_predicate_changes(added, deleted):
 
                 # match potential predicate changes
                 m = min(len(changed_to), len(changed_from))
+                # TODO: What is x doing here?
                 for x in range(m):
                     id = "test_id_" + str(next(id_gen))
                     old = (changed_from.pop())[1]
