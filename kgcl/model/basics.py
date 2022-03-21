@@ -10,7 +10,8 @@ import dataclasses
 from typing import Optional
 
 from linkml_runtime.utils.curienamespace import CurieNamespace
-from linkml_runtime.utils.dataclass_extensions_376 import dataclasses_init_fn_with_kwargs
+from linkml_runtime.utils.dataclass_extensions_376 import \
+    dataclasses_init_fn_with_kwargs
 from linkml_runtime.utils.slot import Slot
 from rdflib import URIRef
 

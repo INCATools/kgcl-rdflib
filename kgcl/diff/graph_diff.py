@@ -1,11 +1,12 @@
 import rdflib
 from rdflib import Graph
+
 from .owlstar_sublanguage import (get_atomic_existentials,
                                   get_atomic_subsumptions, get_thin_triples,
                                   get_triple_annotations)
 
 
-def get_added_thin_triples(g1:Graph, g2: Graph) -> Graph:
+def get_added_thin_triples(g1: Graph, g2: Graph) -> Graph:
     """
     Retuns triples present in g2 but not g1.
 

@@ -80,7 +80,7 @@ def has_label(entity, labelling):
 
 
 def curie_entity(entity):
-    """Returns the CURIE for an entity if it exists and the entity itself otherwise. """
+    """Returns the CURIE for an entity if it exists and the entity itself otherwise."""
     for prefix, curie in prefix_2_uri.items():
         if curie in entity:
             return entity.replace(curie, prefix + ":")[1:-1]

@@ -66,6 +66,7 @@ def escape_literal(literal):
 def convert(kgcl_instance):
     """
     Given a KGCL dataclass, return a SPARQL UPDATE _query.
+
     This corresponding to the encoded change.
     """
     # label renaming
@@ -848,7 +849,7 @@ def create_class(kgcl_instance):
 
 
 def create_node(kgcl_instance):
-    termId = kgcl_instance.node_id
+    term_id = kgcl_instance.node_id
     label = kgcl_instance.name
     language = kgcl_instance.language
     id_type = kgcl_instance.about_node_representation
@@ -856,12 +857,12 @@ def create_node(kgcl_instance):
     prefix = "PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>  "
 
     if id_type == "curie":
-        prefix += build_curie_prefix(termId)
+        prefix += build_curie_prefix(term_id)
 
     if language is None:
-        insert_query = termId + " rdfs:label " + label + "  . "
+        insert_query = term_id + " rdfs:label " + label + "  . "
     else:
-        insert_query = termId + " rdfs:label ?tag  . "
+        insert_query = term_id + " rdfs:label ?tag  . "
 
     insert = "INSERT {" + insert_query + "}"
 

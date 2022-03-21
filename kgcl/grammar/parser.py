@@ -48,7 +48,6 @@ def parse_statement(input):
 
     Return an instantiated dataclass object from model.kgcl.
     """
-
     tree = kgcl_parser.parse(input)
     id = "kgcl_change_id_" + str(next(id_gen))
 
