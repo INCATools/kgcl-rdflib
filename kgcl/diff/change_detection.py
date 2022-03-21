@@ -8,9 +8,7 @@ from kgcl.model.ontology_model import Edge
 
 
 def id_generator():
-    """
-    Returns a new ID for KGCL change operations.
-    """
+    """Returns a new ID for KGCL change operations."""
     id = 0
     while True:
         yield id
@@ -37,29 +35,29 @@ def get_type(rdf_entity):
 def detect_renamings(added, deleted):
     """Given a diff represented by 'added' and 'deleted' triples,
     return an encoding in terms of
+
     (i) NodeRename instances,
     (ii) triples involved in (i), and
     (iii) nondeterministic choices.
     """
-
     covered = rdflib.Graph()
 
     # get labeling information
     added_labels = {}
     deleted_labels = {}
 
-    for s, p, o in added.triples((None, RDFS.label, None)):
+    for s, _, o in added.triples((None, RDFS.label, None)):
         if s not in added_labels:
             added_labels[s] = set()
         added_labels[s].add(o)
 
-    for s, p, o in deleted.triples((None, RDFS.label, None)):
+    for s, _, o in deleted.triples((None, RDFS.label, None)):
         if s not in deleted_labels:
             deleted_labels[s] = set()
         deleted_labels[s].add(o)
 
     # collect renamings
-    nonDeterministic = []  # list of non-deterministic choices
+    non_deterministic = []  # list of non-deterministic choices
     kgcl = []
     for subject in deleted_labels:
         if subject in added_labels:
@@ -68,9 +66,10 @@ def detect_renamings(added, deleted):
             moved_to = added_labels[subject]
 
             if len(moved_to) > 1 or len(moved_from) > 1:
-                nonDeterministic.append((set(moved_from), set(moved_to)))
+                non_deterministic.append((set(moved_from), set(moved_to)))
 
             shared = min(len(moved_to), len(moved_from))
+            # TODO: What does x do here?
             for x in range(shared):
                 id = "test_id_" + str(next(id_gen))
 
@@ -96,7 +95,7 @@ def detect_renamings(added, deleted):
                 covered.add((subject, RDFS.label, new))
                 covered.add((subject, RDFS.label, old))
 
-    return kgcl, covered, nonDeterministic
+    return kgcl, covered, non_deterministic
 
 
 def detect_annotation_changes(added, deleted, new_annotations, old_annotations):
