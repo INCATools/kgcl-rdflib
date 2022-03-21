@@ -3,10 +3,9 @@ from rdflib.namespace import RDFS
 import kgcl.grammar.parser
 from kgcl.model.kgcl import (ClassCreation, EdgeCreation, EdgeDeletion,
                              NewSynonym, NodeAnnotationChange, NodeCreation,
-                             NodeDeepening, NodeDeletion, NodeMove,
-                             NodeObsoletion, NodeRename, NodeShallowing,
-                             NodeUnobsoletion, PlaceUnder, PredicateChange,
-                             RemovedNodeFromSubset, RemoveUnder)
+                             NodeDeletion, NodeMove, NodeObsoletion,
+                             NodeRename, NodeUnobsoletion, PlaceUnder,
+                             PredicateChange, RemoveUnder)
 
 # TODO: maintain this dictionary in a file
 prefix_2_uri = {
@@ -39,9 +38,9 @@ prefix_2_uri = {
 
 
 def get_labels(graph):
-    """Returns a map from IRIs in a graph to (a set of) labels."""
+    """Return a map from IRIs in a graph to (a set of) labels."""
     entity_2_label = {}
-    for s, p, o in graph.triples((None, RDFS.label, None)):
+    for s, _, o in graph.triples((None, RDFS.label, None)):
         ss = str(s)
         os = str(o)
         if "'" not in os:
@@ -80,7 +79,7 @@ def has_label(entity, labelling):
 
 
 def curie_entity(entity):
-    """Returns the CURIE for an entity if it exists and the entity itself otherwise."""
+    """Return the CURIE for an entity if it exists and the entity itself otherwise."""
     for prefix, curie in prefix_2_uri.items():
         if curie in entity:
             return entity.replace(curie, prefix + ":")[1:-1]

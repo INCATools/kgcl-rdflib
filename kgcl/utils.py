@@ -96,7 +96,7 @@ def from_yaml(filename: str) -> Session:
 @click.argument("files", nargs=-1)
 def cli(files: List[str]):
     for f in files:
-        session = from_yaml(f)
+        session = from_yaml(f)  # TODO: Where is this 'session' var used?
 
 
 if __name__ == "__main__":
