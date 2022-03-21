@@ -109,9 +109,7 @@ def generate_atomic_existential_commands(g1, g2):
 
 
 def generate_existential_deletions(deleted):
-    """
-    Return EdgeDeletion instances for given (deleted) triples.
-    """
+    """Return EdgeDeletion instances for given (deleted) triples."""
     covered = rdflib.Graph()
     kgcl = []
 
@@ -140,9 +138,7 @@ def generate_existential_deletions(deleted):
 
 
 def generate_existential_additions(added):
-    """
-    Return EdgeCreation instances for given (added) triples.
-    """
+    """Return EdgeCreation instances for given (added) triples."""
     covered = rdflib.Graph()
     kgcl = []
 

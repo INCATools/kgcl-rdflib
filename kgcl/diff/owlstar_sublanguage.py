@@ -191,7 +191,7 @@ def get_bnodes_2_atomic_existentials(g):
     for i in intersection:
         existential_2_classes[i] = []
         if isinstance(i, BNode):  # this check should be unnecessary
-            for s, _, o in g.triples((None, RDFS.subClassOf, i)):
+            for s, _, _ in g.triples((None, RDFS.subClassOf, i)):
                 if not isinstance(s, BNode):
                     existential_2_classes[i].append(s)
 

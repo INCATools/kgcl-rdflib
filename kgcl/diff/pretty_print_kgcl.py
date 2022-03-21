@@ -39,9 +39,7 @@ prefix_2_uri = {
 
 
 def get_labels(graph):
-    """
-    Returns a map from IRIs in a graph to (a set of) labels.
-    """
+    """Returns a map from IRIs in a graph to (a set of) labels."""
     entity_2_label = {}
     for s, p, o in graph.triples((None, RDFS.label, None)):
         ss = str(s)
@@ -74,10 +72,7 @@ def render_instances(kgcl_patch, graph):
 
 
 def has_label(entity, labelling):
-    """
-    Returns the label for an entity if it exists
-    and the entity itself otherwise.
-    """
+    """Returns the label for an entity if it exists and the entity itself otherwise."""
     if entity in labelling:
         return "'" + labelling[entity][0] + "'"
     else:
@@ -96,10 +91,7 @@ def curie_entity(entity):
 
 
 def render_entity(entity, type, labelling):
-    """
-    Return an encoding of the given entity using either
-    a CURIE, a label, a literal, or a URI.
-    """
+    """Return an encoding of the given entity using either a CURIE, a label, a literal, or a URI. """
     entity = str(entity)
     entity = repr(entity)[1:-1]
     if type == "uri":
