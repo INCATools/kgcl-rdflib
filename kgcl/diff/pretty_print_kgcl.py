@@ -54,7 +54,7 @@ def get_labels(graph):
 
 def render_instances(kgcl_patch, graph):
     """
-    Returns patch with IRIs replaced by CURIEs.
+    Return patch with IRIs replaced by CURIEs.
 
     Takes a KGCL patch for a graph and
     returns a more readable patch
@@ -72,7 +72,7 @@ def render_instances(kgcl_patch, graph):
 
 
 def has_label(entity, labelling):
-    """Returns the label for an entity if it exists and the entity itself otherwise."""
+    """Return the label for an entity if it exists and the entity itself otherwise."""
     if entity in labelling:
         return "'" + labelling[entity][0] + "'"
     else:
@@ -80,10 +80,7 @@ def has_label(entity, labelling):
 
 
 def curie_entity(entity):
-    """
-    Returns the CURIE for an entity if it exists
-    and the entity itself otherwise.
-    """
+    """Returns the CURIE for an entity if it exists and the entity itself otherwise. """
     for prefix, curie in prefix_2_uri.items():
         if curie in entity:
             return entity.replace(curie, prefix + ":")[1:-1]
@@ -91,7 +88,7 @@ def curie_entity(entity):
 
 
 def render_entity(entity, type, labelling):
-    """Return an encoding of the given entity using either a CURIE, a label, a literal, or a URI. """
+    """Return an encoding of the given entity using either a CURIE, a label, a literal, or a URI."""
     entity = str(entity)
     entity = repr(entity)[1:-1]
     if type == "uri":
