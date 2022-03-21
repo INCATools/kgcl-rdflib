@@ -309,7 +309,7 @@ def detect_predicate_changes(added, deleted):
 
     # encode renamings wrt KGCL model
     kgcl = []
-    nonDeterministic = []  # list of non-deterministic choices
+    non_deterministic = []  # list of non-deterministic choices
     for s in s_2_os_added:
         if s in s_2_os_deleted:
 
@@ -354,7 +354,7 @@ def detect_predicate_changes(added, deleted):
                 object_type = get_type(i)
 
                 if len(changed_to) > 1 or len(changed_from) > 1:
-                    nonDeterministic.append((set(changed_from), set(changed_to)))
+                    non_deterministic.append((set(changed_from), set(changed_to)))
 
                 # match potential predicate changes
                 m = min(len(changed_to), len(changed_from))
@@ -378,4 +378,4 @@ def detect_predicate_changes(added, deleted):
                     covered.add((s, old, i))
                     covered.add((s, new, i))
 
-    return kgcl, covered, nonDeterministic
+    return kgcl, covered, non_deterministic
