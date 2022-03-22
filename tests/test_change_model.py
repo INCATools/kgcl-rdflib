@@ -13,6 +13,8 @@ OUTPUT_DIR = os.path.join(cwd, "outputs")
 
 
 class ChangeModelTestSuite(unittest.TestCase):
+    """Test change in model."""
+
     def test_create(self):
         c = NewSynonym(id="chg12345", about_node="ANAT:HindLimb", new_value="hindlimb")
         print(c)

@@ -12,6 +12,8 @@ OUTPUT_DIR = os.path.join(cwd, "outputs")
 
 
 class OntologyModelTestSuite(unittest.TestCase):
+    """Test ontology model."""
+
     def test_create(self):
         c = ClassNode(id="X:1", owl_type=OwlTypeEnum.CLASS)
         print(c)
