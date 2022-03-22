@@ -20,9 +20,21 @@ class TripleAnnotation:
 
     # TODO check that all triples have the same blank node
     def add_triple(self, t):
+        """
+        Add triple.
+
+        :param t: Triple to be added.
+        :type t: Any
+        """
         self.triples.add(t)
 
     def add_triples(self, ts):
+        """
+        Add mutiple triples.
+
+        :param ts: Triples to be added.
+        :type ts: Any
+        """
         self.triples.update(ts)
 
     def __repr__(self):
@@ -77,9 +89,21 @@ class ExistentialRestriction:
         self.triples = set()
 
     def add_triple(self, t):
+        """
+        Add triple.
+
+        :param t: Triple to be added.
+        :type t: Any
+        """
         self.triples.add(t)
 
     def add_triples(self, ts):
+        """
+        Add multiple triples.
+
+        :param ts: Triple to be added.
+        :type ts: Any
+        """
         self.triples.update(ts)
 
     def __repr__(self):

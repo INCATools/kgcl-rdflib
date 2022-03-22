@@ -16,12 +16,14 @@ class ChangeModelTestSuite(unittest.TestCase):
     """Test change in model."""
 
     def test_create(self):
+        """Test create."""
         c = NewSynonym(id="chg12345", about_node="ANAT:HindLimb", new_value="hindlimb")
         print(c)
         d = JSONDumper()
         print(d.dumps(c))
 
     def test_predicate_change(self):
+        """Test predicate change."""
         c = PredicateChange(
             id="chg4",
             about_edge=Edge(subject="ANAT:Hand", object="ANAT:Forelimb"),

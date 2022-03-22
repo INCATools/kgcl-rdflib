@@ -16,9 +16,11 @@ class ConversionTestSuite(unittest.TestCase):
     """Reads examples from root /examples/ folder, converts them to json and rdf."""
 
     def setUp(self) -> None:
+        """Set up tests."""
         self.session = from_yaml(f"{EXAMPLE_DIR}/de-novo.yaml")
 
     def test_convert(self):
+        """Test convert."""
         session = from_yaml(f"{EXAMPLE_DIR}/de-novo.yaml")
         print(f"Session: {session}")
         json = to_json(session)

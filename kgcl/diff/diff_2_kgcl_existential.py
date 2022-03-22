@@ -28,6 +28,10 @@ class ExistentialChangeSummary:
         self.covered_triples_triple_existential_deletions = []
 
     def get_commands(self):
+        """Get commands.
+
+        :return: None
+        """
         kgcl_commands = []
         for k in self.existential_additions:
             kgcl_commands.append(k)
@@ -36,12 +40,24 @@ class ExistentialChangeSummary:
         return kgcl_commands
 
     def get_existential_additions(self):
+        """Get existential additions..
+
+        :return: None
+        """
         return self.existential_additions
 
     def get_existential_deletions(self):
+        """Get existential deletions.
+
+        :return: None
+        """
         return self.existential_deletions
 
     def get_summary_kgcl_commands(self):
+        """Get summary commands.
+
+        :return: None
+        """
         out = (
             "EdgeCreation (existential): " + str(len(self.existential_additions)) + "\n"
             "EdgeDeletion (existential): " + str(len(self.existential_deletions)) + "\n"
@@ -49,6 +65,10 @@ class ExistentialChangeSummary:
         return out
 
     def get_summary_rdf_triples(self):
+        """Get summary RDF triples.
+
+        :return: None
+        """
         out = (
             "EdgeCreation (existential)"
             + str(len(self.covered_triples_triple_existential_additions))
@@ -62,25 +82,54 @@ class ExistentialChangeSummary:
     # RDF data
 
     def get_covered_triples_existential_additions(self):
+        """Get covered triples existential additions.
+
+        :return: None
+        """
         return self.covered_triples_triple_existential_additions
 
     def get_covered_triples_existential_deletions(self):
+        """Get covered triples existential deletions.
+
+        :return: None
+        """
         return self.covered_triples_triple_existential_deletions
 
     def add_covered_triples_existential_additions(self, triples):
+        """
+        Add covered triples existential additions.
+
+        :param triples: Graph triples provided to add.
+        :type triples: Graph
+        """
         for t in triples:
             self.covered_triples_triple_existential_additions.append(t)
 
     def add_covered_triples_existential_deletions(self, triples):
+        """Add covered triples existential deletions.
+
+        :param triples: Graph triples provided to delete.
+        :type triples: Graph
+        """
         for t in triples:
             self.covered_triples_triple_existential_deletions.append(t)
 
     # KGCL data
 
     def add_existential_addition(self, i):
+        """Add existential additions.
+
+        :param i: Information to be added.
+        :type i: str
+        """
         self.existential_additions.append(i)
 
     def add_existential_deletion(self, i):
+        """Add existential deletions.
+
+        :param i: Information to be deleted.
+        :type i: str
+        """
         self.existential_deletions.append(i)
 
 
