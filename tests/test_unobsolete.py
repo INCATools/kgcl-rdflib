@@ -1,3 +1,4 @@
+"""Test Unobsolete."""
 from util import run_test
 
 

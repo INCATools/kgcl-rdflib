@@ -1,3 +1,4 @@
+"""Test creat edge."""
 from util import run_test
 
 

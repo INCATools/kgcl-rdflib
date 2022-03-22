@@ -1,3 +1,4 @@
+"""Compare graph test."""
 from rdflib import Graph
 from rdflib.compare import graph_diff, to_isomorphic
 

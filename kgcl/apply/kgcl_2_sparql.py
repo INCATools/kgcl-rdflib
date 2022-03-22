@@ -1,3 +1,4 @@
+"""KGCL SPARQL implementation."""
 import re
 
 from kgcl.model.kgcl import (ClassCreation, EdgeCreation, EdgeDeletion,

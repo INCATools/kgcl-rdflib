@@ -1,3 +1,4 @@
+"""Render KGCL."""
 from kgcl.model.kgcl import (ClassCreation, EdgeCreation, EdgeDeletion,
                              NewSynonym, NodeCreation, NodeDeepening,
                              NodeDeletion, NodeMove, NodeObsoletion,

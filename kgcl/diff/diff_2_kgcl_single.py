@@ -1,3 +1,4 @@
+"""Single triple change summary."""
 import rdflib
 from rdflib import Graph, Literal, URIRef
 from rdflib.namespace import OWL, RDF, RDFS

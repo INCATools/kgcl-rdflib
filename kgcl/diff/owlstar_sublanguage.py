@@ -1,3 +1,4 @@
+"""Owlstar related stuff."""
 import time
 
 import rdflib

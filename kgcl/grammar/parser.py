@@ -1,3 +1,4 @@
+"""KGCL parser."""
 from pathlib import Path
 
 from lark import Lark, Token

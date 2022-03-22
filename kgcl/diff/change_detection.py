@@ -1,3 +1,4 @@
+"""Detect changes."""
 import rdflib
 from rdflib import Literal, URIRef
 from rdflib.namespace import RDFS

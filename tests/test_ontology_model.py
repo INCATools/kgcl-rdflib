@@ -1,3 +1,4 @@
+"""Test ontology model."""
 import os
 import unittest
 

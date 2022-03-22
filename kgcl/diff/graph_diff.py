@@ -1,3 +1,4 @@
+"""Determine graph difference."""
 import rdflib
 from rdflib import Graph
 

@@ -1,3 +1,4 @@
+"""Existential restriction change information."""
 import rdflib
 
 from kgcl.diff.graph_diff import (get_added_existentials,
