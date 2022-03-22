@@ -70,8 +70,8 @@ def detect_renamings(added, deleted):
                 non_deterministic.append((set(moved_from), set(moved_to)))
 
             shared = min(len(moved_to), len(moved_from))
-            # TODO: What does x do here?
-            for x in range(shared):
+
+            for _ in range(shared):
                 id = "test_id_" + str(next(id_gen))
 
                 new = moved_to.pop()
@@ -146,8 +146,7 @@ def detect_annotation_changes(added, deleted, new_annotations, old_annotations):
                 # match potential annotation changes
                 m = min(len(changed_to), len(changed_from))
 
-                # TODO: What is x doing here?
-                for x in range(m):
+                for _ in range(m):
                     id = "test_id_" + str(next(id_gen))
                     old = (changed_from.pop())[2]
                     new = (changed_to.pop())[2]
@@ -247,7 +246,7 @@ def detect_node_moves(added, deleted):
             # TODO: impose an order to make this deterministic
             shared = min(len(moved_to), len(moved_from))
             # TODO: What is x doing here?
-            for x in range(shared):
+            for _ in range(shared):
                 id = "test_id_" + str(next(id_gen))
 
                 new = moved_to.pop()
@@ -359,8 +358,8 @@ def detect_predicate_changes(added, deleted):
 
                 # match potential predicate changes
                 m = min(len(changed_to), len(changed_from))
-                # TODO: What is x doing here?
-                for x in range(m):
+
+                for _ in range(m):
                     id = "test_id_" + str(next(id_gen))
                     old = (changed_from.pop())[1]
                     new = (changed_to.pop())[1]
