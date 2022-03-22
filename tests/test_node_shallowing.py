@@ -1,3 +1,4 @@
+"""Test node shallowing."""
 from util import run_test
 
 

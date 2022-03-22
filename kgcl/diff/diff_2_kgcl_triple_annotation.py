@@ -1,3 +1,4 @@
+"""Triple annotation change summary."""
 import rdflib
 from rdflib import Graph, Literal, URIRef
 

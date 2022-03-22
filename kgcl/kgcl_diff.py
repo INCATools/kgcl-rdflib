@@ -1,3 +1,4 @@
+"""Render non-deterministic difference."""
 import os
 from datetime import datetime
 
@@ -11,6 +12,8 @@ from kgcl.diff.pretty_print_kgcl import render_instances
 
 
 class Config(object):
+    """Configuration class."""
+
     def __init__(self):
         self.verbose = False
 

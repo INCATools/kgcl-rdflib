@@ -1,3 +1,4 @@
+"""KGCL."""
 import sys
 
 import click
@@ -11,6 +12,8 @@ sys.path.append("../")
 
 
 class Config(object):
+    """Configuration class."""
+
     def __init__(self):
         self.verbose = False
 

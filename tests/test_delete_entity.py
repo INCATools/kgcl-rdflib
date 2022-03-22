@@ -1,3 +1,4 @@
+"""Test delete entity."""
 from util import run_test
 
 

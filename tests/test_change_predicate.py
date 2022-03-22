@@ -1,3 +1,4 @@
+"""Test change predicate."""
 from util import run_test
 
 

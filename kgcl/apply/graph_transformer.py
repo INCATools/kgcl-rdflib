@@ -1,3 +1,4 @@
+"""KGCL Graph Transformer."""
 from .kgcl_2_sparql import convert
 
 

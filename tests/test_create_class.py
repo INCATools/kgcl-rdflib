@@ -1,3 +1,4 @@
+"""Test for creating edges."""
 from util import run_test
 
 

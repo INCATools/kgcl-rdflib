@@ -1,3 +1,4 @@
+"""Print KGCL in user-friendly format."""
 from rdflib.namespace import RDFS
 
 import kgcl.grammar.parser

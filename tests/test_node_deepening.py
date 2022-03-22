@@ -1,3 +1,4 @@
+"""Test node deepening."""
 from util import run_test
 
 

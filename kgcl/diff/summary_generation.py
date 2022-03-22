@@ -1,3 +1,4 @@
+"""Generate summary."""
 import os
 from datetime import datetime
 

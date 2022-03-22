@@ -1,3 +1,4 @@
+"""Owlstar related stuff."""
 import time
 
 import rdflib
@@ -6,6 +7,8 @@ from rdflib.namespace import OWL, RDF, RDFS
 
 
 class TripleAnnotation:
+    """Annotate triples."""
+
     # TODO: store blank node associated with the annotation
     def __init__(self, s, p, t, ap, a):
         self.source = s
@@ -64,6 +67,8 @@ class TripleAnnotation:
 
 
 class ExistentialRestriction:
+    """Existential restiction."""
+
     # TODO: store blank node associated with the existential restriction
     def __init__(self, sub, prop, fil):
         self.subclass = sub
