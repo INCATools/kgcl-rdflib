@@ -1,3 +1,4 @@
+"""Render non-deterministic difference."""
 import os
 from datetime import datetime
 

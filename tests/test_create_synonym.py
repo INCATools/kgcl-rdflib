@@ -1,3 +1,4 @@
+"""Test create synonym."""
 from util import run_test
 
 

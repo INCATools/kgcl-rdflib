@@ -1,3 +1,4 @@
+"""KGCL RDF-related operations."""
 from kgcl.grammar.parser import parse
 from kgcl.model.kgcl import (ClassCreation, EdgeCreation, EdgeDeletion,
                              NewSynonym, NodeAnnotationChange, NodeCreation,

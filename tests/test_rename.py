@@ -1,3 +1,4 @@
+"""Test rename."""
 from util import run_test
 
 

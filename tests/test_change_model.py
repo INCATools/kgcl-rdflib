@@ -1,3 +1,4 @@
+"""Test change model."""
 import os
 import unittest
 

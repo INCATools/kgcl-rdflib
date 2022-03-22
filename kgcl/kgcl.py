@@ -1,3 +1,4 @@
+"""KGCL."""
 import sys
 
 import click

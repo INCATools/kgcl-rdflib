@@ -1,3 +1,4 @@
+"""Test node move."""
 from util import run_test
 
 
