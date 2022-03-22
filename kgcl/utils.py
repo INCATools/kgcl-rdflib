@@ -92,11 +92,12 @@ def from_yaml(filename: str) -> Session:
     return session
 
 
-# @click.command()
-# @click.argument("files", nargs=-1)
-# def cli(files: List[str]):
-#     for f in files:
-#         session = from_yaml(f)
+@click.command()
+@click.argument("files", nargs=-1)
+def cli(files: List[str]):
+    pass
+    # for f in files:
+    #     session = from_yaml(f)
 # USED FOR TESTING:
 # https://github.com/cmungall/knowledge-graph-change-language/pull/30#discussion_r832205466
 
