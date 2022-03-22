@@ -3,10 +3,9 @@ from rdflib.namespace import RDFS
 import kgcl.grammar.parser
 from kgcl.model.kgcl import (ClassCreation, EdgeCreation, EdgeDeletion,
                              NewSynonym, NodeAnnotationChange, NodeCreation,
-                             NodeDeepening, NodeDeletion, NodeMove,
-                             NodeObsoletion, NodeRename, NodeShallowing,
-                             NodeUnobsoletion, PlaceUnder, PredicateChange,
-                             RemovedNodeFromSubset, RemoveUnder)
+                             NodeDeletion, NodeMove, NodeObsoletion,
+                             NodeRename, NodeUnobsoletion, PlaceUnder,
+                             PredicateChange, RemoveUnder)
 
 # TODO: maintain this dictionary in a file
 prefix_2_uri = {
@@ -39,11 +38,9 @@ prefix_2_uri = {
 
 
 def get_labels(graph):
-    """
-    Returns a map from IRIs in a graph to (a set of) labels.
-    """
+    """Return a map from IRIs in a graph to (a set of) labels."""
     entity_2_label = {}
-    for s, p, o in graph.triples((None, RDFS.label, None)):
+    for s, _, o in graph.triples((None, RDFS.label, None)):
         ss = str(s)
         os = str(o)
         if "'" not in os:
@@ -56,6 +53,8 @@ def get_labels(graph):
 
 def render_instances(kgcl_patch, graph):
     """
+    Return patch with IRIs replaced by CURIEs.
+
     Takes a KGCL patch for a graph and
     returns a more readable patch
     in which IRI's are replaced by CURIEs and labels where possible.
@@ -72,10 +71,7 @@ def render_instances(kgcl_patch, graph):
 
 
 def has_label(entity, labelling):
-    """
-    Returns the label for an entity if it exists
-    and the entity itself otherwise.
-    """
+    """Return the label for an entity if it exists and the entity itself otherwise."""
     if entity in labelling:
         return "'" + labelling[entity][0] + "'"
     else:
@@ -83,10 +79,7 @@ def has_label(entity, labelling):
 
 
 def curie_entity(entity):
-    """
-    Returns the CURIE for an entity if it exists
-    and the entity itself otherwise.
-    """
+    """Return the CURIE for an entity if it exists and the entity itself otherwise."""
     for prefix, curie in prefix_2_uri.items():
         if curie in entity:
             return entity.replace(curie, prefix + ":")[1:-1]
@@ -94,10 +87,7 @@ def curie_entity(entity):
 
 
 def render_entity(entity, type, labelling):
-    """
-    Returns an encoding of the given entity using either
-    a CURIE, a label, a literal, or a URI.
-    """
+    """Return an encoding of the given entity using either a CURIE, a label, a literal, or a URI."""
     entity = str(entity)
     entity = repr(entity)[1:-1]
     if type == "uri":

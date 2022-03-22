@@ -1,15 +1,10 @@
 import rdflib
-from rdflib import Literal, URIRef
+from rdflib import Graph, Literal, URIRef
 
 from kgcl.diff.graph_diff import (get_added_triple_annotations,
                                   get_deleted_triple_annotations)
 from kgcl.diff.render_operations import render
-from kgcl.model.kgcl import (ClassCreation, EdgeCreation, EdgeDeletion,
-                             NewSynonym, NodeCreation, NodeDeepening,
-                             NodeDeletion, NodeMove, NodeObsoletion,
-                             NodeRename, NodeShallowing, NodeUnobsoletion,
-                             PlaceUnder, PredicateChange,
-                             RemovedNodeFromSubset, RemoveUnder)
+from kgcl.model.kgcl import EdgeCreation, EdgeDeletion
 from kgcl.model.ontology_model import Annotation
 
 
@@ -24,9 +19,7 @@ id_gen = id_generator()
 
 
 class TripleAnnotationChangeSummary:
-    """
-    Dataclass holding information about triple annotation axioms.
-    """
+    """Dataclass holding information about triple annotation axioms."""
 
     def __init__(self):
 
@@ -49,7 +42,7 @@ class TripleAnnotationChangeSummary:
     def get_triple_annotation_deletions(self):
         return self.triple_annotations_deletions
 
-    def get_summary_KGCL_commands(self):
+    def get_summary_kgcl_commands(self):
         out = (
             # "Triple Annotation Additions: "
             "EdgeCreations (with annotation): "
@@ -62,7 +55,7 @@ class TripleAnnotationChangeSummary:
         )
         return out
 
-    def get_summary_RDF_triples(self):
+    def get_summary_rdf_triples(self):
         out = (
             # "Triple Annotation Additions: "
             "EdgeCreations (with annotation): "
@@ -100,8 +93,12 @@ class TripleAnnotationChangeSummary:
         self.triple_annotations_deletions.append(i)
 
 
-def generate_triple_annotation_commands(g1, g2):
+def generate_triple_annotation_commands(
+    g1: Graph, g2: Graph
+) -> TripleAnnotationChangeSummary:
     """
+    Get differences.
+
     Given two graphs g1 and g2,
     return all (annotated) EdgeCreation and
     (annotated) EdgeDeletions to account for their diff.
@@ -126,9 +123,7 @@ def generate_triple_annotation_commands(g1, g2):
 
 
 def generate_triple_annotation_additions(added):
-    """
-    Return EdgeCreation instances for given (added) triples.
-    """
+    """Return EdgeCreation instances for given (added) triples."""
     covered = rdflib.Graph()
     kgcl = []
 
@@ -171,9 +166,7 @@ def generate_triple_annotation_additions(added):
 
 
 def generate_triple_annotation_deletions(deleted):
-    """
-    Return EdgeDeletion instances for given (deleted) triples.
-    """
+    """Return EdgeDeletion instances for given (deleted) triples."""
     covered = rdflib.Graph()
     kgcl = []
 

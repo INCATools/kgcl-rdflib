@@ -1,11 +1,9 @@
-import logging
 import os
 import unittest
 
 from linkml_runtime.dumpers import JSONDumper
 
 from kgcl.model.ontology_model import ClassNode, OwlTypeEnum
-from kgcl.utils import from_yaml, to_json, to_rdf
 
 cwd = os.path.abspath(os.path.dirname(__file__))
 EXAMPLE_DIR = os.path.join(cwd, "../examples")

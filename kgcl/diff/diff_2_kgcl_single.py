@@ -1,5 +1,5 @@
 import rdflib
-from rdflib import Literal, URIRef
+from rdflib import Graph, Literal, URIRef
 from rdflib.namespace import OWL, RDF, RDFS
 
 from kgcl.diff.change_detection import (detect_annotation_changes,
@@ -9,11 +9,7 @@ from kgcl.diff.change_detection import (detect_annotation_changes,
 from kgcl.diff.graph_diff import (get_added_thin_triples,
                                   get_deleted_thin_triples)
 from kgcl.diff.render_operations import render
-from kgcl.model.kgcl import (ClassCreation, EdgeCreation, EdgeDeletion,
-                             NewSynonym, NodeCreation, NodeDeepening, NodeMove,
-                             NodeRename, NodeShallowing, PlaceUnder,
-                             PredicateChange, RemovedNodeFromSubset,
-                             RemoveUnder)
+from kgcl.model.kgcl import ClassCreation, NewSynonym, PlaceUnder, RemoveUnder
 
 
 def id_generator():
@@ -27,9 +23,7 @@ id_gen = id_generator()
 
 
 class SingleTripleChangeSummary:
-    """
-    Dataclass holding information about (atomic) existential restriction changes.
-    """
+    """Dataclass holding information about (atomic) existential restriction changes."""
 
     def __init__(self):
 
@@ -106,7 +100,7 @@ class SingleTripleChangeSummary:
     def get_annotation_changes(self):
         return self.annotation_changes
 
-    def get_summary_KGCL_commands(self):
+    def get_summary_kgcl_commands(self):
         out = (
             "Renamings: "
             + str(len(self.renamings))
@@ -137,7 +131,7 @@ class SingleTripleChangeSummary:
         )
         return out
 
-    def get_summary_RDF_triples(self):
+    def get_summary_rdf_triples(self):
         out = (
             "Renamings:"
             + str(len(self.covered_triples_renamings))
@@ -308,8 +302,10 @@ class SingleTripleChangeSummary:
         return self.non_deterministic_annotation_changes
 
 
-def generate_thin_triple_commands(g1, g2):
+def generate_thin_triple_commands(g1: Graph, g2: Graph):
     """
+    Return graph differences.
+
     Given two graphs g1 and g2,
     return all KGCL data model instances to account for their diff.
     """
@@ -399,7 +395,7 @@ def generate_thin_triple_commands(g1, g2):
 
 def get_annotation_properties(graph):
     properties = set()
-    for s, p, o in graph.triples((None, RDF.type, OWL.AnnotationProperty)):
+    for s, _, _ in graph.triples((None, RDF.type, OWL.AnnotationProperty)):
         properties.add(s)
     return properties
 

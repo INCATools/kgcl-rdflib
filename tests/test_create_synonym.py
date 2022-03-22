@@ -28,8 +28,8 @@ def test_create_broad_synonym_with_ids():
     kgcl_patch = (
         "create broad synonym 'Virus' for <http://purl.obolibrary.org/obo/NCBITaxon_2>"
     )
-    expected_graph = """<http://purl.obolibrary.org/obo/NCBITaxon_2> <http://www.w3.org/2000/01/rdf-schema#label> "Bacteria" .  
-                        <http://purl.obolibrary.org/obo/NCBITaxon_2> <http://www.geneontology.org/formats/oboInOwl#hasBroadSynonym> "Virus" ."""
+    expected_graph = """<http://purl.obolibrary.org/obo/NCBITaxon_2> <http://www.w3.org/2000/01/rdf-schema#label> "Bacteria" .
+                    <http://purl.obolibrary.org/obo/NCBITaxon_2> <http://www.geneontology.org/formats/oboInOwl#hasBroadSynonym> "Virus" ."""
 
     run_test(input_graph, kgcl_patch, expected_graph)
 
@@ -37,7 +37,7 @@ def test_create_broad_synonym_with_ids():
 def test_create_broad_synonym_with_curies():
     input_graph = '<http://purl.obolibrary.org/obo/NCBITaxon_2> <http://www.w3.org/2000/01/rdf-schema#label> "Bacteria" .'
     kgcl_patch = "create broad synonym 'Virus' for obo:NCBITaxon_2"
-    expected_graph = """<http://purl.obolibrary.org/obo/NCBITaxon_2> <http://www.w3.org/2000/01/rdf-schema#label> "Bacteria" .  
+    expected_graph = """<http://purl.obolibrary.org/obo/NCBITaxon_2> <http://www.w3.org/2000/01/rdf-schema#label> "Bacteria" .
                         <http://purl.obolibrary.org/obo/NCBITaxon_2> <http://www.geneontology.org/formats/oboInOwl#hasBroadSynonym> "Virus" ."""
 
     run_test(input_graph, kgcl_patch, expected_graph)
@@ -46,7 +46,7 @@ def test_create_broad_synonym_with_curies():
 def test_create_broad_synonym_with_labels():
     input_graph = '<http://purl.obolibrary.org/obo/NCBITaxon_2> <http://www.w3.org/2000/01/rdf-schema#label> "Bacteria" .'
     kgcl_patch = "create broad synonym 'Virus' for 'Bacteria'"
-    expected_graph = """<http://purl.obolibrary.org/obo/NCBITaxon_2> <http://www.w3.org/2000/01/rdf-schema#label> "Bacteria" .  
+    expected_graph = """<http://purl.obolibrary.org/obo/NCBITaxon_2> <http://www.w3.org/2000/01/rdf-schema#label> "Bacteria" .
                         <http://purl.obolibrary.org/obo/NCBITaxon_2> <http://www.geneontology.org/formats/oboInOwl#hasBroadSynonym> "Virus" ."""
 
     run_test(input_graph, kgcl_patch, expected_graph)

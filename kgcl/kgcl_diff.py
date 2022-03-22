@@ -6,7 +6,8 @@ import diff.diff_2_kgcl_existential as existential
 import diff.diff_2_kgcl_single as single
 import diff.diff_2_kgcl_triple_annotation as annotation
 import rdflib
-from pretty_print_kgcl import render_instances
+
+from kgcl.diff.pretty_print_kgcl import render_instances
 
 
 class Config(object):
@@ -53,9 +54,9 @@ def cli(config, ingraph, outgraph, output):
 
     # write summary report
     with open(output + "/kgcl_summary.txt", "w") as f:
-        f.write(existential_summary.get_summary_KGCL_commands())
-        f.write(triple_annotation_summary.get_summary_KGCL_commands())
-        f.write(single_triple_summary.get_summary_KGCL_commands())
+        f.write(existential_summary.get_summary_kgcl_commands())
+        f.write(triple_annotation_summary.get_summary_kgcl_commands())
+        f.write(single_triple_summary.get_summary_kgcl_commands())
 
     # write non-deterministic diff report
     nd_node_moves = single_triple_summary.get_non_deterministic_node_moves()

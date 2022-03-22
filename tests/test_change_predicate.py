@@ -18,7 +18,7 @@ def test_change_predicate_with_curies():
 
 
 def test_change_predicate_with_labels():
-    input_graph = """<http://example.org/subclass> <http://example.org/partOf> <http://example.org/superclass> .  
+    input_graph = """<http://example.org/subclass> <http://example.org/partOf> <http://example.org/superclass> .
                      <http://example.org/subclass> <http://www.w3.org/2000/01/rdf-schema#label> "subclass" .
                      <http://example.org/superclass> <http://www.w3.org/2000/01/rdf-schema#label> "superclass" .
                      <http://example.org/hasPart> <http://www.w3.org/2000/01/rdf-schema#label> "hasPart" ."""

@@ -18,7 +18,7 @@ def test_delete_annotated_edge_with_curies():
 
 
 def test_delete_annotated_edge_with_label():
-    input_graph = """<http://purl.obolibrary.org/obo/NCBITaxon_2> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/2002/07/owl#Class> .  
+    input_graph = """<http://purl.obolibrary.org/obo/NCBITaxon_2> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/2002/07/owl#Class> .
                      <http://purl.obolibrary.org/obo/NCBITaxon_2> <http://www.w3.org/2000/01/rdf-schema#label> "Bacteria" ."""
     kgcl_patch = "delete 'Bacteria'"
     expected_graph = ""

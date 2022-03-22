@@ -23,7 +23,7 @@ def test_node_shallowing_with_curies():
 
 def test_node_shallowing_with_labels():
     input_graph = """<http://example.org/targetClass> <http://www.w3.org/2000/01/rdf-schema#subClassOf> <http://example.org/subclass> .
-                     <http://example.org/subclass> <http://www.w3.org/2000/01/rdf-schema#subClassOf> <http://example.org/superclass> .  
+                     <http://example.org/subclass> <http://www.w3.org/2000/01/rdf-schema#subClassOf> <http://example.org/superclass> .
                      <http://example.org/targetClass> <http://www.w3.org/2000/01/rdf-schema#label> "targetClass" .
                      <http://example.org/subclass> <http://www.w3.org/2000/01/rdf-schema#label> "subclass" .
                      <http://example.org/superclass> <http://www.w3.org/2000/01/rdf-schema#label> "superclass" .

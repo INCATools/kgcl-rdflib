@@ -5,209 +5,209 @@ from kgcl.model.kgcl import (ClassCreation, EdgeCreation, EdgeDeletion,
                              PredicateChange, RemovedNodeFromSubset)
 
 
-def render(kgclInstance):
+def render(kgcl_instance):
     render = ""
-    if type(kgclInstance) is NodeRename:
+    if type(kgcl_instance) is NodeRename:
         render = (
             render
             + "NodeRename("
             + "ID="
-            + kgclInstance.id
+            + kgcl_instance.id
             + ", "
             + "Old Value="
-            + kgclInstance.old_value
+            + kgcl_instance.old_value
             + ", "
             + "New Value="
-            + kgclInstance.new_value
+            + kgcl_instance.new_value
             + ")"
         )
 
-    if type(kgclInstance) is NodeObsoletion:
+    if type(kgcl_instance) is NodeObsoletion:
         render = (
             render
             + "NodeObsoletion("
             + "ID="
-            + kgclInstance.id
+            + kgcl_instance.id
             + ", "
             + "Repacelement="
-            + str(kgclInstance.has_direct_replacement)
+            + str(kgcl_instance.has_direct_replacement)
             + ", "
             + "About="
-            + kgclInstance.about_node
+            + kgcl_instance.about_node
             + ")"
         )
 
-    if type(kgclInstance) is NodeDeletion:
+    if type(kgcl_instance) is NodeDeletion:
         render = (
             render
             + "NodeDeletion("
             + "ID="
-            + kgclInstance.id
+            + kgcl_instance.id
             + ", "
             + "About="
-            + kgclInstance.about_node
+            + kgcl_instance.about_node
             + ")"
         )
 
-    if type(kgclInstance) is ClassCreation:
+    if type(kgcl_instance) is ClassCreation:
         render = (
             render
             + "ClassCreation("
             + "ID="
-            + kgclInstance.id
+            + kgcl_instance.id
             + ", "
             + "Term_ID"
-            + kgclInstance.node_id
+            + kgcl_instance.node_id
             + ")"
         )
 
-    if type(kgclInstance) is NodeCreation:
+    if type(kgcl_instance) is NodeCreation:
         render = (
             render
             + "NodeCreation("
             + "ID="
-            + kgclInstance.id
+            + kgcl_instance.id
             + ", "
             + "Term ID="
-            + kgclInstance.node_id
+            + kgcl_instance.node_id
             + ", "
             + "Label="
-            + kgclInstance.name
+            + kgcl_instance.name
             + ")"
         )
 
-    if type(kgclInstance) is NodeMove:
+    if type(kgcl_instance) is NodeMove:
         render = (
             render
             + "NodeMove("
             + "ID="
-            + kgclInstance.id
+            + kgcl_instance.id
             + ", "
             + "Old Value="
-            + kgclInstance.old_value
+            + kgcl_instance.old_value
             + ", "
             + "New Value="
-            + kgclInstance.new_value
+            + kgcl_instance.new_value
             + ")"
         )
 
-    if type(kgclInstance) is NodeUnobsoletion:
+    if type(kgcl_instance) is NodeUnobsoletion:
         render = (
             render
             + "NodeUnobsoletion("
             + "ID="
-            + kgclInstance.id
+            + kgcl_instance.id
             + ", "
             + "Term id="
-            + kgclInstance.about_node
+            + kgcl_instance.about_node
             + ")"
         )
 
-    if type(kgclInstance) is NodeDeepening:
+    if type(kgcl_instance) is NodeDeepening:
         render = (
             render
             + "NodeDeepening("
             + "ID="
-            + kgclInstance.id
+            + kgcl_instance.id
             + ", "
             + "Term ID="
-            + kgclInstance.about_edge.subject
+            + kgcl_instance.about_edge.subject
             + ", "
             + "Old Value="
-            + kgclInstance.old_value
+            + kgcl_instance.old_value
             + ", "
             + "New Value="
-            + kgclInstance.new_value
+            + kgcl_instance.new_value
             + ")"
         )
 
-    if type(kgclInstance) is NodeShallowing:
+    if type(kgcl_instance) is NodeShallowing:
         render = (
             render
             + "NodeShallowing("
             + "ID="
-            + kgclInstance.id
+            + kgcl_instance.id
             + ", "
             + "Term ID="
-            + kgclInstance.about_edge.subject
+            + kgcl_instance.about_edge.subject
             + ", "
             + "Old Value="
-            + kgclInstance.old_value
+            + kgcl_instance.old_value
             + ", "
             + "New Value="
-            + kgclInstance.new_value
+            + kgcl_instance.new_value
             + ")"
         )
 
-    if type(kgclInstance) is EdgeCreation:
+    if type(kgcl_instance) is EdgeCreation:
         render = (
             render
             + "EdgeCreation("
             + "ID="
-            + kgclInstance.id
+            + kgcl_instance.id
             + ", "
             + "Subject="
-            + kgclInstance.subject
+            + kgcl_instance.subject
             + ", "
             + "Predicate="
-            + kgclInstance.predicate
+            + kgcl_instance.predicate
             + ", "
             + "Object="
-            + kgclInstance.object
+            + kgcl_instance.object
             + ")"
         )
 
-    if type(kgclInstance) is EdgeDeletion:
+    if type(kgcl_instance) is EdgeDeletion:
         render = (
             render
             + "EdgeDeletion("
             + "ID="
-            + kgclInstance.id
+            + kgcl_instance.id
             + ", "
             + "Subject="
-            + kgclInstance.subject
+            + kgcl_instance.subject
             + ", "
             + "Predicate="
-            + kgclInstance.predicate
+            + kgcl_instance.predicate
             + ", "
             + "Object="
-            + kgclInstance.object
+            + kgcl_instance.object
             + ")"
         )
 
-    if type(kgclInstance) is NewSynonym:
+    if type(kgcl_instance) is NewSynonym:
         render = (
             render
             + "NewSynonym("
             + "ID="
-            + kgclInstance.id
+            + kgcl_instance.id
             + ", "
             + "About Node="
-            + kgclInstance.about_node
+            + kgcl_instance.about_node
             + ", "
             + "Synonym="
-            + kgclInstance.new_value
+            + kgcl_instance.new_value
             + ")"
         )
 
-    if type(kgclInstance) is PredicateChange:
+    if type(kgcl_instance) is PredicateChange:
         render = (
             render
             + "PredicateChange("
             + "ID="
-            + kgclInstance.id
+            + kgcl_instance.id
             + ", "
             + "Subject="
-            + kgclInstance.about_edge.subject
+            + kgcl_instance.about_edge.subject
             + ", "
             + "Subject="
-            + kgclInstance.about_edge.object
+            + kgcl_instance.about_edge.object
             + ", "
             + "Old Value="
-            + kgclInstance.old_value
+            + kgcl_instance.old_value
             + ", "
             + "New Value"
-            + kgclInstance.new_value
+            + kgcl_instance.new_value
             + ")"
         )
 
@@ -217,18 +217,18 @@ def render(kgclInstance):
     #            + "Subset=" + kgclInstance.in_subset + ", " \
     #            + "About Node" + kgclInstance.about_node + ")"
 
-    if type(kgclInstance) is RemovedNodeFromSubset:
+    if type(kgcl_instance) is RemovedNodeFromSubset:
         render = (
             render
             + "RemovedNodeFromSubset("
             + "ID="
-            + kgclInstance.id
+            + kgcl_instance.id
             + ", "
             + "Subset="
-            + kgclInstance.subset
+            + kgcl_instance.subset
             + ", "
             + "About Node"
-            + kgclInstance.about_node
+            + kgcl_instance.about_node
             + ")"
         )
 

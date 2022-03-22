@@ -36,8 +36,8 @@ jobs:
 
     # - name: Check manifest
     #   run: tox -e manifest
-    # - name: Lint with flake8
-    #   run: tox -e flake8
+    - name: Lint with flake8
+      run: tox -e flake8
     # - name: Test with MyPy
     #   run: tox -e mypy
     - name: Test with pytest

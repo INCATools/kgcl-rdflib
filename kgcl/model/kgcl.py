@@ -10,28 +10,19 @@
 # license: https://creativecommons.org/publicdomain/zero/1.0/
 
 import dataclasses
-import re
-import sys
 from dataclasses import dataclass
 from typing import Any, ClassVar, Dict, List, Optional, Union
 
-from jsonasobj2 import JsonObj, as_dict
-from linkml_runtime.linkml_model.meta import (EnumDefinition, PermissibleValue,
-                                              PvFormulaOptions)
-from linkml_runtime.linkml_model.types import Integer, String, Uriorcurie
+from jsonasobj2 import as_dict
+from linkml_runtime.linkml_model.types import Uriorcurie
 from linkml_runtime.utils.curienamespace import CurieNamespace
 from linkml_runtime.utils.dataclass_extensions_376 import \
     dataclasses_init_fn_with_kwargs
-from linkml_runtime.utils.enumerations import EnumDefinitionImpl
-from linkml_runtime.utils.formatutils import camelcase, sfx, underscore
-from linkml_runtime.utils.metamodelcore import (URIorCURIE, bnode, empty_dict,
-                                                empty_list)
+from linkml_runtime.utils.metamodelcore import empty_dict, empty_list
 from linkml_runtime.utils.slot import Slot
-from linkml_runtime.utils.yamlutils import (YAMLRoot, extended_float,
-                                            extended_int, extended_str)
-from rdflib import Namespace, URIRef
+from linkml_runtime.utils.yamlutils import YAMLRoot, extended_str
+from rdflib import URIRef
 
-from .basics import LanguageTag
 from .ontology_model import (Annotation, Edge, NodeId, OntologyElement,
                              OntologySubset, OwlTypeEnum, PropertyValue)
 from .prov import Activity, ActivityId
@@ -54,7 +45,7 @@ DEFAULT_ = KGCL
 
 # Types
 class ChangeClassType(Uriorcurie):
-    """CURIE for a class within this datamodel. E.g. kgcl:NodeObsoletion"""
+    """CURIE for a class within this datamodel. E.g. kgcl:NodeObsoletion."""
 
     type_class_uri = XSD.anyURI
     type_class_curie = "xsd:anyURI"
@@ -241,9 +232,7 @@ class NodeObsoletionWithNoDirectReplacementId(NodeObsoletionId):
 
 @dataclass
 class Change(YAMLRoot):
-    """
-    Any change perform on an ontology or knowledge graph
-    """
+    """Any change perform on an ontology or knowledge graph."""
 
     _inherited_slots: ClassVar[List[str]] = []
 
@@ -295,9 +284,7 @@ class Change(YAMLRoot):
 
 @dataclass
 class SimpleChange(Change):
-    """
-    A change that is about a single ontology element
-    """
+    """A change that is about a single ontology element."""
 
     _inherited_slots: ClassVar[List[str]] = []
 
@@ -346,9 +333,7 @@ class SimpleChange(Change):
 
 @dataclass
 class ComplexChange(Change):
-    """
-    A change that is is a composition of other changes
-    """
+    """A change that is is a composition of other changes."""
 
     _inherited_slots: ClassVar[List[str]] = []
 
@@ -374,9 +359,7 @@ class ComplexChange(Change):
 
 @dataclass
 class MultiNodeObsoletion(ComplexChange):
-    """
-    A complex change consisting of multiple obsoletions.
-    """
+    """A complex change consisting of multiple obsoletions."""
 
     _inherited_slots: ClassVar[List[str]] = []
 
@@ -427,8 +410,11 @@ class MultiNodeObsoletion(ComplexChange):
 @dataclass
 class Transaction(Change):
     """
-    A change that is a composition of a set of changes, where those changes are treated as a single unit. Could be a
-    single change, or the results of an ontology diff
+    Single or multiple changes.
+
+    A change that is a composition of a set of changes,
+    where those changes are treated as a single unit.
+    Could be a single change, or the results of an ontology diff
     """
 
     _inherited_slots: ClassVar[List[str]] = []
@@ -461,7 +447,10 @@ class Transaction(Change):
 @dataclass
 class ChangeSetSummaryStatistic(YAMLRoot):
     """
-    A summary statistic for a set of changes of the same type, grouped by zero or more node properties
+    Change summary statistic.
+
+    A summary statistic for a set of changes of the same type,
+    grouped by zero or more node properties.
     """
 
     _inherited_slots: ClassVar[List[str]] = []
@@ -499,9 +488,7 @@ class ChangeSetSummaryStatistic(YAMLRoot):
 
 
 class ChangeMixin(YAMLRoot):
-    """
-    root class for all change mixins
-    """
+    """Root class for all change mixins."""
 
     _inherited_slots: ClassVar[List[str]] = []
 
@@ -514,7 +501,10 @@ class ChangeMixin(YAMLRoot):
 @dataclass
 class Obsoletion(ChangeMixin):
     """
-    Obsoletion of an element deprecates usage of that element, but does not delete that element.
+    Deprecate obsolete element.
+
+    Obsoletion of an element deprecates usage of that element,
+    but does not delete that element.
     """
 
     _inherited_slots: ClassVar[List[str]] = []
@@ -539,7 +529,10 @@ class Obsoletion(ChangeMixin):
 
 class DatatypeOrLanguageTagChange(ChangeMixin):
     """
-    A change in a value assertion where the value remain unchanged but either the datatype or language changes
+    DataType or Language change without actual value.
+
+    A change in a value assertion where the value remain
+    unchanged but either the datatype or language changes.
     """
 
     _inherited_slots: ClassVar[List[str]] = []
@@ -583,8 +576,10 @@ class DatatypeChange(DatatypeOrLanguageTagChange):
 
 class AllowsAutomaticReplacementOfEdges(Obsoletion):
     """
-    Applies to an obsoletion in which annotations or edges pointing at the obsoleted node can be automatically rewired
-    to point to a target
+    Edge pointing to obsolete node directed to target node.
+
+    Applies to an obsoletion in which annotations or edges pointing
+    at the obsoleted node can be automatically rewired to point to a target.
     """
 
     _inherited_slots: ClassVar[List[str]] = []
@@ -597,9 +592,7 @@ class AllowsAutomaticReplacementOfEdges(Obsoletion):
 
 @dataclass
 class Unobsoletion(ChangeMixin):
-    """
-    Opposite operation of obsoletion. Rarely performed.
-    """
+    """Opposite operation of obsoletion. Rarely performed."""
 
     _inherited_slots: ClassVar[List[str]] = []
 
@@ -618,9 +611,7 @@ class Unobsoletion(ChangeMixin):
 
 
 class Deletion(ChangeMixin):
-    """
-    Removal of an element.
-    """
+    """Removal of an element."""
 
     _inherited_slots: ClassVar[List[str]] = []
 
@@ -632,9 +623,7 @@ class Deletion(ChangeMixin):
 
 @dataclass
 class Creation(ChangeMixin):
-    """
-    Creation of an element.
-    """
+    """Creation of an element."""
 
     _inherited_slots: ClassVar[List[str]] = []
 
@@ -654,9 +643,7 @@ class Creation(ChangeMixin):
 
 @dataclass
 class SubsetMembershipChange(ChangeMixin):
-    """
-    A change in the membership status of a node with respect to a subset (view)
-    """
+    """A change in the membership status of a node with respect to a subset (view)."""
 
     _inherited_slots: ClassVar[List[str]] = []
 
@@ -678,9 +665,7 @@ class SubsetMembershipChange(ChangeMixin):
 
 @dataclass
 class AddToSubset(SubsetMembershipChange):
-    """
-    placing an element inside a subset
-    """
+    """Placing an element inside a subset."""
 
     _inherited_slots: ClassVar[List[str]] = []
 
@@ -702,9 +687,7 @@ class AddToSubset(SubsetMembershipChange):
 
 @dataclass
 class RemoveFromSubset(SubsetMembershipChange):
-    """
-    removing an element from a subset
-    """
+    """Removing an element from a subset."""
 
     _inherited_slots: ClassVar[List[str]] = []
 
@@ -730,9 +713,7 @@ class RemoveFromSubset(SubsetMembershipChange):
 
 @dataclass
 class EdgeChange(SimpleChange):
-    """
-    A change in which the element that is the focus of the change is an edge.
-    """
+    """A change in which the element that is the focus of the change is an edge."""
 
     _inherited_slots: ClassVar[List[str]] = []
 
@@ -770,7 +751,9 @@ class EdgeChange(SimpleChange):
 @dataclass
 class EdgeCreation(EdgeChange):
     """
-    An edge change in which a de-novo edge is created. The edge is potentially annotated in the same action.
+    An edge change in which a de-novo edge is created.
+
+    The edge is potentially annotated in the same action.
     """
 
     _inherited_slots: ClassVar[List[str]] = []
@@ -829,9 +812,7 @@ class EdgeCreation(EdgeChange):
 
 @dataclass
 class PlaceUnder(EdgeCreation):
-    """
-    An edge creation where the predicate is owl:subClassOf
-    """
+    """An edge creation where the predicate is owl:subClassOf."""
 
     _inherited_slots: ClassVar[List[str]] = []
 
@@ -854,7 +835,9 @@ class PlaceUnder(EdgeCreation):
 @dataclass
 class EdgeDeletion(EdgeChange):
     """
-    An edge change in which an edge is removed. All edge annotations/properies are removed in the same action.
+    An edge change in which an edge is removed.
+
+    All edge annotations/properies are removed in the same action.
     """
 
     _inherited_slots: ClassVar[List[str]] = []
@@ -913,9 +896,7 @@ class EdgeDeletion(EdgeChange):
 
 @dataclass
 class RemoveUnder(EdgeDeletion):
-    """
-    An edge deletion where the predicate is owl:subClassOf
-    """
+    """An edge deletion where the predicate is owl:subClassOf."""
 
     _inherited_slots: ClassVar[List[str]] = []
 
@@ -937,9 +918,7 @@ class RemoveUnder(EdgeDeletion):
 
 @dataclass
 class EdgeObsoletion(EdgeChange):
-    """
-    An edge change in which an edge is obsoleted.
-    """
+    """An edge change in which an edge is obsoleted."""
 
     _inherited_slots: ClassVar[List[str]] = []
 
@@ -990,7 +969,10 @@ class EdgeObsoletion(EdgeChange):
 @dataclass
 class EdgeRewiring(EdgeChange):
     """
-    An edge change where one node is replaced with another, as in the case of obsoletion with replacement
+    Replacement of node on obsoletion.
+
+    An edge change where one node is replaced with another,
+    as in the case of obsoletion with replacement
     """
 
     _inherited_slots: ClassVar[List[str]] = []
@@ -1013,9 +995,7 @@ class EdgeRewiring(EdgeChange):
 
 @dataclass
 class MappingCreation(EdgeCreation):
-    """
-    A specific kind of edge creation in which the created edge is a mapping.
-    """
+    """A specific kind of edge creation in which the created edge is a mapping."""
 
     _inherited_slots: ClassVar[List[str]] = []
 
@@ -1062,8 +1042,11 @@ class MappingCreation(EdgeCreation):
 @dataclass
 class NodeMove(EdgeChange):
     """
-    A node move is a combination of deleting a parent edge and adding a parent edge, where the predicate is preserved
-    and the object/parent node changes
+    Parent node and edge change.
+
+    A node move is a combination of deleting a parent edge and
+    adding a parent edge, where the predicate is preserved and
+    the object/parent node changes
     """
 
     _inherited_slots: ClassVar[List[str]] = []
@@ -1105,8 +1088,10 @@ class NodeMove(EdgeChange):
 @dataclass
 class NodeDeepening(NodeMove):
     """
-    A node move in which a node where the destination is a proper descendant of the original location. Note that here
-    descendant applied not just to subclass, but edges of any predicate in the relational graph
+    A node move in which a node where the destination is a proper descendant of the original location.
+
+    Note that here descendant applied not just to
+    subclass, but edges of any predicate in the relational graph
     """
 
     _inherited_slots: ClassVar[List[str]] = []
@@ -1135,9 +1120,7 @@ class NodeDeepening(NodeMove):
 
 @dataclass
 class NodeShallowing(NodeMove):
-    """
-    The opposite of node deepening
-    """
+    """The opposite of node deepening."""
 
     _inherited_slots: ClassVar[List[str]] = []
 
@@ -1165,9 +1148,7 @@ class NodeShallowing(NodeMove):
 
 @dataclass
 class PredicateChange(EdgeChange):
-    """
-    An edge change where the predicate (relationship type) is modified.
-    """
+    """An edge change where the predicate (relationship type) is modified."""
 
     _inherited_slots: ClassVar[List[str]] = []
 
@@ -1195,9 +1176,7 @@ class PredicateChange(EdgeChange):
 
 @dataclass
 class EdgeLogicalInterpretationChange(EdgeChange):
-    """
-    An edge change where the subjet, object, and predicate are unchanged, but the logical interpretation changes
-    """
+    """An edge change where the subject, object, and predicate are unchanged, but the logical interpretation changes."""
 
     _inherited_slots: ClassVar[List[str]] = []
 
@@ -1219,9 +1198,7 @@ class EdgeLogicalInterpretationChange(EdgeChange):
 
 @dataclass
 class LogicalAxiomChange(SimpleChange):
-    """
-    A simple change where a logical axiom is changed, where the logical axiom cannot be represented as an edge
-    """
+    """A simple change where a logical axiom is changed, where the logical axiom cannot be represented as an edge."""
 
     _inherited_slots: ClassVar[List[str]] = []
 
@@ -1243,9 +1220,7 @@ class LogicalAxiomChange(SimpleChange):
 
 @dataclass
 class NodeChange(SimpleChange):
-    """
-    A simple change where the change is about a node
-    """
+    """A simple change where the change is about a node."""
 
     _inherited_slots: ClassVar[List[str]] = []
 
@@ -1275,9 +1250,7 @@ class NodeChange(SimpleChange):
 
 @dataclass
 class NodeRename(NodeChange):
-    """
-    A node change where the name (aka rdfs:label) of the node changes
-    """
+    """A node change where the name (aka rdfs:label) of the node changes."""
 
     _inherited_slots: ClassVar[List[str]] = []
 
@@ -1327,9 +1300,7 @@ class NodeRename(NodeChange):
 
 @dataclass
 class SetLanguageForName(NodeChange):
-    """
-    A node change where the string value for the name is unchanged but the language tag is set
-    """
+    """A node change where the string value for the name is unchanged but the language tag is set."""
 
     _inherited_slots: ClassVar[List[str]] = []
 
@@ -1365,9 +1336,7 @@ class SetLanguageForName(NodeChange):
 
 @dataclass
 class NodeAnnotationChange(NodeChange):
-    """
-    A node change where the change alters node properties/annotations. TODO
-    """
+    """TODO: A node change where the change alters node properties/annotations."""
 
     _inherited_slots: ClassVar[List[str]] = []
 
@@ -1401,9 +1370,7 @@ class NodeAnnotationChange(NodeChange):
 
 @dataclass
 class NodeAnnotationReplacement(NodeAnnotationChange):
-    """
-    A node annotation change where the change replaces a particular property value. TODO
-    """
+    """TODO: A node annotation change where the change replaces a particular property value."""
 
     _inherited_slots: ClassVar[List[str]] = []
 
@@ -1445,9 +1412,7 @@ class NodeSynonymChange(NodeChange):
 
 @dataclass
 class NewSynonym(NodeSynonymChange):
-    """
-    A node synonym change where a de-novo synonym is created
-    """
+    """A node synonym change where a de-novo synonym is created."""
 
     _inherited_slots: ClassVar[List[str]] = []
 
@@ -1482,8 +1447,12 @@ class NewSynonym(NodeSynonymChange):
 @dataclass
 class NameBecomesSynonym(NodeSynonymChange):
     """
-    A node synonym where the name NAME of an node NODE moves to a synonym, and NODE receives a new name. This change
-    consists of compose of (1) a node rename where NAME is replaced by a different name (2) a new synonym
+    Rename and push old name to synonym.
+
+    A node synonym where the name NAME of an node NODE moves to a synonym,
+    and NODE receives a new name. This change consists of compose of:
+    (1) a node rename where NAME is replaced by a different name.
+    (2) a new synonym.
     """
 
     _inherited_slots: ClassVar[List[str]] = []
@@ -1520,9 +1489,7 @@ class NameBecomesSynonym(NodeSynonymChange):
 
 @dataclass
 class RemoveSynonym(NodeSynonymChange):
-    """
-    A node synonym change where a synonym is deleted
-    """
+    """A node synonym change where a synonym is deleted."""
 
     _inherited_slots: ClassVar[List[str]] = []
 
@@ -1548,9 +1515,7 @@ class RemoveSynonym(NodeSynonymChange):
 
 @dataclass
 class SynonymReplacement(NodeSynonymChange):
-    """
-    A node synonym change where the text of a synonym is changed
-    """
+    """A node synonym change where the text of a synonym is changed."""
 
     _inherited_slots: ClassVar[List[str]] = []
 
@@ -1587,9 +1552,12 @@ class SynonymReplacement(NodeSynonymChange):
 @dataclass
 class SynonymPredicateChange(NodeSynonymChange):
     """
-    A node synonym change where the predicate of a synonym is changed. Background: synonyms can be represented by a
-    variety of predicates. For example, many OBO ontologies make use of predicates such as oio:hasExactSynonym,
-    oio:hasRelatedSynonym, etc
+    A node synonym change where the predicate of a synonym is changed.
+
+    Background: synonyms can be represented by a
+    variety of predicates. For example, many OBO
+    ontologies make use of predicates such as
+    oio:hasExactSynonym, oio:hasRelatedSynonym, etc.
     """
 
     _inherited_slots: ClassVar[List[str]] = []
@@ -1626,9 +1594,7 @@ class SynonymPredicateChange(NodeSynonymChange):
 
 @dataclass
 class NodeTextDefinitionChange(NodeChange):
-    """
-    A node change where the text definition is changed
-    """
+    """A node change where the text definition is changed."""
 
     _inherited_slots: ClassVar[List[str]] = []
 
@@ -1642,9 +1608,7 @@ class NodeTextDefinitionChange(NodeChange):
 
 @dataclass
 class NewTextDefinition(NodeTextDefinitionChange):
-    """
-    A node change where a de-novo text definition is created
-    """
+    """A node change where a de-novo text definition is created."""
 
     _inherited_slots: ClassVar[List[str]] = []
 
@@ -1670,9 +1634,7 @@ class NewTextDefinition(NodeTextDefinitionChange):
 
 @dataclass
 class RemoveTextDefinition(NodeTextDefinitionChange):
-    """
-    A node change where a text definition is deleted
-    """
+    """A node change where a text definition is deleted."""
 
     _inherited_slots: ClassVar[List[str]] = []
 
@@ -1698,9 +1660,7 @@ class RemoveTextDefinition(NodeTextDefinitionChange):
 
 @dataclass
 class TextDefinitionReplacement(NodeTextDefinitionChange):
-    """
-    A node change where a text definition is modified
-    """
+    """A node change where a text definition is modified."""
 
     _inherited_slots: ClassVar[List[str]] = []
 
@@ -1736,9 +1696,7 @@ class TextDefinitionReplacement(NodeTextDefinitionChange):
 
 @dataclass
 class AddNodeToSubset(NodeChange):
-    """
-    Places a node inside a subset, by annotating that node
-    """
+    """Places a node inside a subset, by annotating that node."""
 
     _inherited_slots: ClassVar[List[str]] = []
 
@@ -1766,9 +1724,7 @@ class AddNodeToSubset(NodeChange):
 
 @dataclass
 class RemovedNodeFromSubset(NodeChange):
-    """
-    Removes a node from a subset, by removing an annotation
-    """
+    """Removes a node from a subset, by removing an annotation."""
 
     _inherited_slots: ClassVar[List[str]] = []
 
@@ -1810,9 +1766,7 @@ class RemovedNodeFromSubset(NodeChange):
 
 @dataclass
 class NodeObsoletion(NodeChange):
-    """
-    Obsoletion of a node deprecates usage of that node, but does not delete it.
-    """
+    """Obsoletion of a node deprecates usage of that node, but does not delete it."""
 
     _inherited_slots: ClassVar[List[str]] = []
 
@@ -1876,9 +1830,7 @@ class NodeObsoletion(NodeChange):
 
 @dataclass
 class NodeUnobsoletion(NodeChange):
-    """
-    unobsoletion of a node deprecates usage of that node. Rarely applied.
-    """
+    """Unobsoletion of a node deprecates usage of that node. Rarely applied."""
 
     _inherited_slots: ClassVar[List[str]] = []
 
@@ -1914,9 +1866,7 @@ class NodeUnobsoletion(NodeChange):
 
 @dataclass
 class NodeCreation(NodeChange):
-    """
-    a node change in which a new node is created
-    """
+    """A node change in which a new node is created."""
 
     _inherited_slots: ClassVar[List[str]] = []
 
@@ -1966,9 +1916,7 @@ class NodeCreation(NodeChange):
 
 @dataclass
 class ClassCreation(NodeCreation):
-    """
-    A node creation where the owl type is 'class'
-    """
+    """A node creation where the owl type is 'class'."""
 
     _inherited_slots: ClassVar[List[str]] = []
 
@@ -2001,7 +1949,9 @@ class ClassCreation(NodeCreation):
 @dataclass
 class NodeDeletion(NodeChange):
     """
-    Deletion of a node from the graph. Note it is recommended nodes are obsoleted and never merged, but this operation
+    Deletion of a node from the graph.
+
+    Note it is recommended nodes are obsoleted and never merged, but this operation
     exists to represent deletions in ontologies, accidental or otherwise
     """
 
@@ -2032,8 +1982,11 @@ class NodeDeletion(NodeChange):
 @dataclass
 class NodeDirectMerge(NodeObsoletion):
     """
-    An obsoletion change in which all metadata (including name/label) from the source node is deleted and added to the
-    target node, and edges can automatically be rewired to point to the target node
+    Source node metadata => Target node on obsoletion.
+
+    An obsoletion change in which all metadata (including name/label)
+    from the source node is deleted and added to the target node,
+    and edges can automatically be rewired to point to the target node.
     """
 
     _inherited_slots: ClassVar[List[str]] = []
@@ -2073,8 +2026,11 @@ class NodeDirectMerge(NodeObsoletion):
 @dataclass
 class NodeObsoletionWithDirectReplacement(NodeObsoletion):
     """
-    An obsoletion change in which information from the obsoleted node is selectively copied to a single target, and
-    edges can automatically be rewired to point to the target node
+    Node obsoletion rewiring.
+
+    An obsoletion change in which information from the obsoleted node is
+    selectively copied to a single target, and edges can automatically be
+    rewired to point to the target node.
     """
 
     _inherited_slots: ClassVar[List[str]] = []
@@ -2109,9 +2065,7 @@ class NodeObsoletionWithDirectReplacement(NodeObsoletion):
 
 @dataclass
 class NodeObsoletionWithNoDirectReplacement(NodeObsoletion):
-    """
-    An obsoletion change in which there is no direct replacement
-    """
+    """An obsoletion change in which there is no direct replacement."""
 
     _inherited_slots: ClassVar[List[str]] = []
 
@@ -2155,7 +2109,9 @@ class NodeObsoletionWithNoDirectReplacement(NodeObsoletion):
 
 class TextualDiff(YAMLRoot):
     """
-    A summarizing of a change on a piece of text. This could be rendered in a number of different ways
+    A summarizing of a change on a piece of text.
+
+    This could be rendered in a number of different ways.
     """
 
     _inherited_slots: ClassVar[List[str]] = []
@@ -2168,9 +2124,7 @@ class TextualDiff(YAMLRoot):
 
 @dataclass
 class Configuration(YAMLRoot):
-    """
-    The meaning of operations can be configured
-    """
+    """The meaning of operations can be configured."""
 
     _inherited_slots: ClassVar[List[str]] = []
 
@@ -2233,7 +2187,10 @@ class Configuration(YAMLRoot):
 @dataclass
 class Session(YAMLRoot):
     """
-    A session consists of a set of change sets bundled with the activities that generated those change sets
+    Change set generation session.
+
+    A session consists of a set of change sets bundled
+    with the activities that generated those change sets.
     """
 
     _inherited_slots: ClassVar[List[str]] = []
@@ -2271,11 +2228,11 @@ class Session(YAMLRoot):
 
 
 # Slots
-class slots:
+class Slots:
     pass
 
 
-slots.pull_request = Slot(
+Slots.pull_request = Slot(
     uri=KGCL.pull_request,
     name="pull request",
     curie=KGCL.curie("pull_request"),
@@ -2284,7 +2241,7 @@ slots.pull_request = Slot(
     range=Optional[str],
 )
 
-slots.see_also = Slot(
+Slots.see_also = Slot(
     uri=RDFS.seeAlso,
     name="see also",
     curie=RDFS.curie("seeAlso"),
@@ -2293,7 +2250,7 @@ slots.see_also = Slot(
     range=Optional[str],
 )
 
-slots.creator = Slot(
+Slots.creator = Slot(
     uri=DCTERMS.creator,
     name="creator",
     curie=DCTERMS.curie("creator"),
@@ -2302,7 +2259,7 @@ slots.creator = Slot(
     range=Optional[str],
 )
 
-slots.contributor = Slot(
+Slots.contributor = Slot(
     uri=DCTERMS.creator,
     name="contributor",
     curie=DCTERMS.curie("creator"),
@@ -2311,7 +2268,7 @@ slots.contributor = Slot(
     range=Optional[str],
 )
 
-slots.change_date = Slot(
+Slots.change_date = Slot(
     uri=DCTERMS.date,
     name="change date",
     curie=DCTERMS.curie("date"),
@@ -2320,7 +2277,7 @@ slots.change_date = Slot(
     range=Optional[str],
 )
 
-slots.has_undo = Slot(
+Slots.has_undo = Slot(
     uri=KGCL.has_undo,
     name="has undo",
     curie=KGCL.curie("has_undo"),
@@ -2329,7 +2286,7 @@ slots.has_undo = Slot(
     range=Optional[Union[str, ChangeId]],
 )
 
-slots.node_id = Slot(
+Slots.node_id = Slot(
     uri=KGCL.node_id,
     name="node id",
     curie=KGCL.curie("node_id"),
@@ -2338,7 +2295,7 @@ slots.node_id = Slot(
     range=Optional[Union[str, NodeId]],
 )
 
-slots.superclass = Slot(
+Slots.superclass = Slot(
     uri=KGCL.superclass,
     name="superclass",
     curie=KGCL.curie("superclass"),
@@ -2347,7 +2304,7 @@ slots.superclass = Slot(
     range=Optional[Union[str, NodeId]],
 )
 
-slots.language = Slot(
+Slots.language = Slot(
     uri=KGCL.language,
     name="language",
     curie=KGCL.curie("language"),
@@ -2356,7 +2313,7 @@ slots.language = Slot(
     range=Optional[str],
 )
 
-slots.about = Slot(
+Slots.about = Slot(
     uri=KGCL.about,
     name="about",
     curie=KGCL.curie("about"),
@@ -2365,7 +2322,7 @@ slots.about = Slot(
     range=Optional[Union[dict, OntologyElement]],
 )
 
-slots.about_node = Slot(
+Slots.about_node = Slot(
     uri=KGCL.about_node,
     name="about node",
     curie=KGCL.curie("about_node"),
@@ -2374,7 +2331,7 @@ slots.about_node = Slot(
     range=Optional[Union[str, NodeId]],
 )
 
-slots.about_edge = Slot(
+Slots.about_edge = Slot(
     uri=KGCL.about_edge,
     name="about edge",
     curie=KGCL.curie("about_edge"),
@@ -2383,7 +2340,7 @@ slots.about_edge = Slot(
     range=Optional[Union[dict, Edge]],
 )
 
-slots.about_node_representation = Slot(
+Slots.about_node_representation = Slot(
     uri=KGCL.about_node_representation,
     name="about node representation",
     curie=KGCL.curie("about_node_representation"),
@@ -2392,7 +2349,7 @@ slots.about_node_representation = Slot(
     range=Optional[str],
 )
 
-slots.target = Slot(
+Slots.target = Slot(
     uri=KGCL.target,
     name="target",
     curie=KGCL.curie("target"),
@@ -2401,7 +2358,7 @@ slots.target = Slot(
     range=Optional[str],
 )
 
-slots.old_value = Slot(
+Slots.old_value = Slot(
     uri=KGCL.old_value,
     name="old value",
     curie=KGCL.curie("old_value"),
@@ -2410,7 +2367,7 @@ slots.old_value = Slot(
     range=Optional[str],
 )
 
-slots.new_value = Slot(
+Slots.new_value = Slot(
     uri=KGCL.new_value,
     name="new value",
     curie=KGCL.curie("new_value"),
@@ -2419,7 +2376,7 @@ slots.new_value = Slot(
     range=Optional[str],
 )
 
-slots.language = Slot(
+Slots.language = Slot(
     uri=KGCL.language,
     name="language",
     curie=KGCL.curie("language"),
@@ -2428,7 +2385,7 @@ slots.language = Slot(
     range=Optional[str],
 )
 
-slots.datatype = Slot(
+Slots.datatype = Slot(
     uri=KGCL.datatype,
     name="datatype",
     curie=KGCL.curie("datatype"),
@@ -2437,7 +2394,7 @@ slots.datatype = Slot(
     range=Optional[str],
 )
 
-slots.new_datatype = Slot(
+Slots.new_datatype = Slot(
     uri=KGCL.new_datatype,
     name="new datatype",
     curie=KGCL.curie("new_datatype"),
@@ -2446,7 +2403,7 @@ slots.new_datatype = Slot(
     range=Optional[str],
 )
 
-slots.old_datatype = Slot(
+Slots.old_datatype = Slot(
     uri=KGCL.old_datatype,
     name="old datatype",
     curie=KGCL.curie("old_datatype"),
@@ -2455,7 +2412,7 @@ slots.old_datatype = Slot(
     range=Optional[str],
 )
 
-slots.new_language = Slot(
+Slots.new_language = Slot(
     uri=KGCL.new_language,
     name="new language",
     curie=KGCL.curie("new_language"),
@@ -2464,7 +2421,7 @@ slots.new_language = Slot(
     range=Optional[str],
 )
 
-slots.old_language = Slot(
+Slots.old_language = Slot(
     uri=KGCL.old_language,
     name="old language",
     curie=KGCL.curie("old_language"),
@@ -2473,7 +2430,7 @@ slots.old_language = Slot(
     range=Optional[str],
 )
 
-slots.qualifier = Slot(
+Slots.qualifier = Slot(
     uri=KGCL.qualifier,
     name="qualifier",
     curie=KGCL.curie("qualifier"),
@@ -2482,7 +2439,7 @@ slots.qualifier = Slot(
     range=Optional[str],
 )
 
-slots.subclass = Slot(
+Slots.subclass = Slot(
     uri=KGCL.subclass,
     name="subclass",
     curie=KGCL.curie("subclass"),
@@ -2491,7 +2448,7 @@ slots.subclass = Slot(
     range=Optional[str],
 )
 
-slots.new_subclass = Slot(
+Slots.new_subclass = Slot(
     uri=KGCL.new_subclass,
     name="new subclass",
     curie=KGCL.curie("new_subclass"),
@@ -2500,7 +2457,7 @@ slots.new_subclass = Slot(
     range=Optional[str],
 )
 
-slots.new_property = Slot(
+Slots.new_property = Slot(
     uri=KGCL.new_property,
     name="new property",
     curie=KGCL.curie("new_property"),
@@ -2509,7 +2466,7 @@ slots.new_property = Slot(
     range=Optional[str],
 )
 
-slots.new_filler = Slot(
+Slots.new_filler = Slot(
     uri=KGCL.new_filler,
     name="new filler",
     curie=KGCL.curie("new_filler"),
@@ -2518,7 +2475,7 @@ slots.new_filler = Slot(
     range=Optional[str],
 )
 
-slots.object_type = Slot(
+Slots.object_type = Slot(
     uri=KGCL.object_type,
     name="object type",
     curie=KGCL.curie("object_type"),
@@ -2527,7 +2484,7 @@ slots.object_type = Slot(
     range=Optional[str],
 )
 
-slots.new_object_type = Slot(
+Slots.new_object_type = Slot(
     uri=KGCL.new_object_type,
     name="new object type",
     curie=KGCL.curie("new_object_type"),
@@ -2536,7 +2493,7 @@ slots.new_object_type = Slot(
     range=Optional[str],
 )
 
-slots.old_object_type = Slot(
+Slots.old_object_type = Slot(
     uri=KGCL.old_object_type,
     name="old object type",
     curie=KGCL.curie("old_object_type"),
@@ -2545,7 +2502,7 @@ slots.old_object_type = Slot(
     range=Optional[str],
 )
 
-slots.new_value_type = Slot(
+Slots.new_value_type = Slot(
     uri=KGCL.new_value_type,
     name="new value type",
     curie=KGCL.curie("new_value_type"),
@@ -2554,7 +2511,7 @@ slots.new_value_type = Slot(
     range=Optional[str],
 )
 
-slots.old_value_type = Slot(
+Slots.old_value_type = Slot(
     uri=KGCL.old_value_type,
     name="old value type",
     curie=KGCL.curie("old_value_type"),
@@ -2563,7 +2520,7 @@ slots.old_value_type = Slot(
     range=Optional[str],
 )
 
-slots.subject_type = Slot(
+Slots.subject_type = Slot(
     uri=KGCL.subject_type,
     name="subject type",
     curie=KGCL.curie("subject_type"),
@@ -2572,7 +2529,7 @@ slots.subject_type = Slot(
     range=Optional[str],
 )
 
-slots.subclass_type = Slot(
+Slots.subclass_type = Slot(
     uri=KGCL.subclass_type,
     name="subclass type",
     curie=KGCL.curie("subclass_type"),
@@ -2581,7 +2538,7 @@ slots.subclass_type = Slot(
     range=Optional[str],
 )
 
-slots.superclass_type = Slot(
+Slots.superclass_type = Slot(
     uri=KGCL.superclass_type,
     name="superclass type",
     curie=KGCL.curie("superclass_type"),
@@ -2590,7 +2547,7 @@ slots.superclass_type = Slot(
     range=Optional[str],
 )
 
-slots.predicate_type = Slot(
+Slots.predicate_type = Slot(
     uri=KGCL.predicate_type,
     name="predicate type",
     curie=KGCL.curie("predicate_type"),
@@ -2599,7 +2556,7 @@ slots.predicate_type = Slot(
     range=Optional[str],
 )
 
-slots.in_subset = Slot(
+Slots.in_subset = Slot(
     uri=KGCL.in_subset,
     name="in subset",
     curie=KGCL.curie("in_subset"),
@@ -2608,7 +2565,7 @@ slots.in_subset = Slot(
     range=Optional[Union[dict, OntologySubset]],
 )
 
-slots.annotation_property = Slot(
+Slots.annotation_property = Slot(
     uri=KGCL.annotation_property,
     name="annotation property",
     curie=KGCL.curie("annotation_property"),
@@ -2617,7 +2574,7 @@ slots.annotation_property = Slot(
     range=Optional[str],
 )
 
-slots.annotation_property_type = Slot(
+Slots.annotation_property_type = Slot(
     uri=KGCL.annotation_property_type,
     name="annotation property type",
     curie=KGCL.curie("annotation_property_type"),
@@ -2626,7 +2583,7 @@ slots.annotation_property_type = Slot(
     range=Optional[str],
 )
 
-slots.change_description = Slot(
+Slots.change_description = Slot(
     uri=KGCL.change_description,
     name="change description",
     curie=KGCL.curie("change_description"),
@@ -2635,7 +2592,7 @@ slots.change_description = Slot(
     range=Optional[str],
 )
 
-slots.has_textual_diff = Slot(
+Slots.has_textual_diff = Slot(
     uri=KGCL.has_textual_diff,
     name="has textual diff",
     curie=KGCL.curie("has_textual_diff"),
@@ -2644,7 +2601,7 @@ slots.has_textual_diff = Slot(
     range=Optional[Union[dict, "TextualDiff"]],
 )
 
-slots.change_set = Slot(
+Slots.change_set = Slot(
     uri=KGCL.change_set,
     name="change set",
     curie=KGCL.curie("change_set"),
@@ -2657,7 +2614,7 @@ slots.change_set = Slot(
     ],
 )
 
-slots.has_replacement = Slot(
+Slots.has_replacement = Slot(
     uri=KGCL.has_replacement,
     name="has replacement",
     curie=KGCL.curie("has_replacement"),
@@ -2666,7 +2623,7 @@ slots.has_replacement = Slot(
     range=Optional[Union[str, NodeId]],
 )
 
-slots.has_direct_replacement = Slot(
+Slots.has_direct_replacement = Slot(
     uri=KGCL.has_direct_replacement,
     name="has direct replacement",
     curie=KGCL.curie("has_direct_replacement"),
@@ -2675,7 +2632,7 @@ slots.has_direct_replacement = Slot(
     range=Optional[Union[str, NodeId]],
 )
 
-slots.has_nondirect_replacement = Slot(
+Slots.has_nondirect_replacement = Slot(
     uri=KGCL.has_nondirect_replacement,
     name="has nondirect replacement",
     curie=KGCL.curie("has_nondirect_replacement"),
@@ -2684,7 +2641,7 @@ slots.has_nondirect_replacement = Slot(
     range=Optional[Union[Union[str, NodeId], List[Union[str, NodeId]]]],
 )
 
-slots.configuration__name_predicate = Slot(
+Slots.configuration__name_predicate = Slot(
     uri=KGCL.name_predicate,
     name="configuration__name_predicate",
     curie=KGCL.curie("name_predicate"),
@@ -2693,7 +2650,7 @@ slots.configuration__name_predicate = Slot(
     range=Optional[str],
 )
 
-slots.configuration__definition_predicate = Slot(
+Slots.configuration__definition_predicate = Slot(
     uri=KGCL.definition_predicate,
     name="configuration__definition_predicate",
     curie=KGCL.curie("definition_predicate"),
@@ -2702,7 +2659,7 @@ slots.configuration__definition_predicate = Slot(
     range=Optional[str],
 )
 
-slots.configuration__main_synonym_predicate = Slot(
+Slots.configuration__main_synonym_predicate = Slot(
     uri=KGCL.main_synonym_predicate,
     name="configuration__main_synonym_predicate",
     curie=KGCL.curie("main_synonym_predicate"),
@@ -2711,7 +2668,7 @@ slots.configuration__main_synonym_predicate = Slot(
     range=Optional[str],
 )
 
-slots.configuration__synonym_predicates = Slot(
+Slots.configuration__synonym_predicates = Slot(
     uri=KGCL.synonym_predicates,
     name="configuration__synonym_predicates",
     curie=KGCL.curie("synonym_predicates"),
@@ -2720,7 +2677,7 @@ slots.configuration__synonym_predicates = Slot(
     range=Optional[str],
 )
 
-slots.configuration__creator_predicate = Slot(
+Slots.configuration__creator_predicate = Slot(
     uri=KGCL.creator_predicate,
     name="configuration__creator_predicate",
     curie=KGCL.curie("creator_predicate"),
@@ -2729,7 +2686,7 @@ slots.configuration__creator_predicate = Slot(
     range=Optional[str],
 )
 
-slots.configuration__contributor_predicate = Slot(
+Slots.configuration__contributor_predicate = Slot(
     uri=KGCL.contributor_predicate,
     name="configuration__contributor_predicate",
     curie=KGCL.curie("contributor_predicate"),
@@ -2738,7 +2695,7 @@ slots.configuration__contributor_predicate = Slot(
     range=Optional[str],
 )
 
-slots.configuration__obsoletion_workflow = Slot(
+Slots.configuration__obsoletion_workflow = Slot(
     uri=KGCL.obsoletion_workflow,
     name="configuration__obsoletion_workflow",
     curie=KGCL.curie("obsoletion_workflow"),
@@ -2747,7 +2704,7 @@ slots.configuration__obsoletion_workflow = Slot(
     range=Optional[str],
 )
 
-slots.configuration__obsoletion_policy = Slot(
+Slots.configuration__obsoletion_policy = Slot(
     uri=KGCL.obsoletion_policy,
     name="configuration__obsoletion_policy",
     curie=KGCL.curie("obsoletion_policy"),
@@ -2756,7 +2713,7 @@ slots.configuration__obsoletion_policy = Slot(
     range=Optional[str],
 )
 
-slots.associated_change_set = Slot(
+Slots.associated_change_set = Slot(
     uri=KGCL.associated_change_set,
     name="associated change set",
     curie=KGCL.curie("associated_change_set"),
@@ -2769,7 +2726,7 @@ slots.associated_change_set = Slot(
     ],
 )
 
-slots.change_type = Slot(
+Slots.change_type = Slot(
     uri=KGCL.change_type,
     name="change type",
     curie=KGCL.curie("change_type"),
@@ -2778,7 +2735,7 @@ slots.change_type = Slot(
     range=Optional[Union[str, ChangeClassType]],
 )
 
-slots.count = Slot(
+Slots.count = Slot(
     uri=KGCL.count,
     name="count",
     curie=KGCL.curie("count"),
@@ -2787,7 +2744,7 @@ slots.count = Slot(
     range=Optional[int],
 )
 
-slots.change_1 = Slot(
+Slots.change_1 = Slot(
     uri=KGCL.change_1,
     name="change 1",
     curie=KGCL.curie("change_1"),
@@ -2796,7 +2753,7 @@ slots.change_1 = Slot(
     range=Optional[Union[str, NodeRenameId]],
 )
 
-slots.change_2 = Slot(
+Slots.change_2 = Slot(
     uri=KGCL.change_2,
     name="change 2",
     curie=KGCL.curie("change_2"),
@@ -2805,7 +2762,7 @@ slots.change_2 = Slot(
     range=Optional[Union[str, NewSynonymId]],
 )
 
-slots.subset = Slot(
+Slots.subset = Slot(
     uri=KGCL.subset,
     name="subset",
     curie=KGCL.curie("subset"),
@@ -2814,7 +2771,7 @@ slots.subset = Slot(
     range=Optional[str],
 )
 
-slots.replaced_by = Slot(
+Slots.replaced_by = Slot(
     uri=KGCL.replaced_by,
     name="replaced by",
     curie=KGCL.curie("replaced_by"),
@@ -2823,7 +2780,7 @@ slots.replaced_by = Slot(
     range=Optional[Union[str, NodeId]],
 )
 
-slots.consider = Slot(
+Slots.consider = Slot(
     uri=KGCL.consider,
     name="consider",
     curie=KGCL.curie("consider"),
@@ -2832,7 +2789,7 @@ slots.consider = Slot(
     range=Optional[Union[str, NodeId]],
 )
 
-slots.change_was_generated_by = Slot(
+Slots.change_was_generated_by = Slot(
     uri=KGCL.was_generated_by,
     name="change_was generated by",
     curie=KGCL.curie("was_generated_by"),
@@ -2841,7 +2798,7 @@ slots.change_was_generated_by = Slot(
     range=Optional[Union[str, ActivityId]],
 )
 
-slots.change_see_also = Slot(
+Slots.change_see_also = Slot(
     uri=KGCL.see_also,
     name="change_see also",
     curie=KGCL.curie("see_also"),
@@ -2850,7 +2807,7 @@ slots.change_see_also = Slot(
     range=Optional[str],
 )
 
-slots.change_pull_request = Slot(
+Slots.change_pull_request = Slot(
     uri=KGCL.pull_request,
     name="change_pull request",
     curie=KGCL.curie("pull_request"),
@@ -2859,7 +2816,7 @@ slots.change_pull_request = Slot(
     range=Optional[str],
 )
 
-slots.change_creator = Slot(
+Slots.change_creator = Slot(
     uri=KGCL.creator,
     name="change_creator",
     curie=KGCL.curie("creator"),
@@ -2868,7 +2825,7 @@ slots.change_creator = Slot(
     range=Optional[str],
 )
 
-slots.change_change_date = Slot(
+Slots.change_change_date = Slot(
     uri=KGCL.change_date,
     name="change_change date",
     curie=KGCL.curie("change_date"),
@@ -2877,7 +2834,7 @@ slots.change_change_date = Slot(
     range=Optional[str],
 )
 
-slots.multi_node_obsoletion_change_set = Slot(
+Slots.multi_node_obsoletion_change_set = Slot(
     uri=KGCL.change_set,
     name="multi node obsoletion_change set",
     curie=KGCL.curie("change_set"),
@@ -2891,7 +2848,7 @@ slots.multi_node_obsoletion_change_set = Slot(
     ],
 )
 
-slots.multi_node_obsoletion_change_description = Slot(
+Slots.multi_node_obsoletion_change_description = Slot(
     uri=KGCL.change_description,
     name="multi node obsoletion_change description",
     curie=KGCL.curie("change_description"),
@@ -2900,7 +2857,7 @@ slots.multi_node_obsoletion_change_description = Slot(
     range=Optional[str],
 )
 
-slots.multi_node_obsoletion_associated_change_set = Slot(
+Slots.multi_node_obsoletion_associated_change_set = Slot(
     uri=KGCL.associated_change_set,
     name="multi node obsoletion_associated change set",
     curie=KGCL.curie("associated_change_set"),
@@ -2913,7 +2870,7 @@ slots.multi_node_obsoletion_associated_change_set = Slot(
     ],
 )
 
-slots.change_set_summary_statistic_change_type = Slot(
+Slots.change_set_summary_statistic_change_type = Slot(
     uri=KGCL.change_type,
     name="change set summary statistic_change type",
     curie=KGCL.curie("change_type"),
@@ -2922,7 +2879,7 @@ slots.change_set_summary_statistic_change_type = Slot(
     range=Optional[Union[str, ChangeClassType]],
 )
 
-slots.change_set_summary_statistic_count = Slot(
+Slots.change_set_summary_statistic_count = Slot(
     uri=KGCL.count,
     name="change set summary statistic_count",
     curie=KGCL.curie("count"),
@@ -2931,7 +2888,7 @@ slots.change_set_summary_statistic_count = Slot(
     range=Optional[int],
 )
 
-slots.change_set_summary_statistic_property_value_set = Slot(
+Slots.change_set_summary_statistic_property_value_set = Slot(
     uri=KGCL.property_value_set,
     name="change set summary statistic_property value set",
     curie=KGCL.curie("property_value_set"),
@@ -2940,7 +2897,7 @@ slots.change_set_summary_statistic_property_value_set = Slot(
     range=Optional[Union[Union[dict, PropertyValue], List[Union[dict, PropertyValue]]]],
 )
 
-slots.obsoletion_about = Slot(
+Slots.obsoletion_about = Slot(
     uri=KGCL.about,
     name="obsoletion_about",
     curie=KGCL.curie("about"),
@@ -2949,7 +2906,7 @@ slots.obsoletion_about = Slot(
     range=Optional[Union[dict, OntologyElement]],
 )
 
-slots.obsoletion_has_undo = Slot(
+Slots.obsoletion_has_undo = Slot(
     uri=KGCL.has_undo,
     name="obsoletion_has undo",
     curie=KGCL.curie("has_undo"),
@@ -2958,7 +2915,7 @@ slots.obsoletion_has_undo = Slot(
     range=Optional[Union[dict, "Obsoletion"]],
 )
 
-slots.language_tag_change_old_value = Slot(
+Slots.language_tag_change_old_value = Slot(
     uri=KGCL.old_value,
     name="language tag change_old value",
     curie=KGCL.curie("old_value"),
@@ -2967,7 +2924,7 @@ slots.language_tag_change_old_value = Slot(
     range=Optional[str],
 )
 
-slots.language_tag_change_new_value = Slot(
+Slots.language_tag_change_new_value = Slot(
     uri=KGCL.new_value,
     name="language tag change_new value",
     curie=KGCL.curie("new_value"),
@@ -2976,7 +2933,7 @@ slots.language_tag_change_new_value = Slot(
     range=Optional[str],
 )
 
-slots.unobsoletion_has_undo = Slot(
+Slots.unobsoletion_has_undo = Slot(
     uri=KGCL.has_undo,
     name="unobsoletion_has undo",
     curie=KGCL.curie("has_undo"),
@@ -2985,7 +2942,7 @@ slots.unobsoletion_has_undo = Slot(
     range=Optional[Union[dict, Obsoletion]],
 )
 
-slots.creation_has_undo = Slot(
+Slots.creation_has_undo = Slot(
     uri=KGCL.has_undo,
     name="creation_has undo",
     curie=KGCL.curie("has_undo"),
@@ -2994,7 +2951,7 @@ slots.creation_has_undo = Slot(
     range=Optional[Union[dict, Deletion]],
 )
 
-slots.add_to_subset_in_subset = Slot(
+Slots.add_to_subset_in_subset = Slot(
     uri=KGCL.in_subset,
     name="add to subset_in subset",
     curie=KGCL.curie("in_subset"),
@@ -3003,7 +2960,7 @@ slots.add_to_subset_in_subset = Slot(
     range=Optional[Union[dict, OntologySubset]],
 )
 
-slots.remove_from_subset_in_subset = Slot(
+Slots.remove_from_subset_in_subset = Slot(
     uri=KGCL.in_subset,
     name="remove from subset_in subset",
     curie=KGCL.curie("in_subset"),
@@ -3012,7 +2969,7 @@ slots.remove_from_subset_in_subset = Slot(
     range=Optional[Union[dict, OntologySubset]],
 )
 
-slots.remove_from_subset_has_undo = Slot(
+Slots.remove_from_subset_has_undo = Slot(
     uri=KGCL.has_undo,
     name="remove from subset_has undo",
     curie=KGCL.curie("has_undo"),
@@ -3021,7 +2978,7 @@ slots.remove_from_subset_has_undo = Slot(
     range=Optional[Union[dict, AddToSubset]],
 )
 
-slots.edge_change_subject = Slot(
+Slots.edge_change_subject = Slot(
     uri=KGCL.subject,
     name="edge change_subject",
     curie=KGCL.curie("subject"),
@@ -3030,7 +2987,7 @@ slots.edge_change_subject = Slot(
     range=Optional[Union[str, NodeId]],
 )
 
-slots.edge_creation_change_description = Slot(
+Slots.edge_creation_change_description = Slot(
     uri=KGCL.change_description,
     name="edge creation_change description",
     curie=KGCL.curie("change_description"),
@@ -3039,7 +2996,7 @@ slots.edge_creation_change_description = Slot(
     range=Optional[str],
 )
 
-slots.edge_deletion_change_description = Slot(
+Slots.edge_deletion_change_description = Slot(
     uri=KGCL.change_description,
     name="edge deletion_change description",
     curie=KGCL.curie("change_description"),
@@ -3048,7 +3005,7 @@ slots.edge_deletion_change_description = Slot(
     range=Optional[str],
 )
 
-slots.edge_obsoletion_change_description = Slot(
+Slots.edge_obsoletion_change_description = Slot(
     uri=KGCL.change_description,
     name="edge obsoletion_change description",
     curie=KGCL.curie("change_description"),
@@ -3057,7 +3014,7 @@ slots.edge_obsoletion_change_description = Slot(
     range=Optional[str],
 )
 
-slots.mapping_creation_change_description = Slot(
+Slots.mapping_creation_change_description = Slot(
     uri=KGCL.change_description,
     name="mapping creation_change description",
     curie=KGCL.curie("change_description"),
@@ -3066,7 +3023,7 @@ slots.mapping_creation_change_description = Slot(
     range=Optional[str],
 )
 
-slots.mapping_creation_subject = Slot(
+Slots.mapping_creation_subject = Slot(
     uri=KGCL.subject,
     name="mapping creation_subject",
     curie=KGCL.curie("subject"),
@@ -3075,7 +3032,7 @@ slots.mapping_creation_subject = Slot(
     range=Optional[Union[str, NodeId]],
 )
 
-slots.mapping_creation_predicate = Slot(
+Slots.mapping_creation_predicate = Slot(
     uri=KGCL.predicate,
     name="mapping creation_predicate",
     curie=KGCL.curie("predicate"),
@@ -3084,7 +3041,7 @@ slots.mapping_creation_predicate = Slot(
     range=Optional[Union[str, NodeId]],
 )
 
-slots.mapping_creation_object = Slot(
+Slots.mapping_creation_object = Slot(
     uri=KGCL.object,
     name="mapping creation_object",
     curie=KGCL.curie("object"),
@@ -3093,7 +3050,7 @@ slots.mapping_creation_object = Slot(
     range=Optional[Union[str, NodeId]],
 )
 
-slots.node_move_change_description = Slot(
+Slots.node_move_change_description = Slot(
     uri=KGCL.change_description,
     name="node move_change description",
     curie=KGCL.curie("change_description"),
@@ -3102,7 +3059,7 @@ slots.node_move_change_description = Slot(
     range=Optional[str],
 )
 
-slots.node_deepening_change_description = Slot(
+Slots.node_deepening_change_description = Slot(
     uri=KGCL.change_description,
     name="node deepening_change description",
     curie=KGCL.curie("change_description"),
@@ -3111,7 +3068,7 @@ slots.node_deepening_change_description = Slot(
     range=Optional[str],
 )
 
-slots.node_shallowing_change_description = Slot(
+Slots.node_shallowing_change_description = Slot(
     uri=KGCL.change_description,
     name="node shallowing_change description",
     curie=KGCL.curie("change_description"),
@@ -3120,7 +3077,7 @@ slots.node_shallowing_change_description = Slot(
     range=Optional[str],
 )
 
-slots.predicate_change_change_description = Slot(
+Slots.predicate_change_change_description = Slot(
     uri=KGCL.change_description,
     name="predicate change_change description",
     curie=KGCL.curie("change_description"),
@@ -3129,7 +3086,7 @@ slots.predicate_change_change_description = Slot(
     range=Optional[str],
 )
 
-slots.node_rename_old_value = Slot(
+Slots.node_rename_old_value = Slot(
     uri=KGCL.old_value,
     name="node rename_old value",
     curie=KGCL.curie("old_value"),
@@ -3138,7 +3095,7 @@ slots.node_rename_old_value = Slot(
     range=Optional[str],
 )
 
-slots.node_rename_new_value = Slot(
+Slots.node_rename_new_value = Slot(
     uri=KGCL.new_value,
     name="node rename_new value",
     curie=KGCL.curie("new_value"),
@@ -3147,7 +3104,7 @@ slots.node_rename_new_value = Slot(
     range=Optional[str],
 )
 
-slots.node_rename_change_description = Slot(
+Slots.node_rename_change_description = Slot(
     uri=KGCL.change_description,
     name="node rename_change description",
     curie=KGCL.curie("change_description"),
@@ -3156,7 +3113,7 @@ slots.node_rename_change_description = Slot(
     range=Optional[str],
 )
 
-slots.set_language_for_name_change_description = Slot(
+Slots.set_language_for_name_change_description = Slot(
     uri=KGCL.change_description,
     name="set language for name_change description",
     curie=KGCL.curie("change_description"),
@@ -3165,7 +3122,7 @@ slots.set_language_for_name_change_description = Slot(
     range=Optional[str],
 )
 
-slots.name_becomes_synonym_change_1 = Slot(
+Slots.name_becomes_synonym_change_1 = Slot(
     uri=KGCL.change_1,
     name="name becomes synonym_change 1",
     curie=KGCL.curie("change_1"),
@@ -3174,7 +3131,7 @@ slots.name_becomes_synonym_change_1 = Slot(
     range=Optional[Union[str, NodeRenameId]],
 )
 
-slots.name_becomes_synonym_change_2 = Slot(
+Slots.name_becomes_synonym_change_2 = Slot(
     uri=KGCL.change_2,
     name="name becomes synonym_change 2",
     curie=KGCL.curie("change_2"),
@@ -3183,7 +3140,7 @@ slots.name_becomes_synonym_change_2 = Slot(
     range=Optional[Union[str, NewSynonymId]],
 )
 
-slots.name_becomes_synonym_change_description = Slot(
+Slots.name_becomes_synonym_change_description = Slot(
     uri=KGCL.change_description,
     name="name becomes synonym_change description",
     curie=KGCL.curie("change_description"),
@@ -3192,7 +3149,7 @@ slots.name_becomes_synonym_change_description = Slot(
     range=Optional[str],
 )
 
-slots.removed_node_from_subset_change_description = Slot(
+Slots.removed_node_from_subset_change_description = Slot(
     uri=KGCL.change_description,
     name="removed node from subset_change description",
     curie=KGCL.curie("change_description"),
@@ -3201,7 +3158,7 @@ slots.removed_node_from_subset_change_description = Slot(
     range=Optional[str],
 )
 
-slots.removed_node_from_subset_about_node = Slot(
+Slots.removed_node_from_subset_about_node = Slot(
     uri=KGCL.about_node,
     name="removed node from subset_about node",
     curie=KGCL.curie("about_node"),
@@ -3210,7 +3167,7 @@ slots.removed_node_from_subset_about_node = Slot(
     range=Optional[Union[str, NodeId]],
 )
 
-slots.removed_node_from_subset_subset = Slot(
+Slots.removed_node_from_subset_subset = Slot(
     uri=KGCL.subset,
     name="removed node from subset_subset",
     curie=KGCL.curie("subset"),
@@ -3219,7 +3176,7 @@ slots.removed_node_from_subset_subset = Slot(
     range=Optional[str],
 )
 
-slots.node_obsoletion_change_description = Slot(
+Slots.node_obsoletion_change_description = Slot(
     uri=KGCL.change_description,
     name="node obsoletion_change description",
     curie=KGCL.curie("change_description"),
@@ -3228,7 +3185,7 @@ slots.node_obsoletion_change_description = Slot(
     range=Optional[str],
 )
 
-slots.node_obsoletion_associated_change_set = Slot(
+Slots.node_obsoletion_associated_change_set = Slot(
     uri=KGCL.associated_change_set,
     name="node obsoletion_associated change set",
     curie=KGCL.curie("associated_change_set"),
@@ -3241,7 +3198,7 @@ slots.node_obsoletion_associated_change_set = Slot(
     ],
 )
 
-slots.node_unobsoletion_change_description = Slot(
+Slots.node_unobsoletion_change_description = Slot(
     uri=KGCL.change_description,
     name="node unobsoletion_change description",
     curie=KGCL.curie("change_description"),
@@ -3250,7 +3207,7 @@ slots.node_unobsoletion_change_description = Slot(
     range=Optional[str],
 )
 
-slots.node_unobsoletion_replaced_by = Slot(
+Slots.node_unobsoletion_replaced_by = Slot(
     uri=KGCL.replaced_by,
     name="node unobsoletion_replaced by",
     curie=KGCL.curie("replaced_by"),
@@ -3259,7 +3216,7 @@ slots.node_unobsoletion_replaced_by = Slot(
     range=Optional[Union[str, NodeId]],
 )
 
-slots.node_unobsoletion_consider = Slot(
+Slots.node_unobsoletion_consider = Slot(
     uri=KGCL.consider,
     name="node unobsoletion_consider",
     curie=KGCL.curie("consider"),
@@ -3268,7 +3225,7 @@ slots.node_unobsoletion_consider = Slot(
     range=Optional[Union[str, NodeId]],
 )
 
-slots.node_creation_change_description = Slot(
+Slots.node_creation_change_description = Slot(
     uri=KGCL.change_description,
     name="node creation_change description",
     curie=KGCL.curie("change_description"),
@@ -3277,7 +3234,7 @@ slots.node_creation_change_description = Slot(
     range=Optional[str],
 )
 
-slots.class_creation_change_description = Slot(
+Slots.class_creation_change_description = Slot(
     uri=KGCL.change_description,
     name="class creation_change description",
     curie=KGCL.curie("change_description"),
@@ -3286,7 +3243,7 @@ slots.class_creation_change_description = Slot(
     range=Optional[str],
 )
 
-slots.node_deletion_change_description = Slot(
+Slots.node_deletion_change_description = Slot(
     uri=KGCL.change_description,
     name="node deletion_change description",
     curie=KGCL.curie("change_description"),
@@ -3295,7 +3252,7 @@ slots.node_deletion_change_description = Slot(
     range=Optional[str],
 )
 
-slots.node_direct_merge_has_direct_replacement = Slot(
+Slots.node_direct_merge_has_direct_replacement = Slot(
     uri=KGCL.has_direct_replacement,
     name="node direct merge_has direct replacement",
     curie=KGCL.curie("has_direct_replacement"),
@@ -3304,7 +3261,7 @@ slots.node_direct_merge_has_direct_replacement = Slot(
     range=Union[str, NodeId],
 )
 
-slots.node_direct_merge_about_node = Slot(
+Slots.node_direct_merge_about_node = Slot(
     uri=KGCL.about_node,
     name="node direct merge_about node",
     curie=KGCL.curie("about_node"),
@@ -3313,7 +3270,7 @@ slots.node_direct_merge_about_node = Slot(
     range=Optional[Union[str, NodeId]],
 )
 
-slots.node_direct_merge_change_description = Slot(
+Slots.node_direct_merge_change_description = Slot(
     uri=KGCL.change_description,
     name="node direct merge_change description",
     curie=KGCL.curie("change_description"),
@@ -3322,7 +3279,7 @@ slots.node_direct_merge_change_description = Slot(
     range=Optional[str],
 )
 
-slots.node_obsoletion_with_direct_replacement_has_direct_replacement = Slot(
+Slots.node_obsoletion_with_direct_replacement_has_direct_replacement = Slot(
     uri=KGCL.has_direct_replacement,
     name="node obsoletion with direct replacement_has direct replacement",
     curie=KGCL.curie("has_direct_replacement"),
@@ -3331,7 +3288,7 @@ slots.node_obsoletion_with_direct_replacement_has_direct_replacement = Slot(
     range=Union[str, NodeId],
 )
 
-slots.node_obsoletion_with_direct_replacement_change_description = Slot(
+Slots.node_obsoletion_with_direct_replacement_change_description = Slot(
     uri=KGCL.change_description,
     name="node obsoletion with direct replacement_change description",
     curie=KGCL.curie("change_description"),
@@ -3340,7 +3297,7 @@ slots.node_obsoletion_with_direct_replacement_change_description = Slot(
     range=Optional[str],
 )
 
-slots.node_obsoletion_with_no_direct_replacement_has_nondirect_replacement = Slot(
+Slots.node_obsoletion_with_no_direct_replacement_has_nondirect_replacement = Slot(
     uri=KGCL.has_nondirect_replacement,
     name="node obsoletion with no direct replacement_has nondirect replacement",
     curie=KGCL.curie("has_nondirect_replacement"),
@@ -3349,7 +3306,7 @@ slots.node_obsoletion_with_no_direct_replacement_has_nondirect_replacement = Slo
     range=Union[Union[str, NodeId], List[Union[str, NodeId]]],
 )
 
-slots.node_obsoletion_with_no_direct_replacement_change_description = Slot(
+Slots.node_obsoletion_with_no_direct_replacement_change_description = Slot(
     uri=KGCL.change_description,
     name="node obsoletion with no direct replacement_change description",
     curie=KGCL.curie("change_description"),

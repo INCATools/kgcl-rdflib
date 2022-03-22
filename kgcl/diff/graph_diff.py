@@ -1,12 +1,15 @@
 import rdflib
+from rdflib import Graph
 
 from .owlstar_sublanguage import (get_atomic_existentials,
                                   get_atomic_subsumptions, get_thin_triples,
                                   get_triple_annotations)
 
 
-def get_added_thin_triples(g1, g2):
+def get_added_thin_triples(g1: Graph, g2: Graph) -> Graph:
     """
+    Retuns triples present in g2 but not g1.
+
     Given two graphs g1 and g2,
     returns triples (without blank nodes) that are in g2 but not g1,
     i.e. 'added' triples.
@@ -19,6 +22,8 @@ def get_added_thin_triples(g1, g2):
 
 def get_deleted_thin_triples(g1, g2):
     """
+    Get triples in graph1 that aren't in Graph2.
+
     Given two graphs g1 and g2,
     returns triples (without blank nodes) that are in g1 but not g2,
     i.e. 'deleted' triples.
@@ -31,6 +36,8 @@ def get_deleted_thin_triples(g1, g2):
 
 def get_added_subsumptions(g1, g2):
     """
+    Return atomic subsumption axioms in Graph2 not in Graph1.
+
     Given two graphs g1 and g2,
     returns atomic subsumption axioms that are in g2 but not g1,
     i.e. 'added' subsumptions.
@@ -43,6 +50,8 @@ def get_added_subsumptions(g1, g2):
 
 def get_deleted_subsumptions(g1, g2):
     """
+    Return atomic subsumption axioms in Graph1 but not Graph2.
+
     Given two graphs g1 and g2,
     returns atomic subsumption axioms that are in g1 but not g2,
     i.e. 'deleted' subsumptions.
@@ -56,6 +65,8 @@ def get_deleted_subsumptions(g1, g2):
 # NB: this returns a set of 'ExistentialRestrictions' (defined in owlstar_sublanguage)
 def get_added_existentials(g1, g2):
     """
+    Return ExistentialRestrictions in Graph2 but not in Graph1.
+
     Given two graphs g1 and g2,
     returns ExistentialRestrictions that are in g2 but not g1,
     i.e. 'added' ExistentialRestrictions.
@@ -68,6 +79,8 @@ def get_added_existentials(g1, g2):
 
 def get_deleted_existentials(g1, g2):
     """
+    Return ExistentialRestrictions from Graph1 not in Graph2.
+
     Given two graphs g1 and g2,
     returns ExistentialRestrictions that are in g1 but not g2,
     i.e. 'deleted' ExistentialRestrictions.
@@ -81,6 +94,8 @@ def get_deleted_existentials(g1, g2):
 # NB this returns a set of 'TripleAnnotation's (defined in owlstar_sublanguage)
 def get_added_triple_annotations(g1, g2):
     """
+    Return ExistentialRestrictions in Graph1 not in Graph2.
+
     Given two graphs g1 and g2,
     returns ExistentialRestrictions that are in g2 but not g1,
     i.e. 'added' ExistentialRestrictions.
@@ -93,6 +108,8 @@ def get_added_triple_annotations(g1, g2):
 
 def get_deleted_triple_annotations(g1, g2):
     """
+    Get TripleAnnotations from the two graphs provided.
+
     Given two graphs g1 and g2,
     returns TripleAnnotations that are in g1 but not g2,
     i.e. 'deleted' ExistentialRestrictions.
