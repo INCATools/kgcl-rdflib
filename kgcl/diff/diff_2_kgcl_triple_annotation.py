@@ -30,6 +30,7 @@ class TripleAnnotationChangeSummary:
         self.covered_triples_triple_annotations_deletions = []
 
     def get_commands(self):
+        """Get commands."""
         kgcl_commands = []
         for k in self.triple_annotations_additions:
             kgcl_commands.append(k)
@@ -38,12 +39,15 @@ class TripleAnnotationChangeSummary:
         return kgcl_commands
 
     def get_triple_annotation_additions(self):
+        """Get triple annotation additions."""
         return self.triple_annotations_additions
 
     def get_triple_annotation_deletions(self):
+        """Get triple annotation deletions."""
         return self.triple_annotations_deletions
 
     def get_summary_kgcl_commands(self):
+        """Get summary commands."""
         out = (
             # "Triple Annotation Additions: "
             "EdgeCreations (with annotation): "
@@ -57,6 +61,7 @@ class TripleAnnotationChangeSummary:
         return out
 
     def get_summary_rdf_triples(self):
+        """Get summary RDF tripless."""
         out = (
             # "Triple Annotation Additions: "
             "EdgeCreations (with annotation): "
@@ -72,25 +77,31 @@ class TripleAnnotationChangeSummary:
     # RDF data
 
     def get_covered_triples_annotation_additions(self):
+        """Get covered triples annotation additions."""
         return self.covered_triples_triple_annotations_additions
 
     def get_covered_triples_annotation_deletions(self):
+        """Get covered triples annotation deletions."""
         return self.covered_triples_triple_annotations_deletions
 
     def add_covered_triples_annotation_additions(self, triples):
+        """Add covered triples annotation additions."""
         for t in triples:
             self.covered_triples_triple_annotations_additions.append(t)
 
     def add_covered_triples_annotation_deletions(self, triples):
+        """Add covered triples annotation deletions."""
         for t in triples:
             self.covered_triples_triple_annotations_deletions.append(t)
 
     # KGCL data
 
     def add_triple_annotation_addition(self, i):
+        """Add triple annotation addition."""
         self.triple_annotations_additions.append(i)
 
     def add_triple_annotation_deletion(self, i):
+        """Add triple annotation deletion."""
         self.triple_annotations_deletions.append(i)
 
 

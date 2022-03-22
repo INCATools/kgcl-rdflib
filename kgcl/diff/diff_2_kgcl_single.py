@@ -57,6 +57,17 @@ class SingleTripleChangeSummary:
         self.non_deterministic_annotation_changes = []
 
     def get_commands(self):
+        """
+        Get commmands.
+
+        1. Synonym creations
+        2. Node moves
+        3. Predicate changes.
+        4. Renames
+        5. Class creations.
+        6. Subsumption creations
+        7. Annotation changes
+        """
         kgcl_commands = []
         for k in self.synonym_creations:
             kgcl_commands.append(k)
@@ -78,30 +89,39 @@ class SingleTripleChangeSummary:
         return kgcl_commands
 
     def get_renamings(self):
+        """Get renamings."""
         return self.renamings
 
     def get_class_creations(self):
+        """Get class creations."""
         return self.class_creations
 
     def get_subsumption_creations(self):
+        """Get subsumption creations."""
         return self.subsumption_creations
 
     def get_subsumption_deletions(self):
+        """Get subsumption deletions."""
         return self.subsumption_deletions
 
     def get_predicate_changes(self):
+        """Get predicate changes."""
         return self.predicate_changes
 
     def get_node_moves(self):
+        """Get node moves."""
         return self.node_moves
 
     def get_synonym_creations(self):
+        """Get synonym creations."""
         return self.synonym_creations
 
     def get_annotation_changes(self):
+        """Get annotation changes."""
         return self.annotation_changes
 
     def get_summary_kgcl_commands(self):
+        """Get summary commands."""
         out = (
             "Renamings: "
             + str(len(self.renamings))
@@ -133,6 +153,7 @@ class SingleTripleChangeSummary:
         return out
 
     def get_summary_rdf_triples(self):
+        """Get summary RDF triples."""
         out = (
             "Renamings:"
             + str(len(self.covered_triples_renamings))
@@ -166,140 +187,180 @@ class SingleTripleChangeSummary:
     # RDF data
 
     def get_covered_triples_renamings(self):
+        """Get covered triples renamings."""
         return self.covered_triples_renamings
 
     def add_covered_triples_renamings(self, triples):
+        """Add covered triples renamings."""
         for t in triples:
             self.covered_triples_renamings.append(t)
 
     def get_covered_triples_class_creations(self):
+        """Get covered triples class creations."""
         return self.covered_triples_class_creations
 
     def add_covered_triples_class_creations(self, triples):
+        """Add covered triples class creations."""
         for t in triples:
             self.covered_triples_class_creations.append(t)
 
     def get_covered_triples_subsumption_creations(self):
+        """Get covered triples subsumption creations."""
         return self.covered_triples_subsumption_creations
 
     def add_covered_triples_subsumption_creations(self, triples):
+        """Add covered triples subsumption creations."""
         for t in triples:
             self.covered_triples_subsumption_creations.append(t)
 
     def get_covered_triples_subsumption_deletions(self):
+        """Get covered triples subsumption creations."""
         return self.covered_triples_subsumption_deletions
 
     def add_covered_triples_subsumption_deletions(self, triples):
+        """Add covered triples subsumption deletions."""
         for t in triples:
             self.covered_triples_subsumption_deletions.append(t)
 
     def get_covered_triples_predicate_changes(self):
+        """Get covered triples predicate changes."""
         return self.covered_triples_predicate_changes
 
     def add_covered_triples_predicate_changes(self, triples):
+        """Add covered triples predicate changes."""
         for t in triples:
             self.covered_triples_predicate_changes.append(t)
 
     def get_covered_triples_node_moves(self):
+        """Get covered triples node moves."""
         return self.covered_triples_node_moves
 
     def add_covered_triples_node_moves(self, triples):
+        """Add covered triples node moves."""
         for t in triples:
             self.covered_triples_node_moves.append(t)
 
     def get_covered_triples_synonym_creations(self):
+        """Get covered triples synonym creations."""
         return self.covered_triples_synonym_creations
 
     def add_covered_triples_synonym_creations(self, triples):
+        """Add covered triples synonym creations."""
         for t in triples:
             self.covered_triples_synonym_creations.append(t)
 
     def get_covered_triples_annotation_changes(self):
+        """Get covered triples annotation changes."""
         return self.covered_triples_annotation_changes
 
     def add_covered_triples_annotation_changes(self, triples):
+        """Add covered triples annotation changes."""
         for t in triples:
             self.covered_triples_annotation_changes.append(t)
 
     # KGCL data
 
     def add_edge_creations(self, ls):
+        """Add edge creations."""
         for i in ls:
             self.edge_creations.append(i)
 
     def add_edge_deletions(self, ls):
+        """Add edge deletions."""
         for i in ls:
             self.edge_deletions.append(i)
 
     def add_renamings(self, ls):
+        """Add renamings."""
         for i in ls:
             self.renamings.append(i)
 
     def add_class_creations(self, ls):
+        """Add class creations."""
         for i in ls:
             self.class_creations.append(i)
 
     def add_subsumption_creations(self, ls):
+        """Add subsumption creations."""
         for i in ls:
             self.subsumption_creations.append(i)
 
     def add_subsumption_deletions(self, ls):
+        """Add subsumption deletions."""
         for i in ls:
             self.subsumption_deletions.append(i)
 
     def add_edge_creation(self, i):
+        """Add edge creation."""
         self.edge_creations.append(i)
 
     def add_edge_deletion(self, i):
+        """Add edge deletion."""
         self.edge_deletions.append(i)
 
     def add_renaming(self, i):
+        """Add renaming."""
         self.renamings.append(i)
 
     def add_class_creation(self, i):
+        """Add class creation."""
         self.class_creations.append(i)
 
     def add_subsumption_creation(self, i):
+        """Add subsumption creation."""
         self.subsumption_creations.append(i)
 
     def add_subsumption_deletion(self, i):
+        """Add subsumption deletion."""
         self.subsumption_deletions.append(i)
 
     def add_predicate_change(self, i):
+        """Add predicate change."""
         self.predicate_changes.append(i)
 
     def add_node_move(self, i):
+        """Add node move."""
         self.node_moves.append(i)
 
     def add_synonym_creation(self, i):
+        """Add synonym creation."""
         self.synonym_creations.append(i)
 
     def add_annotation_change(self, i):
+        """Add annotation change."""
         self.annotation_changes.append(i)
 
     # non-deterministic data
     def add_non_deterministic_node_moves(self, ls):
+        """Add non-deterministic node moves."""
         self.non_deterministic_node_moves += ls
 
     def add_non_deterministic_predicate_changes(self, ls):
+        """Add non-deterministic predicate changes."""
         self.non_deterministic_predicate_changes += ls
 
     def add_non_deterministic_renamings(self, ls):
+        """Add non-deterministic renamings."""
         self.non_deterministic_renamings += ls
 
     def add_non_deterministic_annotation_changes(self, ls):
+        """Add non-deterministic annotation changes."""
         self.non_deterministic_annotation_changes += ls
 
     def get_non_deterministic_node_moves(self):
+        """Get non-deterministic node moves."""
         return self.non_deterministic_node_moves
 
     def get_non_deterministic_predicate_changes(self):
+        """Get non-deterministic predicate changes."""
         return self.non_deterministic_predicate_changes
 
     def get_non_deterministic_renamings(self):
+        """Get non-deterministic renamings."""
         return self.non_deterministic_renamings
 
     def get_non_deterministic_annotation_changes(self):
+        """Get non-deterministic annotation changes."""
         return self.non_deterministic_annotation_changes
 
 

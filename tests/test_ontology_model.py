@@ -15,6 +15,7 @@ class OntologyModelTestSuite(unittest.TestCase):
     """Test ontology model."""
 
     def test_create(self):
+        """Test create."""
         c = ClassNode(id="X:1", owl_type=OwlTypeEnum.CLASS)
         print(c)
         d = JSONDumper()
