@@ -10,6 +10,7 @@ from kgcl.model.kgcl import (ClassCreation, EdgeCreation, EdgeDeletion,
 
 
 def get_prefix(curie):
+    """Get prefix."""
     return curie.split(":")[0]
 
 
@@ -45,14 +46,17 @@ prefix_2_uri = {
 
 
 def is_label(input):
+    """Check if text is label."""
     return re.match(r"\'[^ \s\'].*\'", input)
 
 
 def is_id(input):
+    """Check if text is id."""
     return re.match(r"<\S+>", input)
 
 
 def build_curie_prefix(entity):
+    """Build CURIE prefix."""
     curie_prefix = get_prefix(entity)
     curie_uri = prefix_2_uri[curie_prefix]
     return "PREFIX " + curie_prefix + ": " + curie_uri + " "
@@ -60,6 +64,7 @@ def build_curie_prefix(entity):
 
 # TODO proper escape handling
 def escape_literal(literal):
+    """Handle escape characters."""
     return literal.replace("\\", "\\\\").replace('"', '\\"')
     # .replace("\\'", "\\\\'")
 
@@ -157,9 +162,9 @@ def convert(kgcl_instance):
         return delete_existential_restriction(kgcl_instance)
 
 
-def node_move(kgcl_instance):
-
-    # NB: object and old_value are the (necessarily) the same
+def node_move(kgcl_instance) -> str:
+    """Return SPARQL query to move node."""
+    # NB: object and old_value are (necessarily) the same
     subject = kgcl_instance.about_edge.subject
     predicate = kgcl_instance.about_edge.predicate
     object = kgcl_instance.about_edge.object
@@ -236,13 +241,9 @@ def node_move(kgcl_instance):
 
     return update__query
 
-    update__query = prefix + " " + delete + " " + insert + " " + where
 
-    return update__query
-
-
-def remove_node_from_subset(kgcl_instance):
-
+def remove_node_from_subset(kgcl_instance) -> str:
+    """Return SPARQL query to remove node from subset."""
     about = kgcl_instance.about_node
     subset = kgcl_instance.subset
 
@@ -269,8 +270,8 @@ def remove_node_from_subset(kgcl_instance):
     return update__query
 
 
-def change_predicate(kgcl_instance):
-
+def change_predicate(kgcl_instance) -> str:
+    """Return SPARQL query to change predicate."""
     subject = kgcl_instance.about_edge.subject
     object = kgcl_instance.about_edge.object
 
@@ -357,8 +358,8 @@ def change_predicate(kgcl_instance):
     return update__query
 
 
-def node_deepening(kgcl_instance):
-
+def node_deepening(kgcl_instance) -> str:
+    """Return SPARQL query to deepen node."""
     entity = kgcl_instance.about_edge.subject
     old_value = kgcl_instance.old_value
     new_value = kgcl_instance.new_value
@@ -419,8 +420,8 @@ def node_deepening(kgcl_instance):
     return update__query
 
 
-def node_shallowing(kgcl_instance):
-
+def node_shallowing(kgcl_instance) -> str:
+    """Return SPARQL query to make node shallow."""
     entity = kgcl_instance.about_edge.subject
     old_value = kgcl_instance.old_value
     new_value = kgcl_instance.new_value
@@ -479,14 +480,11 @@ def node_shallowing(kgcl_instance):
 
     return update__query
 
-    update__query = prefix + " " + delete + " " + insert + " " + where
-
-    return update__query
-
 
 # TODO: handling of language tags
 # look things up at https://www.ebi.ac.uk/ols/ontologies/iao
-def unobsolete_by_id(kgcl_instance):
+def unobsolete_by_id(kgcl_instance) -> str:
+    """Return SPARQL query to unobsolete by id."""
     about = kgcl_instance.about_node
     # http://wiki.geneontology.org/index.php/Restoring_an_Obsolete_Ontology_Term
     # 1. remove 'obsolete' from label
@@ -541,7 +539,8 @@ def unobsolete_by_id(kgcl_instance):
     return update__query
 
 
-def unobsolete_by_label(kgcl_instance):
+def unobsolete_by_label(kgcl_instance) -> str:
+    """Return SPARQL query to unobsolete by label."""
     about = kgcl_instance.about_node
     # http://wiki.geneontology.org/index.php/Restoring_an_Obsolete_Ontology_Term
     # 1. remove 'obsolete' from label
@@ -600,7 +599,8 @@ def unobsolete_by_label(kgcl_instance):
     return update__query
 
 
-def unobsolete_curie(kgcl_instance):
+def unobsolete_curie(kgcl_instance) -> str:
+    """Return SPARQL query to unobsolete a CURIE."""
     about = kgcl_instance.about_node
     # http://wiki.geneontology.org/index.php/Restoring_an_Obsolete_Ontology_Term
     # 1. remove 'obsolete' from label
@@ -660,7 +660,8 @@ def unobsolete_curie(kgcl_instance):
 
 
 # NB this does not preserve language tags
-def rename(kgcl_instance):
+def rename(kgcl_instance) -> str:
+    """Return SPARQL query to rename node."""
     old_value = kgcl_instance.old_value
     new_value = kgcl_instance.new_value
 
@@ -714,7 +715,8 @@ def rename(kgcl_instance):
 # TODO: this implementation is buggy
 # this implementation should preserve language tags
 # note that this cannot be used for diffing
-def rename_preserve(kgcl_instance):
+def rename_preserve(kgcl_instance) -> str:
+    """Return SPARQL query to rename node but preserve language tags."""
     old_value = kgcl_instance.old_value
     new_value = kgcl_instance.new_value
     old_value = old_value.replace("'", "")
@@ -759,7 +761,8 @@ def rename_preserve(kgcl_instance):
     return update_query
 
 
-def delete_by_id(kgcl_instance):
+def delete_by_id(kgcl_instance) -> str:
+    """Return SPARQL query to delete node by id."""
     about = kgcl_instance.about_node  # this needs to be an ID - not a label
 
     delete_query = (
@@ -784,7 +787,8 @@ def delete_by_id(kgcl_instance):
     return update_query
 
 
-def delete_curie(kgcl_instance):
+def delete_curie(kgcl_instance) -> str:
+    """Return SPARQL query to delete CURIE."""
     about = kgcl_instance.about_node
 
     prefix = build_curie_prefix(about)
@@ -809,7 +813,8 @@ def delete_curie(kgcl_instance):
     return update_query
 
 
-def delete_by_label(kgcl_instance):
+def delete_by_label(kgcl_instance) -> str:
+    """Return SPARQL query to delete by label."""
     about = kgcl_instance.about_node
 
     prefix = "PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>"
@@ -830,7 +835,8 @@ def delete_by_label(kgcl_instance):
     return update_query
 
 
-def create_class(kgcl_instance):
+def create_class(kgcl_instance) -> str:
+    """Return SPARQL query to create a class."""
     term_id = kgcl_instance.node_id
     id_type = kgcl_instance.about_node_representation
 
@@ -849,7 +855,8 @@ def create_class(kgcl_instance):
     return update_query
 
 
-def create_node(kgcl_instance):
+def create_node(kgcl_instance) -> str:
+    """Return SPARQL query to create a node."""
     term_id = kgcl_instance.node_id
     label = kgcl_instance.name
     language = kgcl_instance.language
@@ -878,7 +885,8 @@ def create_node(kgcl_instance):
     return update_query
 
 
-def node_annotation_change(kgcl_instance):
+def node_annotation_change(kgcl_instance) -> str:
+    """Return SPARQL query to change node annotation."""
     subject = kgcl_instance.about_node
     predicate = kgcl_instance.annotation_property
     old_object = kgcl_instance.old_value
@@ -997,7 +1005,8 @@ def node_annotation_change(kgcl_instance):
     return update_query
 
 
-def edge_annotation_creation(kgcl_instance):
+def edge_annotation_creation(kgcl_instance) -> str:
+    """Return SPARQL query to change edge annotation."""
     subject = kgcl_instance.subject
     predicate = kgcl_instance.predicate
     object = kgcl_instance.object
@@ -1082,7 +1091,8 @@ def edge_annotation_creation(kgcl_instance):
     return update_query
 
 
-def triple_creation(kgcl_instance):
+def triple_creation(kgcl_instance) -> str:
+    """Return SPARQL query to create a triple."""
     subject = kgcl_instance.subject
     predicate = kgcl_instance.predicate
     object = kgcl_instance.object
@@ -1149,7 +1159,8 @@ def triple_creation(kgcl_instance):
 
 
 # TODO: language tags + data types
-def edge_annotation_deletion(kgcl_instance):
+def edge_annotation_deletion(kgcl_instance) -> str:
+    """Return SPARQL query to annotate an edge deletion."""
     subject = kgcl_instance.subject
     predicate = kgcl_instance.predicate
     object = kgcl_instance.object
@@ -1301,7 +1312,8 @@ def edge_annotation_deletion(kgcl_instance):
     return update_query
 
 
-def triple_deletion(kgcl_instance):
+def triple_deletion(kgcl_instance) -> str:
+    """Return SPARQL query to delete a triple."""
     subject = kgcl_instance.subject
     predicate = kgcl_instance.predicate
     object = kgcl_instance.object
@@ -1370,7 +1382,8 @@ def triple_deletion(kgcl_instance):
     return update_query
 
 
-def obsolete_by_id(kgcl_instance):
+def obsolete_by_id(kgcl_instance) -> str:
+    """Return SPARQL query to obsolete by id."""
     about = kgcl_instance.about_node
     replacement = kgcl_instance.has_direct_replacement
 
@@ -1414,7 +1427,8 @@ def obsolete_by_id(kgcl_instance):
     return update_query
 
 
-def obsolete_by_label(kgcl_instance):
+def obsolete_by_label(kgcl_instance) -> str:
+    """Return SPARQL query to obsolete by label."""
     about = kgcl_instance.about_node
 
     prefix = "PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>  "
@@ -1477,7 +1491,8 @@ def obsolete_by_label(kgcl_instance):
     return update_query
 
 
-def obsolete_curie(kgcl_instance):
+def obsolete_curie(kgcl_instance) -> str:
+    """Return SPARQL query to obsolete a CURIE."""
     about = kgcl_instance.about_node
     replacement = kgcl_instance.has_direct_replacement
 
@@ -1525,8 +1540,8 @@ def obsolete_curie(kgcl_instance):
     return update_query
 
 
-def new_synonym_for_uri(kgcl_instance):
-
+def new_synonym_for_uri(kgcl_instance) -> str:
+    """Return SPARQL query to create a new synonym for URI."""
     about = kgcl_instance.about_node
     synonym = kgcl_instance.new_value
     language = kgcl_instance.language
@@ -1563,7 +1578,8 @@ def new_synonym_for_uri(kgcl_instance):
     return update_query
 
 
-def new_synonym_for_label(kgcl_instance):
+def new_synonym_for_label(kgcl_instance) -> str:
+    """Return SPARQL query to create a new synonym for a label."""
     about = kgcl_instance.about_node  # this is a label for a node
     synonym = kgcl_instance.new_value
     language = kgcl_instance.language
@@ -1603,7 +1619,8 @@ def new_synonym_for_label(kgcl_instance):
     return update_query
 
 
-def new_synonym_for_curie(kgcl_instance):
+def new_synonym_for_curie(kgcl_instance) -> str:
+    """Return SPARQL query to create a new synonym for a CURIE."""
     about = kgcl_instance.about_node  # this is a curie
     synonym = kgcl_instance.new_value
     language = kgcl_instance.language
@@ -1644,7 +1661,8 @@ def new_synonym_for_curie(kgcl_instance):
     return update_query
 
 
-def create_existential_restriction(kgcl_instance):
+def create_existential_restriction(kgcl_instance) -> str:
+    """Return SPARQL query to create existential restriction."""
     subclass = kgcl_instance.subject
     property = kgcl_instance.predicate
     filler = kgcl_instance.object
@@ -1698,7 +1716,8 @@ def create_existential_restriction(kgcl_instance):
     return update_query
 
 
-def delete_existential_restriction(kgcl_instance):
+def delete_existential_restriction(kgcl_instance) -> str:
+    """Return SPARQL query to delete existential restriction."""
     subclass = kgcl_instance.subject
     property = kgcl_instance.predicate
     filler = kgcl_instance.object

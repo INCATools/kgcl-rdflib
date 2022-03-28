@@ -28,7 +28,14 @@ pass_config = click.make_pass_decorator(Config, ensure=True)
 # @click.option("--verbose", "-v", is_flag=True, help="Print more output.")
 @pass_config
 def cli(config, graph, kgcl, output):
+    """
+    Modify graph based on KGCL commands.
 
+    :param config: Configuration info.
+    :param graph: Graph
+    :param kgcl: KGCL commands file.
+    :param output: Target location.
+    """
     # read kgcl commands from file
     kgcl_patch = kgcl.read()
 
