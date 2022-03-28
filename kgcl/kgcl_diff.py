@@ -22,6 +22,7 @@ pass_config = click.make_pass_decorator(Config, ensure=True)
 
 
 def ts():
+    """Return string form of timestamp."""
     now = datetime.now()
     dt_string = now.strftime("%H:%M:%S ")
     return dt_string
@@ -34,7 +35,14 @@ def ts():
 # @click.option("--verbose", "-v", is_flag=True, help="Print more output.")
 @pass_config
 def cli(config, ingraph, outgraph, output):
+    """
+    Write out reports.
 
+    :param config: Configuration information.
+    :param ingraph: Graph 1.
+    :param outgraph: Graph 2.
+    :param output: Directory location which holds reports.
+    """
     os.mkdir(output)
 
     # load graphs
