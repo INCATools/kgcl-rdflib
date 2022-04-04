@@ -7,6 +7,7 @@ from kgcl.grammar.parser import parse
 
 
 def compare_graphs(actual, expected):
+    """Compare actual and expected graphs."""
     actual_iso = to_isomorphic(actual)
     expected_iso = to_isomorphic(expected)
 
@@ -24,6 +25,7 @@ def compare_graphs(actual, expected):
 
 
 def run_test(input_graph, kgcl_patch, expected_graph):
+    """Run tests."""
     # load input graph
     g = Graph().parse(data=input_graph, format="nt")
 

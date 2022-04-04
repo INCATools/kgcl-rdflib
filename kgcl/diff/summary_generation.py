@@ -11,13 +11,14 @@ from kgcl.diff.pretty_print_kgcl import render_instances
 
 
 def ts():
+    """Return timestamp."""
     now = datetime.now()
     dt_string = now.strftime("%H:%M:%S ")
     return dt_string
 
 
 def run(ingraph, outgraph, output):
-
+    """Run summary generation."""
     os.mkdir(output)
 
     # load graphs
@@ -137,6 +138,7 @@ def run(ingraph, outgraph, output):
 # a non-deterministic diff consists of a list of tuples.
 # A tuple contains two sets of triples that are involved in the non-deterministic diff
 def render_non_deterministic_diff(nd):
+    """Render non deterministic differences."""
     out = ""
     for tuple in nd:
         from_triples = tuple[0]

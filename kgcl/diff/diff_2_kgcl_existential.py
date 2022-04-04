@@ -8,6 +8,7 @@ from kgcl.model.kgcl import EdgeCreation, EdgeDeletion
 
 
 def id_generator():
+    """Return generated id."""
     id = 0
     while True:
         yield id

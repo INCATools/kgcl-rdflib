@@ -3,6 +3,7 @@ from util import run_test
 
 
 def test_obsoletion_with_ids():
+    """Test obsoletion with IDs."""
     input_graph = """<http://purl.obolibrary.org/obo/NCBITaxon_2> <http://www.w3.org/2000/01/rdf-schema#label> "Bacteria" .
                      <http://purl.obolibrary.org/obo/NCBITaxon_2> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/2002/07/owl#Class> ."""
     kgcl_patch = "obsolete <http://purl.obolibrary.org/obo/NCBITaxon_2>"
@@ -15,6 +16,7 @@ def test_obsoletion_with_ids():
 
 
 def test_obsoletion_with_curies():
+    """Test obsoletion with CURIEs."""
     input_graph = """<http://purl.obolibrary.org/obo/NCBITaxon_2> <http://www.w3.org/2000/01/rdf-schema#label> "Bacteria" .
                      <http://purl.obolibrary.org/obo/NCBITaxon_2> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/2002/07/owl#Class> ."""
     kgcl_patch = "obsolete obo:NCBITaxon_2"
@@ -26,7 +28,8 @@ def test_obsoletion_with_curies():
     run_test(input_graph, kgcl_patch, expected_graph)
 
 
-def test_obsoletion_with_labes():
+def test_obsoletion_with_labels():
+    """Test obsoletion with labels."""
     input_graph = """<http://purl.obolibrary.org/obo/NCBITaxon_2> <http://www.w3.org/2000/01/rdf-schema#label> "Bacteria" .
                      <http://purl.obolibrary.org/obo/NCBITaxon_2> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/2002/07/owl#Class> ."""
     kgcl_patch = "obsolete 'Bacteria'"

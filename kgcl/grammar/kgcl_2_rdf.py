@@ -13,12 +13,18 @@ from kgcl.model.kgcl import (ClassCreation, EdgeCreation, EdgeDeletion,
 
 
 def kgcl_2_yaml(kgcl_patch, output):
+    """
+    Generate YAML from KGCL.
+
+    :param kgcl_patch: KGCL
+    :param output: Serialization
+    """
     parsed_patch = parse(kgcl_patch)
     serialise_yaml(parsed_patch, output)
 
 
 def serialise_yaml(kgcl_instances, output):
-
+    """Write YAML file based on KGCL instances."""
     preamble = """activity_set:
 - {id: uuid:876aac6a6ef6, description: "my sane edits", was_associated_with: "https://orcid.org/0000-0002-6601-2165"}
 - {id: uuid:e887d3aac33f, description: "deliberate mistakes", was_associated_with: "OntologicalAnarchist"}
@@ -32,6 +38,12 @@ change_set:\n"""
 
 
 def data_model_to_yaml(kgcl_instance):
+    """
+    Convert a data model to YAML.
+
+    :param kgcl_instance: KGCL instance.
+    :return: Appropriate function.
+    """
     if type(kgcl_instance) is NodeRename:
         return rename(kgcl_instance)
     if type(kgcl_instance) is NodeObsoletion:
@@ -67,6 +79,7 @@ def data_model_to_yaml(kgcl_instance):
 
 
 def rename(kgcl_instance):
+    """Rename serialization."""
     type = "NodeRename"
     id = kgcl_instance.id
     about_node = render_id(
@@ -91,6 +104,7 @@ def rename(kgcl_instance):
 
 
 def obsoletion(kgcl_instance):
+    """Obsoletion serialization."""
     type = "NodeObsoletion"
     id = kgcl_instance.id
     about_node = render_id(
@@ -109,6 +123,7 @@ def obsoletion(kgcl_instance):
 
 
 def unobsoletion(kgcl_instance):
+    """Unobsoletion serialization."""
     type = "NodeUnobsoletion"
     id = kgcl_instance.id
     about_node = render_id(
@@ -121,6 +136,7 @@ def unobsoletion(kgcl_instance):
 
 
 def node_deletion(kgcl_instance):
+    """Node delation serialization."""
     type = "NodeDeletion"
     id = kgcl_instance.id
     about_node = render_id(
@@ -133,6 +149,7 @@ def node_deletion(kgcl_instance):
 
 
 def node_move(kgcl_instance):
+    """Node move serialization."""
     type = "NodeMove"
     id = kgcl_instance.id
     subject = render_id(
@@ -170,6 +187,7 @@ def node_move(kgcl_instance):
 
 
 def node_deepening(kgcl_instance):
+    """Node deopening serialization."""
     type = "NodeDeepening"
     id = kgcl_instance.id
     subject = render_id(
@@ -207,6 +225,7 @@ def node_deepening(kgcl_instance):
 
 
 def node_shallowing(kgcl_instance):
+    """Node shallowing serialization."""
     type = "NodeShallowing"
     id = kgcl_instance.id
     subject = render_id(
@@ -244,6 +263,7 @@ def node_shallowing(kgcl_instance):
 
 
 def edge_creation(kgcl_instance):
+    """Edge creation serialization."""
     type = "EdgeCreation"
     id = kgcl_instance.id
     subject = render_id(
@@ -271,6 +291,7 @@ def edge_creation(kgcl_instance):
 
 
 def edge_deletion(kgcl_instance):
+    """Edge deletion serialization."""
     type = "EdgeDeletion"
     id = kgcl_instance.id
     subject = render_id(
@@ -298,6 +319,7 @@ def edge_deletion(kgcl_instance):
 
 
 def predicate_change(kgcl_instance):
+    """Predicate change serialization."""
     type = "PredicateChange"
     id = kgcl_instance.id
     subject = render_id(
@@ -338,6 +360,7 @@ def predicate_change(kgcl_instance):
 
 
 def node_annotation_change(kgcl_instance):
+    """Node annotation serialization."""
     type = "NodeAnnotationChange"
     id = kgcl_instance.id
     about_node = render_id(
@@ -366,6 +389,7 @@ def node_annotation_change(kgcl_instance):
 
 
 def node_creation(kgcl_instance):
+    """Node creation serialization."""
     type = "NodeCreation"
     id = kgcl_instance.id
     about_node = render_id(
@@ -386,6 +410,7 @@ def node_creation(kgcl_instance):
 
 
 def class_creation(kgcl_instance):
+    """Class creation serialization."""
     type = "ClassCreation"
     id = kgcl_instance.id
     about_node = render_id(
@@ -398,6 +423,7 @@ def class_creation(kgcl_instance):
 
 
 def new_synonym(kgcl_instance):
+    """Return serialization for new synonym."""
     type = "NewSynonym"
     id = kgcl_instance.id
     about_node = render_id(
@@ -420,6 +446,7 @@ def new_synonym(kgcl_instance):
 
 
 def place_under(kgcl_instance):
+    """Place under serialization."""
     type = "PlaceUnder"
     id = kgcl_instance.id
     subject = render_id(
@@ -447,6 +474,7 @@ def place_under(kgcl_instance):
 
 
 def remove_under(kgcl_instance):
+    """Remove under serialization."""
     type = "RemoveUnder"
     id = kgcl_instance.id
     subject = render_id(
@@ -474,6 +502,7 @@ def remove_under(kgcl_instance):
 
 
 def render_id(id, type):
+    """Render id."""
     if type == "label":
         return '"' + str(id) + '"'
     else:

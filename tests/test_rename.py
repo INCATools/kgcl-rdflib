@@ -3,6 +3,7 @@ from util import run_test
 
 
 def test_rename():
+    """Test rename."""
     input_graph = '<http://purl.obolibrary.org/obo/NCBITaxon_2> <http://www.w3.org/2000/01/rdf-schema#label> "Bacteria" .'
     kgcl_patch = "rename 'Bacteria' to 'Virus'"
     expected_graph = '<http://purl.obolibrary.org/obo/NCBITaxon_2> <http://www.w3.org/2000/01/rdf-schema#label> "Virus" .'
@@ -11,6 +12,7 @@ def test_rename():
 
 
 def test_test_rename_with_language_tag():
+    """Test rename with language tag."""
     input_graph = '<http://purl.obolibrary.org/obo/NCBITaxon_2> <http://www.w3.org/2000/01/rdf-schema#label> "Bacteria"@en .'
     kgcl_patch = "rename 'Bacteria'@en to 'Virus'@fr"
     expected_graph = '<http://purl.obolibrary.org/obo/NCBITaxon_2> <http://www.w3.org/2000/01/rdf-schema#label> "Virus"@fr .'
@@ -19,6 +21,7 @@ def test_test_rename_with_language_tag():
 
 
 def test_rename_with_id():
+    """Test rename with IDs."""
     input_graph = """<http://purl.obolibrary.org/obo/NCBITaxon_2> <http://www.w3.org/2000/01/rdf-schema#label> "Bacteria" .
                     <http://purl.obolibrary.org/obo/NCBITaxon_8> <http://www.w3.org/2000/01/rdf-schema#label> "Bacteria" ."""
     kgcl_patch = (
