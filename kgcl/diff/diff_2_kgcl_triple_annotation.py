@@ -10,6 +10,7 @@ from kgcl.model.ontology_model import Annotation
 
 
 def id_generator():
+    """Return newly generated id."""
     id = 0
     while True:
         yield id
@@ -224,6 +225,7 @@ def generate_triple_annotation_deletions(deleted):
 
 
 def get_type(rdf_entity):
+    """Get rdf_type."""
     if isinstance(rdf_entity, URIRef):
         return "uri"
     elif isinstance(rdf_entity, Literal):
@@ -233,6 +235,7 @@ def get_type(rdf_entity):
 
 
 def get_language_tag(rdf_entity):
+    """Get language tag."""
     if isinstance(rdf_entity, Literal):
         return rdf_entity.language
     else:
@@ -240,6 +243,7 @@ def get_language_tag(rdf_entity):
 
 
 def get_datatype(rdf_entity):
+    """Get data type."""
     if isinstance(rdf_entity, Literal) and rdf_entity.datatype is not None:
         return str(rdf_entity.datatype)
     else:

@@ -14,6 +14,7 @@ from kgcl.model.kgcl import ClassCreation, NewSynonym, PlaceUnder, RemoveUnder
 
 
 def id_generator():
+    """Return generated id."""
     id = 0
     while True:
         yield id
@@ -456,6 +457,7 @@ def generate_thin_triple_commands(g1: Graph, g2: Graph):
 
 
 def get_annotation_properties(graph):
+    """Get annotation properties."""
     properties = set()
     for s, _, _ in graph.triples((None, RDF.type, OWL.AnnotationProperty)):
         properties.add(s)
@@ -463,6 +465,7 @@ def get_annotation_properties(graph):
 
 
 def get_type(rdf_entity):
+    """Return rdf_type."""
     if isinstance(rdf_entity, URIRef):
         return "uri"
     elif isinstance(rdf_entity, Literal):
@@ -472,6 +475,7 @@ def get_type(rdf_entity):
 
 
 def get_language_tag(rdf_entity):
+    """Get language tag."""
     if isinstance(rdf_entity, Literal):
         return rdf_entity.language
     else:
@@ -479,6 +483,7 @@ def get_language_tag(rdf_entity):
 
 
 def get_datatype(rdf_entity):
+    """Get datatype."""
     if isinstance(rdf_entity, Literal) and rdf_entity.datatype is not None:
         return str(rdf_entity.datatype)
     else:
@@ -487,6 +492,7 @@ def get_datatype(rdf_entity):
 
 # TODO: identify node creations + labels
 def generate_class_creations(added):
+    """Generate class creations."""
     covered = rdflib.Graph()
     kgcl = []
 
@@ -500,6 +506,7 @@ def generate_class_creations(added):
 
 
 def generate_synonym_creations(added):
+    """Generate synonym creations."""
     covered = rdflib.Graph()
     kgcl = []
 
@@ -553,6 +560,7 @@ def generate_synonym_creations(added):
 
 # TODO: extend data model for deleted synonyms
 def generate_synonym_deletions(deleted):
+    """Generate synonym deletions."""
     covered = rdflib.Graph()
     kgcl = []
 
@@ -603,6 +611,7 @@ def generate_synonym_deletions(deleted):
 
 
 def generate_subsumption_creations(added):
+    """Generate subsumption creations."""
     covered = rdflib.Graph()
     kgcl = []
 
@@ -626,6 +635,7 @@ def generate_subsumption_creations(added):
 
 
 def generate_subsumption_deletions(deleted):
+    """Generate subsumption deletions."""
     covered = rdflib.Graph()
     kgcl = []
 

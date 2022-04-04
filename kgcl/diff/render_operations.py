@@ -7,6 +7,12 @@ from kgcl.model.kgcl import (ClassCreation, EdgeCreation, EdgeDeletion,
 
 
 def render_entity(entity, rdf_type):
+    """
+    Render entity based on rdf type.
+
+    :param entity: entity to be rendered.
+    :param rdf_type: type of RDF ["uri", "label", "literal]
+    """
     entity = repr(entity)[1:-1]
     if rdf_type == "uri":
         return "<" + entity + ">"
@@ -34,7 +40,7 @@ def render_entity(entity, rdf_type):
 
 
 def render(kgcl_instance):
-
+    """Render KGCL."""
     if type(kgcl_instance) is NodeRename:
         # TODO: subject could be 'None'?
         subject = render_entity(kgcl_instance.about_node, "uri")

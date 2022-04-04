@@ -25,6 +25,7 @@ id_gen = id_generator()
 
 
 def get_type(rdf_entity):
+    """Return type of rdf entity."""
     if isinstance(rdf_entity, URIRef):
         return "uri"
     elif isinstance(rdf_entity, Literal):
@@ -101,6 +102,15 @@ def detect_renamings(added, deleted):
 
 
 def detect_annotation_changes(added, deleted, new_annotations, old_annotations):
+    """
+    Detect annotation changes.
+
+    :param added: Added node.
+    :param deleted: Deleted node.
+    :param new_annotations: new annotations.
+    :param old_annotations: old annotations.
+    :return: Tuple(kgcl, covered, non_deterministic)
+    """
     covered = rdflib.Graph()
 
     # maps from subjects to lists of annotation properties

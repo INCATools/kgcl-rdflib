@@ -7,6 +7,7 @@ from kgcl.model.kgcl import (ClassCreation, EdgeCreation, EdgeDeletion,
 
 
 def render(kgcl_instance):
+    """Render kGCL based on instance type."""
     render = ""
     if type(kgcl_instance) is NodeRename:
         render = (

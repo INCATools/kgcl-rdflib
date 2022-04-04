@@ -124,6 +124,7 @@ def render_entity(entity, type, labelling):
 
 
 def render_instance(kgcl_instance, labelling):
+    """Render instance."""
     if type(kgcl_instance) is NodeRename:
         # TODO: subject could be 'None'? (not in KGCL Diff)
         # passing an empty labelling because we do not want to repeat labels
@@ -308,6 +309,7 @@ def render_instance(kgcl_instance, labelling):
 
 
 def render_edge_deletion(kgcl_instance, labelling):
+    """Render edge deletion."""
     subject = render_entity(kgcl_instance.subject, "uri", labelling)
     predicate = render_entity(kgcl_instance.predicate, "uri", labelling)
     object = render_entity(kgcl_instance.object, kgcl_instance.object_type, labelling)
@@ -326,6 +328,7 @@ def render_edge_deletion(kgcl_instance, labelling):
 
 
 def render_edge_creation(kgcl_instance, labelling):
+    """Render edge creation."""
     subject = render_entity(kgcl_instance.subject, "uri", labelling)
     predicate = render_entity(kgcl_instance.predicate, "uri", labelling)
     object = render_entity(kgcl_instance.object, kgcl_instance.object_type, labelling)

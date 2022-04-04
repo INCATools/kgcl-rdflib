@@ -112,6 +112,7 @@ def parse_statement(input):
 
 
 def parse_remove_from_subset(tree, id):
+    """Remove node from subset."""
     term_id_token = extract(tree, "id")
     subset_id_token = extract(tree, "subset")
 
@@ -121,6 +122,7 @@ def parse_remove_from_subset(tree, id):
 
 
 def parse_create_synonym(tree, id):
+    """Create new synonym."""
     entity_token = extract(tree, "entity")
     entity, representation = get_entity_representation(entity_token)
 
@@ -141,6 +143,7 @@ def parse_create_synonym(tree, id):
 
 
 def parse_create_class(tree, id):
+    """Create new class."""
     term_id_token = extract(tree, "id")
     entity, representation = get_entity_representation(term_id_token)
 
@@ -153,6 +156,7 @@ def parse_create_class(tree, id):
 # 'create node {id} {label} with {annotation set}'
 # TODO: handling of {annotation set}
 def parse_create(tree, id):
+    """Create a node."""
     term_id_token = extract(tree, "id")
     label_token = extract(tree, "label")
     language_token = extract(tree, "language")
@@ -170,6 +174,7 @@ def parse_create(tree, id):
 
 
 def parse_change_annotation(tree, id):
+    """Change node annotation."""
     subject_token = extract(tree, "entity_subject")
     predicate_token = extract(tree, "entity_predicate")
 
@@ -206,6 +211,7 @@ def parse_change_annotation(tree, id):
 
 
 def parse_change_relationship(tree, id):
+    """Change predicate."""
     subject_token = extract(tree, "entity_subject")
     object_token = extract(tree, "entity_object")
 
@@ -243,6 +249,7 @@ def parse_change_relationship(tree, id):
 
 
 def parse_delete_edge(tree, id):
+    """Delete edge."""
     subject_token = extract(tree, "entity_subject")
     predicate_token = extract(tree, "entity_predicate")
     object_token = extract(tree, "entity_object_id")
@@ -277,6 +284,7 @@ def parse_delete_edge(tree, id):
 
 
 def parse_create_edge(tree, id):
+    """Create new edge."""
     subject_token = extract(tree, "entity_subject")
     predicate_token = extract(tree, "entity_predicate")
     object_token = extract(tree, "entity_object_id")
@@ -311,6 +319,7 @@ def parse_create_edge(tree, id):
 
 
 def parse_shallow(tree, id):
+    """Perform node shallowing."""
     entity_token = extract(tree, "entity")
     old_token = extract(tree, "old_entity")
     new_token = extract(tree, "new_entity")
@@ -337,6 +346,7 @@ def parse_shallow(tree, id):
 
 
 def parse_deepen(tree, id):
+    """Perform node deepening."""
     entity_token = extract(tree, "entity")
     old_token = extract(tree, "old_entity")
     new_token = extract(tree, "new_entity")
@@ -363,6 +373,7 @@ def parse_deepen(tree, id):
 
 
 def parse_move(tree, id):
+    """Move a node."""
     subject_token = extract(tree, "entity_subject")
     predicate_token = extract(tree, "entity_predicate")
     object_token = extract(tree, "entity_object")
@@ -397,6 +408,7 @@ def parse_move(tree, id):
 
 
 def parse_delete(tree, id):
+    """Delete a node."""
     entity_token = extract(tree, "entity")
     entity, representation = get_entity_representation(entity_token)
 
@@ -406,6 +418,7 @@ def parse_delete(tree, id):
 
 
 def parse_unobsolete(tree, id):
+    """Unobsolete a node."""
     entity_token = extract(tree, "entity")
     entity, representation = get_entity_representation(entity_token)
 
@@ -415,6 +428,7 @@ def parse_unobsolete(tree, id):
 
 
 def parse_obsolete(tree, id):
+    """Obsolete a node."""
     entity_token = extract(tree, "entity")
     entity, representation = get_entity_representation(entity_token)
 
@@ -429,6 +443,7 @@ def parse_obsolete(tree, id):
 
 
 def parse_rename(tree, id):
+    """Rename a node."""
     old_token = extract(tree, "old_label")
     new_token = extract(tree, "new_label")
     old_language = extract(tree, "old_language")
@@ -455,6 +470,7 @@ def parse_rename(tree, id):
 
 
 def extract(tree, data):
+    """Extract node."""
     node = get_next(tree.find_data(data))
     if node is not None:
         node_token = next(get_tokens(node))
@@ -464,10 +480,12 @@ def extract(tree, data):
 
 
 def get_tokens(tree):
+    """Get tokens."""
     return tree.scan_values(lambda v: isinstance(v, Token))
 
 
 def get_next(generator):
+    """Next generator."""
     try:
         res = next(generator)
         return res
@@ -476,6 +494,7 @@ def get_next(generator):
 
 
 def get_entity_representation(entity):
+    """Get entity representation."""
     first_character = entity[0]
     last_character = entity[-1:]
     if first_character == "<" and last_character == ">":

@@ -95,6 +95,7 @@ def from_yaml(filename: str) -> Session:
 @click.command()
 @click.argument("files", nargs=-1)
 def cli(files: List[str]):
+    """CLI."""
     pass
     # for f in files:
     #     session = from_yaml(f)

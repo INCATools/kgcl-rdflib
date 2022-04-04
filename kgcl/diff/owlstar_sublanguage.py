@@ -143,6 +143,7 @@ class ExistentialRestriction:
 
 
 def get_thin_triples(g):
+    """Get thin triples."""
     res = rdflib.Graph()
     for s, p, o in g.triples((None, None, None)):
         if (
@@ -156,6 +157,7 @@ def get_thin_triples(g):
 
 
 def get_atomic_subsumptions(g):
+    """Get atomic subsumptions."""
     res = rdflib.Graph()
     for s, p, o in g.triples((None, RDFS.subClassOf, None)):
         if not isinstance(s, BNode) and not isinstance(o, BNode):
@@ -165,6 +167,7 @@ def get_atomic_subsumptions(g):
 
 
 def get_atomic_existentials(g):
+    """Get atomic existentials."""
     some_values_from = set(g.subjects(predicate=OWL.someValuesFrom))
     on_property = set(g.subjects(predicate=OWL.onProperty))
 
@@ -210,6 +213,7 @@ def get_atomic_existentials(g):
 
 
 def get_bnodes_2_atomic_existentials(g):
+    """Get blank nodes to atomic existentials."""
     some_values_from = set(g.subjects(predicate=OWL.someValuesFrom))
     on_property = set(g.subjects(predicate=OWL.onProperty))
     # restriction = set(g.subjects(predicate=rdf.type)) # Restriction
@@ -255,6 +259,7 @@ def get_bnodes_2_atomic_existentials(g):
 
 
 def get_triple_annotations(g):
+    """Get triple annotations."""
     source = set(g.subjects(predicate=OWL.annotatedSource))
     property = set(g.subjects(predicate=OWL.annotatedProperty))
     target = set(g.subjects(predicate=OWL.annotatedTarget))
@@ -296,6 +301,7 @@ def get_triple_annotations(g):
 
 
 def get_bnodes_2_triple_annotations(g):
+    """Get blank nodes to triple annotations."""
     source = set(g.subjects(predicate=OWL.annotatedSource))
     property = set(g.subjects(predicate=OWL.annotatedProperty))
     target = set(g.subjects(predicate=OWL.annotatedTarget))
@@ -338,6 +344,7 @@ def get_bnodes_2_triple_annotations(g):
 
 
 def render_triple_annotation(a):
+    """Render triple annotations."""
     return (
         "<<"
         # + a[0].n3()
@@ -358,6 +365,7 @@ def render_triple_annotation(a):
 
 
 def render_atomic_existential(a):
+    """Render atomic annotations."""
     return (
         "<<"
         + a[0]

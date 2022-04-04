@@ -22,6 +22,7 @@ pass_config = click.make_pass_decorator(Config, ensure=True)
 
 
 def ts():
+    """Return string form of timestamp."""
     now = datetime.now()
     dt_string = now.strftime("%H:%M:%S ")
     return dt_string
@@ -34,7 +35,14 @@ def ts():
 # @click.option("--verbose", "-v", is_flag=True, help="Print more output.")
 @pass_config
 def cli(config, ingraph, outgraph, output):
+    """
+    Write out reports.
 
+    :param config: Configuration information.
+    :param ingraph: Graph 1.
+    :param outgraph: Graph 2.
+    :param output: Target location which holds reports.
+    """
     os.mkdir(output)
 
     # load graphs
@@ -167,6 +175,12 @@ def cli(config, ingraph, outgraph, output):
 # a non-deterministic diff consists of a list of tuples.
 # A tuple contains two sets of triples that are involved in the non-deterministic diff
 def render_non_deterministic_diff(nd):
+    """
+    Render non-deterministic difference.
+
+    :param nd: List of tuples that contain two sets of triples.
+    :return: Text rendering the non-deterministic difference.
+    """
     out = ""
     for tuple in nd:
         from_triples = tuple[0]
