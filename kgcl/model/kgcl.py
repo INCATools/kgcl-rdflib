@@ -1,5 +1,5 @@
 # Auto generated from kgcl.yaml by pythongen.py version: 0.9.0
-# Generation date: 2022-05-23T19:18:45
+# Generation date: 2022-05-24T08:41:35
 # Schema: kgcl
 #
 # id: https://w3id.org/kgcl
