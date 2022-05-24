@@ -1,8 +1,11 @@
+# metamodel_version: 1.7.0
 BASE <http://www.w3.org/ns/prov#>
+PREFIX dcterms: <http://purl.org/dc/terms/>
 PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
 PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
 PREFIX linkml: <https://w3id.org/linkml/>
-PREFIX dcterms: <http://purl.org/dc/terms/>
+PREFIX basics: <https://w3id.org/kgcl/basics/>
+PREFIX xml1: <http://example.org/UNKNOWN/xml/>
 
 
 linkml:String xsd:string
@@ -32,6 +35,8 @@ linkml:Ncname xsd:string
 linkml:Objectidentifier IRI
 
 linkml:Nodeidentifier NONLITERAL
+
+basics:LanguageTag xml1:lang
 
 <Activity> CLOSED {
     (  $<Activity_tes> (  <startedAtTime> @linkml:String ? ;

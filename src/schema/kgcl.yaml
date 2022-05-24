@@ -804,6 +804,8 @@ slots:
 
   language:
     range: language tag
+    description: >-
+      The language tag of a literal
     
   about:
     description: >-
@@ -837,9 +839,9 @@ slots:
     description: >-
       The value of a property held in the new instance of the ontology
 
-  language:
-    description: >-
-      The language tag of a literal
+  # language:
+  #   description: >-
+  #     The language tag of a literal
 
   datatype:
     description: >-

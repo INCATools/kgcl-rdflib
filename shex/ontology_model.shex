@@ -1,8 +1,12 @@
+# metamodel_version: 1.7.0
+# version: 0.0.1
 BASE <http://w3id.org/kgcl/om/>
+PREFIX owl: <http://www.w3.org/2002/07/owl#>
 PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
 PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
 PREFIX linkml: <https://w3id.org/linkml/>
-PREFIX owl: <http://www.w3.org/2002/07/owl#>
+PREFIX basics: <https://w3id.org/kgcl/basics/>
+PREFIX xml1: <http://example.org/UNKNOWN/xml/>
 
 
 linkml:String xsd:string
@@ -33,10 +37,14 @@ linkml:Objectidentifier IRI
 
 linkml:Nodeidentifier NONLITERAL
 
+basics:LanguageTag xml1:lang
+
 <Annotation> CLOSED {
     (  $<Annotation_tes> (  &<PropertyValue_tes> ;
           rdf:type [ <PropertyValue> ] ? ;
-          <annotation_set> @<Annotation> ?
+          <annotation_set> @<Annotation> ? ;
+          <property_type> @linkml:String ? ;
+          <filler_type> @linkml:String ?
        ) ;
        rdf:type [ <Annotation> ] ?
     )
@@ -56,6 +64,9 @@ linkml:Nodeidentifier NONLITERAL
           <subject> @<Node> ? ;
           <predicate> @<Node> ? ;
           <object> @<Node> ? ;
+          <subject_representation> @linkml:String ? ;
+          <predicate_representation> @linkml:String ? ;
+          <object_representation> @linkml:String ? ;
           <annotation_set> @<Annotation> ?
        ) ;
        rdf:type [ <Edge> ] ?

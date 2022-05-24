@@ -1,11 +1,14 @@
+# metamodel_version: 1.7.0
+# version: 0.0.1
 BASE <http://w3id.org/kgcl/>
+PREFIX owl: <http://www.w3.org/2002/07/owl#>
+PREFIX prov: <http://www.w3.org/ns/prov#>
 PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
 PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
 PREFIX linkml: <https://w3id.org/linkml/>
 PREFIX om: <http://w3id.org/kgcl/om/>
-PREFIX prov: <http://www.w3.org/ns/prov#>
-PREFIX dc: <http://purl.org/dc/terms/>
-PREFIX owl: <http://www.w3.org/2002/07/owl#>
+PREFIX dc1: <http://purl.org/dc/terms/>
 PREFIX basics: <https://w3id.org/kgcl/basics/>
 PREFIX xml1: <http://example.org/UNKNOWN/xml/>
 
@@ -48,7 +51,7 @@ prov:Activity CLOSED {
           prov:wasInformedBy @prov:Activity ? ;
           prov:wasAssociatedWith @prov:Agent ? ;
           prov:used @linkml:String ? ;
-          dc:description @linkml:String ?
+          dc1:description @linkml:String ?
        ) ;
        rdf:type [ prov:Activity ]
     )
@@ -93,7 +96,9 @@ prov:Agent CLOSED {
 om:Annotation CLOSED {
     (  $om:Annotation_tes (  &om:PropertyValue_tes ;
           rdf:type [ om:PropertyValue ] ? ;
-          om:annotation_set @om:Annotation ?
+          om:annotation_set @om:Annotation ? ;
+          om:property_type @linkml:String ? ;
+          om:filler_type @linkml:String ?
        ) ;
        rdf:type [ om:Annotation ] ?
     )
@@ -104,12 +109,12 @@ om:Annotation CLOSED {
 )
 
 <Change_struct> {
-    (  $<Change_tes> (  <was_generated_by> @prov:Activity ? ;
-          <see_also> @linkml:String ? ;
+    (  $<Change_tes> (  prov:wasGeneratedBy @prov:Activity ? ;
+          rdfs:seeAlso @linkml:String ? ;
           <pull_request> @linkml:String ? ;
-          <creator> @linkml:String ? ;
-          <change_date> @linkml:String ? ;
-          dc:creator @linkml:String ? ;
+          dc1:creator @linkml:String ? ;
+          dc1:date @linkml:String ? ;
+          dc1:creator @linkml:String ? ;
           <has_undo> @<Change> ?
        ) ;
        rdf:type [ <Change> ]
@@ -129,7 +134,7 @@ om:Annotation CLOSED {
 <ChangeSetSummaryStatistic> CLOSED {
     (  $<ChangeSetSummaryStatistic_tes> (  <change_type> @<ChangeClassType> ? ;
           <count> @linkml:Integer ? ;
-          <property_value_set> @om:PropertyValue *
+          om:property_value_set @om:PropertyValue *
        ) ;
        rdf:type [ <ChangeSetSummaryStatistic> ] ?
     )
@@ -221,6 +226,9 @@ om:Edge CLOSED {
           om:subject @om:Node ? ;
           om:predicate @om:Node ? ;
           om:object @om:Node ? ;
+          om:subject_representation @linkml:String ? ;
+          om:predicate_representation @linkml:String ? ;
+          om:object_representation @linkml:String ? ;
           om:annotation_set @om:Annotation ?
        ) ;
        rdf:type [ om:Edge ] ?
@@ -236,7 +244,10 @@ om:Edge CLOSED {
     (  $<EdgeChange_tes> (  &<SimpleChange_tes> ;
           rdf:type [ <SimpleChange> ] ? ;
           <about_edge> @om:Edge ? ;
-          <subject> @om:Node ?
+          <object_type> @linkml:String ? ;
+          <language> @basics:LanguageTag ? ;
+          <datatype> @linkml:String ? ;
+          om:subject @om:Node ?
        ) ;
        rdf:type [ <EdgeChange> ]
     )
@@ -251,6 +262,8 @@ om:Edge CLOSED {
              om:subject @om:Node ? ;
              om:predicate @om:Node ? ;
              om:object @om:Node ? ;
+             <subject_type> @linkml:String ? ;
+             <predicate_type> @linkml:String ? ;
              om:annotation_set @om:Annotation ? ;
              <change_description> @linkml:String ?
           ) ;
@@ -259,20 +272,24 @@ om:Edge CLOSED {
     } OR @<MappingCreation> OR @<PlaceUnder>
 )
 
-<EdgeDeletion> CLOSED {
-    (  $<EdgeDeletion_tes> (  &<EdgeChange_tes> ;
-          rdf:type [ <EdgeChange> ] ? ;
-          &<Deletion_tes> ;
-          rdf:type [ <Deletion> ] ? ;
-          om:subject @om:Node ? ;
-          om:predicate @om:Node ? ;
-          om:object @om:Node ? ;
-          om:annotation_set @om:Annotation ? ;
-          <change_description> @linkml:String ?
-       ) ;
-       rdf:type [ <EdgeDeletion> ]
-    )
-}
+<EdgeDeletion>  (
+    CLOSED {
+       (  $<EdgeDeletion_tes> (  &<EdgeChange_tes> ;
+             rdf:type [ <EdgeChange> ] ? ;
+             &<Deletion_tes> ;
+             rdf:type [ <Deletion> ] ? ;
+             om:subject @om:Node ? ;
+             om:predicate @om:Node ? ;
+             om:object @om:Node ? ;
+             <subject_type> @linkml:String ? ;
+             <predicate_type> @linkml:String ? ;
+             om:annotation_set @om:Annotation ? ;
+             <change_description> @linkml:String ?
+          ) ;
+          rdf:type [ <EdgeDeletion> ]
+       )
+    } OR @<RemoveUnder>
+)
 
 <EdgeLogicalInterpretationChange> CLOSED {
     (  $<EdgeLogicalInterpretationChange_tes> (  &<EdgeChange_tes> ;
@@ -345,9 +362,9 @@ om:LogicalDefinition CLOSED {
           rdf:type [ <EdgeCreation> ] ? ;
           &<Creation_tes> ;
           rdf:type [ <Creation> ] ? ;
-          <subject> @om:Node ? ;
-          <predicate> @om:Node ? ;
-          <object> @om:Node ? ;
+          om:subject @om:Node ? ;
+          om:predicate @om:Node ? ;
+          om:object @om:Node ? ;
           <change_description> @linkml:String ?
        ) ;
        rdf:type [ <MappingCreation> ]
@@ -378,7 +395,8 @@ om:LogicalDefinition CLOSED {
 
 <NewSynonym> CLOSED {
     (  $<NewSynonym_tes> (  &<NodeSynonymChange_tes> ;
-          rdf:type [ <NodeSynonymChange> ] ?
+          rdf:type [ <NodeSynonymChange> ] ? ;
+          <qualifier> @linkml:String ?
        ) ;
        rdf:type [ <NewSynonym> ]
     )
@@ -408,7 +426,9 @@ om:Node  (
 <NodeAnnotationChange>  (
     CLOSED {
        (  $<NodeAnnotationChange_tes> (  &<NodeChange_tes> ;
-             rdf:type [ <NodeChange> ] ?
+             rdf:type [ <NodeChange> ] ? ;
+             <annotation_property> @linkml:String ? ;
+             <annotation_property_type> @linkml:String ?
           ) ;
           rdf:type [ <NodeAnnotationChange> ]
        )
@@ -432,6 +452,7 @@ om:Node  (
     (  $<NodeChange_tes> (  &<SimpleChange_tes> ;
           rdf:type [ <SimpleChange> ] ? ;
           <about_node> @om:Node ? ;
+          <about_node_representation> @linkml:String ? ;
           <language> @basics:LanguageTag ?
        ) ;
        rdf:type [ <NodeChange> ]
@@ -492,6 +513,8 @@ om:Node  (
     CLOSED {
        (  $<NodeMove_tes> (  &<EdgeChange_tes> ;
              rdf:type [ <EdgeChange> ] ? ;
+             <old_object_type> @linkml:String ? ;
+             <new_object_type> @linkml:String ? ;
              <change_description> @linkml:String ?
           ) ;
           rdf:type [ <NodeMove> ]
@@ -677,6 +700,14 @@ om:PropertyValue  (
     )
 }
 
+<RemoveUnder> CLOSED {
+    (  $<RemoveUnder_tes> (  &<EdgeDeletion_tes> ;
+          rdf:type [ <EdgeDeletion> ] ?
+       ) ;
+       rdf:type [ <RemoveUnder> ]
+    )
+}
+
 <RemovedNodeFromSubset> CLOSED {
     (  $<RemovedNodeFromSubset_tes> (  &<NodeChange_tes> ;
           rdf:type [ <NodeChange> ] ? ;
@@ -718,7 +749,13 @@ om:PropertyValue  (
     (  $<SimpleChange_tes> (  &<Change_tes> ;
           rdf:type [ <Change> ] ? ;
           <old_value> @linkml:String ? ;
-          <new_value> @linkml:String ?
+          <new_value> @linkml:String ? ;
+          <old_value_type> @linkml:String ? ;
+          <new_value_type> @linkml:String ? ;
+          <new_language> @linkml:String ? ;
+          <old_language> @linkml:String ? ;
+          <new_datatype> @linkml:String ? ;
+          <old_datatype> @linkml:String ?
        ) ;
        rdf:type [ <SimpleChange> ]
     )
