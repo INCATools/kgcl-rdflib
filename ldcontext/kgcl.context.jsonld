@@ -1,5 +1,5 @@
 {
-   "_comments": "Auto generated from kgcl.yaml by jsonldcontextgen.py version: 0.1.1\n    Generation date: 2021-08-19 15:44\n    Schema: kgcl\n    \n    id: https://w3id.org/kgcl\n    description: A data model for describing change operations at a high level on an ontology or ontology-like artefact, such as a Knowledge Graph.\n\n* [Browse Schema](https://cmungall.github.io/knowledge-graph-change-language/)\n* [GitHub](https://github.com/cmungall/knowledge-graph-change-language)\n    license: https://creativecommons.org/publicdomain/zero/1.0/\n    ",
+   "_comments": "Auto generated from kgcl.yaml by jsonldcontextgen.py version: 0.1.1\n    Generation date: 2022-05-23T19:18:29\n    Schema: kgcl\n    metamodel version: 1.7.0\n    model version: 0.0.1\n    \n    id: https://w3id.org/kgcl\n    description: A data model for describing change operations at a high level on an ontology or ontology-like artefact, such as a Knowledge Graph.\n\n* [Browse Schema](https://cmungall.github.io/knowledge-graph-change-language/)\n* [GitHub](https://github.com/cmungall/knowledge-graph-change-language)\n    license: https://creativecommons.org/publicdomain/zero/1.0/\n    ",
    "@context": {
       "IAO": {
          "@id": "http://purl.obolibrary.org/obo/IAO_",
@@ -80,6 +80,9 @@
       "filler": {
          "@id": "om:filler"
       },
+      "filler_type": {
+         "@id": "om:filler_type"
+      },
       "has_direct_replacement": {
          "@type": "@id"
       },
@@ -112,6 +115,9 @@
          "@type": "@id",
          "@id": "om:object"
       },
+      "object_representation": {
+         "@id": "om:object_representation"
+      },
       "owl_type": {
          "@context": {
             "@vocab": "@null",
@@ -125,9 +131,15 @@
          "@type": "@id",
          "@id": "om:predicate"
       },
+      "predicate_representation": {
+         "@id": "om:predicate_representation"
+      },
       "property": {
          "@type": "@id",
          "@id": "om:property"
+      },
+      "property_type": {
+         "@id": "om:property_type"
       },
       "property_value_set": {
          "@type": "@id",
@@ -145,6 +157,9 @@
       "subject": {
          "@type": "@id",
          "@id": "om:subject"
+      },
+      "subject_representation": {
+         "@id": "om:subject_representation"
       },
       "superclass": {
          "@type": "@id"

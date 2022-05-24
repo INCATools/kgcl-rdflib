@@ -1,3 +1,5 @@
+# metamodel_version: 1.7.0
+# version: 0.0.1
 type Activity
   {
     id: String!
@@ -21,7 +23,14 @@ type AddNodeToSubset implements AddToSubset
     hasUndo: Change
     oldValue: String
     newValue: String
+    oldValueType: String
+    newValueType: String
+    newLanguage: String
+    oldLanguage: String
+    newDatatype: String
+    oldDatatype: String
     aboutNode: Node
+    aboutNodeRepresentation: String
     language: LanguageTag
     inSubset: OntologySubset
   }
@@ -49,6 +58,8 @@ type Annotation
     property: Node
     filler: String
     annotationSet: Annotation
+    propertyType: String
+    fillerType: String
   }
 
 interface Change
@@ -86,12 +97,19 @@ type ClassCreation
     hasUndo: Change
     oldValue: String
     newValue: String
+    oldValueType: String
+    newValueType: String
+    newLanguage: String
+    oldLanguage: String
+    newDatatype: String
+    oldDatatype: String
     aboutNode: Node
-    language: LanguageTag
+    aboutNodeRepresentation: String
     nodeId: Node
     name: String
     owlType: OwlTypeEnum
     annotationSet: Annotation
+    language: LanguageTag
     superclass: Node
     changeDescription: String
   }
@@ -151,6 +169,9 @@ type Edge
     subject: Node
     predicate: Node
     object: Node
+    subjectRepresentation: String
+    predicateRepresentation: String
+    objectRepresentation: String
     annotationSet: Annotation
   }
 
@@ -166,7 +187,16 @@ interface EdgeChange
     hasUndo: Change
     oldValue: String
     newValue: String
+    oldValueType: String
+    newValueType: String
+    newLanguage: String
+    oldLanguage: String
+    newDatatype: String
+    oldDatatype: String
     aboutEdge: Edge
+    objectType: String
+    language: LanguageTag
+    datatype: String
     subject: Node
   }
 
@@ -182,10 +212,21 @@ type EdgeCreation implements Creation
     hasUndo: Change
     oldValue: String
     newValue: String
+    oldValueType: String
+    newValueType: String
+    newLanguage: String
+    oldLanguage: String
+    newDatatype: String
+    oldDatatype: String
     aboutEdge: Edge
+    language: LanguageTag
+    datatype: String
     subject: Node
     predicate: Node
     object: Node
+    subjectType: String
+    predicateType: String
+    objectType: String
     annotationSet: Annotation
     changeDescription: String
   }
@@ -202,10 +243,21 @@ type EdgeDeletion implements Deletion
     hasUndo: Change
     oldValue: String
     newValue: String
+    oldValueType: String
+    newValueType: String
+    newLanguage: String
+    oldLanguage: String
+    newDatatype: String
+    oldDatatype: String
     aboutEdge: Edge
+    language: LanguageTag
+    datatype: String
     subject: Node
     predicate: Node
     object: Node
+    subjectType: String
+    predicateType: String
+    objectType: String
     annotationSet: Annotation
     changeDescription: String
   }
@@ -222,7 +274,16 @@ type EdgeLogicalInterpretationChange
     hasUndo: Change
     oldValue: String
     newValue: String
+    oldValueType: String
+    newValueType: String
+    newLanguage: String
+    oldLanguage: String
+    newDatatype: String
+    oldDatatype: String
     aboutEdge: Edge
+    objectType: String
+    language: LanguageTag
+    datatype: String
     subject: Node
   }
 
@@ -238,7 +299,16 @@ type EdgeObsoletion implements Obsoletion
     hasUndo: Change
     oldValue: String
     newValue: String
+    oldValueType: String
+    newValueType: String
+    newLanguage: String
+    oldLanguage: String
+    newDatatype: String
+    oldDatatype: String
     aboutEdge: Edge
+    objectType: String
+    language: LanguageTag
+    datatype: String
     subject: Node
     predicate: Node
     object: Node
@@ -259,7 +329,16 @@ type EdgeRewiring
     hasUndo: Change
     oldValue: String
     newValue: String
+    oldValueType: String
+    newValueType: String
+    newLanguage: String
+    oldLanguage: String
+    newDatatype: String
+    oldDatatype: String
     aboutEdge: Edge
+    objectType: String
+    language: LanguageTag
+    datatype: String
     subject: Node
   }
 
@@ -289,6 +368,12 @@ type LogicalAxiomChange
     hasUndo: Change
     oldValue: String
     newValue: String
+    oldValueType: String
+    newValueType: String
+    newLanguage: String
+    oldLanguage: String
+    newDatatype: String
+    oldDatatype: String
   }
 
 type LogicalDefinition
@@ -307,7 +392,18 @@ type MappingCreation implements Creation
     hasUndo: Change
     oldValue: String
     newValue: String
+    oldValueType: String
+    newValueType: String
+    newLanguage: String
+    oldLanguage: String
+    newDatatype: String
+    oldDatatype: String
     aboutEdge: Edge
+    language: LanguageTag
+    datatype: String
+    subjectType: String
+    predicateType: String
+    objectType: String
     subject: Node
     predicate: Node
     object: Node
@@ -342,7 +438,14 @@ type NameBecomesSynonym
     hasUndo: Change
     oldValue: String
     newValue: String
+    oldValueType: String
+    newValueType: String
+    newLanguage: String
+    oldLanguage: String
+    newDatatype: String
+    oldDatatype: String
     aboutNode: Node
+    aboutNodeRepresentation: String
     language: LanguageTag
     change1: NodeRename
     change2: NewSynonym
@@ -360,9 +463,17 @@ type NewSynonym
     contributor: String
     hasUndo: Change
     oldValue: String
+    oldValueType: String
+    newValueType: String
+    newLanguage: String
+    oldLanguage: String
+    newDatatype: String
+    oldDatatype: String
     aboutNode: Node
-    language: LanguageTag
+    aboutNodeRepresentation: String
     newValue: String
+    language: LanguageTag
+    qualifier: String
   }
 
 type NewTextDefinition
@@ -376,7 +487,14 @@ type NewTextDefinition
     contributor: String
     hasUndo: Change
     oldValue: String
+    oldValueType: String
+    newValueType: String
+    newLanguage: String
+    oldLanguage: String
+    newDatatype: String
+    oldDatatype: String
     aboutNode: Node
+    aboutNodeRepresentation: String
     language: LanguageTag
     newValue: String
   }
@@ -401,8 +519,17 @@ type NodeAnnotationChange
     hasUndo: Change
     oldValue: String
     newValue: String
+    oldValueType: String
+    newValueType: String
+    newLanguage: String
+    oldLanguage: String
+    newDatatype: String
+    oldDatatype: String
     aboutNode: Node
+    aboutNodeRepresentation: String
     language: LanguageTag
+    annotationProperty: String
+    annotationPropertyType: String
   }
 
 type NodeAnnotationReplacement
@@ -417,8 +544,17 @@ type NodeAnnotationReplacement
     hasUndo: Change
     oldValue: String
     newValue: String
+    oldValueType: String
+    newValueType: String
+    newLanguage: String
+    oldLanguage: String
+    newDatatype: String
+    oldDatatype: String
     aboutNode: Node
+    aboutNodeRepresentation: String
     language: LanguageTag
+    annotationProperty: String
+    annotationPropertyType: String
   }
 
 interface NodeChange
@@ -433,7 +569,14 @@ interface NodeChange
     hasUndo: Change
     oldValue: String
     newValue: String
+    oldValueType: String
+    newValueType: String
+    newLanguage: String
+    oldLanguage: String
+    newDatatype: String
+    oldDatatype: String
     aboutNode: Node
+    aboutNodeRepresentation: String
     language: LanguageTag
   }
 
@@ -449,12 +592,19 @@ type NodeCreation implements Creation
     hasUndo: Change
     oldValue: String
     newValue: String
+    oldValueType: String
+    newValueType: String
+    newLanguage: String
+    oldLanguage: String
+    newDatatype: String
+    oldDatatype: String
     aboutNode: Node
-    language: LanguageTag
+    aboutNodeRepresentation: String
     nodeId: Node
     name: String
     owlType: OwlTypeEnum
     annotationSet: Annotation
+    language: LanguageTag
     changeDescription: String
   }
 
@@ -470,8 +620,19 @@ type NodeDeepening
     hasUndo: Change
     oldValue: String
     newValue: String
+    oldValueType: String
+    newValueType: String
+    newLanguage: String
+    oldLanguage: String
+    newDatatype: String
+    oldDatatype: String
     aboutEdge: Edge
+    objectType: String
+    language: LanguageTag
+    datatype: String
     subject: Node
+    oldObjectType: String
+    newObjectType: String
     changeDescription: String
   }
 
@@ -487,7 +648,14 @@ type NodeDeletion implements Deletion
     hasUndo: Change
     oldValue: String
     newValue: String
+    oldValueType: String
+    newValueType: String
+    newLanguage: String
+    oldLanguage: String
+    newDatatype: String
+    oldDatatype: String
     aboutNode: Node
+    aboutNodeRepresentation: String
     language: LanguageTag
     changeDescription: String
   }
@@ -504,6 +672,13 @@ type NodeDirectMerge implements AllowsAutomaticReplacementOfEdges
     hasUndo: Change
     oldValue: String
     newValue: String
+    oldValueType: String
+    newValueType: String
+    newLanguage: String
+    oldLanguage: String
+    newDatatype: String
+    oldDatatype: String
+    aboutNodeRepresentation: String
     language: LanguageTag
     hasNondirectReplacement: [Node]
     associatedChangeSet: [Change]
@@ -525,8 +700,19 @@ type NodeMove
     hasUndo: Change
     oldValue: String
     newValue: String
+    oldValueType: String
+    newValueType: String
+    newLanguage: String
+    oldLanguage: String
+    newDatatype: String
+    oldDatatype: String
     aboutEdge: Edge
+    objectType: String
+    language: LanguageTag
+    datatype: String
     subject: Node
+    oldObjectType: String
+    newObjectType: String
     changeDescription: String
   }
 
@@ -542,7 +728,14 @@ type NodeObsoletion implements Obsoletion
     hasUndo: Change
     oldValue: String
     newValue: String
+    oldValueType: String
+    newValueType: String
+    newLanguage: String
+    oldLanguage: String
+    newDatatype: String
+    oldDatatype: String
     aboutNode: Node
+    aboutNodeRepresentation: String
     language: LanguageTag
     hasDirectReplacement: Node
     hasNondirectReplacement: [Node]
@@ -563,7 +756,14 @@ type NodeObsoletionWithDirectReplacement implements AllowsAutomaticReplacementOf
     hasUndo: Change
     oldValue: String
     newValue: String
+    oldValueType: String
+    newValueType: String
+    newLanguage: String
+    oldLanguage: String
+    newDatatype: String
+    oldDatatype: String
     aboutNode: Node
+    aboutNodeRepresentation: String
     language: LanguageTag
     hasNondirectReplacement: [Node]
     associatedChangeSet: [Change]
@@ -584,7 +784,14 @@ type NodeObsoletionWithNoDirectReplacement
     hasUndo: Change
     oldValue: String
     newValue: String
+    oldValueType: String
+    newValueType: String
+    newLanguage: String
+    oldLanguage: String
+    newDatatype: String
+    oldDatatype: String
     aboutNode: Node
+    aboutNodeRepresentation: String
     language: LanguageTag
     hasDirectReplacement: Node
     associatedChangeSet: [Change]
@@ -603,11 +810,18 @@ type NodeRename
     changeDate: String
     contributor: String
     hasUndo: Change
+    oldValueType: String
+    newValueType: String
+    newDatatype: String
+    oldDatatype: String
     aboutNode: Node
+    aboutNodeRepresentation: String
     language: LanguageTag
     oldValue: String
     newValue: String
     hasTextualDiff: TextualDiff
+    newLanguage: String
+    oldLanguage: String
     changeDescription: String
   }
 
@@ -623,8 +837,19 @@ type NodeShallowing
     hasUndo: Change
     oldValue: String
     newValue: String
+    oldValueType: String
+    newValueType: String
+    newLanguage: String
+    oldLanguage: String
+    newDatatype: String
+    oldDatatype: String
     aboutEdge: Edge
+    objectType: String
+    language: LanguageTag
+    datatype: String
     subject: Node
+    oldObjectType: String
+    newObjectType: String
     changeDescription: String
   }
 
@@ -640,7 +865,14 @@ type NodeSynonymChange
     hasUndo: Change
     oldValue: String
     newValue: String
+    oldValueType: String
+    newValueType: String
+    newLanguage: String
+    oldLanguage: String
+    newDatatype: String
+    oldDatatype: String
     aboutNode: Node
+    aboutNodeRepresentation: String
     language: LanguageTag
   }
 
@@ -656,7 +888,14 @@ interface NodeTextDefinitionChange
     hasUndo: Change
     oldValue: String
     newValue: String
+    oldValueType: String
+    newValueType: String
+    newLanguage: String
+    oldLanguage: String
+    newDatatype: String
+    oldDatatype: String
     aboutNode: Node
+    aboutNodeRepresentation: String
     language: LanguageTag
   }
 
@@ -672,7 +911,14 @@ type NodeUnobsoletion implements Unobsoletion
     hasUndo: Change
     oldValue: String
     newValue: String
+    oldValueType: String
+    newValueType: String
+    newLanguage: String
+    oldLanguage: String
+    newDatatype: String
+    oldDatatype: String
     aboutNode: Node
+    aboutNodeRepresentation: String
     language: LanguageTag
     changeDescription: String
     replacedBy: Node
@@ -705,10 +951,21 @@ type PlaceUnder
     hasUndo: Change
     oldValue: String
     newValue: String
+    oldValueType: String
+    newValueType: String
+    newLanguage: String
+    oldLanguage: String
+    newDatatype: String
+    oldDatatype: String
     aboutEdge: Edge
+    language: LanguageTag
+    datatype: String
     subject: Node
     predicate: Node
     object: Node
+    subjectType: String
+    predicateType: String
+    objectType: String
     annotationSet: Annotation
     changeDescription: String
   }
@@ -725,7 +982,16 @@ type PredicateChange
     hasUndo: Change
     oldValue: String
     newValue: String
+    oldValueType: String
+    newValueType: String
+    newLanguage: String
+    oldLanguage: String
+    newDatatype: String
+    oldDatatype: String
     aboutEdge: Edge
+    objectType: String
+    language: LanguageTag
+    datatype: String
     subject: Node
     changeDescription: String
   }
@@ -753,7 +1019,14 @@ type RemoveSynonym
     contributor: String
     hasUndo: Change
     newValue: String
+    oldValueType: String
+    newValueType: String
+    newLanguage: String
+    oldLanguage: String
+    newDatatype: String
+    oldDatatype: String
     aboutNode: Node
+    aboutNodeRepresentation: String
     language: LanguageTag
     oldValue: String
   }
@@ -769,9 +1042,47 @@ type RemoveTextDefinition
     contributor: String
     hasUndo: Change
     newValue: String
+    oldValueType: String
+    newValueType: String
+    newLanguage: String
+    oldLanguage: String
+    newDatatype: String
+    oldDatatype: String
     aboutNode: Node
+    aboutNodeRepresentation: String
     language: LanguageTag
     oldValue: String
+  }
+
+type RemoveUnder
+  {
+    id: String!
+    wasGeneratedBy: Activity
+    seeAlso: String
+    pullRequest: String
+    creator: String
+    changeDate: String
+    contributor: String
+    hasUndo: Change
+    oldValue: String
+    newValue: String
+    oldValueType: String
+    newValueType: String
+    newLanguage: String
+    oldLanguage: String
+    newDatatype: String
+    oldDatatype: String
+    aboutEdge: Edge
+    language: LanguageTag
+    datatype: String
+    subject: Node
+    predicate: Node
+    object: Node
+    subjectType: String
+    predicateType: String
+    objectType: String
+    annotationSet: Annotation
+    changeDescription: String
   }
 
 type RemovedNodeFromSubset implements RemoveFromSubset
@@ -786,6 +1097,13 @@ type RemovedNodeFromSubset implements RemoveFromSubset
     hasUndo: Change
     oldValue: String
     newValue: String
+    oldValueType: String
+    newValueType: String
+    newLanguage: String
+    oldLanguage: String
+    newDatatype: String
+    oldDatatype: String
+    aboutNodeRepresentation: String
     language: LanguageTag
     changeDescription: String
     aboutNode: Node
@@ -809,7 +1127,14 @@ type SetLanguageForName implements LanguageTagChange
     changeDate: String
     contributor: String
     hasUndo: Change
+    oldValueType: String
+    newValueType: String
+    newLanguage: String
+    oldLanguage: String
+    newDatatype: String
+    oldDatatype: String
     aboutNode: Node
+    aboutNodeRepresentation: String
     language: LanguageTag
     oldValue: String
     newValue: String
@@ -828,6 +1153,12 @@ interface SimpleChange
     hasUndo: Change
     oldValue: String
     newValue: String
+    oldValueType: String
+    newValueType: String
+    newLanguage: String
+    oldLanguage: String
+    newDatatype: String
+    oldDatatype: String
   }
 
 interface SubsetMembershipChange
@@ -845,7 +1176,14 @@ type SynonymPredicateChange
     changeDate: String
     contributor: String
     hasUndo: Change
+    oldValueType: String
+    newValueType: String
+    newLanguage: String
+    oldLanguage: String
+    newDatatype: String
+    oldDatatype: String
     aboutNode: Node
+    aboutNodeRepresentation: String
     language: LanguageTag
     oldValue: String
     newValue: String
@@ -862,7 +1200,14 @@ type SynonymReplacement
     changeDate: String
     contributor: String
     hasUndo: Change
+    oldValueType: String
+    newValueType: String
+    newLanguage: String
+    oldLanguage: String
+    newDatatype: String
+    oldDatatype: String
     aboutNode: Node
+    aboutNodeRepresentation: String
     language: LanguageTag
     oldValue: String
     newValue: String
@@ -879,7 +1224,14 @@ type TextDefinitionReplacement
     changeDate: String
     contributor: String
     hasUndo: Change
+    oldValueType: String
+    newValueType: String
+    newLanguage: String
+    oldLanguage: String
+    newDatatype: String
+    oldDatatype: String
     aboutNode: Node
+    aboutNodeRepresentation: String
     language: LanguageTag
     oldValue: String
     newValue: String

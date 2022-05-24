@@ -25,11 +25,11 @@ echo:
 test: all test_framework
 
 test_framework:
-	python -m unittest tests/test_*.py
+	python -m pytest
 
 install:
 	. environment.sh
-	pip install -r requirements.txt
+	python setup.py install
 
 tdir-%:
 	mkdir -p target/$*
@@ -129,3 +129,8 @@ gh-deploy:
 
 %.jsonld: ldcontext/kgcl.context.jsonld %.json
 	jq -s '.[0] * .[1]' > $@
+
+pypi: test
+	echo "Uploading to pypi. Make sure you have twine installed.."
+	python setup.py sdist
+	twine upload dist/*

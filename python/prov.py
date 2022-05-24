@@ -1,5 +1,5 @@
 # Auto generated from prov.yaml by pythongen.py version: 0.9.0
-# Generation date: 2021-07-16 19:00
+# Generation date: 2022-05-23T19:18:43
 # Schema: KGCL-PROV
 #
 # id: https://w3id.org/kgcl/prov
@@ -9,7 +9,7 @@
 import dataclasses
 import sys
 import re
-from jsonasobj2 import JsonObj
+from jsonasobj2 import JsonObj, as_dict
 from typing import Optional, List, Union, Dict, ClassVar, Any
 from dataclasses import dataclass
 from linkml_runtime.linkml_model.meta import EnumDefinition, PermissibleValue, PvFormulaOptions
@@ -25,6 +25,7 @@ from linkml_runtime.utils.curienamespace import CurieNamespace
 from linkml_runtime.linkml_model.types import String
 
 metamodel_version = "1.7.0"
+version = None
 
 # Overwrite dataclasses _init_fn to add **kwargs in __init__
 dataclasses._init_fn = dataclasses_init_fn_with_kwargs

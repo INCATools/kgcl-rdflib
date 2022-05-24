@@ -1,3 +1,4 @@
+# metamodel_version: 1.7.0
 BASE <https://w3id.org/kgcl/basics/>
 PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
 PREFIX linkml: <https://w3id.org/linkml/>
