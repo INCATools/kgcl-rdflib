@@ -1,136 +1,110 @@
-SRC_DIR = src
-SCHEMA_DIR = $(SRC_DIR)/schema
-SOURCE_FILES := $(shell find $(SCHEMA_DIR) -name '*.yaml')
-SCHEMA_NAMES = $(patsubst $(SCHEMA_DIR)/%.yaml, %, $(SOURCE_FILES))
+MAKEFLAGS += --warn-undefined-variables
+SHELL := bash
+.SHELLFLAGS := -eu -o pipefail -c
+.DEFAULT_GOAL := help
+.DELETE_ON_ERROR:
+.SUFFIXES:
+.SECONDARY:
 
-SCHEMA_NAME = kgcl
-SCHEMA_SRC = $(SCHEMA_DIR)/$(SCHEMA_NAME).yaml
-TGTS = graphql jsonschema ldcontext docs  owl csv graphql python shex
+RUN = poetry run
+# get values from about.yaml file
+SCHEMA_NAME = $(shell sh ./utils/get-value.sh name)
+SOURCE_SCHEMA_PATH = $(shell sh ./utils/get-value.sh source_schema_path)
+SRC = src
+DEST = project
+PYMODEL = $(SRC)/$(SCHEMA_NAME)/datamodel
+DOCDIR = docs
 
-#GEN_OPTS = --no-mergeimports
-GEN_OPTS = 
+# basename of a YAML file in model/
+.PHONY: all clean
 
-all: gen stage deploy-python
-gen: $(patsubst %,gen-%,$(TGTS))
-clean:
-	rm -rf target/
-	rm -rf docs/
+help: status
+	@echo ""
+	@echo "make all -- makes site locally"
+	@echo "make install -- install dependencies"
+	@echo "make setup -- initial setup"
+	@echo "make test -- runs tests"
+	@echo "make testdoc -- builds docs and runs local test server"
+	@echo "make deploy -- deploys site"
+	@echo "make update -- updates linkml version"
+	@echo "make help -- show this help"
+	@echo ""
 
-t:
-	echo $(SCHEMA_NAMES)
+status: check-config
+	@echo "Project: $(SCHEMA_NAME)"
+	@echo "Source: $(SOURCE_SCHEMA_PATH)"
 
-echo:
-	echo $(patsubst %,gen-%,$(TGTS))
-
-test: all test_framework
-
-test_framework:
-	python -m pytest
+setup: install gen-project gendoc git-init-add
 
 install:
-	. environment.sh
-	python setup.py install
+	poetry install
+.PHONY: install
 
-tdir-%:
-	mkdir -p target/$*
-docs:
-	mkdir $@
+all: gen-project gendoc
+%.yaml: gen-project
+deploy: all mkd-gh-deploy
 
-stage: $(patsubst %,stage-%,$(TGTS))
-stage-%: gen-%
-	cp -pr target/$* .
+# generates all project files
+gen-project: $(PYMODEL)
+	$(RUN) gen-project -d $(DEST) $(SOURCE_SCHEMA_PATH) && mv $(DEST)/*.py $(PYMODEL)
+
+src/kgcl/datamodel/%.py: src/kgcl/schema/%.yaml
+	$(RUN) gen-python $< > $@.tmp && mv $@.tmp $@
+
+test:
+	$(RUN) gen-project -d tmp $(SOURCE_SCHEMA_PATH) 
+
+check-config:
+	@(grep my-datamodel about.yaml > /dev/null && printf "\n**Project not configured**:\n\n  - Remember to edit 'about.yaml'\n\n" || exit 0)
+
+convert-examples-to-%:
+	$(patsubst %, $(RUN) linkml-convert  % -s $(SOURCE_SCHEMA_PATH) -C Person, $(shell find src/data/examples -name "*.yaml")) 
+
+examples/%.yaml: src/data/examples/%.yaml
+	$(RUN) linkml-convert -s $(SOURCE_SCHEMA_PATH) -C Person $< -o $@
+examples/%.json: src/data/examples/%.yaml
+	$(RUN) linkml-convert -s $(SOURCE_SCHEMA_PATH) -C Person $< -o $@
+examples/%.ttl: src/data/examples/%.yaml
+	$(RUN) linkml-convert -P EXAMPLE=http://example.org/ -s $(SOURCE_SCHEMA_PATH) -C Person $< -o $@
+
+upgrade:
+	poetry add -D linkml@latest
+
+# Test documentation locally
+serve: mkd-serve
+
+# Python datamodel
+$(PYMODEL):
+	mkdir -p $@
 
 
-###  -- MARKDOWN DOCS --
-# Generate documentation ready for mkdocs
-# TODO: modularize imports
-gen-docs: target/docs/index.md copy-src-docs
-.PHONY: gen-docs
-copy-src-docs:
-	cp $(SRC_DIR)/docs/*md target/docs/
-target/docs/%.md: $(SCHEMA_SRC) tdir-docs
-	gen-markdown $(GEN_OPTS) --dir target/docs $<
-stage-docs: gen-docs
-	cp -pr target/docs .
+$(DOCDIR):
+	mkdir -p $@
 
-###  -- MARKDOWN DOCS --
-# TODO: modularize imports
-gen-python: $(patsubst %, target/python/%.py, $(SCHEMA_NAMES))
-.PHONY: gen-python
-target/python/%.py: $(SCHEMA_DIR)/%.yaml  tdir-python
-	gen-py-classes --no-mergeimports $(GEN_OPTS) $< > $@
+gendoc: $(DOCDIR)
+	cp $(SRC)/docs/*md $(DOCDIR) ; \
+	$(RUN) gen-doc -d $(DOCDIR) $(SOURCE_SCHEMA_PATH)
 
-###  -- MARKDOWN DOCS --
-# TODO: modularize imports. For now imports are merged.
-gen-graphql:target/graphql/$(SCHEMA_NAME).graphql 
-target/graphql/%.graphql: $(SCHEMA_DIR)/%.yaml tdir-graphql
-	gen-graphql $(GEN_OPTS) $< > $@
+testdoc: gendoc serve
 
-###  -- JSON schema --
-# TODO: modularize imports. For now imports are merged.
-gen-jsonschema: target/jsonschema/$(SCHEMA_NAME).schema.json
-target/jsonschema/%.schema.json: $(SCHEMA_DIR)/%.yaml tdir-jsonschema
-	gen-json-schema $(GEN_OPTS) -t transaction $< > $@
+MKDOCS = $(RUN) mkdocs
+mkd-%:
+	$(MKDOCS) $*
 
-###  -- JSON-LD context --
-# TODO: modularize imports. For now imports are merged.
-gen-ldcontext: target/ldcontext/$(SCHEMA_NAME).context.jsonld
-target/ldcontext/%.context.jsonld: $(SCHEMA_DIR)/%.yaml tdir-ldcontext
-	gen-jsonld-context --mergeimports $(GEN_OPTS)  $< > $@
+PROJECT_FOLDERS = sqlschema shex shacl protobuf prefixmap owl jsonschema jsonld graphql excel
+git-init-add: git-init git-add git-commit git-status
+git-init:
+	git init
+git-add:
+	git add .gitignore .github Makefile LICENSE *.md examples utils about.yaml mkdocs.yml poetry.lock project.Makefile pyproject.toml src/linkml/*yaml src/*/datamodel/*py src/data
+	git add $(patsubst %, project/%, $(PROJECT_FOLDERS))
+git-commit:
+	git commit -m 'Initial commit' -a
+git-status:
+	git status
 
-###  -- SQL schema --
-# TODO: modularize imports. For now imports are merged.
-gen-sql: target/sql/$(SCHEMA_NAME).schema.sql
-target/sql/%.schema.sql: $(SCHEMA_DIR)/%.yaml tdir-sql
-	gen-sqlddl $(GEN_OPTS) --dialect sqlite $< > $@
+clean:
+	rm -rf $(DEST)
+	rm -rf tmp
 
-###  -- Shex --
-# one file per module
-gen-shex: $(patsubst %, target/shex/%.shex, $(SCHEMA_NAMES))
-target/shex/%.shex: $(SCHEMA_DIR)/%.yaml tdir-shex
-	gen-shex --no-mergeimports $(GEN_OPTS) $< > $@
-
-###  -- CSV --
-# one file per module
-gen-csv: $(patsubst %, target/csv/%.csv, $(SCHEMA_NAMES))
-target/csv/%.csv: $(SCHEMA_DIR)/%.yaml tdir-csv
-	gen-csv $(GEN_OPTS) $< > $@
-
-###  -- OWL --
-# TODO: modularize imports. For now imports are merged.
-gen-owl: target/owl/$(SCHEMA_NAME).owl.ttl
-.PHONY: gen-owl
-target/owl/%.owl.ttl: $(SCHEMA_DIR)/%.yaml tdir-owl
-	gen-owl $(GEN_OPTS) $< > $@
-
-###  -- RDF (direct mapping) --
-# TODO: modularize imports. For now imports are merged.
-gen-rdf: target/rdf/$(SCHEMA_NAME).ttl
-target/rdf/%.ttl: $(SCHEMA_DIR)/%.yaml tdir-rdf
-	gen-rdf $(GEN_OPTS) $< > $@
-
-###  -- LinkML --
-# linkml (copy)
-# one file per module
-gen-linkml: target/linkml/$(SCHEMA_NAME).yaml
-target/linkml/%.yaml: $(SCHEMA_DIR)/%.yaml tdir-limkml
-	cp $< > $@
-
-# test docs locally.
-docserve:
-	mkdocs serve
-
-# remember to run this to update the datamodel in kgcl/
-deploy-python: stage-python
-	cp python/* kgcl/model/
-
-gh-deploy:
-	mkdocs gh-deploy
-
-%.jsonld: ldcontext/kgcl.context.jsonld %.json
-	jq -s '.[0] * .[1]' > $@
-
-pypi: test
-	echo "Uploading to pypi. Make sure you have twine installed.."
-	python setup.py sdist
-	twine upload dist/*
+include project.Makefile

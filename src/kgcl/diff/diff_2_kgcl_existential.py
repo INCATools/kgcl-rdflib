@@ -1,10 +1,11 @@
 """Existential restriction change information."""
+
 import rdflib
 
 from kgcl.diff.graph_diff import (get_added_existentials,
                                   get_deleted_existentials)
 from kgcl.diff.render_operations import render
-from kgcl.model.kgcl import EdgeCreation, EdgeDeletion
+from kgcl.datamodel.kgcl import EdgeCreation, EdgeDeletion
 
 
 def id_generator():
@@ -54,7 +55,7 @@ class ExistentialChangeSummary:
         """
         return self.existential_deletions
 
-    def get_summary_kgcl_commands(self):
+    def get_summary_kgcl_commands(self) -> str:
         """Get summary commands.
 
         :return: None
@@ -65,7 +66,7 @@ class ExistentialChangeSummary:
         )
         return out
 
-    def get_summary_rdf_triples(self):
+    def get_summary_rdf_triples(self) -> str:
         """Get summary RDF triples.
 
         :return: None
