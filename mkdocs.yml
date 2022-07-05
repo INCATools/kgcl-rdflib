@@ -1,7 +1,31 @@
-site_name: "Knowledge Graph Change Language"
-theme: readthedocs
-repo_url: https://github.com/cmungall/knowledge-graph-change-language
+site_name: "KGCL"
+theme:
+  name: material
+  analytics:
+    gtag: G-2SYBSJVZ23
+#  palette:
+#    scheme: slate
+#    primary: cyan
+  features:
+    - content.tabs.link
+plugins:
+  - search
+markdown_extensions:
+  - pymdownx.highlight:
+      anchor_linenums: true
+  - pymdownx.inlinehilite
+  - pymdownx.snippets
+  - pymdownx.superfences
+  - pymdownx.tabbed:
+      alternate_style: true
+  - pymdownx.critic
+  - pymdownx.caret
+  - pymdownx.keys
+  - pymdownx.mark
+  - pymdownx.tilde
 nav:
-  - Home: home.md
+#  - Home: home.md
   - Index: index.md
-  - Credits: credits.md
+  - About: about.md
+site_url: https://incatools.github.io/kgcl/
+repo_url: https://github.com/INCATools/kgcl

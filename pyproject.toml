@@ -1,0 +1,34 @@
+[tool.poetry]
+name = "kgcl-rdflib"
+version = "0.1.0"
+description = "Schema fro the KGCL project."
+authors = [
+    "Christian Kindermann <christian.kindermann@postgrad.manchester.ac.uk>",
+    "Chris Mungall <cjmungall@lbl.gov>",
+    "Harshad Hegde <hhegde@lbl.gov>"
+    ]
+license = "MIT"
+readme = "README.md"
+
+
+[tool.poetry.dependencies]
+python = "^3.8"
+linkml-runtime = "^1.1.24"
+lark = "^1.1.2"
+
+[tool.poetry.dev-dependencies]
+linkml = "^1.2.15"
+mkdocs-material = "^8.2.8"
+pytest = "^7.1.2"
+
+[build-system]
+requires = ["poetry-core>=1.0.0"]
+build-backend = "poetry.core.masonry.api"
+
+[tool.poetry.scripts]
+kgcl-diff = "kgcl.kgcl_diff:cli"
+kgcl-apply = "kgcl.kgcl:cli"
+kgcl-parse = "kgcl.grammar.parser:cli"
+
+[tool.poetry.extras]
+docs = ["linkml", "mkdocs-material"]

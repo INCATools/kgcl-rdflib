@@ -1,8 +1,7 @@
-# Ontology Change Language
+# KGCL-schema
 
-This repo includes schema and code for an Ontology Change Language.
+This is the schema to the KGCL project.
 
-For full documentation, see:
-
-[http://cmungall.github.io/knowledge-graph-change-language](http://cmungall.github.io/knowledge-graph-change-language)
+## Documentation
+[Read more here.](https://incatools.github.io/kgcl/)
 

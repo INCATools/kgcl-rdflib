@@ -1,46 +1,42 @@
-name: Check Push and Pull Request
+name: kgcl-tools QC
 
 on:
-  pull_request:
-    branches: [master]
+  # Triggers the workflow on push or pull request events but only for the main branch
   push:
-    branches: [master]
-  # repository_dispatch:
-  #   types: trigger-check-pull-request
+    branches: [ master ]
+  pull_request:
+    branches: [ master ]
 
 jobs:
   build:
+
     runs-on: ${{ matrix.os }}
-    
     strategy:
       matrix:
-        python-version: [3.7, 3.8, 3.9]
+        python-version: [3.8, 3.9]
         os: [ ubuntu-latest, windows-latest ]
 
     steps:
+    - uses: actions/checkout@v3
     - name: Set up Python ${{ matrix.python-version }}
-      uses: actions/checkout@v2
+      uses: actions/setup-python@v3
       with:
-        submodules: ${{ matrix.python-version }}
+        python-version: ${{ matrix.python-version }}
 
-    - name: Install Dependencies
-      run: |
-        pip install --upgrade pip
-        pip install --upgrade tox
-#        pip install mkdocs
-#        pip install linkml
-#        pip install Flask
-#        pip install lark
-#        pip install click  #used for CLI later on 
-#        pip install pytest
+    #----------------------------------------------
+    #          install & configure poetry
+    #----------------------------------------------
+    - name: Install Poetry
+      uses: snok/install-poetry@v1.3
 
-    # - name: Check manifest
-    #   run: tox -e manifest
-    - name: Lint with flake8
-      run: tox -e flake8
-    # - name: Test with MyPy
-    #   run: tox -e mypy
-    - name: Test with pytest
-      run: tox -e py
+    #----------------------------------------------
+    #    install your root project, if required 
+    #----------------------------------------------      
+    - name: Install library
+      run: poetry install --no-interaction
 
-
+    #----------------------------------------------
+    #              run pytest
+    #----------------------------------------------
+    - name: Pytest within poetry
+      run: poetry run pytest

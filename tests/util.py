@@ -1,4 +1,7 @@
 """Compare graph test."""
+from linkml_runtime.dumpers import json_dumper
+from linkml_runtime.loaders import json_loader
+from linkml_runtime.utils.yamlutils import YAMLRoot
 from rdflib import Graph
 from rdflib.compare import graph_diff, to_isomorphic
 
@@ -21,7 +24,7 @@ def compare_graphs(actual, expected):
         print(in_second.serialize(format="nt").decode("utf-8"))
         # dump_ttl_sorted(in_second)
 
-    # assert actual_iso == expected_iso # commented by H2.
+    assert actual_iso == expected_iso # commented by H2.
 
 
 def run_test(input_graph, kgcl_patch, expected_graph):
@@ -36,3 +39,11 @@ def run_test(input_graph, kgcl_patch, expected_graph):
     apply_patch(parsed_patch, g)
 
     compare_graphs(g, expected)
+
+
+def roundtrip(obj: YAMLRoot, format='json'):
+    dumper = json_dumper
+    loader = json_loader
+    serialization = dumper.dumps(obj)
+    obj2 = json_loader.loads(serialization, target_class=type(obj))
+    return obj2
