@@ -1,6 +1,6 @@
 import unittest
 
-from kgcl.diff.render_operations import render
+from kgcl_rdflib.diff.render_operations import render
 from kgcl_schema.grammar.parser import parse_statement
 
 from tests.cases import CASES

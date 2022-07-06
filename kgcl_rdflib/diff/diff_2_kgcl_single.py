@@ -3,13 +3,13 @@ import rdflib
 from rdflib import Graph, Literal, URIRef
 from rdflib.namespace import OWL, RDF, RDFS
 
-from kgcl.diff.change_detection import (detect_annotation_changes,
-                                        detect_node_moves,
-                                        detect_predicate_changes,
-                                        detect_renamings)
-from kgcl.diff.graph_diff import (get_added_thin_triples,
-                                  get_deleted_thin_triples)
-from kgcl.diff.render_operations import render
+from kgcl_rdflib.diff.change_detection import (detect_annotation_changes,
+                                               detect_node_moves,
+                                               detect_predicate_changes,
+                                               detect_renamings)
+from kgcl_rdflib.diff.graph_diff import (get_added_thin_triples,
+                                         get_deleted_thin_triples)
+from kgcl_rdflib.diff.render_operations import render
 from kgcl_schema.datamodel.kgcl import ClassCreation, NewSynonym, PlaceUnder, RemoveUnder
 
 
