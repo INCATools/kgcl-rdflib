@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "kgcl-rdflib"
-version = "0.1.0"
+version = "0.2.0"
 description = "Schema fro the KGCL project."
 authors = [
     "Christian Kindermann <christian.kindermann@postgrad.manchester.ac.uk>",
