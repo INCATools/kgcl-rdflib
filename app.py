@@ -3,36 +3,16 @@ from flask import (
     render_template,
     request,
 )
-from kgcl.model.kgcl import (
-    NodeRename,
-    NodeObsoletion,
-    NodeUnobsoletion,
-    NodeDeletion,
-    NodeMove,
-    NodeDeepening,
-    NodeShallowing,
-    EdgeCreation,
-    EdgeDeletion,
-    PredicateChange,
-    NodeCreation,
-    ClassCreation,
-    NewSynonym,
-    RemovedNodeFromSubset,
-)
 
-import os
 from kgcl.apply.graph_transformer import apply_patch
 
 # from kgcl.diff.example_kgcl_operations import generate_diff
 import rdflib
-from kgcl.grammar.parser import parse
+from kgcl_schema.grammar import parse
 
 import kgcl.diff.diff_2_kgcl_single as single
-from kgcl.diff.diff_2_kgcl_single import SingleTripleChangeSummary
 import kgcl.diff.diff_2_kgcl_existential as existential
-from kgcl.diff.diff_2_kgcl_existential import ExistentialChangeSummary
 import kgcl.diff.diff_2_kgcl_triple_annotation as annotation
-from kgcl.diff.diff_2_kgcl_triple_annotation import TripleAnnotationChangeSummary
 
 from kgcl.diff.pretty_print_kgcl import render_instances
 

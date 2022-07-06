@@ -7,7 +7,7 @@ import rdflib
 from rdflib.util import guess_format
 
 from kgcl.apply import graph_transformer
-from kgcl.grammar import parser
+from kgcl_schema.grammar import parser
 
 # TODO: remove this
 sys.path.append("../")

@@ -6,7 +6,7 @@ from rdflib import Graph
 from rdflib.compare import graph_diff, to_isomorphic
 
 from kgcl.apply.graph_transformer import apply_patch
-from kgcl.grammar.parser import parse
+from kgcl_schema.grammar.parser import parse
 
 
 def compare_graphs(actual, expected):

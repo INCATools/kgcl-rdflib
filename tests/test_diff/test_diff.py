@@ -1,9 +1,8 @@
-import os
 import unittest
 
 import rdflib
 from kgcl.apply import graph_transformer
-from kgcl.grammar import parser
+import kgcl_schema.grammar.parser as parser
 from kgcl.kgcl_diff import diff
 from rdflib.util import guess_format
 
