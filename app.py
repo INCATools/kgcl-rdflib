@@ -4,20 +4,20 @@ from flask import (
     request,
 )
 
-from kgcl.apply.graph_transformer import apply_patch
+from kgcl_rdflib.apply.graph_transformer import apply_patch
 
 # from kgcl.diff.example_kgcl_operations import generate_diff
 import rdflib
 from kgcl_schema.grammar import parse
 
-import kgcl.diff.diff_2_kgcl_single as single
-import kgcl.diff.diff_2_kgcl_existential as existential
-import kgcl.diff.diff_2_kgcl_triple_annotation as annotation
+import kgcl_rdflib.diff.diff_2_kgcl_single as single
+import kgcl_rdflib.diff.diff_2_kgcl_existential as existential
+import kgcl_rdflib.diff.diff_2_kgcl_triple_annotation as annotation
 
-from kgcl.diff.pretty_print_kgcl import render_instances
+from kgcl_rdflib.diff.pretty_print_kgcl import render_instances
 
 # from diff.example_kgcl_operations import generate_diff
-from kgcl.render_kgcl import render
+from kgcl_rdflib.render_kgcl import render
 
 
 def generate_diff():
