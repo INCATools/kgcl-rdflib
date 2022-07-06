@@ -1,9 +1,8 @@
 """Test ontology model."""
-import os
 import unittest
 
-from kgcl.schema import get_schemaview
-from linkml_runtime.dumpers import JSONDumper
+from kgcl_schema.schema import get_schemaview
+
 
 class IntrospectionTestSuite(unittest.TestCase):
     """Test introspection model."""

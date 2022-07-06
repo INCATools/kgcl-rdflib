@@ -5,8 +5,8 @@ from rdflib import Graph, Literal, URIRef
 from kgcl.diff.graph_diff import (get_added_triple_annotations,
                                   get_deleted_triple_annotations)
 from kgcl.diff.render_operations import render
-from kgcl.datamodel.kgcl import EdgeCreation, EdgeDeletion
-from kgcl.datamodel.ontology_model import Annotation
+from kgcl_schema.datamodel.kgcl import EdgeCreation, EdgeDeletion
+from kgcl_schema.datamodel.ontology_model import Annotation
 
 
 def id_generator():

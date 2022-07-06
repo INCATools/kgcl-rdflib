@@ -3,9 +3,9 @@ import rdflib
 from rdflib import Literal, URIRef
 from rdflib.namespace import RDFS
 
-from kgcl.datamodel.kgcl import (NodeAnnotationChange, NodeMove, NodeRename,
-                             PredicateChange)
-from kgcl.datamodel.ontology_model import Edge
+from kgcl_schema.datamodel.kgcl import (NodeAnnotationChange, NodeMove, NodeRename,
+                                        PredicateChange)
+from kgcl_schema.datamodel.ontology_model import Edge
 
 
 def id_generator():

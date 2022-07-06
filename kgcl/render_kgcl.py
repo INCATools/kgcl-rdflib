@@ -1,9 +1,9 @@
 """Render KGCL."""
-from kgcl.model.kgcl import (ClassCreation, EdgeCreation, EdgeDeletion,
-                             NewSynonym, NodeCreation, NodeDeepening,
-                             NodeDeletion, NodeMove, NodeObsoletion,
-                             NodeRename, NodeShallowing, NodeUnobsoletion,
-                             PredicateChange, RemovedNodeFromSubset)
+from kgcl_schema.model.kgcl import (ClassCreation, EdgeCreation, EdgeDeletion,
+                                    NewSynonym, NodeCreation, NodeDeepening,
+                                    NodeDeletion, NodeMove, NodeObsoletion,
+                                    NodeRename, NodeShallowing, NodeUnobsoletion,
+                                    PredicateChange, RemovedNodeFromSubset)
 
 
 def render(kgcl_instance):
