@@ -1,4 +1,5 @@
 """Print KGCL in user-friendly format."""
+from kgcl_schema.grammar.parser import parse_statement
 from rdflib.namespace import RDFS
 
 from kgcl_schema.datamodel.kgcl import (ClassCreation, EdgeCreation, EdgeDeletion,
@@ -63,7 +64,7 @@ def render_instances(kgcl_patch, graph):
 
     pretty_print_kgcl_patch = []
     for k in kgcl_patch:
-        kgcl_instance = kgcl_schema.grammar.parser.parse_statement(k)
+        kgcl_instance = parse_statement(k)
         # render_instance(kgcl_instance, labelling)
         pretty_print_kgcl_patch.append(render_instance(kgcl_instance, labelling))
 
