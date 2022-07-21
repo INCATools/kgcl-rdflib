@@ -1,12 +1,13 @@
 """Print KGCL in user-friendly format."""
+from kgcl_schema.datamodel.kgcl import (ClassCreation, EdgeCreation,
+                                        EdgeDeletion, NewSynonym,
+                                        NodeAnnotationChange, NodeCreation,
+                                        NodeDeletion, NodeMove, NodeObsoletion,
+                                        NodeRename, NodeUnobsoletion,
+                                        PlaceUnder, PredicateChange,
+                                        RemoveUnder)
 from kgcl_schema.grammar.parser import parse_statement
 from rdflib.namespace import RDFS
-
-from kgcl_schema.datamodel.kgcl import (ClassCreation, EdgeCreation, EdgeDeletion,
-                                        NewSynonym, NodeAnnotationChange, NodeCreation,
-                                        NodeDeletion, NodeMove, NodeObsoletion,
-                                        NodeRename, NodeUnobsoletion, PlaceUnder,
-                                        PredicateChange, RemoveUnder)
 
 # TODO: maintain this dictionary in a file
 prefix_2_uri = {

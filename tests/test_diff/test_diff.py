@@ -1,41 +1,40 @@
 import unittest
 
-import rdflib
-from kgcl_rdflib.apply import graph_transformer
 import kgcl_schema.grammar.parser as parser
-from kgcl_rdflib.kgcl_diff import diff
+import rdflib
 from rdflib.util import guess_format
 
+from kgcl_rdflib.apply import graph_transformer
+from kgcl_rdflib.kgcl_diff import diff
 from tests import INPUT
-from tests.cases import NUCLEUS, NUCLEUS_URI, NEW_TERM_URI, CASES
-
+from tests.cases import CASES, NEW_TERM_URI, NUCLEUS, NUCLEUS_URI
 
 EXPECTED = [
-    (f"create exact synonym 'foo' for {NUCLEUS}",
-     f"create exact synonym 'foo' for {NUCLEUS_URI}"),
-
-    (f"create exact synonym 'foo' for {NUCLEUS_URI}",
-     f"create exact synonym 'foo' for {NUCLEUS_URI}"),
-
-    (f"create narrow synonym 'foo' for {NUCLEUS}",
-     f"create narrow synonym 'foo' for {NUCLEUS_URI}"),
-
-    ("delete edge GO:0005634 rdfs:subClassOf GO:0043231",
-     "delete edge <http://purl.obolibrary.org/obo/GO_0005634> <http://www.w3.org/2000/01/rdf-schema#subClassOf> <http://purl.obolibrary.org/obo/GO_0043231>"),
-
-    (f"create {NEW_TERM_URI}",
-     f"create {NEW_TERM_URI}"),
-
-    #(f"change relationship between {NUCLEAR_ENVELOPE} and {NUCLEUS} from {PART_OF} to {IS_A}",
+    (
+        f"create exact synonym 'foo' for {NUCLEUS}",
+        f"create exact synonym 'foo' for {NUCLEUS_URI}",
+    ),
+    (
+        f"create exact synonym 'foo' for {NUCLEUS_URI}",
+        f"create exact synonym 'foo' for {NUCLEUS_URI}",
+    ),
+    (
+        f"create narrow synonym 'foo' for {NUCLEUS}",
+        f"create narrow synonym 'foo' for {NUCLEUS_URI}",
+    ),
+    (
+        "delete edge GO:0005634 rdfs:subClassOf GO:0043231",
+        "delete edge <http://purl.obolibrary.org/obo/GO_0005634> <http://www.w3.org/2000/01/rdf-schema#subClassOf> <http://purl.obolibrary.org/obo/GO_0043231>",
+    ),
+    (f"create {NEW_TERM_URI}", f"create {NEW_TERM_URI}"),
+    # (f"change relationship between {NUCLEAR_ENVELOPE} and {NUCLEUS} from {PART_OF} to {IS_A}",
     # f"change relationship between {NUCLEAR_ENVELOPE} and {NUCLEUS} from {PART_OF} to {IS_A}"),
-
-    #("obsolete GO:0005634",
-    #"create exact synonym 'foo' for <http://purl.obolibrary.org/obo/GO_0005634>"),
+    # ("obsolete GO:0005634",
+    # "create exact synonym 'foo' for <http://purl.obolibrary.org/obo/GO_0005634>"),
 ]
 
 
 class ParserTestSuite(unittest.TestCase):
-
     def setUp(self) -> None:
         g = rdflib.Graph()
         g.parse(INPUT, format=guess_format(INPUT))
@@ -71,16 +70,15 @@ class ParserTestSuite(unittest.TestCase):
             graph_transformer.apply_patch(change, g_modified)
             changes = diff(g, g_modified)
             print(f"Num changes = {len(changes)}")
-            #for change in changes:
+            # for change in changes:
             #    print(f"{type(change)} : {change}")
             if expected_diff is None:
                 self.assertGreater(len(changes), 0)
                 print(f"TODO: {changes}")
             elif isinstance(expected_diff, list):
                 self.assertCountEqual(expected_diff, changes)
-            elif expected_diff == 'TODO':
+            elif expected_diff == "TODO":
                 pass
             else:
                 self.assertEqual(1, len(changes))
                 self.assertEqual(changes[0], expected_diff)
-

@@ -7,12 +7,12 @@ from pathlib import Path
 from typing import List
 
 import click
-import kgcl_rdflib.diff.diff_2_kgcl_existential as existential
-import kgcl_rdflib.diff.diff_2_kgcl_single as single
-import kgcl_rdflib.diff.diff_2_kgcl_triple_annotation as annotation
 import rdflib
 from kgcl_schema.datamodel.kgcl import Change
 
+import kgcl_rdflib.diff.diff_2_kgcl_existential as existential
+import kgcl_rdflib.diff.diff_2_kgcl_single as single
+import kgcl_rdflib.diff.diff_2_kgcl_triple_annotation as annotation
 from kgcl_rdflib.diff.pretty_print_kgcl import render_instances
 
 
@@ -34,14 +34,14 @@ def diff(g1: rdflib.Graph, g2: rdflib.Graph) -> List[Change]:
 
 
 @click.command()
-@click.option("--output-directory",
-              "-d",
-              type=click.Path(), required=False)
-@click.option("--output",
-              "-o",
-              type=click.File(mode='w'),
-              default=sys.stdout,
-              help="Where to write derived diffs")
+@click.option("--output-directory", "-d", type=click.Path(), required=False)
+@click.option(
+    "--output",
+    "-o",
+    type=click.File(mode="w"),
+    default=sys.stdout,
+    help="Where to write derived diffs",
+)
 @click.option("-v", "--verbose", count=True)
 @click.argument("ingraph", type=click.Path(), required=True)
 @click.argument("outgraph", type=click.Path(), required=True)
@@ -72,6 +72,7 @@ def cli(ingraph, outgraph, verbose: int, output, output_directory):
 
     if output_directory:
         write_summaries(g1, g2, output_directory)
+
 
 def write_summaries(g1: rdflib.Graph, g2: rdflib.Graph, output_directory):
     Path(output_directory).mkdir(parents=True, exist_ok=True)
@@ -176,12 +177,12 @@ def write_summaries(g1: rdflib.Graph, g2: rdflib.Graph, output_directory):
             f.write(k)
             f.write("\n")
 
-    #with open(patch_folder + "/edge_creations.txt", "w") as f:
+    # with open(patch_folder + "/edge_creations.txt", "w") as f:
     #    for k in single_triple_summary.get_edge_creations():
     #        f.write(k)
     #        f.write("\n")
 
-    #with open(patch_folder + "/edge_deletions.txt", "w") as f:
+    # with open(patch_folder + "/edge_deletions.txt", "w") as f:
     #    for k in single_triple_summary.get_edge_deletions():
     #        f.write(k)
     #        f.write("\n")

@@ -1,18 +1,20 @@
 """KGCL SPARQL implementation."""
 import logging
 import re
-from typing import Optional, List
+from typing import List, Optional
 
-from kgcl_schema.datamodel.kgcl import (ClassCreation, EdgeCreation, EdgeDeletion,
-                                        NewSynonym, NodeAnnotationChange, NodeCreation,
+from kgcl_schema.datamodel.kgcl import (Change, ClassCreation, EdgeCreation,
+                                        EdgeDeletion, NewSynonym,
+                                        NodeAnnotationChange, NodeCreation,
                                         NodeDeepening, NodeDeletion, NodeMove,
-                                        NodeObsoletion, NodeRename, NodeShallowing,
-                                        NodeUnobsoletion, PlaceUnder, PredicateChange,
-                                        RemovedNodeFromSubset, RemoveUnder, Change)
-
+                                        NodeObsoletion, NodeRename,
+                                        NodeShallowing, NodeUnobsoletion,
+                                        PlaceUnder, PredicateChange,
+                                        RemovedNodeFromSubset, RemoveUnder)
 
 CURIE_PATTERN = re.compile(r"^(\w+):(\S+)$")
 SPARQL_COMMAND = str
+
 
 def get_prefix(curie):
     """Get prefix."""
@@ -52,20 +54,22 @@ prefix_2_uri = {
 
 def get_sparql_prefix_header(prefixes: List[str]) -> str:
     if prefixes is None:
-        prefixes = ['rdfs', 'rdf']
-    return "\n".join([f"PREFIX {prefix}: {prefix_2_uri[prefix]}" for prefix in prefixes])
+        prefixes = ["rdfs", "rdf"]
+    return "\n".join(
+        [f"PREFIX {prefix}: {prefix_2_uri[prefix]}" for prefix in prefixes]
+    )
 
 
 def get_representation(node_term: str) -> Optional[str]:
     if node_term is None:
         logging.warning(f"None value for representation")
         return None
-    elif node_term.startswith('<http'):
-        return 'uri'
-    elif ':' in node_term and CURIE_PATTERN.match(node_term):
-        return 'curie'
+    elif node_term.startswith("<http"):
+        return "uri"
+    elif ":" in node_term and CURIE_PATTERN.match(node_term):
+        return "curie"
     else:
-        return 'label'
+        return "label"
 
 
 def is_label(input: str) -> bool:
