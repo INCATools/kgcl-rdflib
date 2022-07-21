@@ -1,16 +1,15 @@
 import logging
 import unittest
 
+import kgcl_schema.grammar.parser as kgcl_parser
 import rdflib
 from click.testing import CliRunner
-
-import kgcl_rdflib.kgcl as kgcl_apply
-import kgcl_rdflib.kgcl_diff as kgcl_diff
-import kgcl_schema.grammar.parser as kgcl_parser
 from kgcl_schema.datamodel.kgcl import Session
 from kgcl_schema.utils import from_yaml
 
-from tests import INPUT, TMP_OUTPUT, DIFF_OUTPUT, DIFF_OUTPUT_DIR, TMP_YAML
+import kgcl_rdflib.kgcl as kgcl_apply
+import kgcl_rdflib.kgcl_diff as kgcl_diff
+from tests import DIFF_OUTPUT, DIFF_OUTPUT_DIR, INPUT, TMP_OUTPUT, TMP_YAML
 from tests.cases import CASES, TODO_TOKEN
 
 
@@ -46,7 +45,7 @@ class CliTestSuite(unittest.TestCase):
         result = self.runner.invoke(kgcl_parser.cli, patches + ["-o", TMP_YAML])
         session: Session = from_yaml(TMP_YAML)
         self.assertEqual(len(patches), len(session.change_set))
-        #for ch in session.change_set:
+        # for ch in session.change_set:
         #    ch.id = UID
         #    self.assertIn(ch, objs)
         out = result.stdout
@@ -56,7 +55,7 @@ class CliTestSuite(unittest.TestCase):
         g = rdflib.Graph()
         g.serialize(destination=TMP_OUTPUT)
         diff_result = self.runner.invoke(
-            kgcl_diff.cli, [INPUT, TMP_OUTPUT, '-o', DIFF_OUTPUT, '-d', DIFF_OUTPUT_DIR]
+            kgcl_diff.cli, [INPUT, TMP_OUTPUT, "-o", DIFF_OUTPUT, "-d", DIFF_OUTPUT_DIR]
         )
         self.assertEqual(0, diff_result.exit_code)
 
@@ -64,24 +63,29 @@ class CliTestSuite(unittest.TestCase):
         """Test CLI on each case."""
         for patch, expected_diff, _, _ in CASES:
             parse_result = self.runner.invoke(
-                kgcl_parser.cli, ['-o', TMP_OUTPUT, patch]
+                kgcl_parser.cli, ["-o", TMP_OUTPUT, patch]
             )
-            #from_yaml
+            # from_yaml
             self.assertEqual(0, parse_result.exit_code)
             apply_result = self.runner.invoke(
-                kgcl_apply.cli, ['--graph', INPUT, '-o', TMP_OUTPUT, patch]
+                kgcl_apply.cli, ["--graph", INPUT, "-o", TMP_OUTPUT, patch]
             )
             self.assertEqual(0, apply_result.exit_code)
             diff_result = self.runner.invoke(
-                kgcl_diff.cli, [INPUT, TMP_OUTPUT, '-o', DIFF_OUTPUT, '-d', DIFF_OUTPUT_DIR]
+                kgcl_diff.cli,
+                [INPUT, TMP_OUTPUT, "-o", DIFF_OUTPUT, "-d", DIFF_OUTPUT_DIR],
             )
             if diff_result.exit_code != 0:
-                logging.warning(f"Unexpected code {diff_result.exit_code} for diff with {patch}")
-            #self.assertEqual(0, diff_result.exit_code)
+                logging.warning(
+                    f"Unexpected code {diff_result.exit_code} for diff with {patch}"
+                )
+            # self.assertEqual(0, diff_result.exit_code)
             changes = [line.strip() for line in (open(DIFF_OUTPUT).readlines())]
             if expected_diff is None:
                 self.assertGreater(len(changes), 0)
-                logging.warning(f"TODO: cases is under-specified here. Patch({patch}) ==> {changes}")
+                logging.warning(
+                    f"TODO: cases is under-specified here. Patch({patch}) ==> {changes}"
+                )
             elif isinstance(expected_diff, list):
                 self.assertCountEqual(expected_diff, changes)
             elif expected_diff == TODO_TOKEN:
@@ -89,5 +93,3 @@ class CliTestSuite(unittest.TestCase):
             else:
                 self.assertEqual(1, len(changes))
                 self.assertEqual(changes[0], expected_diff)
-
-

@@ -1,11 +1,11 @@
 """Existential restriction change information."""
 
 import rdflib
+from kgcl_schema.datamodel.kgcl import EdgeCreation, EdgeDeletion
 
 from kgcl_rdflib.diff.graph_diff import (get_added_existentials,
                                          get_deleted_existentials)
 from kgcl_rdflib.diff.render_operations import render
-from kgcl_schema.datamodel.kgcl import EdgeCreation, EdgeDeletion
 
 
 def id_generator():

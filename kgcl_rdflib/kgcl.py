@@ -4,10 +4,10 @@ import sys
 
 import click
 import rdflib
+from kgcl_schema.grammar import parser
 from rdflib.util import guess_format
 
 from kgcl_rdflib.apply import graph_transformer
-from kgcl_schema.grammar import parser
 
 # TODO: remove this
 sys.path.append("../")
@@ -16,12 +16,9 @@ sys.path.append("../")
 @click.command()
 @click.option("-i", "--graph", type=click.Path(), required=True)
 @click.option("--kgcl-file", type=click.File("r"))
-@click.option("--output",
-              "-o",
-              type=click.File(mode='wb'),
-              default=sys.stdout)
+@click.option("--output", "-o", type=click.File(mode="wb"), default=sys.stdout)
 @click.option("-v", "--verbose", count=True)
-@click.argument('patch')
+@click.argument("patch")
 def cli(patch, verbose: int, graph, kgcl_file, output):
     """
     Modify graph based on KGCL commands.

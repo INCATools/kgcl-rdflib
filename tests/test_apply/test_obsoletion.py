@@ -1,6 +1,7 @@
 """Tesr obsoeltion."""
 from tests.util import run_test
 
+
 # TODO: extend tests to ensure not over-obsoleting
 # TODO: test for proper obsoletion model
 def test_obsoletion_with_ids():

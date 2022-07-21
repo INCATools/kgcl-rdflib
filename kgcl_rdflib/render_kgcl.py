@@ -2,8 +2,9 @@
 from kgcl_schema.model.kgcl import (ClassCreation, EdgeCreation, EdgeDeletion,
                                     NewSynonym, NodeCreation, NodeDeepening,
                                     NodeDeletion, NodeMove, NodeObsoletion,
-                                    NodeRename, NodeShallowing, NodeUnobsoletion,
-                                    PredicateChange, RemovedNodeFromSubset)
+                                    NodeRename, NodeShallowing,
+                                    NodeUnobsoletion, PredicateChange,
+                                    RemovedNodeFromSubset)
 
 
 def render(kgcl_instance):

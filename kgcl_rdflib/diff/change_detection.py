@@ -1,11 +1,10 @@
 """Detect changes."""
 import rdflib
+from kgcl_schema.datamodel.kgcl import (NodeAnnotationChange, NodeMove,
+                                        NodeRename, PredicateChange)
+from kgcl_schema.datamodel.ontology_model import Edge
 from rdflib import Literal, URIRef
 from rdflib.namespace import RDFS
-
-from kgcl_schema.datamodel.kgcl import (NodeAnnotationChange, NodeMove, NodeRename,
-                                        PredicateChange)
-from kgcl_schema.datamodel.ontology_model import Edge
 
 
 def id_generator():
