@@ -7,3 +7,4 @@ __pycache__
 tmp/
 */kgcl.egg-info/*
 tests/outputs/*
+.tox/*
