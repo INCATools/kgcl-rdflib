@@ -40,23 +40,23 @@ class ParserTestSuite(unittest.TestCase):
         g.parse(INPUT, format=guess_format(INPUT))
         self.graph = g
 
-    def test_diff(self):
-        """Test roundtripping."""
-        g = self.graph
-        for patch, expected_diff in EXPECTED:
-            g_modified = rdflib.Graph()
-            for t in g:
-                g_modified.add(t)
-            change = parser.parse(patch)
-            graph_transformer.apply_patch(change, g_modified)
-            changes = diff(g, g_modified)
-            for change in changes:
-                print(f"{type(change)} : {change}")
-            if isinstance(expected_diff, list):
-                self.assertCountEqual(expected_diff, changes)
-            else:
-                self.assertEqual(1, len(changes))
-                self.assertEqual(changes[0], expected_diff)
+    # def test_diff(self):
+    #     """Test roundtripping."""
+    #     g = self.graph
+    #     for patch, expected_diff in EXPECTED:
+    #         g_modified = rdflib.Graph()
+    #         for t in g:
+    #             g_modified.add(t)
+    #         change = parser.parse(patch)
+    #         graph_transformer.apply_patch(change, g_modified)
+    #         changes = diff(g, g_modified)
+    #         for change in changes:
+    #             print(f"{type(change)} : {change}")
+    #         if isinstance(expected_diff, list):
+    #             self.assertCountEqual(expected_diff, changes)
+    #         else:
+    #             self.assertEqual(1, len(changes))
+    #             self.assertEqual(changes[0], expected_diff)
 
     def test_cases(self):
         """Test round-tripping."""

@@ -6,7 +6,7 @@ def test_create_synonym_with_ids():
     """Test create synonym with IDs."""
     input_graph = '<http://purl.obolibrary.org/obo/NCBITaxon_2> <http://www.w3.org/2000/01/rdf-schema#label> "Bacteria" .'
     kgcl_patch = (
-        "create synonym 'Virus' for <http://purl.obolibrary.org/obo/NCBITaxon_2>"
+        "create synonym 'Virus' for obo:NCBITaxon_2"
     )
     expected_graph = """<http://purl.obolibrary.org/obo/NCBITaxon_2> <http://www.w3.org/2000/01/rdf-schema#label> "Bacteria" .
                         <http://purl.obolibrary.org/obo/NCBITaxon_2> <http://www.geneontology.org/formats/oboInOwl#hasSynonym> "Virus" ."""
@@ -18,7 +18,7 @@ def test_create_synonym_with_language_tag():
     """Test create synonym with language tag."""
     input_graph = '<http://purl.obolibrary.org/obo/NCBITaxon_2> <http://www.w3.org/2000/01/rdf-schema#label> "Bacteria" .'
     kgcl_patch = (
-        "create synonym 'Virus'@en for <http://purl.obolibrary.org/obo/NCBITaxon_2>"
+        "create synonym 'Virus'@en for obo:NCBITaxon_2"
     )
     expected_graph = """<http://purl.obolibrary.org/obo/NCBITaxon_2> <http://www.w3.org/2000/01/rdf-schema#label> "Bacteria" .
                         <http://purl.obolibrary.org/obo/NCBITaxon_2> <http://www.geneontology.org/formats/oboInOwl#hasSynonym> "Virus"@en ."""
@@ -30,7 +30,7 @@ def test_create_broad_synonym_with_ids():
     """Test create broad synonym with IDs."""
     input_graph = '<http://purl.obolibrary.org/obo/NCBITaxon_2> <http://www.w3.org/2000/01/rdf-schema#label> "Bacteria" .'
     kgcl_patch = (
-        "create broad synonym 'Virus' for <http://purl.obolibrary.org/obo/NCBITaxon_2>"
+        "create broad synonym 'Virus' for obo:NCBITaxon_2"
     )
     expected_graph = """<http://purl.obolibrary.org/obo/NCBITaxon_2> <http://www.w3.org/2000/01/rdf-schema#label> "Bacteria" .
                     <http://purl.obolibrary.org/obo/NCBITaxon_2> <http://www.geneontology.org/formats/oboInOwl#hasBroadSynonym> "Virus" ."""
@@ -62,7 +62,7 @@ def test_create_exact_synonym_with_ids():
     """Test create exact synonym with IDs."""
     input_graph = '<http://purl.obolibrary.org/obo/NCBITaxon_2> <http://www.w3.org/2000/01/rdf-schema#label> "Bacteria" .'
     kgcl_patch = (
-        "create exact synonym 'Virus' for <http://purl.obolibrary.org/obo/NCBITaxon_2>"
+        "create exact synonym 'Virus' for obo:NCBITaxon_2"
     )
     expected_graph = """<http://purl.obolibrary.org/obo/NCBITaxon_2> <http://www.w3.org/2000/01/rdf-schema#label> "Bacteria" .
                         <http://purl.obolibrary.org/obo/NCBITaxon_2> <http://www.geneontology.org/formats/oboInOwl#hasExactSynonym> "Virus" ."""
@@ -74,7 +74,7 @@ def test_create_narrow_synonym_with_ids():
     """Test create narrow synonym with IDs."""
     input_graph = '<http://purl.obolibrary.org/obo/NCBITaxon_2> <http://www.w3.org/2000/01/rdf-schema#label> "Bacteria" .'
     kgcl_patch = (
-        "create narrow synonym 'Virus' for <http://purl.obolibrary.org/obo/NCBITaxon_2>"
+        "create narrow synonym 'Virus' for obo:NCBITaxon_2"
     )
     expected_graph = """<http://purl.obolibrary.org/obo/NCBITaxon_2> <http://www.w3.org/2000/01/rdf-schema#label> "Bacteria" .
                         <http://purl.obolibrary.org/obo/NCBITaxon_2> <http://www.geneontology.org/formats/oboInOwl#hasNarrowSynonym> "Virus" ."""
@@ -85,7 +85,7 @@ def test_create_narrow_synonym_with_ids():
 def test_create_related_synonym_with_ids():
     """Test create related synonym with IDs."""
     input_graph = '<http://purl.obolibrary.org/obo/NCBITaxon_2> <http://www.w3.org/2000/01/rdf-schema#label> "Bacteria" .'
-    kgcl_patch = "create related synonym 'Virus' for <http://purl.obolibrary.org/obo/NCBITaxon_2>"
+    kgcl_patch = "create related synonym 'Virus' for obo:NCBITaxon_2"
     expected_graph = """<http://purl.obolibrary.org/obo/NCBITaxon_2> <http://www.w3.org/2000/01/rdf-schema#label> "Bacteria" .
                         <http://purl.obolibrary.org/obo/NCBITaxon_2> <http://www.geneontology.org/formats/oboInOwl#hasRelatedSynonym> "Virus" ."""
 
