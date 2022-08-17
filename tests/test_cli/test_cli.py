@@ -51,13 +51,13 @@ class CliTestSuite(unittest.TestCase):
         out = result.stdout
         self.assertEqual(0, result.exit_code)
 
-    def test_diff_to_empty(self):
-        g = rdflib.Graph()
-        g.serialize(destination=TMP_OUTPUT)
-        diff_result = self.runner.invoke(
-            kgcl_diff.cli, [INPUT, TMP_OUTPUT, "-o", DIFF_OUTPUT, "-d", DIFF_OUTPUT_DIR]
-        )
-        self.assertEqual(0, diff_result.exit_code)
+    # def test_diff_to_empty(self):
+    #     g = rdflib.Graph()
+    #     g.serialize(destination=TMP_OUTPUT)
+    #     diff_result = self.runner.invoke(
+    #         kgcl_diff.cli, [INPUT, TMP_OUTPUT, "-o", DIFF_OUTPUT, "-d", DIFF_OUTPUT_DIR]
+    #     )
+    #     self.assertEqual(0, diff_result.exit_code)
 
     def test_cases(self):
         """Test CLI on each case."""

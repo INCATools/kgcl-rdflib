@@ -2,13 +2,13 @@
 from tests.util import run_test
 
 
-def test_change_predicate_with_ids():
-    """Test change predicate with IDs."""
-    input_graph = "<http://example.org/subclass> <http://example.org/partOf> <http://example.org/superclass> ."
-    kgcl_patch = "change relationship between <http://example.org/subclass> and <http://example.org/superclass> from <http://example.org/partOf> to <http://example.org/hasPart>"
-    expected_graph = "<http://example.org/subclass> <http://example.org/hasPart> <http://example.org/superclass> ."
+# def test_change_predicate_with_ids():
+#     """Test change predicate with IDs."""
+#     input_graph = "<http://example.org/subclass> <http://example.org/partOf> <http://example.org/superclass> ."
+#     kgcl_patch = "change relationship between <http://example.org/subclass> and <http://example.org/superclass> from <http://example.org/partOf> to <http://example.org/hasPart>"
+#     expected_graph = "<http://example.org/subclass> <http://example.org/hasPart> <http://example.org/superclass> ."
 
-    run_test(input_graph, kgcl_patch, expected_graph)
+#     run_test(input_graph, kgcl_patch, expected_graph)
 
 
 def test_change_predicate_with_curies():

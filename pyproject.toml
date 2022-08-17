@@ -15,7 +15,7 @@ readme = "README.md"
 python = "^3.8"
 linkml-runtime = "^1.1.24"
 lark = "^1.1.2"
-kgcl-schema = "^0.2.0"
+kgcl-schema = "0.3.0rc1"
 
 [tool.poetry.dev-dependencies]
 linkml = "^1.2.15"
