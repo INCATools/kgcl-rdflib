@@ -1,7 +1,6 @@
 """Test node shallowing."""
 from tests.util import run_test
 
-
 # def test_node_shallowing_with_ids():
 #     """Test for node shallowing with ids."""
 #     input_graph = """<http://example.org/targetClass> <http://www.w3.org/2000/01/rdf-schema#subClassOf> <http://example.org/subclass> .

@@ -1,7 +1,6 @@
 """Test delete edge."""
 from tests.util import run_test
 
-
 # def test_delete_edge_with_ids():
 #     """Test delete edge with IDs."""
 #     input_graph = """_:Ndb451c3aad3841c88d7042f29b20bea8 <http://www.w3.org/2002/07/owl#onProperty> <http://example.org/predicate> .

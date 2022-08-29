@@ -1,7 +1,6 @@
 """Test node move."""
 from tests.util import run_test
 
-
 # def test_node_move_with_ids():
 #     """Test node move with IDs."""
 #     input_graph = "<http://example.org/targetClass> <http://www.w3.org/2000/01/rdf-schema#subClassOf> <http://example.org/A> ."

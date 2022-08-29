@@ -1,7 +1,6 @@
 """Test Unobsolete."""
 from tests.util import run_test
 
-
 # def test_unobsolete_with_id():
 #     """Test unobsolete with ID."""
 #     input_graph = """<http://purl.obolibrary.org/obo/NCBITaxon_2> <http://www.w3.org/2002/07/owl#deprecated> "true"^^<http://www.w3.org/2001/XMLSchema#boolean> .
