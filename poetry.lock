@@ -199,9 +199,9 @@ optional = false
 python-versions = ">=3.7"
 
 [package.extras]
-test = ["coverage", "pytest-cov", "mock (>=4)", "pytest-mock (>=3)", "pytest (>=7)"]
-docs = ["sphinx-rtd-theme", "sphinx-autodoc-typehints", "sphinx (>=4)"]
-dev = ["twine", "wheel", "pep8-naming", "flake8", "tox (>=3)"]
+dev = ["tox (>=3)", "flake8", "pep8-naming", "wheel", "twine"]
+docs = ["sphinx (>=4)", "sphinx-autodoc-typehints", "sphinx-rtd-theme"]
+test = ["pytest (>=7)", "pytest-mock (>=3)", "mock (>=4)", "pytest-cov", "coverage"]
 
 [[package]]
 name = "greenlet"
@@ -387,7 +387,7 @@ format-nongpl = ["fqdn", "idna", "isoduration", "jsonpointer (>1.13)", "rfc3339-
 
 [[package]]
 name = "kgcl-schema"
-version = "0.3.0rc2"
+version = "0.3.0"
 description = "Schema for the KGCL project."
 category = "main"
 optional = false
@@ -1259,7 +1259,7 @@ docs = []
 [metadata]
 lock-version = "1.1"
 python-versions = "^3.8"
-content-hash = "07ce4e0ff68c29bb62ef93c42919a73b99a4f1f7d4d4fcc4e663e5853b23dec7"
+content-hash = "cd9e3f99515effe94f62753485aa2d8732578233eb5a4b01a2b4ba79d8c72342"
 
 [metadata.files]
 alabaster = [
@@ -1454,8 +1454,8 @@ jsonschema = [
     {file = "jsonschema-4.7.2.tar.gz", hash = "sha256:73764f461d61eb97a057c929368610a134d1d1fffd858acfe88864ee94f1f1d3"},
 ]
 kgcl-schema = [
-    {file = "kgcl_schema-0.3.0rc2-py3-none-any.whl", hash = "sha256:efd8de293d4910cf44dec0dd1b1b8fab822899395f53f344339effc444432a5c"},
-    {file = "kgcl_schema-0.3.0rc2.tar.gz", hash = "sha256:bc9533d03068c64cb5dd9aa0a89d5ddb04f59e3d7a8ca1bb5d31b48299be659e"},
+    {file = "kgcl_schema-0.3.0-py3-none-any.whl", hash = "sha256:9bee2f0f37304c52d7bf999e1972d7fe534753a1ad454b3fabb1875238d61dba"},
+    {file = "kgcl_schema-0.3.0.tar.gz", hash = "sha256:98eab248f49ffa6bef2527a5892b6581873068e250e589b49370d300e988af52"},
 ]
 lark = [
     {file = "lark-1.1.2-py2.py3-none-any.whl", hash = "sha256:c1ab213fc5e2d273fe2d91da218ccc8b5b92d065b17faa5e743499cb16594b7d"},
