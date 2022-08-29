@@ -43,8 +43,8 @@ def cli(patch, verbose: int, graph, kgcl_file, output):
 
     # apply kgcl commands as SPARQL UPDATE queries to graph
     g = rdflib.Graph()
-    g.load(graph, format=guess_format(graph))
-    # g.parse(graph)  # , format="nt") #TODO: this doesn't always work
+    # g.load(graph, format=guess_format(graph))
+    g.parse(graph, format=guess_format(graph))  # , format="nt") #TODO: this doesn't always work
     graph_transformer.apply_patch(parsed_patch, g)
 
     # save updated graph
