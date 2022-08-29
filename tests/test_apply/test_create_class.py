@@ -14,9 +14,7 @@ def test_create_edge_with_ids():
 def test_create_edge_with_label():
     """Test for creating edge with labels."""
     input_graph = ""
-    kgcl_patch = (
-        "create node obo:NCBITaxon_2 'Bacteria'@en"
-    )
+    kgcl_patch = "create node obo:NCBITaxon_2 'Bacteria'@en"
     expected_graph = '<http://purl.obolibrary.org/obo/NCBITaxon_2> <http://www.w3.org/2000/01/rdf-schema#label> "Bacteria"@en .'
 
     run_test(input_graph, kgcl_patch, expected_graph)

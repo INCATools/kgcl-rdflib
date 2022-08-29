@@ -1,7 +1,6 @@
 """Test change predicate."""
 from tests.util import run_test
 
-
 # def test_change_predicate_with_ids():
 #     """Test change predicate with IDs."""
 #     input_graph = "<http://example.org/subclass> <http://example.org/partOf> <http://example.org/superclass> ."

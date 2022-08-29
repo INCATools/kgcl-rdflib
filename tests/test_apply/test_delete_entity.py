@@ -1,7 +1,6 @@
 """Test delete entity."""
 from tests.util import run_test
 
-
 # def test_delete_annotated_edge_with_ids():
 #     """Test delete annotated edge with IDs."""
 #     input_graph = "<http://purl.obolibrary.org/obo/NCBITaxon_2> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/2002/07/owl#Class> ."

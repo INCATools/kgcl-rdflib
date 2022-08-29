@@ -1,7 +1,6 @@
 """Test creat edge."""
 from tests.util import run_test
 
-
 # def test_create_edge_with_ids():
 #     """Test create edge with IDs."""
 #     input_graph = ""

@@ -36,9 +36,7 @@ def test_rename_with_id():
     """Test rename with IDs."""
     input_graph = """<http://purl.obolibrary.org/obo/NCBITaxon_2> <http://www.w3.org/2000/01/rdf-schema#label> "Bacteria" .
                     <http://purl.obolibrary.org/obo/NCBITaxon_8> <http://www.w3.org/2000/01/rdf-schema#label> "Bacteria" ."""
-    kgcl_patch = (
-        "rename obo:NCBITaxon_2 from 'Bacteria' to 'Virus'"
-    )
+    kgcl_patch = "rename obo:NCBITaxon_2 from 'Bacteria' to 'Virus'"
     expected_graph = """<http://purl.obolibrary.org/obo/NCBITaxon_2> <http://www.w3.org/2000/01/rdf-schema#label> "Virus" .
                         <http://purl.obolibrary.org/obo/NCBITaxon_8> <http://www.w3.org/2000/01/rdf-schema#label> "Bacteria" ."""
 
