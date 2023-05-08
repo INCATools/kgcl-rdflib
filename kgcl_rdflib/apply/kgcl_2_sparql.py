@@ -10,7 +10,7 @@ from kgcl_schema.datamodel.kgcl import (Change, ClassCreation, EdgeCreation,
                                         NodeObsoletion, NodeRename,
                                         NodeShallowing, NodeUnobsoletion,
                                         PlaceUnder, PredicateChange,
-                                        RemovedNodeFromSubset, RemoveUnder)
+                                        RemoveNodeFromSubset, RemoveUnder)
 
 CURIE_PATTERN = re.compile(r"^(\w+):(\S+)$")
 SPARQL_COMMAND = str
@@ -175,7 +175,7 @@ def convert(kgcl_instance: Change) -> SPARQL_COMMAND:
     if isinstance(kgcl_instance, PredicateChange):
         return change_predicate(kgcl_instance)
 
-    if isinstance(kgcl_instance, RemovedNodeFromSubset):
+    if isinstance(kgcl_instance, RemoveNodeFromSubset):
         if is_id(kgcl_instance.about_node) and is_id(kgcl_instance.subset):
             return remove_node_from_subset(kgcl_instance)
 
@@ -272,7 +272,7 @@ def node_move(kgcl_instance: NodeMove) -> SPARQL_COMMAND:
     return update__query
 
 
-def remove_node_from_subset(kgcl_instance: RemovedNodeFromSubset) -> SPARQL_COMMAND:
+def remove_node_from_subset(kgcl_instance: RemoveNodeFromSubset) -> SPARQL_COMMAND:
     """Return SPARQL query to remove node from subset."""
     about = kgcl_instance.about_node
     subset = kgcl_instance.subset

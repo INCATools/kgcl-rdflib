@@ -4,7 +4,7 @@ from kgcl_schema.model.kgcl import (ClassCreation, EdgeCreation, EdgeDeletion,
                                     NodeDeletion, NodeMove, NodeObsoletion,
                                     NodeRename, NodeShallowing,
                                     NodeUnobsoletion, PredicateChange,
-                                    RemovedNodeFromSubset)
+                                    RemoveNodeFromSubset)
 
 
 def render(kgcl_instance):
@@ -220,10 +220,10 @@ def render(kgcl_instance):
     #            + "Subset=" + kgclInstance.in_subset + ", " \
     #            + "About Node" + kgclInstance.about_node + ")"
 
-    if type(kgcl_instance) is RemovedNodeFromSubset:
+    if type(kgcl_instance) is RemoveNodeFromSubset:
         render = (
             render
-            + "RemovedNodeFromSubset("
+            + "RemoveNodeFromSubset("
             + "ID="
             + kgcl_instance.id
             + ", "
