@@ -27,7 +27,7 @@ jobs:
     #          install & configure poetry
     #----------------------------------------------
     - name: Install Poetry
-      uses: snok/install-poetry@v1.3
+      run: pip install poetry
 
     #----------------------------------------------
     #    install your root project, if required 
